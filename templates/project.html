@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}  {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+                <div style="padding: 20px">
+                    <div class="row">
+                        {% if project_id == '1' %}
+                            {% include 'markdown/project1.html' %}
+                        {% elif project_id == '2' %}
+                            {% include 'markdown/project2.html' %}
+                        {% elif project_id == '3' %}
+                            {% include 'markdown/project3.html' %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% include "snippets/footer.html" %}
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+    <script>
+    </script>
+{% endblock javascripts %}

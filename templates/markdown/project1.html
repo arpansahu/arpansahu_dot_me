@@ -1,0 +1,126 @@
+<h1>Django Project</h1>
+<p>This project is implementation for the following topics related to technologies used with Django</p>
+<p>-Implemented Complete Auth Using Django Default Auth Model.</p>
+<ol>
+<li>Used built in Django Auth Model</li>
+<li>Implemented custom error View for customizing Templates</li>
+<li>Login. SingUp, Logout, Account Views Implemented</li>
+<li>In built views of PasswordChangeDoneView, PasswordChangeView, PasswordResetCompleteView, PasswordResetConfirmView, PasswordResetView, PasswordResetCompleteView</li>
+<li>Build Custom Templates for These Inbuilt Views</li>
+</ol>
+<p>-Implemented Crud Operations with Django Forms</p>
+<ol>
+<li>build crud operation create, update, delete, read function views</li>
+<li>build templates for handling it</li>
+<li>Created Django forms</li>
+</ol>
+<p>-Implemented Crud Operations with Ajax </p>
+<ol>
+<li>build crud operations with generic View as base class </li>
+<li>used ListView as base class for View</li>
+<li>Used Ajax for Dynamically interacting with these views without reloading the html page</li>
+</ol>
+<p>-Implemented Crud Operations with GraphQl</p>
+<ol>
+<li>used graphene python library, for performing curd operations </li>
+<li>build function based crud views</li>
+<li>used ajax, django forms</li>
+</ol>
+<p>-Build Rest API</p>
+<ol>
+<li>Used Django Rest Framework, and build a lot of apis for handling different operations</li>
+<li>Implemented all the views available in Django Rest Framework</li>
+<li>Build Swagger around all the apis whose link is available at the homepage at live demo</li>
+</ol>
+<p>-Build GraphQl API</p>
+<p>1.Build API for crud using Graphene</p>
+<p>-Deployed on Heroku</p>
+<ol>
+<li>Used Heroku Postgres </li>
+<li>Used AWS S3 Bucket for static and media files</li>
+</ol>
+<h2>Tech Stack</h2>
+<p><a href="https://www.python.org/"><img alt="Python" src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&amp;logo=python&amp;logoColor=white" /></a>
+<a href="https://www.djangoproject.com/"><img alt="Django" src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&amp;logo=django&amp;logoColor=white" /></a>
+<a href="https://jquery.com/"><img alt="Jquery" src="https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&amp;logo=jquery&amp;logoColor=white" /></a>
+<a href="https://graphql.org/"><img alt="GraphQL" src="https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&amp;logo=graphql&amp;logoColor=white" /></a>
+<a href="https://www.django-rest-framework.org/"><img alt="DjangoREST" src="https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&amp;logo=django&amp;logoColor=white&amp;color=ff1709&amp;labelColor=gray" /></a>
+<a href="https://developer.mozilla.org/en-US/docs/Glossary/HTML5"><img alt="HTML5" src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&amp;logo=html5&amp;logoColor=white" /></a>
+<a href="https://developer.mozilla.org/en-US/docs/Web/CSS"><img alt="CSS3" src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&amp;logo=css3&amp;logoColor=white" /></a>
+<a href="https://getbootstrap.com/"><img alt="Bootstrap" src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&amp;logo=bootstrap&amp;logoColor=white" /></a>
+<a href="https://www.postgresql.org/"><img alt="Postgres" src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&amp;logo=postgresql&amp;logoColor=white" /></a></p>
+<h2>Demo</h2>
+<p>Available at: https://django-project-api-crud-graphq.herokuapp.com/</p>
+<p>admin login details:--
+username: arpansahu
+password: showmecode</p>
+<h2>License</h2>
+<p><a href="https://choosealicense.com/licenses/mit/">MIT</a></p>
+<h2>Installation</h2>
+<p>Installing Pre requisites</p>
+<p>```bash
+  pip install -r requirements.txt</p>
+<p>```</p>
+<p>Making Migrations and Migrating them.</p>
+<p>```bash
+  python manage.py makemigrations
+  python manage.py migrate</p>
+<p>```</p>
+<p>Creating Super User</p>
+<p>```bash
+  python manage.py createsuperuser</p>
+<p>```</p>
+<p>Run Server
+```bash
+  python manage.py runserver</p>
+<p>```</p>
+<h2>Tech Stack</h2>
+<p><strong>Client:</strong> HTML, Jinja, CSS, BootStrap, Jquery</p>
+<p><strong>Server:</strong> Django, Django Rest Framework, Gunicorn, GraphQL, Heroku</p>
+<h2>Deployment on Heroku</h2>
+<p>Installing Heroku Cli from : https://devcenter.heroku.com/articles/heroku-cli
+Create your account in Heroku.</p>
+<p>Inside your project directory</p>
+<p>Login Heroku CLI
+```bash
+  heroku login</p>
+<p>```</p>
+<p>Create Heroku App</p>
+<p>```bash
+  heroku create [app_name]</p>
+<p>```</p>
+<p>Push Heroku App
+<code>git push heroku master</code></p>
+<p>Configure Heroku App
+```bash
+  add all the env variables used from app setting page on heroku app dashboard.</p>
+<p><code>Configuring Django App for Heroku</code>
+    install whitenoise : pip install whitenoise 
+    include it in included_apps=[]
+    add whitenoise middleware
+    add: procfile
+    add: release-task.sh for running mutilple commands in run: section of procfile
+    make relase-task.sh executable : chmod +x release-tasks.sh 
+```</p>
+<h2>Documentation</h2>
+<p><a href="https://www.python.org/"><img alt="Python" src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&amp;logo=python&amp;logoColor=white" /></a>
+<a href="https://www.djangoproject.com/"><img alt="Django" src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&amp;logo=django&amp;logoColor=white" /></a>
+<a href="https://jquery.com/"><img alt="Jquery" src="https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&amp;logo=jquery&amp;logoColor=white" /></a>
+<a href="https://graphql.org/"><img alt="GraphQL" src="https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&amp;logo=graphql&amp;logoColor=white" /></a>
+<a href="https://www.django-rest-framework.org/"><img alt="DjangoREST" src="https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&amp;logo=django&amp;logoColor=white&amp;color=ff1709&amp;labelColor=gray" /></a>
+<a href="https://developer.mozilla.org/en-US/docs/Glossary/HTML5"><img alt="HTML5" src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&amp;logo=html5&amp;logoColor=white" /></a>
+<a href="https://developer.mozilla.org/en-US/docs/Web/CSS"><img alt="CSS3" src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&amp;logo=css3&amp;logoColor=white" /></a>
+<a href="https://getbootstrap.com/"><img alt="Bootstrap" src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&amp;logo=bootstrap&amp;logoColor=white" /></a>
+<a href="https://www.postgresql.org/"><img alt="Postgres" src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&amp;logo=postgresql&amp;logoColor=white" /></a></p>
+<h2>Environment Variables</h2>
+<p>To run this project, you will need to add the following environment variables to your .env file</p>
+<p>SECRET_KEY=</p>
+<p>DEBUG=</p>
+<p>DB_HOST=</p>
+<p>DB_NAME=</p>
+<p>DB_USER=</p>
+<p>DB_PASSWORD=</p>
+<p>DB_PORT=</p>
+<p>EMAIL_USER=</p>
+<p>EMAIL_PASS=</p>
+<p>ALLOWED_HOSTS=</p>
