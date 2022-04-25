@@ -4,7 +4,7 @@ from django.views import View
 
 class Home(View):
     def get(self, *args, **kwargs):
-        return render(self.request, template_name='Home.html')
+        return render(self.request, template_name='index.html')
 
 
 class ProjectView(View):
