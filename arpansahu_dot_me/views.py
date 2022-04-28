@@ -7,8 +7,8 @@ class Home(View):
         return render(self.request, template_name='index.html')
 
 
-class ProjectView(View):
+class ProjectDetailedView(View):
     def get(self, *args, **kwargs):
         project_id = self.kwargs['pk']
-        print(project_id)
-        return render(self.request, template_name='project.html', context={'project_id': project_id})
+        template_name = f'modules/project_detailed/project{project_id}.html'
+        return render(self.request, template_name=template_name, context={'project_id': project_id})
