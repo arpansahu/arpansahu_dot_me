@@ -1,0 +1,451 @@
+{% extends 'base.html' %}
+{% load static %}
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+
+    <style>
+    *, *:before, *:after {
+      box-sizing: border-box;
+    }
+
+    pre[class*="language-"] {
+      position:relative;
+      overflow: auto;
+      margin:5px 0;
+      padding:1.75rem 0 1.75rem 1rem;
+      border-radius:10px;
+    }
+
+    copy-button{
+      position:absolute;
+      top:5px;
+      right:5px;
+      font-size:.9rem;
+      padding:.15rem;
+      background-color:#828282;
+      color: #1e1e1e;
+      border:ridge 1px #7b7b7c;
+      border-radius:5px;
+      text-shadow:#c4c4c4 0 0 2px;
+    }
+
+    copy-button:hover{
+      cursor:pointer;
+       background-color:#bcbabb;
+    }
+
+    </style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- start hero -->
+    <section class="hero-one position-relative bg-black" id="about"  style="background-image: url('{% static "images/personal/main-bg.png" %}'); background-size: cover; background-position: center center;">
+        <div class="container">
+            <div class="row align-items-center justify-content-center py-100">
+                <div class="col-lg-12 text-center py-12 text-center">
+                    <h5 class="head-title py-12" aria-label="Premium Collection Point"></h5>
+                </div><!--end col-->
+            </div><!--end row-->
+        </div><!-- end container -->
+    </section>
+    <!-- end hero -->
+
+    <!-- start hero -->
+    <section class="hero-one position-relative bg-black" id="home"  style="background-image: url('{% static "images/personal/main-bg.png" %}'); background-size: cover; background-position: center center;">
+        <div class="row align-items-center justify-content-center" style="padding: 5px; align-items: center; text-align: center">
+        </div>
+        <div class="row align-items-center justify-content-center" style="padding: 5px">
+            <div class="col-lg-8  mx-auto">
+              <div class="col-md-8 mx-auto">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                  <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-label="Slide 6" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6" aria-label="Slide 7" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="7" aria-label="Slide 8" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="8" aria-label="Slide 9" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="9" aria-label="Slide 10" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="10" aria-label="Slide 11" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="11" aria-label="Slide 12" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="12" aria-label="Slide 13" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="13" aria-label="Slide 14" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="14" aria-label="Slide 15" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="15" aria-label="Slide 16" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="16" aria-label="Slide 17" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="17" aria-label="Slide 18" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="18" aria-label="Slide 19" style="background-color: black"></button>
+                  </div>
+                  <div class="carousel-inner border-radius-sm">
+                    <div class="carousel-item active">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_1.png' %}" alt="First slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Home Page</h5>
+                          <p></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_2.png' %}" alt="Second slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Login Page</h5>
+                          <p></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_3.png' %}" alt="Third slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Change Password Page</h5>
+                          <p></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_4.png' %}" alt="Fourth slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Reset Password Page</h5>
+                          <p></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_5.png' %}" alt="Fifth slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Branch Home Page</h5>
+                          <p></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_6.png' %}" alt="Sixth slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Premium Details Page</h5>
+                          <p></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_7.png' %}" alt="Seventh slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Premium Paid  Page</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_8.png' %}" alt="Eighth slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>No Bill Due Page</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_9.png' %}" alt="Ninth slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Branch Wallet Page</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_10.png' %}" alt="Tenth slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Branch Earnings Page</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_11.png' %}" alt="Eleventh slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Refer N Earn Page</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_12.png' %}" alt="Twelfth slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Branch Transactions Page</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_13.png' %}" alt="Thirteen slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Premium transactions Page</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_14.png' %}" alt="Fourteen slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Branch Transactions Page</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_15.png' %}" alt="Fifteen slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Branch Add Money Page</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_16.png' %}" alt="Sixteen slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Branch Add Money Coupon Page</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_17.png' %}" alt="Seventeen slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Manager Money Order Page</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_18.png' %}" alt="Eighteen slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Manager All Money Orders Page</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{% static 'images/sliders/project9/project9_19.png' %}" alt="Nineteen slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                          <h5>Branch All Premium Orders Page</h5>
+                        </div>
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bg-success" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon bg-success" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+              </div>
+            </div><!--end col-->
+
+            <div class="col-lg-4 text-center px-0 px-xl-4 mt-5 mt-lg-0 pt-5 pt-lg-0">
+                <h5 class="d-inline-block py-1 px-3 rounded text-muted font-secondary" style="color: white">Technologies Used</h5>
+                <span class="wrap"></span>
+                <div class="mb-4 mb-lg-0">
+                    <div class="d-inline-block">
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Python</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Django</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Selenium</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">HTML</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">CSS</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Bootstrap</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Javascript</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Postgres</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Heroku</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Github</span>
+                    </div>
+                </div>
+
+                <div class="mb-5 mb-lg-0" style="margin-top: 15px">
+                    <a class="btn btn-block btn-social btn-github" href="https://github.com/arpansahu/premium-collection-point" target="_blank" style="color: white">
+                        <span class="fa fa-github" style="margin-right: 10px; color: white"></span> Check Repo
+                    </a>
+                    <a class="btn btn-block btn-social btn-github" href="https://premiumcollectionpoint.herokuapp.com/" target="_blank" style="color: white">
+                        <span class="fa fa-youtube" style="margin-right: 10px; color: white"></span> Live Demo
+                    </a>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+    </section>
+     <!-- end hero -->
+     <div class="container-fluid py-4" style="background-color: black">
+        <div class="row" style="border-radius: 10px">
+          <div class="col-12" style="border-radius: 10px">
+            <div class="card mb-12" style="border-radius: 20px">
+                <div style="padding: 20px; border-radius: 10px">
+                        <h2>Description</h2><hr>
+                        <p>This project is a working Project for Premium Collection Point. In this project there are two entities namely branch and manager. My father is a LIC Wealth Manager and I have built this project to help him manage his clients across PAN India.</p><br>
+                            <p>Challenges Faced By My Father during Pandemic:</p>
+                                <ol>
+                                    <li>His 90% client used to pay their LIC Premiums using Cash.</li>
+                                    <li>Pre Pandemic they used to visit Fathers office or LIC branch to pay their premiums which was not possible due to lockdown across India.</li>
+                                    <li>Penalty Charges were increasing on my fathers clients and my Fathers Income was also reducing</li>
+                                </ol>
+                            <p>Solution To The Problem:</p>
+                                <ol>
+                                    <li>Built a web portal which was looking trustworthy and was with the name of my fathers official branch name i.e. Sahu Beema Kendra which was later renamed to Premium Collection Point.com</li>
+                                    <li>Customers were used to pay in Cash to Sub branches</li>
+                                    <li>Sub-branches used to earn 1% commission of the total amount paid through their branch</li>
+                                    <li>Next day sub-branch owners used to deposit cash to their collected cash to their bank account, and they can add money to their wallet using pcp-pay gateway</li>
+                                    <li>PCP-Pay gateway was a custom sub service which was built in this project to support UPI/IMPS/CASH methods to add money to wallet</li>
+                                    <li>Few of our branches were allowed to deposit in CASH to our Bank Account and add money to wallet. But many others were only allowed to add money using UPI QR Code or IMPS</li>
+                                </ol>
+                            <p>Business Opportunities:</p>
+                                <ol>
+                                    <li>Branches were able to earn 1% of the total amount of premium bills paid through their branch</li>
+                                    <li>Refer n Earn system was also introduced later which enables branches to earn 10% of the 1 st level refers Income.</li>
+                                </ol>
+                            <p>Feature Scope and Improvements:</p>
+                                <ol>
+                                    <li>Initially this project was requiring some human intervention in the working of the project.</li>
+                                    <li>Money Orders can be automated using Email Reading With Python or Sms Reading which were sent by bank for approving money orders</li>
+                                    <li>Selenium was used to fetch premium amount from Amazon Pay. Although LIC Official Portal for Premium Collection already exists, but it's access cannot be distributed with others (for security purposes). Moreover, bill was a little hard to scrap for that portal due to a lot of captcha. While Amazon Pay was allowing to check the bill without any login required. Note: since jan 2022 amazon pay started hiding premium holders name if we scrap without logging into amazon pay
+                                        <ol>
+                                            <li>So this can be overcome using Bill-desk APIs, but it will cost hefty money</li>
+                                        </ol>
+                                    </li>
+                                    <li>You can also replace this payment Gateway with Paytm Payment Gateway which provides 0% fees on UPI and Debit mode of transactions. But it would require you to be a merchant, and you should have proper documentations</li>
+                                </ol>
+                            <p>-Implemented Complete Auth Using Custom Auth Model.</p>
+                                <ol>
+                                    <li>Used built in AbstractBaseUser as parent Auth Model</li>
+                                    <li>Build Custom Manager for the same</li>
+                                    <li>Implemented custom error View for customizing Templates</li>
+                                    <li>Login. SingUp, Logout, Account Views Implemented</li>
+                                    <li>In built views of PasswordChangeDoneView, PasswordChangeView, PasswordResetCompleteView, PasswordResetConfirmView, PasswordResetView, PasswordResetCompleteView</li>
+                                    <li>Build Custom Templates for These Inbuilt Views</li>
+                                    <li>Reset Password is working</li>
+                                    <li>If kyc is False then it will show you Get Kyc Details unless it will welcome you. By default, every user is non keyid.</li>
+                                    <li>If you want to kyc a person login to admin panel from here: https://premiumcollectionpoint.herokuapp.com/admin/ and modify it</li>
+                                </ol>
+                            <p>-Used Heroku to Deploy Premium Collection Point</p>
+                                <ol>
+                                    <li>For using Selenium in Heroku</li>
+                                        <ol>
+                                            <li>https://github.com/heroku/heroku-buildpack-chromedriver (ChromeDriver)</li>
+                                            <li>https://github.com/heroku/heroku-buildpack-google-chrome (Chrome)</li>
+                                            <ol>
+                                                <li>apart from default env variables add: variables for ChromeDriver and Chrome -</li>
+                                                <li>CHROMEDRIVER_PATH: /app/.chromedriver/bin/chromedriver</li>
+                                                <li>GOOGLE_CHROME_BIN: /app/.apt/usr/bin/google-chrome</li>
+                                            </ol>
+                                        </ol>
+                                    <li>Postgres was used as database</li>
+                                </ol>
+                            <hr>
+                            <p>Note: This project is hosted in Heroku as of now. which restricts a request to be fulfilled in max 30 seconds otherwise requests will be terminated. If Bill Check Service don't work properly in Demo then problem is caused due to this reason. I have myself hosted this project in AWS when it was in use. So I highly recommend to host it on AWS if you want to use yourself for some other purposes then demo.</p>
+                            <hr>
+                            <h2>Demo</h2><hr>
+                            <p><a href="https://premiumcollectionpoint.herokuapp.com/" target="_blank">Available at: https://premiumcollectionpoint.herokuapp.com/</a></p>
+                            <p>
+                                admin login details:-- url: https://premiumcollectionpoint.herokuapp.com/admin
+                                email: admin@arpansahu.me password: showmecode
+                                Branch login details:--
+                                email: branchone@arpansahu.me password: showmecode
+                                Manager login details:--
+                                email: managerone@arpansahu.me password: showmecode
+                            </p>
+                                <br>
+                            <h2>License</h2><hr>
+                            <p><a href="https://choosealicense.com/licenses/mit/">MIT</a></p>
+                            <br>
+                            <h2>Installation</h2><hr>
+                            <p>Installing Pre requisites</p>
+
+<pre><code class="language-python">pip install -r requirements.txt
+</code></pre>
+
+                            <p>Making Migrations and Migrating them.</p>
+<pre><code class="language-python">python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+
+                            <p>Creating Super User.</p>
+<pre><code class="language-python">python manage.py createsuperuser
+</code></pre>
+
+                            <p>Run Server.</p>
+<pre><code class="language-python">python manage.py runserver
+</code></pre>
+                            <h2>Deployment on Heroku</h2><hr>
+                            <p>Installing Heroku Cli</p>
+<pre><code class="language-python">checkout: https://devcenter.heroku.com/articles/heroku-cli
+</code></pre>
+
+                            <p>Create your account in Heroku.</p>
+                            <p>Inside your project directory </p>
+                            <p>Login Heroku CLI</p>
+<pre><code class="language-python">heroku login
+</code></pre>
+                            <p>Create Heroku App</p>
+<pre><code class="language-python">heroku create [app_name]
+</code></pre>
+                            <p>Apart from python build packs add:</p>
+<pre><code class="language-python">https://github.com/heroku/heroku-buildpack-chromedriver (ChromeDriver)
+https://github.com/heroku/heroku-buildpack-google-chrome (Chrome)
+</code></pre>
+                            <p>Push Heroku App</p>
+<pre><code class="language-python">git push heroku master
+</code></pre>
+                            <p>Configure Heroku App Env Variables</p>
+<pre><code class="language-python">heroku config:se CHROMEDRIVER_PATH= /app/.chromedriver/bin/chromedriver
+heroku config:se GOOGLE_CHROME_BIN= /app/.apt/usr/bin/google-chrome
+heroku config:set GITHUB_USERNAME=joesmith
+...
+</code></pre>
+                            <h2>Configuring Django App for Heroku</h2><hr>
+                            <p>Install whitenoise </p>
+<pre><code class="language-python">pip install whitenoise
+</code></pre>
+                            <p>Include it in Middlewares.</p>
+<pre><code class="language-python">MIDDLEWARE = [
+    # ...
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    # ...
+]
+</code></pre>
+                            <p>Create Procfile and include this code snippet in it.</p>
+<pre><code class="language-python">release: ./release-tasks.sh
+web: gunicorn djangoProject.wsgi
+</code></pre>
+
+                            <p>Create release-task.sh for running multilple commands in run: section of procfile.</p>
+<pre><code class="language-python">python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+                            <p>Make release-task.sh executable</p>
+<pre><code class="language-python">chmod +x release-tasks.sh
+</code></pre>
+                            <h2>Environment Variables</h2><hr>
+                            <p>To run this project, you will need to add the following environment variables to your .env file</p>
+<pre><code class="language-python">SECRET_KEY=
+DEBUG=
+DB_HOST=
+DB_NAME=
+DB_USER=
+DB_PASSWORD=
+DB_PORT=
+EMAIL_USER=
+EMAIL_PASS=
+ALLOWED_HOSTS=
+</code></pre>
+                    </div>
+            </div>
+          </div>
+        </div>
+     </div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+    <script>
+    <!-- Copy Button JS -->
+    const copyButtonLabel = "Copy Code";
+
+    // you can use a class selector instead if you, or the syntax highlighting library adds one to the 'pre'.
+    let blocks = document.querySelectorAll("pre");
+
+    blocks.forEach((block) => {
+      // only add button if browser supports Clipboard API
+      if (navigator.clipboard) {
+        let button = document.createElement("copy-button");
+        button.innerText = copyButtonLabel;
+        button.addEventListener("click", copyCode);
+        block.appendChild(button);
+      }
+    });
+
+    async function copyCode(event) {
+      const button = event.srcElement;
+      const pre = button.parentElement;
+      let code = pre.querySelector("code");
+      let text = code.innerText;
+      await navigator.clipboard.writeText(text);
+
+      button.innerText = "Code Copied";
+
+      setTimeout(()=> {
+        button.innerText = copyButtonLabel;
+      },1000)
+    }
+    <!-- Copy Button JS ends-->
+    </script>
+{% endblock javascripts %}
