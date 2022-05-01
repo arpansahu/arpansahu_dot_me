@@ -1,0 +1,515 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- start hero -->
+    {% include 'modules/about/hero.html' %}
+    <!-- end hero -->
+    <div class="position-relative">
+        <div class="shape overflow-hidden text-white">
+            <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
+            </svg>
+        </div>
+    </div>
+
+    <!-- start about -->
+    <section class="section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 align-self-center">
+                    <img src="{% static 'images/personal/transparent_arpansahu.png' %}" alt="" class="img-fluid ml-lg-5">
+                </div><!--end col-->
+                <div class="col-lg-6 ms-auto align-self-center">
+                    <h5 class="fs-24 text-dark fw-medium mb-3"><mark>Personal Details</mark></h5>
+                    <h4 class="fw-normal lh-base text-gray-700 mb-5 fs-20">It is a long established fact
+                        that a reader will be distracted by the readable content of a page when looking at its layout.
+                    </h4>
+
+                    <div class="mb-5 mb-lg-0">
+                        <p class="mb-2">
+                            <span class="personal-detail-title">Date of birth</span>
+                            <span class="personal-detail-info">06 june 1989</span>
+                        </p>
+                        <p class="mb-2">
+                            <span class="personal-detail-title">Spoken Languages</span>
+                            <span class="personal-detail-info">English - Hindi</span>
+                        </p>
+                        <p class="mb-2">
+                            <span class="personal-detail-title">Nationality</span>
+                            <span class="personal-detail-info">India</span>
+                        </p>
+                        <p class="mb-2">
+                            <span class="personal-detail-title">Interest</span>
+                            <span class="personal-detail-info">Travel, Music, Gaming, Chess</span>
+                        </p>
+                    </div>
+                    <div class="social mt-5">
+                        <a href="https://github.com/arpansahu">
+                            <i class="lab la-github github me-1"></i>
+                        </a>
+                        <a href="https://www.twitter.com/arpansahu_/">
+                            <i class="lab la-twitter twitter me-1"></i>
+                        </a>
+                        <a href="https://join.skype.com/invite/YWieQvb0pivH">
+                            <i class="lab la-skype la-skype me-1"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/arpansahu">
+                            <i class="lab la-linkedin-in linkedin me-1"></i>
+                        </a>
+                    </div>
+                </div><!--end col-->
+                <div class="col-12 mt-5">
+                    <div class="d-flex flex-wrap justify-content-center  mt-4 mt-md-5">
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                        <div class="d-flex align-items-center">
+                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                <img src="{% static 'images/logos/c.svg' %}" alt="" class="" height="34">
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="mb-0 fw-medium text-gray-700">C</h6>
+                                <p class="text-muted mb-0 fs-12">2 Year Experience</p>
+                            </div>
+                        </div>
+                    </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/c++.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">C++</h6>
+                                    <p class="text-muted mb-0 fs-12">2 Year Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/python.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Python</h6>
+                                    <p class="text-muted mb-0 fs-12">4 Year Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/django.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Django</h6>
+                                    <p class="text-muted mb-0 fs-12">3 Year Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/flask.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Flask</h6>
+                                    <p class="text-muted mb-0 fs-12">1 Year Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/fastapi.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Fast API</h6>
+                                    <p class="text-muted mb-0 fs-12">1 Year Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/react.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">React</h6>
+                                    <p class="text-muted mb-0 fs-12">3 Months Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/redux.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Redux</h6>
+                                    <p class="text-muted mb-0 fs-12">3 Months Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/jwt.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">JWT</h6>
+                                    <p class="text-muted mb-0 fs-12">1 Year Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/mui.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">MUI</h6>
+                                    <p class="text-muted mb-0 fs-12">3 Months Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/docker.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Docker</h6>
+                                    <p class="text-muted mb-0 fs-12">6 Months Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/aws.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">AWS</h6>
+                                    <p class="text-muted mb-0 fs-12">1 Year Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/heroku.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Heroku</h6>
+                                    <p class="text-muted mb-0 fs-12">2 Years Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/graphql.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Graphql</h6>
+                                    <p class="text-muted mb-0 fs-12">3 Months Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/git.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Git</h6>
+                                    <p class="text-muted mb-0 fs-12">1 Year Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/github.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Github</h6>
+                                    <p class="text-muted mb-0 fs-12">2 Years Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/gitlab.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Gitlab</h6>
+                                    <p class="text-muted mb-0 fs-12">1 Years Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/css3.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">CSS</h6>
+                                    <p class="text-muted mb-0 fs-12">2 Years Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/html5.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">HTML</h6>
+                                    <p class="text-muted mb-0 fs-12">2 Years Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/bootstrap.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Bootstrap</h6>
+                                    <p class="text-muted mb-0 fs-12">2 Years Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/mysql.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">MySql</h6>
+                                    <p class="text-muted mb-0 fs-12">1 Years Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/postgres.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Postgres</h6>
+                                    <p class="text-muted mb-0 fs-12">1 Years Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/sqlite.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">SqLite</h6>
+                                    <p class="text-muted mb-0 fs-12">2 Years Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/mongodb.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Mongodb</h6>
+                                    <p class="text-muted mb-0 fs-12">3 Months Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/javascript.png' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Javascript</h6>
+                                    <p class="text-muted mb-0 fs-12">1 Years Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/jquery.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Jquery</h6>
+                                    <p class="text-muted mb-0 fs-12">1 Years Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/nginx.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Nginx</h6>
+                                    <p class="text-muted mb-0 fs-12">6 Months Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/windows.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Windows</h6>
+                                    <p class="text-muted mb-0 fs-12">3 Years Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/ubuntu.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Ubuntu</h6>
+                                    <p class="text-muted mb-0 fs-12">1 Years Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/redis.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Redis</h6>
+                                    <p class="text-muted mb-0 fs-12">6 Months Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
+                                    <img src="{% static 'images/logos/selenium.svg' %}" alt="" class="" height="34">
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0 fw-medium text-gray-700">Selenium</h6>
+                                    <p class="text-muted mb-0 fs-12">1 Years Experience</p>
+                                </div>
+                            </div>
+                        </div><!--/div-->
+                    </div><!-- End div -->
+                </div><!-- End Col -->
+            </div><!--end row-->
+        </div><!-- end container -->
+    </section>
+        <!-- end about -->
+
+        <!-- start resume -->
+        <section class="section">
+            <div class="container">
+                <div class="row justify-content-center mb-4">
+                    <div class="col-12 col-md-10 col-lg-7 text-center">
+                        <span class="badge badge-lg rounded bg-soft-alt-success fw-normal fs-13 text-uppercase">Life Time</span>
+                        <h2 class="fs-2 fw-medium lh-1 text-dark my-3 position-relative z-i-2">Education & Experience</h2>
+                        <div class="bg-text">
+                            <h1 class="fw-bold p-0">Resume</h1>
+                        </div>
+                        <p class="text-gray-700 fs-18 fs-lg mb-4 mb-md-5 lh-lg">
+
+                        </p>
+                    </div><!--end col-->
+                </div><!--end row-->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="main-timeline">
+                                    <div class="timeline">
+                                        <a href="#" class="timeline-content">
+                                            <div class="timeline-icon">
+                                                <i class="ti ti-device-gamepad"></i>
+                                            </div>
+                                            <div class="inner-content">
+                                                <h3 class="title">GammaStack - IGaming IT Company</h3>
+                                                <p class="description">
+                                                    GammaStack is an end–to–end IT services and solutions provider delivering platforms that overcome business challenges and increase revenues.
+                                                </p>
+                                            </div>
+                                            <div class="timeline-year"><span>Feb 2021-</span></div>
+                                        </a>
+                                    </div>
+                                    <div class="timeline">
+                                        <a href="#" class="timeline-content">
+                                            <div class="timeline-icon">
+                                                <i class="ti ti-school"></i>
+                                            </div>
+                                            <div class="inner-content">
+                                                <h3 class="title">BTech Computer Science & Engineering Degree</h3>
+                                                <p class="description">
+                                                    Lakshmi Narain College of Technology and Excellence is an educational institution that offers graduate,
+                                                    in the fields of Engineering and Medical Sciences.
+                                                </p>
+                                            </div>
+                                            <div class="timeline-year"><span>2012-13</span></div>
+                                        </a>
+                                    </div>
+                                    <div class="timeline">
+                                        <a href="#" class="timeline-content">
+                                            <div class="timeline-icon">
+                                                <i class="ti ti-school"></i>
+                                            </div>
+                                            <div class="inner-content">
+                                                <h3 class="title">Higher Secondary school  70.40%</h3>
+                                                <p class="description">
+                                                    Shir Ram Adarsh is an educational institution that offers Higher Education in the field of Science, Technology, Engineering and Mathematics, Arts
+                                                </p>
+                                            </div>
+                                            <div class="timeline-year"><span>2015-16</span></div>
+                                        </a>
+                                    </div>
+                                    <div class="timeline">
+                                        <a href="#" class="timeline-content">
+                                            <div class="timeline-icon">
+                                                <i class="ti ti-school"></i>
+                                            </div>
+                                            <div class="inner-content">
+                                                <h3 class="title">High Secondary school  88.60%</h3>
+                                                <p class="description">
+                                                    Bhonsala Military is an educational institution that High Education in the field of Science, Technology, Engineering and Mathematics, Arts
+                                                    along with Military Curriculum.
+                                                </p>
+                                            </div>
+                                            <div class="timeline-year"><span>2013-14</span></div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+                        </div><!-- end row -->
+
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </section>
+        <!-- end resume -->
+    <div class="position-relative">
+        <div class="shape overflow-hidden bg-footer">
+            <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
+            </svg>
+        </div>
+    </div>
+
+
+
+{% endblock content %}
+
+{% block javascripts %}
+    <script>
+
+    </script>
+{% endblock javascripts %}

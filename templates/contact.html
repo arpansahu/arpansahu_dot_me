@@ -3,7 +3,7 @@
 {% block content %}
 
     <!-- start hero -->
-        {% include 'modules/home/hero.html' %}
+        {% include 'modules/contact/hero.html' %}
     <!-- end hero -->
     <div class="position-relative">
         <div class="shape overflow-hidden text-white">
@@ -12,30 +12,9 @@
             </svg>
         </div>
     </div>
-    <!-- start about -->
-        {% include 'modules/home/about.html' %}
-    <!-- end about -->
-
-
-
-    <!-- start resume -->
-        {% include 'modules/home/resume.html' %}
-    <!-- end resume -->
-
-    <div class="position-relative">
-        <div class="shape overflow-hidden text-light">
-            <svg viewBox="0 0 2880 150" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M110 105L2160 0H2880V150H0V105H110Z" fill="currentColor"></path> </svg>
-        </div>
-    </div>
-
-    <!-- start projects -->
-        {% include 'modules/home/projects.html' %}
-    <!-- end projects -->
-
     <!-- start contact us -->
         {% include 'modules/home/contact.html' %}
     <!-- end contact us -->
-
     <div class="position-relative">
         <div class="shape overflow-hidden bg-footer">
             <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -71,47 +50,6 @@
 {% block javascripts %}
     <script>
         $(document).ready(function(){
-            var dateObj = new Date();
-            var month = dateObj.getUTCMonth() + 1; //months from 1-12
-            var day = dateObj.getUTCDate();
-            var year = dateObj.getUTCFullYear();
-
-
-            dt1 = new Date("2021-02-08");
-            dt2 = new Date(year + '-' + month + '-' + day);
-
-            function diff_year_month_day(dt1, dt2)
-                {
-
-                var time =(dt2.getTime() - dt1.getTime()) / 1000;
-                var year  = Math.abs(Math.round((time/(60 * 60 * 24))/365.25));
-                var month = Math.abs(Math.round(time/(60 * 60 * 24 * 7 * 4)));
-                var days = Math.abs(Math.round(time/(3600 * 24)));
-                var month_raw = month % (year * 12);
-
-                var final_str = year;
-                if (year <= 1){
-                    final_str += " Year ";
-                }
-                else{
-                    final_str += " Years ";
-                }
-
-                if (month <= 1){
-                    final_str += month_raw + " Month ";
-                }
-                else{
-                    final_str += month_raw + " Months";
-                }
-
-                return final_str
-
-                }
-
-            var diff_year_month_day = diff_year_month_day(dt1, dt2)
-            console.log(diff_year_month_day);
-            $('#expericnce_dynamic').text(diff_year_month_day);
-
             const mydata = JSON.parse(document.getElementById('message_sent_done').textContent);
             console.log(mydata)
             if( mydata && mydata != 'get'){

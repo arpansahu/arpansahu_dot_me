@@ -13,25 +13,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto navbar-center mt-lg-0 mt-2">
                 <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'home' %}">Home</a>
+                    <a class="nav-link {{ home }}" href="{% url 'home' %}">Home</a>
                 </li><!--end nav-item-->
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html">About</a>
+                    <a class="nav-link {{ about }}" href="{% url 'about' %}">About</a>
                 </li><!--end nav-item-->
                 <li class="nav-item">
-                    <a class="nav-link" href="services.html">Services</a>
+                    <a class="nav-link {{ resume }}" href="resume.html">Resume</a>
                 </li><!--end nav-item-->
                 <li class="nav-item">
-                    <a class="nav-link" href="resume.html">Resume</a>
+                    <a class="nav-link {{ projects }}" href="{% url 'projects' %}">Projects</a>
                 </li><!--end nav-item-->
                 <li class="nav-item">
-                    <a class="nav-link" href="projects.html">Projects</a>
-                </li><!--end nav-item-->
-                <li class="nav-item">
-                    <a class="nav-link" href="blogs.html">Blogs</a>
-                </li><!--end nav-item-->
-                <li class="nav-item">
-                    <a class="nav-link" href="modules/home/contact.html">Contact</a>
+                    <a class="nav-link {{ contact }}" href="{% url 'contact' %}">Contact</a>
                 </li><!--end nav-item-->
             </ul><!--end navbar-nav-->
             <a href="#" class="btn btn-sm nav-btn text-primary mb-4 mb-lg-0">Hire Me! <i class="icon-xxs ms-1" data-feather="chevrons-right"></i></a>
