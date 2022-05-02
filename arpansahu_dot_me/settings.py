@@ -25,7 +25,7 @@ DROPBOX_ACCESS_TOKEN = config('DROPBOX_ACCESS_TOKEN')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(config('DEBUG'))
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS')
+ALLOWED_HOSTS = [config('ALLOWED_HOSTS')]
 
 
 # Application definition
