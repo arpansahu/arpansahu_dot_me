@@ -5,11 +5,10 @@ This project is implementation for the following topics related to technologies 
 
 -Build Portfolio Using Bootstrap 5.
     
-1. Used Bootstrap for building UI.
+1. Used Bootstrap for building UI and Django as Backend.
 2. Used DropBox API for showing updated Resumes.
 3. Used Javascript / Jquery for making templates Dynamic
-4. Used Django 
-5. Used SMTP to notify my whenever someone tries to message me on arpansahu.me
+4. Used SMTP to notify my whenever someone tries to message me on arpansahu.me
 
 -Deployed on Heroku
 
