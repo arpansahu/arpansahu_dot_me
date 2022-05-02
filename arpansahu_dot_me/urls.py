@@ -20,7 +20,8 @@ from .views import (
     ProjectDetailedView,
     ContactView,
     AboutView,
-    ProjectsView
+    ProjectsView,
+    ResumeView
 )
 
 urlpatterns = [
@@ -30,4 +31,5 @@ urlpatterns = [
     path('contact/', ContactView.as_view(), name='contact'),
     path('about/', AboutView.as_view(), name='about'),
     path('projects/', ProjectsView.as_view(), name='projects'),
+    path('resume/', ResumeView.as_view(), name='resume'),
 ]

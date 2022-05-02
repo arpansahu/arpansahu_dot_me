@@ -1,9 +1,13 @@
+import argparse
+import os
 import traceback
 
 from django.conf import settings
+from django.http import HttpResponse, FileResponse
 from django.shortcuts import render
 from django.views import View
 from .forms import ContactForm
+import dropbox
 
 
 class Home(View):
@@ -95,6 +99,7 @@ class AboutView(View):
     def get(self, *args, **kwargs):
         return render(self.request, template_name='about.html', context={'about': 'active'})
 
+
 class ProjectsView(View):
     def get(self, *args, **kwargs):
         return render(self.request, template_name='projects.html', context={'project': 'active'})
@@ -176,3 +181,11 @@ class ContactView(View):
         form = ContactForm()
         return render(self.request, template_name='contact.html',
                       context={'form': form, 'message_sent_done': message_sent})
+
+
+class ResumeView(View):
+    def get(self, *args, **kwargs):
+        dbx = dropbox.Dropbox(settings.DROPBOX_ACCESS_TOKEN)
+        dbx.files_download_to_file('arpansahuresume.pdf', '/' + 'arpansahuresume.pdf')
+        file_path = os.path.join(str(settings.BASE_DIR) + '/', 'arpansahuresume.pdf')
+        return FileResponse(open(file_path, 'rb'), content_type='application/pdf')
