@@ -3,7 +3,7 @@ import os
 import traceback
 
 from django.conf import settings
-from django.http import HttpResponse, FileResponse
+from django.http import HttpResponse, FileResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 from .forms import ContactForm
@@ -185,7 +185,9 @@ class ContactView(View):
 
 class ResumeView(View):
     def get(self, *args, **kwargs):
-        dbx = dropbox.Dropbox(settings.DROPBOX_ACCESS_TOKEN)
-        dbx.files_download_to_file('arpansahuresume.pdf', '/' + 'arpansahuresume.pdf')
-        file_path = os.path.join(str(settings.BASE_DIR) + '/', 'arpansahuresume.pdf')
-        return FileResponse(open(file_path, 'rb'), content_type='application/pdf')
+        # dbx = dropbox.Dropbox(app_secret='3ff49y21jcyqcy6', app_key='70ccz9td03ypgr7')
+        # dbx.files_download_to_file('arpansahuresume.pdf', '/' + 'arpansahuresume.pdf')
+        # file_path = os.path.join(str(settings.BASE_DIR) + '/', 'arpansahuresume.pdf')
+        # return FileResponse(open(file_path, 'rb'), content_type='application/pdf')
+
+        return HttpResponseRedirect('https://certificates.arpansahu.me/resume')
