@@ -9,6 +9,8 @@ This project is implementation for the following topics related to technologies 
 2. Used DropBox API for showing updated Resumes.
 3. Used Javascript / Jquery for making templates Dynamic
 4. Used SMTP to notify my whenever someone tries to message me on arpansahu.me
+5. Used AWS S3 Bucket
+6. Since Heroku doesn't allow to send mail using SMTP, Integrated Mail Jet
 
 -Deployed on Heroku
 
