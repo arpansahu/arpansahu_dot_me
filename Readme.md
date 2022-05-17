@@ -58,7 +58,7 @@ Run Server
 
 **Server:** Django, Gunicorn, Heroku
 
-## Integrating S3 Bucket 
+## Integrating AWS S3 Bucket 
 
 Install two python packages
 ``` 
