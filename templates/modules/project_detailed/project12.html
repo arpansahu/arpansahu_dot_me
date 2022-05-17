@@ -80,40 +80,6 @@
                           <p></p>
                         </div>
                     </div>
-                    <div class="carousel-item">
-                      <img class="d-block w-100" src="{% static 'images/sliders/project1/project1_3.png' %}" alt="Third slide" />
-                        <div class="carousel-caption d-none d-md-block" style="color: black">
-                          <h5>Login Page</h5>
-                          <p></p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                      <img class="d-block w-100" src="{% static 'images/sliders/project2/project2_4.png' %}" alt="Fourth slide" />
-                        <div class="carousel-caption d-none d-md-block" style="color: black">
-                          <h5>Register Page</h5>
-                          <p></p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                      <img class="d-block w-100" src="{% static 'images/sliders/project2/project2_5.png' %}" alt="Fifth slide" />
-                        <div class="carousel-caption d-none d-md-block" style="color: black">
-                          <h5>Reset Password Page</h5>
-                          <p></p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                      <img class="d-block w-100" src="{% static 'images/sliders/project2/project2_6.png' %}" alt="Sixth slide" />
-                        <div class="carousel-caption d-none d-md-block" style="color: black">
-                          <h5>My Account Page</h5>
-                          <p></p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                      <img class="d-block w-100" src="{% static 'images/sliders/project2/project2_7.png' %}" alt="Seventh slide" />
-                        <div class="carousel-caption d-none d-md-block" style="color: black">
-                          <h5>Change Password Page</h5>
-                        </div>
-                    </div>
                   </div>
                   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon bg-success" aria-hidden="true"></span>
@@ -141,17 +107,21 @@
                         <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Redis</span>
                         <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Sqlite</span>
                         <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Postgres</span>
-                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Docker</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Django Channels</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Mail Jet</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Web Sockets</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Celery</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">RabbitMQ</span>
                         <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Heroku</span>
                         <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Github</span>
                     </div>
                 </div>
 
                 <div class="mb-5 mb-lg-0" style="margin-top: 15px">
-                    <a class="btn btn-block btn-social btn-github" href="https://github.com/arpansahu/django-chat-app-tortise-with-sqlite3" target="_blank" style="color: white">
+                    <a class="btn btn-block btn-social btn-github" href="https://github.com/arpansahu/clock_work" target="_blank" style="color: white">
                         <span class="fa fa-github" style="margin-right: 10px; color: white"></span> Check Repo
                     </a>
-                    <a class="btn btn-block btn-social btn-github" href="http://django-chat-app-version1.herokuapp.com/" target="_blank" style="color: white">
+                    <a class="btn btn-block btn-social btn-github" href="https://clock-works.herokuapp.com/" target="_blank" style="color: white">
                         <span class="fa fa-youtube" style="margin-right: 10px; color: white"></span> Live Demo
                     </a>
                 </div>
@@ -165,35 +135,129 @@
             <div class="card mb-12" style="border-radius: 20px">
                 <div style="padding: 20px; border-radius: 10px">
                         <h2>Description</h2><hr>
-                        <p>This project is implementation for the following topics related to technologies used with Django</p><br>
-                            <p>-Implemented Complete Auth Using Django Default Auth Model.</p>
+                        <p>This project provides following features</p><br>
+                            <p>-Implemented Celery and Redis to Take Notes and Email it.</p>
                                 <ol>
-                                    <li>Used built in Django Auth Model</li>
-                                    <li>Implemented custom error View for customizing Templates</li>
-                                    <li>Login. SingUp, Logout, Account Views Implemented</li>
-                                    <li>In built views of PasswordChangeDoneView, PasswordChangeView, PasswordResetCompleteView, PasswordResetConfirmView, PasswordResetView, PasswordResetCompleteView</li>
-                                    <li>Build Custom Templates for These Inbuilt Views</li>
+                                    <li>Used MailJet in Production to send Emails, at first Gmail with SMTP was using. Since heroku don't allow SMTP activities in the server, MailJet was used</li>
+                                    <li>You can see the progress of the task in frontend</li>
+                                    <li>Progress Bar is Implemented with Ajax as well as Channels</li>
                                 </ol>
-                            <p>-Implemented Chat App using Django Channels/Redis/Tortoise ORM</p>
+                            <p>-Implemented Celery Beat to Schedule Emails as Reminders</p>
                                 <ol>
-                                    <li>build custom chat groups</li>
-                                    <li>as soon as a user register in the app, a signal is fired to create a room with every user</li>
-                                    <li>Room is just a Django Group with two users</li>
-                                    <li>Used simple Javascript/Django Channels/Redis to connect to Django Channels and perform these asynchronous chatting system</li>
-                                    <li>Connected Tortoise ORM with a SQlite Database for asynchronous data</li>
-                                    <li>User can delete their messages.</li>
-                                    <li>Used Postgres for Django Models</li>
+                                    <li>Used Celery beat to Schedule Reminder Emails</li>
+                                    <li>used asyncio inside Signals Code to avoid interference with sync_to_async</li>
+                                    <li>As soon as task is completed a notification is send to user about its completion</li>
                                 </ol>
-                                <p>Similarly, we can build Chat Groups</p><br>
-                                <p>-Deployed on Heroku</p>
+                            <p>-Broadcast Notifications using Web Sockets and Channels</p>
+                            <p>-Deployed on Heroku</p>
                                 <ol>
                                     <li>Used Heroku Postgres </li>
                                     <li>Used Daphene </li>
+                                    <li>Used REDIS-CLOUD Sever, provided by heroku add-ons</li>
                                 </ol>
+                            <h2>What is Redis, Celery, Celery Beat, Web Sockets, Channels, Signals, Ajax and working ?</h2><hr>
+                            <p>In the below image I will try to explain everything.</p>
+                            <img src="https://raw.githubusercontent.com/arpansahu/clock_work/master/explanation.png">
+                            <h2>Working:-</h2><hr>
+                            <ul>
+                                <li>When a user wants to take notes and want it to email-ed. Then from Django app we send a request to Django View to create and Send a task to Redis/RabbitMQ broker. Then broker will be passing this task to celery. Moreover, since while creating a task we used celery results to save the progress in CELER_RESULT_BACKEND (django-db or redis or rabbitmq). So while the task is being executed user can see progress bar via two methods:</li>
+                                <ol>
+                                    <li>Using Ajax Call: While the process is not completed you can continuously hit the endpoint to check status fo the task. which eventually increase your server load.</li>
+                                    <li>Using Ajax Call: While the process is not completed you can continuously hit the endpoint to check status fo the task. which eventually increase your server load.</li>
+                                </ol>
+                                <li>When a user wants to Schedule an Email as Reminder then, Via Django Application View, a cron task is created and that is assigned to Celery Beat and as soon as the scheduled time arrived it pass task to broker, and then it is finally assigned to celery which finishes the task and at the end of the task, a message is passed through channels to frontend to notify about the completion of task.</li>
+                                <li>Admin can broadcast a Notification to all users using django channels and cron tab, admin can schedule the notification at a particular time and then as soon as time arrives Celery Beat transfers task to Broker, and then it passes to Celery Workers. Moreover, the task focuses on sending notification through channels and web sockets so that users connected to particular channels will be able to see the notifications.</li>
+                            </ul>
+                            <h2>What is Django ?</h2><hr>
+                            <p>Django is a Python-based free and open-source web framework that follows the model-template-view architectural pattern.</p>
+                            <h2>What is Web Sockets ?</h2><hr>
+                            <p>WebSocket is bidirectional, a full-duplex protocol that is used in the same scenario of client-server communication, unlike HTTP it starts from ws:// or wss://. It is a stateful protocol, which means the connection between client and server will keep alive until it is terminated by either party (client or server). After closing the connection by either of the client and server, the connection is terminated from both ends.</p>
+                            <h2>What is Channels?</h2><hr>
+                            <p>Channels preserve the synchronous behavior of Django and add a layer of asynchronous protocols allowing users to write the views that are entirely synchronous, asynchronous, or a mixture of both. Channels basically allow the application to support “long-running connections”. It replaces Django’s default WSGI with its ASGI.</p>
+                            <h2>What is Django Signals?</h2><hr>
+                            <p>Django includes a “signal dispatcher” which helps decoupled applications get notified when actions occur elsewhere in the framework. In a nutshell, signals allow certain senders to notify a set of receivers that some action has taken place.</p>
+                            <h2>What is Ajax?</h2><hr>
+                            <p>Ajax is a set of web development techniques that uses various web technologies on the client-side to create asynchronous web applications. With Ajax, web applications can send and retrieve data from a server asynchronously without interfering with the display and behaviour of the existing page.</p>
+                            <h2>What is Celery ?</h2><hr>
+                            <p>Celery is an asynchronous task queue/job queue based on distributed message passing. It is focused on real-time operation but supports scheduling as well.</p><br>
+                            Why is this useful?
+                            <ol>
+                                <li>Think of all the times you have had to run a certain task in the future. Perhaps you needed to access an API every hour. Or maybe you needed to send a batch of emails at the end of the day. Large or small, Celery makes scheduling such periodic tasks easy.</li>
+                                <li>You never want end users to have to wait unnecessarily for pages to load or actions to complete. If a long process is part of your application’s workflow, you can use Celery to execute that process in the background, as resources become available, so that your application can continue to respond to client requests. This keeps the task out of the application’s context.</li>
+                            </ol>
+                            Working:
+                            <ol>
+                                <li>Celery requires message broker to store messages received from task generators or producers. For reading information of messages in task serialization is required which can be in json/pickle/yaml/msgpack it can be in compressed form as zlib, bzip2 or a cryptographic message.</li>
+                                <li>A celery system consists of multiple workers and brokers, giving way to high availability and horizontal scaling.</li>
+                                <li>When a celery worker is started using command <pre><code class="language-python">celery -A [clock_work(project name)].celery worker -l info</code></pre>, a supervisor is started.</li>
+                                <li>Which spawns child processes or threads and deals with all the bookkeeping stuff. The child processes or threads execute the actual task. This child process are also known as execution pool. By default, no of child process worker can spawn is equal to the no of CPU cores.</li>
+                                <li>The size of execution pool determines the number of tasks your celery worker can process</li>
+                                <ul>
+                                    <li>Worker ----- Pool ----- Concurrency</li>
+                                    <li>When you start a celery worker, you specify the pool, concurrency, autoscale etc. in the command</li>
+                                    <li>Pool - Decides who will actually perform the task -thread, child process, worker itself or else.</li>
+                                    <li>Concurrency: will decide the size of pool</li>
+                                    <li>autoscale: to dynamically resize the pool based on load. The autoscaler adds more pool processes when there is work to do, and starts removing processes when the workload is low.</li>
+                                    <li><pre><code class="language-python">celery -A {project}.celery worker --pool=preform --concurrency=5 --autoscale=10 3 -l info</code></pre> this command states to start a worker with 5 child processes which can be auto-scaled upto 10 and can be decreased upto 3.</li>
+                                </ul>
+                                <li>Type of Pools:-</li>
+                                <ol>
+                                    <li>prefork (multiprocessing) (default):</li>
+                                    <ul>
+                                        <li>Use this when CPU bound task</li>
+                                        <li>By passes GIL (Global Interpreter Lock)</li>
+                                        <li>The number of available cores limits the number of concurrent processes.</li>
+                                        <li>That's why Celery defaults concurrency to no of CPU cores available.</li>
+                                        <li>Command: <pre><code class="language-python">celery A -{project}.celery worker -l info</code></pre></li>
+                                    </ul>
+                                    <li>solo (Neither threaded nor process-based):</li>
+                                    <ul>
+                                        <li>Celery don't support windows, so you can use this pool of running celery on Windows</li>
+                                        <li>It doesn't create pool as it runs solo.</li>
+                                        <li>Contradicts the principle that the worker itself does not process any tasks.</li>
+                                        <li>The solo pool runs inside the worker process.</li>
+                                        <li>This makes the solo worker fast, But it also blocks the worker while it executes tasks.</li>
+                                        <li>In this concurrency doesn't make any sense.</li>
+                                        <li>Command: <pre><code class="language-python">celery A -{project}.celery worker --pool=solo -l info</code></pre></li>
+                                    </ul>
+                                    <li>threads (multi threading):</li>
+                                    <ul>
+                                        <li>due to GIL in CPython, it restricts to single thread so can't achieve real multithreading</li>
+                                        <li>Not much official support</li>
+                                        <li>Uses threading module of python.</li>
+                                        <li>Command: <pre><code class="language-python">celery A -{project}.celery worker --pool=threads -l info</code></pre></li>
+                                    </ul>
+                                    <li>gevent/eventlet (Green Threads):</li>
+                                    <ul>
+                                        <li>Uses Green thread which are user level threads so can be manipulated at code level</li>
+                                        <li>This can be used to get a thousand of HTTP get request to fetch from external REST APIs.</li>
+                                        <li>The bottleneck is waiting for I/O operation to finish and not CPU.</li>
+                                        <li>There are implementation differences between the eventlet and gevent packages.</li>
+                                        <li>Command: <pre><code class="language-python">celery A -{project}.celery  worker --pool=[gevent/eventlet] worker -l info</code></pre></li>
+                                    </ul>
+                                    <li>by default <pre><code class="language-python">celery A -{project}.celery worker -l info</code></pre> uses pool-prefork and concurrency -no of cores</li>
+                                    <li>Difference between greenlets and threads -</li>
+                                    <ul>
+                                        <li>Python's threading library makes use of the system's native OS to schedule threads. This general-purpose scheduler is not always very efficient.</li>
+                                        <li>It makes use of Python's global interpreter lock to make sure shared data structures are accessed by only one thread at a time to avoid race conditions. CPython Interpreter, GIL, OS Greenlets emulate multi-threaded environments without relying on any native operating system capabilities. Greenlets are managed in application space and not in kernel space. In greenlets, no scheduler pre-emptively switching between your threads at any given moment.</li>
+                                        <li>Instead, your greenlets voluntarily or explicitly give up control to one another at specified points in your code.</li>
+                                        <li>Thus more scalable and efficient. Less RAM required.</li>
+                                    </ul>
+                                </ol>
+                            </ol>
+
+                            <h2>What is Redis ?</h2><hr>
+                            <p>Redis is an in-memory data structure project implementing a distributed, in-memory key-value database with optional durability. The most common Redis use cases are session cache, full-page cache, queues, leaderboards and counting, publish-subscribe, and much more. in this case, we will use Redis as a message broker.</p>
+
+                            <h2>What is RabbitMQ?</h2><hr>
+                            <p>RabbitMQ is an open-source message-broker software that originally implemented the Advanced Message Queuing Protocol and has since been extended with a plug-in architecture to support Streaming Text Oriented Messaging Protocol, MQ Telemetry Transport, and other protocols.</p>
+
+
+
+
                             <h2>Demo</h2><hr>
-                            <p><a href="http://django-chat-app-version1.herokuapp.com/" target="_blank">Available at: http://django-chat-app-version1.herokuapp.com/</a></p>
-                            <p>Note: Remmber to access this project at http because websockets are not configured to run over https in this project yet.</p>
-                            <p>admin login details:-- username: admin password: showmecode</p><br>
+                            <p><a href="https://clock-works.herokuapp.com/" target="_blank">Available at: https://clock-works.herokuapp.com/</a></p>
+                            <p>admin login details:-- username: arpansahu password: showmecode</p><br>
                             <h2>License</h2><hr>
                             <p><a href="https://choosealicense.com/licenses/mit/">MIT</a></p>
                             <br>
@@ -211,10 +275,6 @@ python manage.py migrate
                             <p>Creating Super User.</p>
 <pre><code class="language-python">python manage.py createsuperuser
 </code></pre>
-                            <p>
-                                Note: if you try to access chat room with just one user it will be throwing error.So after creating a superuser
-                                register from a new user using website and then enter into it. It must have at least two users to chat.
-                            </p><hr />
 
                             <p>Installing Redis On Local (For ubuntu) for other Os Please refer to their website https://redis.io/</p>
 <pre><code class="language-python">curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
@@ -228,7 +288,56 @@ sudo systemctl restart redis.service
 <pre><code class="language-python">sudo systemctl status redis
 </code></pre>
 
-                    <p>Uncomment Channel Layers Setting for Local Machine on settings.py, line 137 to 144 </p>
+                     <p>Use these CELERY settings</p>
+<pre><code class="language-python">CELERY_BROKER_URL = 'redis://localhost:6379'
+# CELERY_RESULT_BACKEND = 'django-db'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Kolkata'
+</code></pre>
+                    <p>CELERY_RESULT_BACKEND have been commented, because we have used task.apply_async() instead of task.dealy() with websockets for sending notification, django-db as a backend is synchronous and thus gives error, Hence we have to use redis or other resources which primarily supports asynchronous work flow.</p>
+
+                    <p>Creating Async App - create a file named celery.py in project directory.</p>
+<pre><code class="language-python">import os
+
+from celery import Celery
+from celery.schedules import crontab
+from decouple import config
+
+# set the default Django settings module for the 'celery' program.
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'clock_work.settings')
+
+redis_url = config("REDISCLOUD_URL")
+
+app = Celery('clock_work', broker=redis_url, backend=redis_url, include=['tasks.tasks'])
+
+# Using a string here means the worker doesn't have to serialize
+# the configuration object to child processes.
+# - namespace='CELERY' means all celery-related configuration keys
+#   should have a `CELERY_` prefix.
+app.config_from_object('django.conf:settings', namespace='CELERY')
+
+# Celery Beat Settings
+app.conf.beat_schedule = {
+    'send-mail-every-day-at-8': {
+        'task': 'send_email_app.tasks.send_mail_func',
+        'schedule': crontab(hour=0, minute=38),
+        # 'args' : (2,)
+    }
+}
+# Load task modules from all registered Django app configs.
+app.autodiscover_tasks()
+
+
+@app.task(bind=True)
+def debug_task(self):
+    print('Request: {0!r}'.format(self.request))
+</code></pre>
+                    <p>set ASGI settings in settings.py</p>
+<pre><code class="language-python">ASGI_APPLICATION = 'clock_work.routing.application'</code></pre>
+
+                    <p>Uncomment Channel Layers Setting for Local Machine on settings.py </p>
 <pre><code class="language-python">CHANNEL_LAYERS = {
  'default': {
      'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -239,14 +348,14 @@ sudo systemctl restart redis.service
 }
 </code></pre>
 
-                    <p>Comment Channel Layers Setting for Heroku on settings.py, line 147 to 154 </p>
+                    <p>Comment Channel Layers Setting for Heroku on settings.py </p>
 <pre><code class="language-python">CHANNEL_LAYERS = {
 "default": {
     "BACKEND": "channels_redis.core.RedisChannelLayer",
     "CONFIG": {
-        "hosts": [config('REDIS_URL')],
+        "hosts": [config('REDISCLOUD_URL')],
     },
- },
+},
 }
 </code></pre>
 
@@ -286,20 +395,42 @@ sudo systemctl restart redis.service
 </code></pre>
                             <p>Create Procfile and include this code snippet in it.</p>
 <pre><code class="language-python">release: python manage.py migrate
-web: daphne djangochatapplication.asgi:application --port $PORT --bind 0.0.0.0 -v2
+web: daphne clock_work.asgi:application --port $PORT --bind 0.0.0.0 -v2
+celery: celery -A clock_work.celery worker -l info
+celerybeat: celery -A clock_work beat -l INFO
+celeryworker2: celery -A clock_work.celery worker & celery -A clock_work beat -l INFO & wait -n
 </code></pre>
-
+                            <p>In the above Procfile there are three workers required for web, celery and celery beat, but since heroku free plan only allows upto 2 free dynos we have merged celery and celerybeat into celeryworker2 and from the admin panel of heroku app we can enable just the web and celeryworker2.</p>
+                            <p>Comment down Database setting and install</p>
+<pre><code class="language-python"># DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('DB_NAME'),
+#         'USER': config('DB_USER'),
+#         'PASSWORD': config('DB_PASSWORD'),
+#         'HOST': config('DB_HOST'),
+#         'PORT': config('DB_PORT'),
+#     }
+# }</code></pre>
+<pre><code class="language-python">pip install dj-database-url</code></pre>
+                            <p>and add these lines below the commented Database settings</p>
+<pre><code class="language-python">import dj_database_url
+DATABASES = {'default': dj_database_url.config(default=config('DATABASE_URL'))}
+</code></pre>
+                            <p>Change CELERY_BROKER_URL from</p>
+<pre><code class="language-python">CELERY_BROKER_URL = 'redis://localhost:6379'</code></pre> to <pre><code class="language-python">CELERY_BROKER_URL=config("REDISCLOUD_URL")</code></pre>
                             <h2>Environment Variables</h2><hr>
                             <p>To run this project, you will need to add the following environment variables to your .env file</p>
 <pre><code class="language-python">SECRET_KEY=
+REDISCLOUD_URL=
+SECRET_KEY=
 DEBUG=
-DB_HOST=
-DB_NAME=
-DB_USER=
-DB_PASSWORD=
-DB_PORT=
+ALLOWED_HOSTS=
 EMAIL_USER=
 EMAIL_PASS=
+DATABASE_URL=
+MAIL_JET_API_KEY=
+MAIL_JET_API_SECRET=
 ALLOWED_HOSTS=
 REDIS_URL=
 </code></pre>
