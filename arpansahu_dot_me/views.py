@@ -9,6 +9,10 @@ from django.views import View
 from .forms import ContactForm
 import dropbox
 
+from django.conf import settings
+from mailjet_rest import Client
+
+mailjet = Client(auth=(settings.MAIL_JET_API_KEY, settings.MAIL_JET_API_SECRET), version='v3.1')
 
 class Home(View):
     def get(self, *args, **kwargs):
@@ -27,57 +31,80 @@ class Home(View):
             subject = request.POST['subject']
             message_form = request.POST['message']
 
-            import smtplib, ssl
-            from email.mime.text import MIMEText
-            from email.mime.multipart import MIMEMultipart
+            # import smtplib, ssl
+            # from email.mime.text import MIMEText
+            # from email.mime.multipart import MIMEMultipart
 
-            sender_email = "contact@arpansahu.me"
-            receiver_email = settings.EMAIL
-            password = settings.PASS
-
-            message = MIMEMultipart("alternative")
-            message["Subject"] = f"{name} Contacted you on arpansahu.me"
-            message["From"] = sender_email
-            message["To"] = receiver_email
+            # sender_email = "contact@arpansahu.me"
+            # receiver_email = settings.EMAIL
+            # password = settings.PASS
+            #
+            # message = MIMEMultipart("alternative")
+            # message["Subject"] = f"{name} Contacted you on arpansahu.me"
+            # message["From"] = sender_email
+            # message["To"] = receiver_email
 
             # Create the plain-text and HTML version of your message
             text = """\
-            Hi message from {0},
-            How are you?<br>
-            Subject: {1}
-            www.realpython.com"""
+                        Hi message from {0},
+                        How are you?<br>
+                        Subject: {1}
+                        www.arpansahu.me""".format(name, subject)
             html = """\
-            <html>
-              <body>
-                <p>Hi,<br>
-                    Message: {2} <br>
-                    Contact Details:<br>
-                    <p>{3}<br>{4}</p>
-                   <a href="https://www.arpansahu.me">arpansahu.me</a> 
-                </p>
-              </body>
-            </html>
-            """.format(name, subject, message_form, contact, email)
+                        <html>
+                          <body>
+                            <p>Hi {0} contacted from your Portfolio,<br>
+                                Message:{2} <br>
+                                Contact Details:<br>
+                                <p>{3}<br>{4}</p>
+                               <a href="https://www.arpansahu.me">arpansahu.me</a> 
+                            </p>
+                          </body>
+                        </html>
+                        """.format(name, subject, message_form, contact, email)
 
             # Turn these into plain/html MIMEText objects
-            part1 = MIMEText(text, "plain")
-            part2 = MIMEText(html, "html")
+            # part1 = MIMEText(text, "plain")
+            # part2 = MIMEText(html, "html")
 
             # Add HTML/plain-text parts to MIMEMultipart message
             # The email client will try to render the last part first
-            message.attach(part1)
-            message.attach(part2)
+            # message.attach(part1)
+            # message.attach(part2)
 
             # Create secure connection with server and send email
-            context = ssl.create_default_context()
+            # context = ssl.create_default_context()
+
+            data = {
+                'Messages': [
+                    {
+                        "From": {
+                            "Email": "admin@arpansahu.me",
+                            "Name": "arpansahu.me"
+                        },
+                        "To": [
+                            {
+                                "Email": settings.MY_EMAIL_ADDRESS,
+                                "Name": "Arpan Sahu"
+                            }
+                        ],
+                        "Subject": f'{name} Contacted you on arpansahu.me',
+                        "TextPart": text,
+                        "HTMLPart": html,
+                        "CustomID": f"{email}"
+                    }
+                ]
+            }
+
             try:
                 # with smtplib.SMTP_SSL("smtppro.zoho.in", 465, context=context) as server:
                 #     server.login(sender_email, password)
                 #     server.sendmail(
                 #         sender_email, receiver_email, message.as_string()
                 #     )
-
-                message_sent = True
+                result = mailjet.send.create(data=data)
+                if result.status_code == 200:
+                    message_sent = True
             except Exception as e:
                 tb = traceback.format_exc()
                 print(tb)
@@ -121,31 +148,30 @@ class ContactView(View):
             contact = request.POST['contact']
             subject = request.POST['subject']
             message_form = request.POST['message']
+            # import smtplib, ssl
+            # from email.mime.text import MIMEText
+            # from email.mime.multipart import MIMEMultipart
 
-            import smtplib, ssl
-            from email.mime.text import MIMEText
-            from email.mime.multipart import MIMEMultipart
-
-            sender_email = "contact@arpansahu.me"
-            receiver_email = settings.EMAIL
-            password = settings.PASS
-
-            message = MIMEMultipart("alternative")
-            message["Subject"] = f"{name} Contacted you on arpansahu.me"
-            message["From"] = sender_email
-            message["To"] = receiver_email
+            # sender_email = "contact@arpansahu.me"
+            # receiver_email = settings.EMAIL
+            # password = settings.PASS
+            #
+            # message = MIMEMultipart("alternative")
+            # message["Subject"] = f"{name} Contacted you on arpansahu.me"
+            # message["From"] = sender_email
+            # message["To"] = receiver_email
 
             # Create the plain-text and HTML version of your message
             text = """\
             Hi message from {0},
             How are you?<br>
             Subject: {1}
-            www.realpython.com"""
+            www.arpansahu.me""".format(name, subject)
             html = """\
             <html>
               <body>
-                <p>Hi,<br>
-                    Message: {2} <br>
+                <p>Hi {0} contacted from your Portfolio,<br>
+                    Message:{2} <br>
                     Contact Details:<br>
                     <p>{3}<br>{4}</p>
                    <a href="https://www.arpansahu.me">arpansahu.me</a> 
@@ -155,24 +181,47 @@ class ContactView(View):
             """.format(name, subject, message_form, contact, email)
 
             # Turn these into plain/html MIMEText objects
-            part1 = MIMEText(text, "plain")
-            part2 = MIMEText(html, "html")
+            # part1 = MIMEText(text, "plain")
+            # part2 = MIMEText(html, "html")
 
             # Add HTML/plain-text parts to MIMEMultipart message
             # The email client will try to render the last part first
-            message.attach(part1)
-            message.attach(part2)
+            # message.attach(part1)
+            # message.attach(part2)
 
             # Create secure connection with server and send email
-            context = ssl.create_default_context()
-            try:
-                with smtplib.SMTP_SSL("smtppro.zoho.in", 465, context=context) as server:
-                    server.login(sender_email, password)
-                    server.sendmail(
-                        sender_email, receiver_email, message.as_string()
-                    )
+            # context = ssl.create_default_context()
 
-                message_sent = True
+            data = {
+                'Messages': [
+                    {
+                        "From": {
+                            "Email": "admin@arpansahu.me",
+                            "Name": "arpansahu.me"
+                        },
+                        "To": [
+                            {
+                                "Email": settings.MY_EMAIL_ADDRESS,
+                                "Name": "Arpan Sahu"
+                            }
+                        ],
+                        "Subject": f'{name} Contacted you on arpansahu.me',
+                        "TextPart": text,
+                        "HTMLPart": html,
+                        "CustomID": f"{email}"
+                    }
+                ]
+            }
+
+            try:
+                # with smtplib.SMTP_SSL("smtppro.zoho.in", 465, context=context) as server:
+                #     server.login(sender_email, password)
+                #     server.sendmail(
+                #         sender_email, receiver_email, message.as_string()
+                #     )
+                result = mailjet.send.create(data=data)
+                if result.status_code == 200:
+                    message_sent = True
             except Exception as e:
                 tb = traceback.format_exc()
                 print(tb)

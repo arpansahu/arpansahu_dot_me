@@ -51,15 +51,29 @@
     <script>
         $(document).ready(function(){
             const mydata = JSON.parse(document.getElementById('message_sent_done').textContent);
-            console.log(mydata)
+
             if( mydata && mydata != 'get'){
-                $('#modal-text').text('Message Sent')
-                $('#contact-message').modal('show');
+                {#$('#modal-text').text('Message Sent')#}
+                {#$('#contact-message').modal('show');#}
+                Swal.fire({
+                            icon: 'success',
+                            title: 'success',
+                            text: 'Message Sent',
+                        }).then(() => {
+                            {#location.reload();#}
+                        }
+                    )
             }
 
             if (!mydata){
-                $('#modal-text').text('Message Not Sent')
-                $('#contact-message').modal('show');
+                {#$('#modal-text').text('Message Not Sent')#}
+                {#$('#contact-message').modal('show');#}
+                                     Swal.fire({
+                            title: 'Oops...',
+                            text: "Message Cannot be Sent",
+                            icon: 'error',
+                        });
+                        return false;
             }
         });
 
