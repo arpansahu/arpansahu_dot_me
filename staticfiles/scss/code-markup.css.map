@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAWA,IAAK;EACH,IAAI,EAAE,0BAAgB;EACtB,KAAK,EAXS,IAAI;;AAcpB,IAAK;EAXH,qBAAqB,EAYE,IAAI;EAX3B,kBAAkB,EAWK,IAAI;EAV3B,iBAAiB,EAUM,IAAI;EAT3B,aAAa,EASU,IAAI",
-"sources": ["code-markup.scss"],
-"names": [],
-"file": "code-markup.css"
-}
