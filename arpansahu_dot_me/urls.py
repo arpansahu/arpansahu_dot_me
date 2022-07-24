@@ -21,15 +21,18 @@ from .views import (
     ContactView,
     AboutView,
     ProjectsView,
-    ResumeView
+    ResumeView,
+    GetOTPView,
 )
 
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('', Home.as_view(), name='home'),
     path('projects/<pk>', ProjectDetailedView.as_view(), name='project-detailed-view'),
     path('contact/', ContactView.as_view(), name='contact'),
     path('about/', AboutView.as_view(), name='about'),
     path('projects/', ProjectsView.as_view(), name='projects'),
     path('resume/', ResumeView.as_view(), name='resume'),
+    path('get-otp', GetOTPView.as_view(), name='get-otp'),
 ]

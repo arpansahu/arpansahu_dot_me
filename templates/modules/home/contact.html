@@ -21,13 +21,22 @@
                                                     {{ form.name }}
                                                 </div>
                                                 <!-- end col -->
-                                                <div class="col-md-6 mb-3">
+                                                <div class="col-md-6 mb-3" id="email-div">
                                                     <label class="fw-medium form-label  fs-16" for="email">Email</label>
 {#                                                    <input type="email" class="form-control" placeholder="Your email" id="email" name="email" />#}
                                                     {{ form.email }}
                                                 </div>
                                                 <!-- end col -->
                                                 <div class="col-md-6 mb-3">
+                                                    <label class="fw-medium form-label  fs-16" for="otp">One Time Password</label>
+                                                    <input type="text" class="form-control" placeholder="One Time Password" id="otp" name="otp" />
+                                                    {{ form.otp }}
+                                                </div>
+                                                <div class="col-md-6 mb-6" style="margin-top: 30px">
+                                                    <button type="button" class="btn btn-secondary btn-lg" id="get_otp">Get One Time Password</button>
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="col-md-6 mb-3" >
                                                     <label class="fw-medium form-label  fs-16" for="subject">Subject</label>
 {#                                                    <input type="text" class="form-control" placeholder="your subject" id="subject" />#}
                                                     {{ form.subject }}

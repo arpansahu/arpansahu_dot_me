@@ -75,6 +75,38 @@
                         });
                         return false;
             }
+
+            $('#get_otp').on('click',function(e) {
+                let email = $('#id_email').val();
+                $.ajax({
+                 type: 'POST',
+                 url: "{% url 'get-otp' %}",
+                 data: {
+                     email: email,
+                     csrfmiddlewaretoken: '{{ csrf_token }}'
+                 },
+                 dataType: 'json',
+                 success: function(data) {
+                     Swal.fire({
+                            icon: 'success',
+                            title: 'success',
+                            text: data.message,
+                        }).then(() => {
+                            {#location.reload();#}
+                        }
+                    )
+                 },
+                 error: function(data){
+                    Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: data.responseJSON.message,
+                        });
+                        return false;
+                    }
+                 })
+            });
+
         });
 
 
