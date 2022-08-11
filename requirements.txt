@@ -8,7 +8,7 @@ cffi==1.15.0
 charset-normalizer==2.0.12
 cryptography==37.0.1
 dj-database-url==0.5.0
-Django==4.0.4
+Django==4.0.7
 django-braces==1.15.0
 django-storages==1.12.3
 dropbox==11.30.0
