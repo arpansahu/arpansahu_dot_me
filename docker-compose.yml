@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    image: arpansahu_dot_me
+    container_name: arpansahu_dot_me
+    volumes:
+      - .:/arpansahu_dot_me
+    ports:
+      - "8000:8000"
