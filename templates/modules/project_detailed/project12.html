@@ -411,14 +411,19 @@ celeryworker2: celery -A clock_work.celery worker & celery -A clock_work beat -l
 #         'HOST': config('DB_HOST'),
 #         'PORT': config('DB_PORT'),
 #     }
-# }</code></pre>
-<pre><code class="language-python">pip install dj-database-url</code></pre>
+# }
+</code></pre>
+<pre><code class="language-python">pip install dj-database-url
+</code></pre>
                             <p>and add these lines below the commented Database settings</p>
 <pre><code class="language-python">import dj_database_url
 DATABASES = {'default': dj_database_url.config(default=config('DATABASE_URL'))}
 </code></pre>
                             <p>Change CELERY_BROKER_URL from</p>
-<pre><code class="language-python">CELERY_BROKER_URL = 'redis://localhost:6379'</code></pre> to <pre><code class="language-python">CELERY_BROKER_URL=config("REDISCLOUD_URL")</code></pre>
+<pre><code class="language-python">CELERY_BROKER_URL = 'redis://localhost:6379'
+</code></pre> to
+<pre><code class="language-python">CELERY_BROKER_URL=config("REDISCLOUD_URL")
+</code></pre>
                             <h2>Environment Variables</h2><hr>
                             <p>To run this project, you will need to add the following environment variables to your .env file</p>
 <pre><code class="language-python">SECRET_KEY=
