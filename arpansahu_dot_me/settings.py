@@ -190,11 +190,7 @@ SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
         "LOCATION": config('REDISCLOUD_URL'),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient"
-        },
-        "KEY_PREFIX": "example"
     }
 }
