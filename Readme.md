@@ -1,5 +1,5 @@
 
-# arpansahu | Django Portfolio Website test
+# arpansahu | Django Portfolio Website
 
 This project is implementation for the following topics related to technologies used with Django
 
