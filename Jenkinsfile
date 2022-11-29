@@ -5,7 +5,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    docker compose up --build --detach
+                    sh "docker compose up --build --detach"
                 }
             }
         }
