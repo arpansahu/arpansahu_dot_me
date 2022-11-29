@@ -93,6 +93,8 @@
                             text: data.message,
                         }).then(() => {
                             {#location.reload();#}
+                            $('#get_otp').css('background-color', 'green');
+                            $('#get_otp').text('One Time Password Sent | Resend');
                         }
                     )
                  },
