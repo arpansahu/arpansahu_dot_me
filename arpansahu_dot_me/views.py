@@ -64,7 +64,7 @@ class Home(View):
                 'Messages': [
                     {
                         "From": {
-                            "Email": "admin@arpansahu.me",
+                            "Email": settings.MAIL_JET_EMAIL_ADDRESS,
                             "Name": "arpansahu.me"
                         },
                         "To": [
@@ -172,7 +172,7 @@ class GetOTPView(views.JSONResponseMixin, views.AjaxResponseMixin, View):
                 'Messages': [
                     {
                         "From": {
-                            "Email": "admin@arpansahu.me",
+                            "Email": settings.MAIL_JET_EMAIL_ADDRESS,
                             "Name": "arpansahu.me"
                         },
                         "To": [
@@ -254,7 +254,7 @@ class ContactView(View):
                     'Messages': [
                         {
                             "From": {
-                                "Email": "admin@arpansahu.me",
+                                "Email": settings.MAIL_JET_EMAIL_ADDRESS,
                                 "Name": "arpansahu.me"
                             },
                             "To": [
