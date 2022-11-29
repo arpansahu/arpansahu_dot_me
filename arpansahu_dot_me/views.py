@@ -219,7 +219,6 @@ class ContactView(View):
     def post(self, request, *args, **kwargs):
         form = ContactForm(request.POST)
         message_sent = False
-        breakpoint()
         if form.is_valid():
             name = request.POST.get('name', 'None')
             email = request.POST.get('email', None).lower()
