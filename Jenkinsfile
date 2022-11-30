@@ -14,7 +14,7 @@ pipeline {
     post {
         success {
             echo 'I succeeded!'
-            curl -s \
+            curl """-s \
             -X POST \
             --user "$env.MAIL_JET_API_KEY:$env.MAIL_JET_API_SECRET" \
             https://api.mailjet.com/v3.1/send \
@@ -37,7 +37,7 @@ pipeline {
                                 "HTMLPart": "<h3>Dear passenger 1, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><br />May the delivery force be with you!"
                         }
                 ]
-            }'
+            }'"""
         }
         unstable {
             echo 'I am unstable :/'
