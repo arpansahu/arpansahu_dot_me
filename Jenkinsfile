@@ -16,7 +16,7 @@ pipeline {
             echo 'I succeeded!'
             sh """curl -s \
             -X POST \
-            --user "$MAIL_JET_API_KEY:$MAIL_JET_API_SECRET" \
+            --user "${env.MAIL_JET_API_KEY}:${env.MAIL_JET_API_SECRET}" \
             https://api.mailjet.com/v3.1/send \
             -H 'Content-Type: application/json' \
             -d '{
