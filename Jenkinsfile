@@ -1,18 +1,9 @@
 pipeline {
     agent any
-
     stages {
-        stage('Testing Docker Build'){
-            steps {
-                script {
-                    sh "docker compose build"
-                }
-            }
-        }
         stage('Production') {
             steps {
                 script {
-                    sh "docker rm -f arpansahu_dot_me"
                     sh "docker compose up --build --detach"
                 }
             }
