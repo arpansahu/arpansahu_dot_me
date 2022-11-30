@@ -31,7 +31,7 @@ pipeline {
                                 ],
                                 "Subject": "arpansahu_dot_me deployed succcessfully",
                                 "TextPart": "Hola arpan, your project arpansahu_dot_me is now deployed",
-                                "HTMLPart": "<h3>Hola arpan, your project arpansahu_dot_me is now deployed </h3> <br> <p> Build Name: ${currentBuild.fullDisplayName} <br> Build URL: ${env.BUILD_URL}</p>"
+                                "HTMLPart": "<h3>Hola arpan, your project arpansahu_dot_me is now deployed </h3> <br> <p> Build Name: '${currentBuild.fullDisplayName}' <br> Build URL: '${env.BUILD_URL}'</p>"
                         }
                 ]
             }'"""
