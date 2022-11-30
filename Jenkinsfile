@@ -2,6 +2,13 @@ pipeline {
     agent any
 
     stages {
+        stage('Testing Docker Build'){
+            steps {
+                script {
+                    sh "docker compose build"
+                }
+            }
+        }
         stage('Production') {
             steps {
                 script {
