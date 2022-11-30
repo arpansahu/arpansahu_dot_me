@@ -20,18 +20,18 @@ pipeline {
                 "Messages":[
                         {
                                 "From": {
-                                        "Email": "admin@arpansahu.me",
-                                        "Name": "Mailjet Pilot"
+                                        "Email": $MAIL_JET_EMAIL_ADDRESS,
+                                        "Name": "ArpanSahuOne Jenkins Notification"
                                 },
                                 "To": [
                                         {
-                                                "Email": "arpanrocks95@gmail.com",
-                                                "Name": "passenger 1"
+                                                "Email": $MY_EMAIL_ADDRESS,
+                                                "Name": "arpan sahu"
                                         }
                                 ],
-                                "Subject": "Your email flight plan!",
-                                "TextPart": "Dear passenger 1, welcome to Mailjet! May the delivery force be with you!",
-                                "HTMLPart": "<h3>Dear passenger 1, welcome to <a>Mailjet</a>!</h3><br />May the delivery force be with you!"
+                                "Subject": "arpansahu_dot_me deployed succcessfully",
+                                "TextPart": "Hola arpan, your project arpansahu_dot_me is now deployed",
+                                "HTMLPart": "<h3>Hola arpan, your project arpansahu_dot_me is now deployed </h3> <br> <p> Build Name: ${currentBuild.fullDisplayName} <br> Build URL: ${env.BUILD_URL}</p>"
                         }
                 ]
             }'"""
