@@ -19,7 +19,7 @@ pipeline {
             --user "'"$MAIL_JET_API_KEY:$MAIL_JET_API_SECRET"'" \
             https://api.mailjet.com/v3.1/send \
             -H "'"Content-Type: application/json"'" \
-            -d "'"{
+            -d '{
                 "Messages":[
                         {
                                 "From": {
@@ -37,7 +37,7 @@ pipeline {
                                 "HTMLPart": "<h3>Dear passenger 1, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><br />May the delivery force be with you!"
                         }
                 ]
-            }"'""""
+            }'"""
         }
         unstable {
             echo 'I am unstable :/'
