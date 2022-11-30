@@ -20,12 +20,12 @@ pipeline {
                 "Messages":[
                         {
                                 "From": {
-                                        "Email": $MAIL_JET_EMAIL_ADDRESS,
+                                        "Email": "$MAIL_JET_EMAIL_ADDRESS",
                                         "Name": "ArpanSahuOne Jenkins Notification"
                                 },
                                 "To": [
                                         {
-                                                "Email": $MY_EMAIL_ADDRESS,
+                                                "Email": "$MY_EMAIL_ADDRESS",
                                                 "Name": "arpan sahu"
                                         }
                                 ],
