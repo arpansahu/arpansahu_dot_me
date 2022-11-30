@@ -11,7 +11,6 @@ pipeline {
     }
     post {
         success {
-            echo 'I succeeded yes!'
             sh """curl -s \
             -X POST \
             --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
@@ -37,8 +36,6 @@ pipeline {
                 ]
             }'"""
         }
-        failure {
-            echo 'I failed :('
-        }
+
     }
 }
