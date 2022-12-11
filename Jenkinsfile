@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent {label 'arpansahu-one-ubuntu-aws'}
     stages {
         stage('Production') {
             steps {
