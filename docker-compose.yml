@@ -11,3 +11,4 @@ services:
       - .:/arpansahu_dot_me
     ports:
       - "8000:8000"
+    restart: unless-stopped
