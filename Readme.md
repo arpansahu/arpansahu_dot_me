@@ -218,7 +218,7 @@ Ubuntu 22.0 LTS Server, except for portfolio project at https://www.arpansahu.me
 
 
 Now there is EC2 server running with a nginx server and arpansahu.me portfolio
-Nginx forward https://borcelle-crm.arpansahu.me/ to Home Server 
+Nginx forward https://arpansahu.me/ to Home Server 
 
 Multiple Projects are running inside dockers so all projects are dockerized.
 You can refer to all projects on https://www.arpansahu.me/projects
@@ -229,7 +229,7 @@ Every project have different port on which its running predefined inside Dockerf
 
 Note: Update as of Aug 2023, I have decided to make some changes to my lifestyle, and from now i will be constantly on the go
       from my past experience with running free EC2 server for arpansahu.me and nginx in it and then using another home server
-      with all the other projects hosted, my expereince was
+      with all the other projects hosted, my experience was
       
       1. Downtime due to Broadband Service Provider Issues
       2. Downtime due to Weather Sometimes
@@ -240,7 +240,7 @@ Note: Update as of Aug 2023, I have decided to make some changes to my lifestyle
   and due to all these reasons i decided to shift all the projects to single EC2 Server, at first i was using t2.medium which costs more than 40$ a month 
   then i switched to t2.small and it only costs you 15$ and if we take pre paid plans prices can be slashed much further. 
 
-Now My porject arrangments looks something similar to this
+Now My project arrangements looks something similar to this
 
 ![EC2 Sever along with Nginx, Docker and Jenkins Arrangement](/One%20Server%20Configuration%20for%20arpanahuone.png)
 
@@ -468,7 +468,7 @@ Now It's time to enable HTTPS for this server
     ```
     
     It will be asking for domain name then you can enter your base domain 
-    I have generated ssl for borcelle-crm.arpansahu.me
+    I have generated ssl for arpansahu.me
     
     Then a few questions will be asked by them answer them all and done your ssl certificate will be geerated
     
@@ -494,7 +494,7 @@ Now It's time to enable HTTPS for this server
     error_log                   /var/log/nginx/supersecure.error.log;
      
     server {
-      server_name               borcelle-crm.arpansahu.me;
+      server_name               arpansahu.me;
       listen                    80;
       return                    307 https://$host$request_uri;
     }
@@ -518,7 +518,7 @@ Now It's time to enable HTTPS for this server
     sudo certbot renew --dry-run
     ```
     
-    Note: this process was for borcelle-crm.arpansahu.me and not for all subdomains.
+    Note: this process was for arpansahu.me and not for all subdomains.
         For all subdomains we will have to setup a wildcard ssl certificate
 
 
@@ -832,7 +832,7 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    borcelle-crm.arpansahu.me;
+    server_name    arpansahu.me;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
@@ -1025,7 +1025,7 @@ Note: agent {label 'local'} is used to specify which node will execute the jenki
 
 Make sure to use Pipline project and name it whatever you want I have named it as arpansahu_me
 
-![Jenkins Project for borcelle CRM Configuration File](https://github.com/arpansahu/borcelle_crm/blob/master/borcelle_crm_jenkins_config.png?raw=true)
+![Jenkins Project for ArpanSahuDotMe CRM Configuration File](/Arpan-Sahu-Dot-Me-Config-Jenkins-.png)
 
 In this above picture you can see credentials right? you can add your github credentials
 from Manage Jenkins on home Page --> Manage Credentials
