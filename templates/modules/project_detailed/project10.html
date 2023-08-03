@@ -133,6 +133,10 @@
                         <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Mail Jet</span>
                         <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Heroku</span>
                         <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Github</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">AWS</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Nginx</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Docker</span>
+                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Jenkins</span>
                     </div>
                 </div>
 
@@ -289,14 +293,79 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
                             <p>Create Procfile and include this code snippet in it.</p>
 <pre><code class="language-python">web: gunicorn arpansahu_dot_me.wsgi
 </code></pre>
+                            <h2>Enabling HSTS if Using EC2 to host with Nginx</h2><hr>
+                            <p>Add to project/settings.py</p>
+<pre><code class="language-python">SECURE_HSTS_SECONDS = 30  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!*
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+</code></pre>
+                            <p># Edit your Nginx Config File</p>
+<pre><code class="language-python">location / {
+  proxy_pass          http://localhost:8000;
+  proxy_set_header    Host $host;
+  proxy_set_header    X-Forwarded-Proto $scheme;
+}
+</code></pre>                  
+                            <h2>Also Set Referrer-policy Header</h2><hr>
+                            <p>Add to project/settings.py</p>    
+<pre><code class="language-python">SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"   
+</code></pre>   
+                            <h2>Deployment on AWS EC2/ Home Server Ubuntu 22.0 LTS</h2><hr>
+                            <p>
+                              Previously This project was hosted on Heroku, but so I started hosting this and all other projects in a 
+                              Single EC2 Machine, which costed me a lot, so now I have shifted all the projects into my own Home Server with 
+                              Ubuntu 22.0 LTS Server, except for portfolio project at https://www.arpansahu.me along with Nginx 
+
+
+                              Now there is EC2 server running with a nginx server and arpansahu.me portfolio
+                              Nginx forward https://arpansahu.me/ to Home Server 
+
+                              Multiple Projects are running inside dockers so all projects are dockerized.
+                              You can refer to all projects on https://www.arpansahu.me/projects
+
+                              Every project have different port on which its running predefined inside Dockerfile and docker-compose.yml
+
+                              <img src="{% static '/ec2_and_home_server.png' %}" alt="EC2 and Home Server along with Nginx, Docker and Jenkins Arrangement">
+
+                              Note: Update as of Aug 2023, I have decided to make some changes to my lifestyle, and from now i will be constantly on the go
+                                    from my past experience with running free EC2 server for arpansahu.me and nginx in it and then using another home server
+                                    with all the other projects hosted, my experience was
+
+                              1. Downtime due to Broadband Service Provider Issues
+                              2. Downtime due to Weather Sometimes
+                              3. Downtime due to Machine Breakdown
+                              4. Downtime due to Power Cuts (even though i had a inverted with battery setup for my room)
+                              5. Remotely it would be harder to fix these problems 
+
+                              and due to all these reasons i decided to shift all the projects to single EC2 Server, at first i was using t2.medium which costs more than 40$ a month 
+                              then i switched to t2.small and it only costs you 15$ and if we take pre paid plans prices can be slashed much further. 
+
+                              Now My project arrangements looks something similar to this
+
+                              <img src="{% static '/Arpan-Sahu-Dot-Me-Config-Jenkins-.png' %}" alt="EC2 Sever along with Nginx, Docker and Jenkins Arrangement">
+                            </p>
                             <h2>Environment Variables</h2><hr>
                             <p>To run this project, you will need to add the following environment variables to your .env file</p>
-<pre><code class="language-python">SECRET_KEY=
-DEBUG=
-EMAIL=
-PASS=
-ALLOWED_HOSTS=
-DROPBOX_ACCESS_TOKEN=
+<pre><code class="language-python">EMAIL=
+  PASS=
+  
+  SECRET_KEY=
+  DEBUG=
+  ALLOWED_HOSTS=
+  
+  MAIL_JET_API_KEY=
+  MAIL_JET_API_SECRET=
+  MY_EMAIL_ADDRESS=
+  
+  AWS_ACCESS_KEY_ID=
+  AWS_SECRET_ACCESS_KEY=
+  AWS_STORAGE_BUCKET_NAME=
+  
+  DATABASE_URL=
+  REDISCLOUD_URL=
+  
+  DROPBOX_ACCESS_TOKEN=
 </code></pre>
                     </div>
             </div>
