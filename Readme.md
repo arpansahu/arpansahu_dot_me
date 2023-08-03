@@ -225,8 +225,24 @@ You can refer to all projects on https://www.arpansahu.me/projects
 
 Every project have different port on which its running predefined inside Dockerfile and docker-compose.yml
 
-![EC2 and Home Server along with Nginx Arrangement](/ec2_and_home_server.png)
+![EC2 and Home Server along with Nginx, Docker and Jenkins Arrangement](/ec2_and_home_server.png)
 
+Note: Update as of Aug 2023, I have decided to make some changes to my lifestyle, and from now i will be constantly on the go
+      from my past experience with running free EC2 server for arpansahu.me and nginx in it and then using another home server
+      with all the other projects hosted, my expereince was
+      
+      1. Downtime due to Broadband Service Provider Issues
+      2. Downtime due to Weather Sometimes
+      3. Downtime due to Machine Breakdown
+      4. Downtime due to Power Cuts (even though i had a inverted with battery setup for my room)
+      5. Remotely it would be harder to fix these problems 
+
+  and due to all these reasons i decided to shift all the projects to single EC2 Server, at first i was using t2.medium which costs more than 40$ a month 
+  then i switched to t2.small and it only costs you 15$ and if we take pre paid plans prices can be slashed much further. 
+
+Now My porject arrangments looks something similar to this
+
+![EC2 Sever along with Nginx, Docker and Jenkins Arrangement](/One%20Server%20Configuration%20for%20arpanahuone.png)
 
 ### Step 1: Dockerizing
 
