@@ -291,5 +291,4 @@ class ResumeView(View):
         # dbx.files_download_to_file('arpansahuresume.pdf', '/' + 'arpansahuresume.pdf')
         # file_path = os.path.join(str(settings.BASE_DIR) + '/', 'arpansahuresume.pdf')
         # return FileResponse(open(file_path, 'rb'), content_type='application/pdf')
-
-        return HttpResponseRedirect('https://certificates.arpansahu.me/resume')
+        return HttpResponseRedirect('https://github.com/arpansahu/arpansahu.me/blob/master/resume.pdf')
