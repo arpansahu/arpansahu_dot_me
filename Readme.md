@@ -355,7 +355,7 @@ docker compose up --build --detach
 --detach tag is for running the docker even if terminal is closed
 if you remove this tag it will be attached to terminal, and you will be able to see the logs too
 
---build tag with docker compose up will force image to be rebuild everytime before starting the container
+--build tag with docker compose up will force image to be rebuild every time before starting the container
 
 ### Step2: Serving the requests from Nginx
 
@@ -380,7 +380,7 @@ A Record	*	0.227.49.244 (public ip of ec2)	Automatic
 A Record	@	0.227.49.244 (public ip of ec2)	Automatic
 ```
 
-Note: now you will be able to see nhinx running page if you open public ip of the machine
+Note: now you will be able to see nginx running page if you open public ip of the machine
 
 Make Sure your EC2 security Group have this entry inbound rules 
 
