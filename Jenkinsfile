@@ -1,6 +1,13 @@
 pipeline {
     agent { label 'local' }
     stages {
+        stage('Dependencies') {
+            steps {
+                script {
+                    sh "sudo cp /root/projectenvs/arpansahu_dot_me/.env /var/lib/jenkins/workspace/arpansahu_dot_me"
+                }
+            }
+        }
         stage('Production') {
             steps {
                 script {
