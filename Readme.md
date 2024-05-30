@@ -59,9 +59,21 @@ Run Server
 
 ## Tech Stack
 
-**Client:** HTML, Jinja, CSS, BootStrap, Jquery
-
-**Server:** Django, Gunicorn, Heroku, AWS, Postgres, ElasticCache, MailJet
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)](https://www.djangoproject.com/)
+[![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Glossary/HTML5)
+[![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+[![Javascript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)](https://www.javascript.com/)
+[![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/docs/)
+[![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/docs/)
+[![Heroku](https://img.shields.io/badge/-Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)](https://heroku.com/)
+[![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://www.github.com/)
+[![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white)](https://www.jenkins.io/)
+[![AWS](https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
+[![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)]()
+[![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)]()
 
 ## Integrating AWS S3 Bucket 
 
@@ -253,7 +265,7 @@ Add to project/settings.py
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 ```
 
-## Deployment on AWS EC2/ Home Server Ubuntu 22.0 LTS
+## Deployment on AWS EC2/ Home Server Ubuntu 22.0 LTS/ Hostinger VPS Server
 Previously This project was hosted on Heroku, but so I started hosting this and all other projects in a 
 Single EC2 Machine, which costed me a lot, so now I have shifted all the projects into my own Home Server with 
 Ubuntu 22.0 LTS Server, except for portfolio project at https://www.arpansahu.me along with Nginx 
@@ -281,6 +293,8 @@ Note: Update as of Aug 2023, I have decided to make some changes to my lifestyle
 
   and due to all these reasons i decided to shift all the projects to single EC2 Server, at first i was using t2.medium which costs more than 40$ a month 
   then i switched to t2.small and it only costs you 15$ and if we take pre paid plans prices can be slashed much further. 
+
+  Then again i shifted to Hostinger VPS which was more cost friendly then EC2 Server. on Jan 2024
 
 Now My project arrangements looks something similar to this
 
@@ -809,12 +823,28 @@ Now It's time to enable HTTPS for this server
          ```
          sudo acme-dns-client register \
          -d arpansahu.me -s http://localhost:8090
+
+         Above command is old now we will use the new command 
+         sudo acme-dns-client register \
+          -d arpansahu.me \
+          -allow 0.0.0.0/0 \
+          -s http://localhost:8080
          ```
          Note: When we edited acme-dns config file there we mentioned the port 8090 and thats why we are using this port here also
        * Creating Another DNS Entry 
          ```
          CNAME Record	_acme-challenge	e6ac0f0a-0358-46d6-a9d3-8dd41f44c7ec.auth.arpansahu.me.	Automatic
          ```
+
+                  Since the last update in  the last step now two more entries should be added 
+
+         ```
+         CAA Record @	0 issuewild "letsencrypt.org; validationmethods=dns-01; accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/1424899626"  Automatic
+
+         CAA Record @	0 issue "letsencrypt.org; validationmethods=dns-01; accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/1424899626"
+         Automatic
+         ```
+
          Same as an entry is needed to be added to complete one time challenge as in previously we did.
        * Check the entry is added successfully or not
          ```
@@ -988,12 +1018,37 @@ sudo vi /etc/nginx/sites-available/arpansahu
 You can add all the server blocks to the same nginx configuration file
 just make sure you place the server block for base domain at the last
 
+
+* To copy .env from local server directory while buidling image
+
+add Jenkins ALL=(ALL) NOPASSWD: ALL
+inside /etc/sudoers file
+
+and then put 
+
+stage('Dependencies') {
+            steps {
+                script {
+                    sh "sudo cp /root/env/project_name/.env /var/lib/jenkins/workspace/project_name"
+                }
+            }
+        }
+
+in jenkinsfile
+
 * Now Create a file named Jenkinsfile at the root of Git Repo and add following lines to file
 
 ```
 pipeline {
     agent { label 'local' }
     stages {
+        stage('Dependencies') {
+            steps {
+                script {
+                    sh "sudo cp /root/projectenvs/arpansahu_dot_me/.env /var/lib/jenkins/workspace/arpansahu_dot_me"
+                }
+            }
+        }
         stage('Production') {
             steps {
                 script {
@@ -1074,7 +1129,7 @@ from Manage Jenkins on home Page --> Manage Credentials
 
 and add your GitHub credentials from there
 
-* Add a .env file to you project using following command
+* Add a .env file to you project using following command (This step is no more required stage('Dependencies'))
 
     ```
     sudo vi  /var/lib/jenkins/workspace/arpansahu_dot_me/.env
@@ -1109,6 +1164,7 @@ Now you are good to go.
 [![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)](https://www.nginx.com)
 [![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com)
 [![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white)](https://www.jenkins.io)
+
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
@@ -1116,6 +1172,12 @@ To run this project, you will need to add the following environment variables to
 EMAIL=
 
 PASS=
+
+MY_EMAIL_ADDRESS=
+
+DATABASE_URL=
+
+REDISCLOUD_URL=
 
 SECRET_KEY=
 
@@ -1129,7 +1191,11 @@ MAIL_JET_API_SECRET=
 
 MAIL_JET_EMAIL_ADDRESS=
 
-MY_EMAIL_ADDRESS=
+DOMAIN=
+
+PROTOCOL=
+
+DROPBOX_ACCESS_TOKEN=
 
 AWS_ACCESS_KEY_ID=
 
@@ -1137,12 +1203,9 @@ AWS_SECRET_ACCESS_KEY=
 
 AWS_STORAGE_BUCKET_NAME=
 
+# Blackblaze bucket instead of AWS S3 bucket
+
 AWS_S3_REGION_NAME=
 
-DATABASE_URL=
-
-REDISCLOUD_URL=
-
-DROPBOX_ACCESS_TOKEN=
-
 BUCKET_TYPE=
+
