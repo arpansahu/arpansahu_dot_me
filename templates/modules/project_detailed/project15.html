@@ -64,20 +64,60 @@
                   <div class="carousel-indicators">
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" style="background-color: black"></button>
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-label="Slide 6" style="background-color: black"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6" aria-label="Slide 7" style="background-color: black"></button>
                   </div>
                   <div class="carousel-inner border-radius-sm">
                     <div class="carousel-item active">
-                      <img class="d-block w-100" src="{% static 'images/sliders/project12/project12_1.png' %}" alt="First slide" />
+                      <img class="d-block w-100" src="{% static 'images/sliders/project14/project14_1.png' %}" alt="First slide" />
                         <div class="carousel-caption d-none d-md-block" style="color: black">
-                          <h5>Home Page with Progress Bar</h5>
+                          <h5>Home Page</h5>
                           <p></p>
                         </div>
                     </div>
                     <div class="carousel-item">
-                      <img class="d-block w-100" src="{% static 'images/sliders/project12/project12_2.png' %}" alt="Second slide" />
+                      <img class="d-block w-100" src="{% static 'images/sliders/project14/project14_2.png' %}" alt="Second slide" />
                         <div class="carousel-caption d-none d-md-block" style="color: black">
-                          <h5>Notifications</h5>
+                          <h5>Detailed Contact</h5>
                           <p></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="{% static 'images/sliders/project14/project14_3.png' %}" alt="Second slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                            <h5>Email History</h5>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="{% static 'images/sliders/project14/project14_4.png' %}" alt="Second slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                            <h5>Reminder Scheduled</h5>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="{% static 'images/sliders/project14/project14_5.png' %}" alt="Second slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                            <h5>Notification</h5>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="{% static 'images/sliders/project14/project14_6.png' %}" alt="Second slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                            <h5>Contact Create</h5>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="{% static 'images/sliders/project14/project14_7.png' %}" alt="Second slide" />
+                        <div class="carousel-caption d-none d-md-block" style="color: black">
+                            <h5>Contact Edit</h5>
+                            <p></p>
                         </div>
                     </div>
                   </div>
@@ -155,9 +195,21 @@
                                     <li>Used Daphene </li>
                                     <li>Used REDIS-CLOUD Sever, provided by heroku add-ons</li>
                                 </ol>
+                            <p>-Deployed on AWS Server/ Home ubutnu Server/ Hostinger VPS Server</p>
+                            <ol>
+                                <li>Used AWS EC2 Ubuntu 22.0 LTS</li>
+                                <li>Used Nginx as a Web Proxy Server</li>
+                                <li>Used Let's Encrypt Wildcard certificate</li>
+                                <li>Used Acme-dns server for automating renewal of wildcard certificates</li>
+                                <li>Used docker to run inside a container since other projects are also running on the same server</li>
+                                <li>Used Jenkins for CI/CD Integration Jenkins Server Running at: https://jenkins.arpansahu.me</li>
+                                <li>Used AWS Elastic Cache for redis which is not accessible outside AWS, Used Redis Server, hosted on Home Server itself as Redis on Home Server</li>
+                                <li>Used PostgresSql Schema based Database, all projects are using single Postgresql.</li>
+                                <li>PostgresSQL is also hosted on Home Server Itself.</li>
+                            </ol>
                             <h2>What is Redis, Celery, Celery Beat, Web Sockets, Channels, Signals, Ajax and working ?</h2><hr>
                             <p>In the below image I will try to explain everything.</p>
-                            <img src="https://raw.githubusercontent.com/arpansahu/clock_work/master/explanation.png">
+                            <img src="https://raw.githubusercontent.com/arpansahu/arpansahu.me/master/explanation.png"> 
                             <h2>Working:-</h2><hr>
                             <ul>
                                 <li>When a user wants to take notes and want it to email-ed. Then from Django app we send a request to Django View to create and Send a task to Redis/RabbitMQ broker. Then broker will be passing this task to celery. Moreover, since while creating a task we used celery results to save the progress in CELER_RESULT_BACKEND (django-db or redis or rabbitmq). So while the task is being executed user can see progress bar via two methods:</li>
@@ -189,7 +241,7 @@
                             <ol>
                                 <li>Celery requires message broker to store messages received from task generators or producers. For reading information of messages in task serialization is required which can be in json/pickle/yaml/msgpack it can be in compressed form as zlib, bzip2 or a cryptographic message.</li>
                                 <li>A celery system consists of multiple workers and brokers, giving way to high availability and horizontal scaling.</li>
-                                <li>When a celery worker is started using command <pre><code class="language-python">celery -A [clock_work(project name)].celery worker -l info</code></pre>, a supervisor is started.</li>
+                                <li>When a celery worker is started using command <pre><code class="language-python">celery -A [borcelle_crm(project name)].celery worker -l info</code></pre>, a supervisor is started.</li>
                                 <li>Which spawns child processes or threads and deals with all the bookkeeping stuff. The child processes or threads execute the actual task. This child process are also known as execution pool. By default, no of child process worker can spawn is equal to the no of CPU cores.</li>
                                 <li>The size of execution pool determines the number of tasks your celery worker can process</li>
                                 <ul>
@@ -256,8 +308,8 @@
 
 
                             <h2>Demo</h2><hr>
-                            <p><a href="https://clock-works.herokuapp.com/" target="_blank">Available at: https://clock-works.herokuapp.com/</a></p>
-                            <p>admin login details:-- username: arpansahu password: showmecode</p><br>
+                            <p><a href="https://borcelle_crm.arpansahu.me/" target="_blank">Available at: https://borcelle_crm.arpansahu.me/</a></p>
+                            <p>admin login details:-- username: admin@arpansahu.me password: showmecode</p><br>
                             <h2>License</h2><hr>
                             <p><a href="https://choosealicense.com/licenses/mit/">MIT</a></p>
                             <br>
