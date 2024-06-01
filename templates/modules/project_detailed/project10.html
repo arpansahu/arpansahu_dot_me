@@ -1050,7 +1050,8 @@ sudo apt-get install jenkins
                                     in jenkinsfile  
                                     </li>
                                     <li>Now Create a file named Jenkinsfile at the root of Git Repo and add following lines to file
-<pre><code class="language-python">pipeline {
+<pre><code class="language-python">
+pipeline {
   agent { label 'local' }
   stages {
       stage('Dependencies') {
