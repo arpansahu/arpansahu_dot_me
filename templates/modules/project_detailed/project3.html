@@ -130,22 +130,13 @@
                             <h2>Demo</h2><hr>
                             <p><a href="https://django-numerical-calculator.herokuapp.com/" target="_blank">Available at: https://django-numerical-calculator.herokuapp.com/</a></p>
 
-                            <h2>Installation</h2><hr>
-                            <p>Installing Pre requisites</p>
-
-<pre><code class="language-python">pip install -r requirements.txt
-</code></pre>
-
-                            <p>Run Server.</p>
-<pre><code class="language-python">python manage.py runserver
-</code></pre>
-<h2>Integrating AWS S3 Bucket</h2><hr>
+                            <h2>Integrating AWS S3 Bucket</h2><hr>
                             <p>Install two python packages</p>
 
 <pre><code class="language-python">pip install boto3
 pip install django-storages
 </code></pre>
-                            <p>create a new file named
+                              <p>create a new file named
 <pre><code class="language-python">storage_backends.py
 </code></pre> with this code inside it.</p>
 
@@ -154,21 +145,22 @@ from storages.backends.s3boto3 import S3Boto3Storage
 
 
 class StaticStorage(S3Boto3Storage):
-    location = settings.AWS_STATIC_LOCATION
+location = settings.AWS_STATIC_LOCATION
 
 
 class PublicMediaStorage(S3Boto3Storage):
-    location = settings.AWS_PUBLIC_MEDIA_LOCATION
-    file_overwrite = False
+location = settings.AWS_PUBLIC_MEDIA_LOCATION
+file_overwrite = False
 
 
 class PrivateMediaStorage(S3Boto3Storage):
-    location = 'private'
-    default_acl = 'private'
-    file_overwrite = False
-    custom_domain = False
+location = 'private'
+default_acl = 'private'
+file_overwrite = False
+custom_domain = False
 </code></pre>
                             <p>Change settings.py static files and media files settings</p>
+
 <pre><code class="language-python">
   if not DEBUG:
   BUCKET_TYPE = config('BUCKET_TYPE')
@@ -250,6 +242,30 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
 <pre><code class="language-python">python manage.py collectstatic
 </code></pre> and you are good to go.</p>
  
+
+
+                            <h2>Installation</h2><hr>
+                            <p>Installing Pre requisites</p>
+
+<pre><code class="language-python">pip install -r requirements.txt
+</code></pre>
+
+                            <p>Create .env File</p>
+
+<pre><code class="language-python">add variables mentioned in .env.example
+</code></pre>
+
+                            <p>Making Migrations and Migrating them.</p>
+<pre><code class="language-python">python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+
+                            <p>Creating Super User.</p>
+<pre><code class="language-python">python manage.py createsuperuser
+</code></pre>
+
+
+
                             <h2>Deployment on Heroku</h2><hr>
                             <p>Installing Heroku Cli</p>
 <pre><code class="language-python">checkout: https://devcenter.heroku.com/articles/heroku-cli
