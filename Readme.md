@@ -32,6 +32,7 @@ This project is implementation for the following topics related to technologies 
 [![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)](https://www.nginx.com)
 [![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com)
 [![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white)](https://www.jenkins.io)
+[![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)]()
 
 ## Demo
 
@@ -48,6 +49,21 @@ Installing Pre requisites
 
 ```bash
   pip install -r requirements.txt
+
+```
+
+Making Migrations and Migrating them.
+
+```bash
+  python manage.py makemigrations
+  python manage.py migrate
+
+```
+
+Creating Super User
+
+```bash
+  python manage.py createsuperuser
 
 ```
 
@@ -810,7 +826,7 @@ Now It's time to enable HTTPS for this server
          CNAME Record	_acme-challenge	e6ac0f0a-0358-46d6-a9d3-8dd41f44c7ec.auth.arpansahu.me.	Automatic
          ```
 
-                  Since the last update in  the last step now two more entries should be added 
+        Since the last update in  the last step now two more entries should be added 
 
          ```
          CAA Record @	0 issuewild "letsencrypt.org; validationmethods=dns-01; accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/1424899626"  Automatic
@@ -1138,6 +1154,7 @@ Now you are good to go.
 [![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)](https://www.nginx.com)
 [![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com)
 [![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white)](https://www.jenkins.io)
+[![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)]()
 
 ## Environment Variables
 
