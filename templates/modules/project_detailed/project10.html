@@ -305,6 +305,14 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
 <pre><code class="language-python">python manage.py collectstatic
 </code></pre> and you are good to go.</p>
 
+<h2>Enabling HSTS if Using EC2 to host with Nginx</h2><hr>
+<p>Add to project/settings.py</p>
+<pre><code class="language-python">SECURE_HSTS_SECONDS = 30  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!*
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+</code></pre>
+
                             <h2>Installation</h2><hr>
                             <p>Installing Pre requisites</p>
 
@@ -359,24 +367,14 @@ python manage.py migrate
                             <p>Create Procfile and include this code snippet in it.</p>
 <pre><code class="language-python">web: gunicorn arpansahu_dot_me.wsgi
 </code></pre>
-                            <h2>Enabling HSTS if Using EC2 to host with Nginx</h2><hr>
-                            <p>Add to project/settings.py</p>
-<pre><code class="language-python">SECURE_HSTS_SECONDS = 30  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!*
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+              
+                            <p>Create release-task.sh for running multilple commands in run: section of procfile.</p>
+<pre><code class="language-python">python manage.py makemigrations
+python manage.py migrate
 </code></pre>
-                            <p># Edit your Nginx Config File</p>
-<pre><code class="language-python">location / {
-  proxy_pass          http://localhost:8000;
-  proxy_set_header    Host $host;
-  proxy_set_header    X-Forwarded-Proto $scheme;
-}
-</code></pre>                  
-                            <h2>Also Set Referrer-policy Header</h2><hr>
-                            <p>Add to project/settings.py</p>    
-<pre><code class="language-python">SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"   
-</code></pre>   
+                            <p>Make release-task.sh executable</p>
+<pre><code class="language-python">chmod +x release-tasks.sh
+</code></pre>
                             <h2>Deployment on AWS EC2/ Home Server Ubuntu 22.0 LTS/ Hostinger VPS Server</h2><hr>
                             <p>
                               Previously This project was hosted on Heroku, but so I started hosting this and all other projects in a 

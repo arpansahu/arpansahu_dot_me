@@ -553,7 +553,13 @@ DATABASES = {'default': dj_database_url.config(default=config('DATABASE_URL'))}
 <pre><code class="language-python">CELERY_BROKER_URL=config("REDISCLOUD_URL")
 </code></pre>
 
-
+                            <p>Create release-task.sh for running multilple commands in run: section of procfile.</p>
+<pre><code class="language-python">python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+<p>Make release-task.sh executable</p>
+<pre><code class="language-python">chmod +x release-tasks.sh
+</code></pre>
 
                             <h2>Deployment on AWS EC2/ Home Server Ubuntu 22.0 LTS/ Hostinger VPS Server</h2><hr>
                             <p>
