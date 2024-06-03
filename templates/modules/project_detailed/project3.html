@@ -238,6 +238,11 @@ else:
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
 </code></pre>
 
+                            <h2>Also Set Referrer-policy Header</h2><hr>
+                            <p>Add to project/settings.py</p>    
+<pre><code class="language-python">SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"   
+</code></pre>  
+
                             <p>run below command
 <pre><code class="language-python">python manage.py collectstatic
 </code></pre> and you are good to go.</p>
@@ -301,10 +306,14 @@ python manage.py migrate
 <pre><code class="language-python">web: gunicorn django_calculator.wsgi
 </code></pre>
 
-                            <h2>Also Set Referrer-policy Header</h2><hr>
-                            <p>Add to project/settings.py</p>    
-<pre><code class="language-python">SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"   
-</code></pre>  
+                            <p>Create release-task.sh for running multilple commands in run: section of procfile.</p>
+<pre><code class="language-python">python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+<p>Make release-task.sh executable</p>
+<pre><code class="language-python">chmod +x release-tasks.sh
+</code></pre>
+
 
                             <h2>Deployment on AWS EC2/ Home Server Ubuntu 22.0 LTS/ Hostinger VPS Server</h2><hr>
                             <p>

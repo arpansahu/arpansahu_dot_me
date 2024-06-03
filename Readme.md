@@ -238,6 +238,18 @@ Create Procfile and include this code snippet in it.
 web: gunicorn arpansahu_dot_me.wsgi
 ```
 
+Create release-task.sh for running multilple commands in run: section of procfile
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+
+Make relase-task.sh executable
+```
+chmod +x release-tasks.sh 
+```
+
+
 ## Enabling HSTS if Using EC2 to host with Nginx
 
 # Add to project/settings.py
