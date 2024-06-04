@@ -224,8 +224,6 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 # REFERRER POLICY
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
-# Caching
-
 #Caching
 CACHES = {
     "default": {
