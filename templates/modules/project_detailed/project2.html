@@ -41,7 +41,7 @@
 {% block content %}
 
     <!-- start hero -->
-    {% include 'modules/project_detailed/project_partials/great_chat/slider.html' %}
+    {% include 'modules/project_detailed/project_partials/great_chat/hero.html' %}
     <!-- end hero -->
 
     <!-- start slider -->
@@ -53,80 +53,9 @@
           <div class="col-12" style="border-radius: 10px">
             <div class="card mb-12" style="border-radius: 20px">
                 <div style="padding: 20px; border-radius: 10px">
-                  <h2>Description</h2><hr>
-                  {% include 'modules/project_detailed/project_partials/great_chat/description.html' %}
-                  <h2>Demo</h2><hr>
-                  <p><a href="http://django-chat-app-version1.herokuapp.com/" target="_blank">Available at: http://django-chat-app-version1.herokuapp.com/</a></p>
-                  <p>Note: Remmber to access this project at http because websockets are not configured to run over https in this project yet.</p>
-                  <p>admin login details:-- username: admin password: showmecode</p><br>
-                  <h2>License</h2><hr>
-                  <p><a href="https://choosealicense.com/licenses/mit/">MIT</a></p>
-                  <br>
-                            <h2>Installation</h2><hr>
-                            <p>Installing Pre requisites</p>
+                
 
-<pre><code class="language-python">pip install -r requirements.txt
-</code></pre>
-
-                            <p>Making Migrations and Migrating them.</p>
-<pre><code class="language-python">python manage.py makemigrations
-python manage.py migrate
-</code></pre>
-
-                            <p>Creating Super User.</p>
-<pre><code class="language-python">python manage.py createsuperuser
-</code></pre>
-                            <p>
-                                Note: if you try to access chat room with just one user it will be throwing error.So after creating a superuser
-                                register from a new user using website and then enter into it. It must have at least two users to chat.
-                            </p><hr />
-
-                            <p>Installing Redis On Local (For ubuntu) for other Os Please refer to their website https://redis.io/</p>
-<pre><code class="language-python">curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
-sudo apt-get update
-sudo apt-get install redis
-sudo systemctl restart redis.service
-</code></pre>
-
-                    <p>to check if its running or not</p>
-<pre><code class="language-python">sudo systemctl status redis
-</code></pre>
-
-                    <p>Uncomment Channel Layers Setting for Local Machine on settings.py, line 137 to 144 </p>
-<pre><code class="language-python">CHANNEL_LAYERS = {
- 'default': {
-     'BACKEND': 'channels_redis.core.RedisChannelLayer',
-     'CONFIG': {
-         "hosts": [('127.0.0.1', 6379)],
-     },
- },
-}
-</code></pre>
-
-                    <p>Comment Channel Layers Setting for Heroku on settings.py, line 147 to 154 </p>
-<pre><code class="language-python">CHANNEL_LAYERS = {
-"default": {
-    "BACKEND": "channels_redis.core.RedisChannelLayer",
-    "CONFIG": {
-        "hosts": [config('REDIS_URL')],
-    },
- },
-}
-</code></pre>
-
-                            <p>Run Server.</p>
-<pre><code class="language-python">python manage.py runserver
-</code></pre>
-  
-
-                            <h2>Environment Variables</h2><hr>
-                            <p>To run this project, you will need to add the following environment variables to your .env file</p>
-<pre><code class="language-python">
-  {% include 'modules/project_detailed/project_partials/great_chat/env_example.html' %}
-</code></pre>
-
-                    </div>
+                </div>
             </div>
           </div>
         </div>
