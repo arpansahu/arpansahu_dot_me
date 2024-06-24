@@ -1604,15 +1604,25 @@ sudo apt-get install jenkins
 <pre><code class="language-bash">pipeline {
     agent { label &#x27;local&#x27; }
     stages {
+        stage(&#x27;Initialize&#x27;) {
+            steps {
+                script {
+                    // Log the current workspace path
+                    echo &quot;Current workspace path is: ${env.WORKSPACE}&quot;
+                }
+            }
+        }
         stage(&#x27;Checkout&#x27;) {
             steps {
+                // Checkout code from SCM
                 checkout scm
             }
         }
         stage(&#x27;Dependencies&#x27;) {
             steps {
                 script {
-                    sh &quot;sudo cp /root/projectenvs/great_chat/.env /var/lib/jenkins/workspace/great_chat&quot;
+                    // Copy .env file to the workspace
+                    sh &quot;sudo cp /root/projectenvs/great_chat/.env ${env.WORKSPACE}/&quot;
                 }
             }
         }
@@ -1630,13 +1640,16 @@ sudo apt-get install jenkins
                         excludedFiles.contains(changedFile)
                     }
 
+                    // Proceed with deployment if not only excluded files are changed
                     return !onlyExcludedFilesChanged
                 }
             }
             steps {
                 script {
+                    // Deploy using Docker Compose
                     sh &quot;docker compose up --build --detach&quot;
-                    // Set a flag to true if the deployment stage is executed
+
+                    // Set a flag to indicate deployment execution
                     currentBuild.description = &#x27;DEPLOYMENT_EXECUTED&#x27;
                 }
             }
@@ -1646,6 +1659,7 @@ sudo apt-get install jenkins
         success {
             script {
                 if (currentBuild.description == &#x27;DEPLOYMENT_EXECUTED&#x27;) {
+                    // Send success notification email
                     sh &quot;&quot;&quot;curl -s \
                     -X POST \
                     --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
@@ -1677,32 +1691,31 @@ sudo apt-get install jenkins
         }
         failure {
             script {
-                if (currentBuild.description == &#x27;DEPLOYMENT_EXECUTED&#x27;) {
-                    sh &quot;&quot;&quot;curl -s \
-                    -X POST \
-                    --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
-                    https://api.mailjet.com/v3.1/send \
-                    -H &quot;Content-Type:application/json&quot; \
-                    -d &#x27;{
-                        &quot;Messages&quot;:[
-                                {
-                                        &quot;From&quot;: {
-                                                &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
-                                                &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
-                                        },
-                                        &quot;To&quot;: [
-                                                {
-                                                        &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
-                                                        &quot;Name&quot;: &quot;Developer Team&quot;
-                                                }
-                                        ],
-                                        &quot;Subject&quot;: &quot;${currentBuild.fullDisplayName} deployment failed&quot;,
-                                        &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} deployment failed&quot;,
-                                        &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is not deployed, Build Failed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
-                                }
-                        ]
-                    }&#x27;&quot;&quot;&quot;
-                }
+                // Send failure notification email
+                sh &quot;&quot;&quot;curl -s \
+                -X POST \
+                --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
+                https://api.mailjet.com/v3.1/send \
+                -H &quot;Content-Type:application/json&quot; \
+                -d &#x27;{
+                    &quot;Messages&quot;:[
+                            {
+                                    &quot;From&quot;: {
+                                            &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
+                                            &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
+                                    },
+                                    &quot;To&quot;: [
+                                            {
+                                                    &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
+                                                    &quot;Name&quot;: &quot;Development Team&quot;
+                                            }
+                                    ],
+                                    &quot;Subject&quot;: &quot;${currentBuild.fullDisplayName} deployment failed&quot;,
+                                    &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} deployment failed&quot;,
+                                    &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is not deployed, Build Failed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
+                            }
+                    ]
+                }&#x27;&quot;&quot;&quot;
             }
         }
     }
