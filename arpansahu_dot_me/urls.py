@@ -29,7 +29,7 @@ from .views import (
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', Home.as_view(), name='home'),
-    path('projects/<pk>', ProjectDetailedView.as_view(), name='project-detailed-view'),
+    path('projects/<str:project_name>', ProjectDetailedView.as_view(), name='project-detailed-view'),
     path('contact/', ContactView.as_view(), name='contact'),
     path('about/', AboutView.as_view(), name='about'),
     path('projects/', ProjectsView.as_view(), name='projects'),
