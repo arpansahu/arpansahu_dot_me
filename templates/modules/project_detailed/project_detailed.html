@@ -35,6 +35,12 @@
        background-color:#bcbabb;
     }
 
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
     </style>
 {% endblock stylesheets %}
 
@@ -53,8 +59,7 @@
           <div class="col-12" style="border-radius: 10px">
             <div class="card mb-12" style="border-radius: 20px">
                 <div style="padding: 20px; border-radius: 10px">
-                
-
+                  {% include 'modules/project_detailed/project_partials/great_chat/Readme.html' %}
                 </div>
             </div>
           </div>

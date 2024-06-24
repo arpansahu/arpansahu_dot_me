@@ -96,12 +96,14 @@ class Home(View):
 
 
 class ProjectDetailedView(View):
-    def get(self, *args, **kwargs):
-        project_id = self.kwargs['pk']
-        template_name = f'modules/project_detailed/project{project_id}.html'
-        return render(self.request, template_name=template_name, context={'project_id': project_id})
-
-
+    def get(self, request, *args, **kwargs):
+        project_name = self.kwargs.get('project_name', None)
+        print("================================================")
+        print(f"Project Name: {project_name}")
+        
+        template_name = 'modules/project_detailed/project_detailed.html'
+        return render(request, template_name=template_name, context={'project_name': project_name})
+        
 class AboutView(View):
     def get(self, *args, **kwargs):
         return render(self.request, template_name='about.html', context={'about': 'active'})
