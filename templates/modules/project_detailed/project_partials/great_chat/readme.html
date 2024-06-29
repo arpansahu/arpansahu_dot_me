@@ -1512,9 +1512,7 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
 <p>
  Create a file named docker-compose.yml and add following lines in it
 </p>
-<pre><code class="language-bash">version: &#x27;3&#x27;
-
-services:
+<pre><code class="language-bash">services:
   web:
     image: harbor.arpansahu.me/library/great_chat:latest
     env_file: ./.env
@@ -2194,6 +2192,9 @@ sudo apt-get install jenkins
 </ul>
 <pre><code class="language-bash">pipeline {
     agent any
+    parameters {
+        booleanParam(name: &#x27;skip_checks&#x27;, defaultValue: false, description: &#x27;Skip the Check for Changes stage&#x27;)
+    }
     environment {
         REGISTRY = &quot;harbor.arpansahu.me&quot;
         REPOSITORY = &quot;library/great_chat&quot;
@@ -2207,6 +2208,9 @@ sudo apt-get install jenkins
             }
         }
         stage(&#x27;Check for Changes&#x27;) {
+            when {
+                expression { return !params.skip_checks }
+            }
             steps {
                 script {
                     // Get the current commit hash
