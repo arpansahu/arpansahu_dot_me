@@ -788,17 +788,19 @@ include_files = {
     &quot;AWS DEPLOYMENT INTRODUCTION&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/Introduction/aws_desployment_introduction.md&quot;,
     &quot;STATIC_FILES&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/Introduction/static_files_settings.md&quot;,
     &quot;README of Harbor&quot; : &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/harbor/harbor.md&quot;,
-    &quot;HARBOR DOCKER COMPOSE&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/harbor/docker-compose.yml&quot;,
+    &quot;HARBOR DOCKER COMPOSE&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/harbor/docker-compose.md&quot;,
     &quot;INCLUDE FILES&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/include_files.py&quot;,
 
     # project files
     &quot;env.example&quot;: &quot;../env.example&quot;,
     &quot;docker-compose.yml&quot;: &quot;../docker-compose.yml&quot;,
     &quot;Dockerfile&quot;: &quot;../Dockerfile&quot;,
-    &quot;Jenkinsfile&quot;: &quot;../Jenkinsfile&quot;,
+    &quot;Jenkinsfile-deploy&quot;: &quot;../Jenkinsfile-deploy&quot;,
+    &quot;Jenkinsfile-build&quot;: &quot;../Jenkinsfile-build&quot;,
 
     # project partials files
     &quot;INTRODUCTION&quot;: &quot;../readme_manager/partials/introduction.md&quot;,
+    &quot;INTRODUCTION MAIN&quot;: &quot;../readme_manager/partials/introduction_main.md&quot;,
     &quot;DOC_AND_STACK&quot;: &quot;../readme_manager/partials/documentation_and_stack.md&quot;,
     &quot;TECHNOLOGY QNA&quot;: &quot;../readme_manager/partials/technology_qna.md&quot;,
     &quot;DEMO&quot;: &quot;../readme_manager/partials/demo.md&quot;,
@@ -806,6 +808,9 @@ include_files = {
     &quot;DJANGO_COMMANDS&quot;: &quot;../readme_manager/partials/django_commands.md&quot;,
     &quot;NGINX_SERVER&quot;: &quot;../readme_manager/partials/nginx_server.md&quot;,
     &quot;SERVICES&quot;: &quot;../readme_manager/partials/services.md&quot;,
+    &quot;JENKINS PROJECT NAME&quot;: &quot;../readme_manager/partials/jenkins_project_name.md&quot;,
+    &quot;JENKINS BUILD PROJECT NAME&quot;: &quot;../readme_manager/partials/jenkins_build_project_name.md&quot;,
+    &quot;STATIC PROJECT NAME&quot;: &quot;../readme_manager/partials/static_project_name.md&quot;
 }
 </code></pre>
 <p>
@@ -960,9 +965,17 @@ include_files = {
 </code></pre>
 <ol>
  <li>
-  Verify that the Docker Engine installation is successful by running the hello-world image:
+  Start Docker Engine
  </li>
 </ol>
+<pre><code class="language-bash">        sudo systemctl start docker
+</code></pre>
+<pre><code>4. Enable Docker Engine
+</code></pre>
+<pre><code class="language-bash">        sudo systemctl enable docker
+</code></pre>
+<pre><code>5. Verify that the Docker Engine installation is successful by running the hello-world image:
+</code></pre>
 <pre><code class="language-bash">         sudo docker run hello-world
 </code></pre>
 <p>
@@ -1006,7 +1019,7 @@ include_files = {
   </strong>
  </li>
 </ol>
-<pre><code class="language-bash">    tar -zxvf harbor-offline-installer-&lt;version&gt;.tgz
+<pre><code class="language-bash">    tar -zxvf harbor-offline-installer-v2.4.2.tgz
     cd harbor
 </code></pre>
 <ol>
@@ -1061,10 +1074,305 @@ include_files = {
 
 
 3. Edit docker-compose.yml
+
+    Here docker-compose.yml file only be available after running the below install command
+</code></pre>
+<pre><code class="language-bash">            sudo ./install.sh --with-notary --with-trivy --with-chartmuseum
+</code></pre>
+<pre><code>    Note: If docker compose is not available you need to install it
+
+        1. Installing docker compose
+</code></pre>
+<pre><code class="language-bash">                    sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose
+</code></pre>
+<pre><code>        2. Next, set the correct permissions so that the docker-compose command is executable:
+</code></pre>
+<pre><code class="language-bash">                    sudo chmod +x /usr/local/bin/docker-compose
+</code></pre>
+<pre><code>        3. To verify that the installation was successful, you can run:
+</code></pre>
+<pre><code class="language-bash">                    docker-compose --version
+</code></pre>
+<pre><code>    It might get success then you can see this file
 </code></pre>
 <pre><code class="language-bash">            vi docker-compose.yml
 </code></pre>
-<pre><code class="language-bash">
+<pre><code class="language-bash">                version: &#x27;2.3&#x27;
+        services:
+        log:
+            image: goharbor/harbor-log:v2.4.2
+            container_name: harbor-log
+            restart: always
+            cap_drop:
+            - ALL
+            cap_add:
+            - CHOWN
+            - DAC_OVERRIDE
+            - SETGID
+            - SETUID
+            volumes:
+            - /var/log/harbor/:/var/log/docker/:z
+            - type: bind
+                source: ./common/config/log/logrotate.conf
+                target: /etc/logrotate.d/logrotate.conf
+            - type: bind
+                source: ./common/config/log/rsyslog_docker.conf
+                target: /etc/rsyslog.d/rsyslog_docker.conf
+            ports:
+            - 127.0.0.1:1514:10514
+            networks:
+            - harbor
+        registry:
+            image: goharbor/registry-photon:v2.4.2
+            container_name: registry
+            restart: always
+            cap_drop:
+            - ALL
+            cap_add:
+            - CHOWN
+            - SETGID
+            - SETUID
+            volumes:
+            - /data/registry:/storage:z
+            - ./common/config/registry/:/etc/registry/:z
+            - type: bind
+                source: /data/secret/registry/root.crt
+                target: /etc/registry/root.crt
+            - type: bind
+                source: ./common/config/shared/trust-certificates
+                target: /harbor_cust_cert
+            networks:
+            - harbor
+            depends_on:
+            - log
+            logging:
+            driver: &quot;syslog&quot;
+            options:
+                syslog-address: &quot;tcp://localhost:1514&quot;
+                tag: &quot;registry&quot;
+        registryctl:
+            image: goharbor/harbor-registryctl:v2.4.2
+            container_name: registryctl
+            env_file:
+            - ./common/config/registryctl/env
+            restart: always
+            cap_drop:
+            - ALL
+            cap_add:
+            - CHOWN
+            - SETGID
+            - SETUID
+            volumes:
+            - /data/registry:/storage:z
+            - ./common/config/registry/:/etc/registry/:z
+            - type: bind
+                source: ./common/config/registryctl/config.yml
+                target: /etc/registryctl/config.yml
+            - type: bind
+                source: ./common/config/shared/trust-certificates
+                target: /harbor_cust_cert
+            networks:
+            - harbor
+            depends_on:
+            - log
+            logging:
+            driver: &quot;syslog&quot;
+            options:
+                syslog-address: &quot;tcp://localhost:1514&quot;
+                tag: &quot;registryctl&quot;
+        postgresql:
+            image: goharbor/harbor-db:v2.4.2
+            container_name: harbor-db
+            restart: always
+            cap_drop:
+            - ALL
+            cap_add:
+            - CHOWN
+            - DAC_OVERRIDE
+            - SETGID
+            - SETUID
+            volumes:
+            - /data/database:/var/lib/postgresql/data:z
+            networks:
+            harbor:
+            harbor-notary:
+                aliases:
+                - harbor-db
+            env_file:
+            - ./common/config/db/env
+            depends_on:
+            - log
+            logging:
+            driver: &quot;syslog&quot;
+            options:
+                syslog-address: &quot;tcp://localhost:1514&quot;
+                tag: &quot;postgresql&quot;
+            shm_size: &#x27;1gb&#x27;
+        core:
+            image: goharbor/harbor-core:v2.4.2
+            container_name: harbor-core
+            env_file:
+            - ./common/config/core/env
+            restart: always
+            cap_drop:
+            - ALL
+            cap_add:
+            - SETGID
+            - SETUID
+            volumes:
+            - /data/ca_download/:/etc/core/ca/:z
+            - /data/:/data/:z
+            - ./common/config/core/certificates/:/etc/core/certificates/:z
+            - type: bind
+                source: ./common/config/core/app.conf
+                target: /etc/core/app.conf
+            - type: bind
+                source: /data/secret/core/private_key.pem
+                target: /etc/core/private_key.pem
+            - type: bind
+                source: /data/secret/keys/secretkey
+                target: /etc/core/key
+            - type: bind
+                source: ./common/config/shared/trust-certificates
+                target: /harbor_cust_cert
+            networks:
+            harbor:
+            harbor-notary:
+            harbor-chartmuseum:
+                aliases:
+                - harbor-core
+            depends_on:
+            - log
+            - registry
+            - redis
+            - postgresql
+            logging:
+            driver: &quot;syslog&quot;
+            options:
+                syslog-address: &quot;tcp://localhost:1514&quot;
+                tag: &quot;core&quot;
+        portal:
+            image: goharbor/harbor-portal:v2.4.2
+            container_name: harbor-portal
+            restart: always
+            cap_drop:
+            - ALL
+            cap_add:
+            - CHOWN
+            - SETGID
+            - SETUID
+            - NET_BIND_SERVICE
+            volumes:
+            - type: bind
+                source: ./common/config/portal/nginx.conf
+                target: /etc/nginx/nginx.conf
+            networks:
+            - harbor
+            depends_on:
+            - log
+            logging:
+            driver: &quot;syslog&quot;
+            options:
+                syslog-address: &quot;tcp://localhost:1514&quot;
+                tag: &quot;portal&quot;
+        jobservice:
+            image: goharbor/harbor-jobservice:v2.4.2
+            container_name: harbor-jobservice
+            env_file:
+            - ./common/config/jobservice/env
+            restart: always
+            cap_drop:
+            - ALL
+            cap_add:
+            - CHOWN
+            - SETGID
+            - SETUID
+            volumes:
+            - /data/job_logs:/var/log/jobs:z
+            - type: bind
+                source: ./common/config/jobservice/config.yml
+                target: /etc/jobservice/config.yml
+            - type: bind
+                source: ./common/config/shared/trust-certificates
+                target: /harbor_cust_cert
+            networks:
+            - harbor
+            depends_on:
+            - core
+            logging:
+            driver: &quot;syslog&quot;
+            options:
+                syslog-address: &quot;tcp://localhost:1514&quot;
+                tag: &quot;jobservice&quot;
+        redis:
+            image: goharbor/redis-photon:v2.4.2
+            container_name: redis
+            restart: always
+            cap_drop:
+            - ALL
+            cap_add:
+            - CHOWN
+            - SETGID
+            - SETUID
+            volumes:
+            - /data/redis:/var/lib/redis
+            networks:
+            harbor:
+            harbor-chartmuseum:
+                aliases:
+                - redis
+            depends_on:
+            - log
+            logging:
+            driver: &quot;syslog&quot;
+            options:
+                syslog-address: &quot;tcp://localhost:1514&quot;
+                tag: &quot;redis&quot;
+        proxy:
+            image: goharbor/nginx-photon:v2.4.2
+            container_name: nginx
+            restart: always
+            cap_drop:
+            - ALL
+            cap_add:
+            - CHOWN
+            - SETGID
+            - SETUID
+            - NET_BIND_SERVICE
+            volumes:
+            - ./common/config/nginx:/etc/nginx:z
+            - /data/secret/cert:/etc/cert:z
+            - type: bind
+                source: ./common/config/shared/trust-certificates
+                target: /harbor_cust_cert
+            networks:
+            - harbor
+            - harbor-notary
+            ports:
+            - 8081:8080
+            - 8443:8443
+            - 4443:4443
+            depends_on:
+            - registry
+            - core
+            - portal
+            - log
+            logging:
+            driver: &quot;syslog&quot;
+            options:
+                syslog-address: &quot;tcp://localhost:1514&quot;
+                tag: &quot;proxy&quot;
+        notary-server:
+            image: goharbor/notary-server-photon:v2.4.2
+            container_name: notary-server
+            restart: always
+            networks:
+            - notary-sig
+            - harbor-notary
+            volumes:
+            - ./common/config/notary:/etc/notary:z
+            - type: bind
+                source: /data/secret/notary/notary-signer-ca
 </code></pre>
 <pre><code>    As you can see the ports we used in harbor.yml are configured here and nginx service have been removed.
     ports:
@@ -1167,20 +1475,39 @@ include_files = {
 </p>
 <pre><code class="language-bash">    docker login harbor.arpansahu.me
 </code></pre>
+<h3>
+ Pushing Image to Harbor Docker Registry
+</h3>
+<ol>
+ <li>
+  Tag Image
+ </li>
+</ol>
+<pre><code class="language-bash">    docker tag image_name harbor.arpansahu.me/library/image_name:latest
+</code></pre>
+<ol>
+ <li>
+  Push Image
+ </li>
+</ol>
+<pre><code class="language-bash">    docker push harbor.arpansahu.me/library/image_name:latest
+</code></pre>
 <pre><code class="language-bash">FROM python:3.10.7
 
 WORKDIR /app
 
+# Copy the requirements file and install dependencies
 COPY requirements.txt requirements.txt
-
-COPY . .
-
 RUN pip3 install -r requirements.txt
 
+# Copy the rest of the application code
+COPY . .
+
+# Expose the application port
 EXPOSE 8002
 
-CMD python manage.py collectstatic
-CMD gunicorn --bind 0.0.0.0:8002 great_chat.wsgi
+# Run collectstatic and gunicorn in a single command
+CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --noinput &amp;&amp; gunicorn --bind 0.0.0.0:8002 great_chat.wsgi&quot;]
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
@@ -1189,7 +1516,7 @@ CMD gunicorn --bind 0.0.0.0:8002 great_chat.wsgi
 
 services:
   web:
-    build: .
+    image: harbor.arpansahu.me/library/great_chat:latest
     env_file: ./.env
     command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; daphne -b 0.0.0.0 -p 8002 great_chat.asgi:application&quot;
     container_name: great_chat
@@ -1858,31 +2185,74 @@ sudo apt-get install jenkins
         }
 </code></pre>
 <p>
- in Jenkinsfile
+ in Jenkinsfile-build to copy .env file into build directory
 </p>
 <ul>
  <li>
-  Now Create a file named Jenkinsfile at the root of Git Repo and add following lines to file
+  Now Create a file named Jenkinsfile-build at the root of Git Repo and add following lines to file
  </li>
 </ul>
 <pre><code class="language-bash">pipeline {
-    agent { label &#x27;local&#x27; }
+    agent any
+    environment {
+        REGISTRY = &quot;harbor.arpansahu.me&quot;
+        REPOSITORY = &quot;library/great_chat&quot;
+        IMAGE_TAG = &quot;${env.BUILD_ID}&quot;
+        COMMIT_FILE = &quot;${env.WORKSPACE}/last_commit.txt&quot;
+    }
     stages {
-        stage(&#x27;Initialize&#x27;) {
-            steps {
-                script {
-                    // Log the current workspace path
-                    echo &quot;Current workspace path is: ${env.WORKSPACE}&quot;
-                }
-            }
-        }
         stage(&#x27;Checkout&#x27;) {
             steps {
-                // Checkout code from SCM
                 checkout scm
             }
         }
+        stage(&#x27;Check for Changes&#x27;) {
+            steps {
+                script {
+                    // Get the current commit hash
+                    def currentCommit = sh(script: &quot;git rev-parse HEAD&quot;, returnStdout: true).trim()
+                    echo &quot;Current commit: ${currentCommit}&quot;
+
+                    // Check if the last commit file exists
+                    if (fileExists(COMMIT_FILE)) {
+                        def lastCommit = readFile(COMMIT_FILE).trim()
+                        echo &quot;Last commit: ${lastCommit}&quot;
+
+                        // Compare the current commit with the last commit
+                        if (currentCommit == lastCommit) {
+                            echo &quot;No changes detected. Skipping build.&quot;
+                            currentBuild.result = &#x27;NOT_BUILT&#x27;
+                            error(&quot;No changes detected. Skipping build.&quot;)
+                        } else {
+                            // Check for changes in relevant files
+                            def changes = sh(script: &quot;git diff --name-only ${lastCommit} ${currentCommit}&quot;, returnStdout: true).trim().split(&quot;\n&quot;)
+                            def relevantChanges = changes.findAll { 
+                                !(it in [&#x27;README.md&#x27;, &#x27;SECURITY.md&#x27;, &#x27;CHANGELOG.md&#x27;, &#x27;.github/dependabot.yml&#x27;])
+                            }
+
+                            if (relevantChanges.isEmpty()) {
+                                echo &quot;No relevant changes detected. Skipping build.&quot;
+                                currentBuild.result = &#x27;NOT_BUILT&#x27;
+                                error(&quot;No relevant changes detected. Skipping build.&quot;)
+                            } else {
+                                echo &quot;Relevant changes detected. Proceeding with build.&quot;
+                            }
+                        }
+                    } else {
+                        echo &quot;No last commit file found. Proceeding with initial build.&quot;
+                    }
+
+                    // Save the current commit hash to the file
+                    writeFile(file: COMMIT_FILE, text: currentCommit)
+                }
+            }
+        }
         stage(&#x27;Dependencies&#x27;) {
+            when {
+                not {
+                    environment name: &#x27;BUILD_STATUS&#x27;, value: &#x27;NOT_BUILT&#x27;
+                }
+            }
             steps {
                 script {
                     // Copy .env file to the workspace
@@ -1890,31 +2260,48 @@ sudo apt-get install jenkins
                 }
             }
         }
-        stage(&#x27;Production&#x27;) {
+        stage(&#x27;Build Image&#x27;) {
             when {
-                expression {
-                    // Collect all changed files
-                    def changes = currentBuild.changeSets.collect { it.items.collect { it.affectedFiles.collect { it.path } } }.flatten()
-
-                    // Define the file(s) to be excluded from triggering a deploy
-                    def excludedFiles = [&#x27;Readme.md&#x27;]
-
-                    // Check if the only changed files are in the excluded list
-                    def onlyExcludedFilesChanged = changes.every { changedFile -&gt; 
-                        excludedFiles.contains(changedFile)
-                    }
-
-                    // Proceed with deployment if not only excluded files are changed
-                    return !onlyExcludedFilesChanged
+                not {
+                    environment name: &#x27;BUILD_STATUS&#x27;, value: &#x27;NOT_BUILT&#x27;
                 }
             }
             steps {
                 script {
-                    // Deploy using Docker Compose
-                    sh &quot;docker compose up --build --detach&quot;
+                    // Ensure Docker is running and can be accessed
+                    sh &#x27;docker --version&#x27;
 
-                    // Set a flag to indicate deployment execution
-                    currentBuild.description = &#x27;DEPLOYMENT_EXECUTED&#x27;
+                    // Log the image details
+                    echo &quot;Building Docker image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}&quot;
+
+                    // Build the Docker image
+                    sh &quot;&quot;&quot;
+                    docker build -t ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} .
+                    docker tag ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} ${REGISTRY}/${REPOSITORY}:latest
+                    &quot;&quot;&quot;
+                }
+            }
+        }
+        stage(&#x27;Push Image&#x27;) {
+            when {
+                not {
+                    environment name: &#x27;BUILD_STATUS&#x27;, value: &#x27;NOT_BUILT&#x27;
+                }
+            }
+            steps {
+                withCredentials([usernamePassword(credentialsId: &#x27;harbor-credentials&#x27;, passwordVariable: &#x27;DOCKER_REGISTRY_PASSWORD&#x27;, usernameVariable: &#x27;DOCKER_REGISTRY_USERNAME&#x27;)]) {
+                    script {
+                        // Log in to Docker registry using environment variables without direct interpolation
+                        sh &#x27;&#x27;&#x27;
+                        echo $DOCKER_REGISTRY_PASSWORD | docker login ${REGISTRY} -u $DOCKER_REGISTRY_USERNAME --password-stdin
+                        &#x27;&#x27;&#x27;
+
+                        // Push the Docker image to the registry
+                        sh &#x27;&#x27;&#x27;
+                        docker push ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}
+                        docker push ${REGISTRY}/${REPOSITORY}:latest
+                        &#x27;&#x27;&#x27;
+                    }
                 }
             }
         }
@@ -1922,35 +2309,36 @@ sudo apt-get install jenkins
     post {
         success {
             script {
-                if (currentBuild.description == &#x27;DEPLOYMENT_EXECUTED&#x27;) {
-                    // Send success notification email
-                    sh &quot;&quot;&quot;curl -s \
-                    -X POST \
-                    --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
-                    https://api.mailjet.com/v3.1/send \
-                    -H &quot;Content-Type:application/json&quot; \
-                    -d &#x27;{
-                        &quot;Messages&quot;:[
-                                {
-                                        &quot;From&quot;: {
-                                                &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
-                                                &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
-                                        },
-                                        &quot;To&quot;: [
-                                                {
-                                                        &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
-                                                        &quot;Name&quot;: &quot;Development Team&quot;
-                                                }
-                                        ],
-                                        &quot;Subject&quot;: &quot;${currentBuild.fullDisplayName} deployed successfully&quot;,
-                                        &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed&quot;,
-                                        &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
-                                }
-                        ]
-                    }&#x27;&quot;&quot;&quot;
-                    // Trigger another Jenkins job
-                    build job: &#x27;common_readme&#x27;, parameters: [string(name: &#x27;project_git_url&#x27;, value: &#x27;https://github.com/arpansahu/great_chat&#x27;), string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)], wait: false
-                }
+                currentBuild.description = &quot;Image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}&quot;
+
+                // Send success notification email
+                sh &quot;&quot;&quot;curl -s \
+                -X POST \
+                --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
+                https://api.mailjet.com/v3.1/send \
+                -H &quot;Content-Type:application/json&quot; \
+                -d &#x27;{
+                    &quot;Messages&quot;:[
+                            {
+                                    &quot;From&quot;: {
+                                            &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
+                                            &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
+                                    },
+                                    &quot;To&quot;: [
+                                            {
+                                                    &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
+                                                    &quot;Name&quot;: &quot;Development Team&quot;
+                                            }
+                                    ],
+                                    &quot;Subject&quot;: &quot;${currentBuild.fullDisplayName} built successfully&quot;,
+                                    &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} is now built and pushed to the registry&quot;,
+                                    &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is now built and pushed to the registry &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
+                            }
+                    ]
+                }&#x27;&quot;&quot;&quot;
+
+                // Trigger great_chat job only if the build is stable
+                build job: &#x27;great_chat&#x27;, wait: false
             }
         }
         failure {
@@ -1974,12 +2362,139 @@ sudo apt-get install jenkins
                                                     &quot;Name&quot;: &quot;Development Team&quot;
                                             }
                                     ],
-                                    &quot;Subject&quot;: &quot;${currentBuild.fullDisplayName} deployment failed&quot;,
-                                    &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} deployment failed&quot;,
-                                    &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is not deployed, Build Failed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
+                                    &quot;Subject&quot;: &quot;${currentBuild.fullDisplayName} build failed&quot;,
+                                    &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} build failed&quot;,
+                                    &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} build failed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
                             }
                     ]
                 }&#x27;&quot;&quot;&quot;
+            }
+        }
+    }
+}
+</code></pre>
+<ul>
+ <li>
+  Now Create a file named Jenkinsfile-deploy at the root of Git Repo and add following lines to file
+ </li>
+</ul>
+<pre><code class="language-bash">pipeline {
+    agent { label &#x27;local&#x27; }
+    environment {
+        REGISTRY = &quot;harbor.arpansahu.me&quot;
+        REPOSITORY = &quot;library/great_chat&quot;
+        IMAGE_TAG = &quot;latest&quot;  // or use a specific tag if needed
+    }
+    stages {
+        stage(&#x27;Initialize&#x27;) {
+            steps {
+                script {
+                    echo &quot;Current workspace path is: ${env.WORKSPACE}&quot;
+                }
+            }
+        }
+        stage(&#x27;Checkout&#x27;) {
+            steps {
+                checkout scm
+            }
+        }
+        stage(&#x27;Check for New Image&#x27;) {
+            steps {
+                script {
+                    // Get the ImageID of the currently running container
+                    def currentImageID = sh(script: &quot;docker inspect -f &#x27;{{.Image}}&#x27; great_chat || echo &#x27;none&#x27;&quot;, returnStdout: true).trim()
+                    echo &quot;Current image ID: ${currentImageID}&quot;
+
+                    // Pull the latest image to get its ImageID
+                    sh &quot;docker pull ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}&quot;
+                    def latestImageID = sh(script: &quot;docker inspect -f &#x27;{{.Id}}&#x27; ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}&quot;, returnStdout: true).trim()
+                    echo &quot;Latest image ID: ${latestImageID}&quot;
+
+                    // Check if the ImageIDs are different
+                    if (currentImageID != latestImageID) {
+                        env.NEW_IMAGE_AVAILABLE = &#x27;true&#x27;
+                        echo &quot;New image available, proceeding with deployment.&quot;
+                    } else {
+                        env.NEW_IMAGE_AVAILABLE = &#x27;false&#x27;
+                        echo &quot;No new image available, skipping deployment.&quot;
+                    }
+                }
+            }
+        }
+        stage(&#x27;Deploy&#x27;) {
+            when {
+                expression {
+                    env.NEW_IMAGE_AVAILABLE == &#x27;true&#x27;
+                }
+            }
+            steps {
+                script {
+                    // Ensure the correct image tag is used in the docker-compose.yml
+                    sh &#x27;&#x27;&#x27;
+                    sed -i &quot;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|&quot; docker-compose.yml
+                    &#x27;&#x27;&#x27;
+                    // Deploy using Docker Compose
+                    sh &#x27;docker-compose down&#x27;
+                    sh &#x27;docker-compose up -d&#x27;
+                    currentBuild.description = &#x27;DEPLOYMENT_EXECUTED&#x27;
+                }
+            }
+        }
+    }
+    post {
+        success {
+            script {
+                if (currentBuild.description == &#x27;DEPLOYMENT_EXECUTED&#x27;) {
+                    sh &#x27;&#x27;&#x27;
+                    curl -s -X POST --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET https://api.mailjet.com/v3.1/send -H &quot;Content-Type:application/json&quot; -d &#x27;{
+                        &quot;Messages&quot;:[
+                            {
+                                &quot;From&quot;: {
+                                    &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
+                                    &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
+                                },
+                                &quot;To&quot;: [
+                                    {
+                                        &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
+                                        &quot;Name&quot;: &quot;Development Team&quot;
+                                    }
+                                ],
+                                &quot;Subject&quot;: &quot;${currentBuild.fullDisplayName} deployed successfully&quot;,
+                                &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed&quot;,
+                                &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
+                            }
+                        ]
+                    }&#x27;
+                    &#x27;&#x27;&#x27;
+                }
+                // Trigger the common_readme job on success
+                build job: &#x27;common_readme&#x27;, parameters: [string(name: &#x27;project_git_url&#x27;, value: &#x27;https://github.com/arpansahu/great_chat&#x27;), string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)], wait: false
+            }
+        }
+        failure {
+            script {
+                // Send deployment failure notification
+                sh &#x27;&#x27;&#x27;
+                curl -s -X POST --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET https://api.mailjet.com/v3.1/send -H &quot;Content-Type:application/json&quot; -d &#x27;{
+                    &quot;Messages&quot;:[
+                        {
+                            &quot;From&quot;: {
+                                &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
+                                &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
+                            },
+                            &quot;To&quot;: [
+                                {
+                                    &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
+                                    &quot;Name&quot;: &quot;Development Team&quot;
+                                }
+                            ],
+                            &quot;Subject&quot;: &quot;${currentBuild.fullDisplayName} deployment failed&quot;,
+                            &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} deployment failed&quot;,
+                            &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is not deployed, Build Failed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
+                        }
+                    ]
+                }&#x27;
+                &#x27;&#x27;&#x27;
             }
         }
     }
@@ -1994,13 +2509,31 @@ sudo apt-get install jenkins
  </li>
 </ul>
 <p>
- Make sure to use Pipeline project and name it whatever you want I have named it as great_chat
+ Make sure to use Pipeline project and name it whatever you want I have named it as per great_chat
 </p>
 <p>
- <img alt="Jenkins Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/great_chat/main/Jenkins.png"/>
+ <img alt="Jenkins Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/great_chat/main/Jenkins-deploy.png"/>
+</p>
+<ul>
+ <li>
+  Configure another Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
+ </li>
+</ul>
+<p>
+ Make sure to use Pipeline project and name it whatever you want I have named it as {project_name}_build
 </p>
 <p>
- In this above picture you can see credentials right? you can add your github credentials
+ <img alt="Jenkins Build Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/great_chat/main/Jenkins-build.png"/>
+</p>
+<p>
+ This pipeline is triggered on another branch named as build. Whenever a new commit is pushed, it checks
+ <br/>
+ if there are changes in the files other then few .md files and dependabot.yml file. If, changes are there it pushed the image.
+ <br/>
+ If image is pushed successfully, email is sent to notify and then another Jenkins Pipeline great_chat_build is called.
+</p>
+<p>
+ In this above picture you can see credentials right? you can add your github credentials and harbor credentials use harbor-credentials as id for harbor credentials.
  <br/>
  from Manage Jenkins on home Page --> Manage Credentials
 </p>
@@ -2361,10 +2894,6 @@ Follow these steps:
 </p>
 <pre><code class="language-bash">   pgadmin4
 </code></pre>
-<pre><code>To ensure pgAdmin runs in the background, use `nohup`:
-</code></pre>
-<pre><code class="language-bash">    nohup pgadmin4 &amp;&gt;/dev/null &amp;
-</code></pre>
 <p>
  By using a virtual environment, you avoid potential conflicts with system packages, and you can manage dependencies for pgAdmin 4 more effectively.
 </p>
@@ -2373,6 +2902,61 @@ Follow these steps:
 </p>
 <pre><code class="language-bash">source pgadmin_venv/bin/activate
 pgadmin4
+</code></pre>
+<h3>
+ Manage PgAdmin using Pm2
+</h3>
+<ol>
+ <li>
+  Create a Startup Script for pgAdmin 4
+ </li>
+</ol>
+<pre><code class="language-bash">        touch /root/run_pgadmin.sh 
+</code></pre>
+<ol>
+ <li>
+  Edit this script and add following
+ </li>
+</ol>
+<pre><code class="language-bash">        vi /root/run_pgadmin.sh 
+</code></pre>
+<pre><code class="language-bash">        source pgadmin_venv/bin/activate
+        pgadmin4
+</code></pre>
+<ol>
+ <li>
+  Making Script Executable
+ </li>
+</ol>
+<pre><code class="language-bash">        chmod +x /root/run_pgadmin.sh
+</code></pre>
+<ol>
+ <li>
+  Installing pm2
+ </li>
+</ol>
+<pre><code class="language-bash">        npm install pm2 -g
+</code></pre>
+<ol>
+ <li>
+  Start pgAdmin 4 with PM2
+ </li>
+</ol>
+<pre><code class="language-bash">        pm2 start /root/run_pgadmin.sh --name pgadmin4
+</code></pre>
+<ol>
+ <li>
+  Save PM2 configuration
+ </li>
+</ol>
+<pre><code class="language-bash">        pm2 save
+</code></pre>
+<ol>
+ <li>
+  Set PM2 to Start on Boot
+ </li>
+</ol>
+<pre><code class="language-bash">        pm2 startup
 </code></pre>
 <p>
  And deactivate it when you're done:
@@ -2689,110 +3273,207 @@ pgadmin4
  Redis is versatile and widely used for its speed and efficiency in various applications. Its ability to serve different roles, such as caching, real-time analytics, and pub/sub messaging, makes it a valuable tool in many technology stacks.
 </p>
 <h3>
- Installing Redis
+ Installing Redis and Setting Up Authentication
 </h3>
 <ol>
  <li>
-  <strong>
-   Create a Docker Volume for Portainer Data (optional but recommended):
-  </strong>
-  <br/>
-  This step is optional but recommended as it allows you to persist Portainer's data across container restarts.
+  <p>
+   Step 1: Install Redis on Ubuntu
+  </p>
+ </li>
+ <li>
+  <p>
+   <strong>
+    Update your package list:
+   </strong>
+  </p>
  </li>
 </ol>
-<pre><code class="language-bash">    docker volume create portainer_data
+<pre><code class="language-sh">      sudo apt update
 </code></pre>
 <ol>
  <li>
   <strong>
-   Run Portainer Container:
+   Install Redis:
+  </strong>
+ </li>
+</ol>
+<pre><code class="language-sh">      sudo apt install redis-server
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   Start and enable Redis:
+  </strong>
+ </li>
+</ol>
+<pre><code class="language-sh">      sudo systemctl start redis
+      sudo systemctl enable redis
+</code></pre>
+<ol>
+ <li>
+  <p>
+   Step 2: Configure Redis
+  </p>
+ </li>
+ <li>
+  <p>
+   <strong>
+    Open the Redis configuration file:
+   </strong>
+  </p>
+ </li>
+</ol>
+<pre><code class="language-sh">      sudo vi /etc/redis/redis.conf
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   Change the host to 0.0.0.0:
   </strong>
   <br/>
-  Run the Portainer container using the following command. Replace
+  Find the line with
   <code>
-   /var/run/docker.sock
+   bind 127.0.0.1 ::1
   </code>
-  with the path to your Docker socket if it's in a different location.
+  and change it to:
  </li>
 </ol>
-<pre><code class="language-bash">    docker run -d -p 0.0.0.0:9998:9000 -p 9444:8000 -p 9443:9443 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
-    to use it in nginx server configuration
+<pre><code>      bind 0.0.0.0
 </code></pre>
-<p>
- This command pulls the Portainer Community Edition image from Docker Hub, creates a persistent volume for Portainer data, and starts the Portainer container. The
- <code>
-  -p 9000:9000
- </code>
- option maps Portainer's web interface to port 9000 on your host.
-</p>
+<ol>
+ <li>
+  <strong>
+   Set up authentication:
+  </strong>
+  <br/>
+  Find the line with
+  <code>
+   # requirepass foobared
+  </code>
+  and uncomment it. Replace
+  <code>
+   foobared
+  </code>
+  with your desired password:
+ </li>
+</ol>
+<pre><code>      requirepass your_secure_password
+</code></pre>
 <ol>
  <li>
   <p>
    <strong>
-    Access Portainer UI:
+    Save and exit the editor
    </strong>
-   <br/>
-   Open your web browser and go to
+   (
    <code>
-    http://localhost:9000
+    esc + :wq + enter
    </code>
-   (or replace
-   <code>
-    localhost
-   </code>
-   with your server's IP address if you are using a remote server). You will be prompted to set up an admin user and password.
+   in vi).
   </p>
  </li>
  <li>
   <p>
    <strong>
-    Connect Portainer to the Docker Daemon:
+    Restart Redis to apply the changes:
    </strong>
-   <br/>
-   On the Portainer setup page, choose the "Docker" environment, and connect Portainer to the Docker daemon. You can usually use the default settings (
-   <code>
-    unix:///var/run/docker.sock
-   </code>
-   for the Docker API endpoint).
-  </p>
- </li>
- <li>
-  <p>
-   <strong>
-    Complete Setup:
-   </strong>
-   <br/>
-   Follow the on-screen instructions to complete the setup process. You may choose to deploy a local agent for better performance, but it's not required for basic functionality.
   </p>
  </li>
 </ol>
-<p>
- Once the setup is complete, you should have access to the Portainer dashboard, where you can manage and monitor your Docker containers, images, volumes, and networks through a user-friendly web interface.
-</p>
-<p>
- Keep in mind that the instructions provided here assume a basic setup. For production environments, it's recommended to secure the Portainer instance, such as by using HTTPS and setting up authentication. Refer to the
- <a href="https://documentation.portainer.io/">
-  Portainer documentation
- </a>
- for more advanced configurations and security considerations.
-</p>
-<p>
- Note: if u want to use ssl connection you can
-</p>
-<p>
- /etc/redis/redis.conf open this file and
-</p>
-<pre><code class="language-bash">tls-port 6379
-port 0
+<pre><code class="language-sh">      sudo systemctl restart redis
+</code></pre>
+<ol>
+ <li>
+  <p>
+   Step 3: Verify Configuration
+  </p>
+ </li>
+ <li>
+  <p>
+   <strong>
+    Connect to Redis using the CLI:
+   </strong>
+  </p>
+ </li>
+</ol>
+<pre><code class="language-sh">      redis-cli
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   Authenticate with your password:
+  </strong>
+ </li>
+</ol>
+<pre><code class="language-sh">      AUTH your_secure_password
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   Check the connection:
+  </strong>
+ </li>
+</ol>
+<pre><code class="language-sh">      PING
+</code></pre>
+<pre><code>  You should receive a response:
+</code></pre>
+<pre><code>      PONG
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   Verify the binding to 0.0.0.0:
+  </strong>
+ </li>
+</ol>
+<pre><code class="language-sh">      sudo netstat -tulnp | grep redis
+</code></pre>
+<pre><code>  You should see Redis listening on `0.0.0.0:6379`.
+</code></pre>
+<ol>
+ <li>
+  <p>
+   Step 4: Connecting to Redis
+  </p>
+ </li>
+ <li>
+  <p>
+   <strong>
+    Connect to Redis using the CLI from a remote host:
+   </strong>
+  </p>
+ </li>
+</ol>
+<pre><code class="language-sh">      redis-cli -h arpansahu.me -p 6379 -a your_secure_password
+</code></pre>
+<h2>
+ Note: If you want to use SSL connection
+</h2>
+<ol>
+ <li>
+  Open the Redis configuration file:
+ </li>
+</ol>
+<pre><code class="language-sh">    sudo vi /etc/redis/redis.conf
+</code></pre>
+<ol>
+ <li>
+  Add the following configuration:
+ </li>
+</ol>
+<pre><code>    tls-port 6379
+    port 0
 
-tls-cert-file /path/to/redis.crt
-tls-key-file /path/to/redis.key
-tls-dh-params-file /path/to/dhparam.pem
+    tls-cert-file /path/to/redis.crt
+    tls-key-file /path/to/redis.key
+    tls-dh-params-file /path/to/dhparam.pem
 
-tls-auth-clients no
+    tls-auth-clients no
 </code></pre>
 <p>
- Add this configuration
+ Mostly Redis is used as cache and we want it to be super fast; hence, we are not putting it behind a reverse proxy like Nginx, similar to PostgreSQL.
 </p>
 <p>
  Mostly redis is used as cache and we want it to be super fast hence we are not putting it behind reverse proxy e.g. nginx same as postgres
@@ -2921,6 +3602,8 @@ tls-auth-clients no
 </ol>
 <pre><code class="language-bash">    pm2 save
 </code></pre>
+<pre><code class="language-bash">    pm2 startup
+</code></pre>
 <p>
  Now, redis-commander is running in the background managed by pm2. You can view its status, logs, and manage it using pm2 commands. For example:
 </p>
@@ -2942,18 +3625,6 @@ tls-auth-clients no
 <pre><code>View logs:
 </code></pre>
 <pre><code class="language-bash">    pm2 logs redis-commander
-</code></pre>
-<ol>
- <li>
-  <p>
-   Using nohup
-  </p>
-  <p>
-   The nohup command is designed to ignore the hangup (HUP) signal, allowing a command to continue running even after the user who initiated the command logs out or the terminal is closed. The message “ignoring input and appending output to ‘nohup.out’” is a standard message indicating that the command’s output is being redirected to a file named nohup.out in the current directory.
-  </p>
- </li>
-</ol>
-<pre><code class="language-bash">    nohup redis-commander --redis-host 0.0.0.0 --redis-port 6379 --redis-password redisKesar302 --port 9996 &gt; redis-commander.log 2&gt;&amp;1 &amp;
 </code></pre>
 <p>
  My Redis Commander can be accessed here : https://redis.arpansahu.me/
