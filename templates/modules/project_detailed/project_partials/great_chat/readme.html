@@ -1597,7 +1597,8 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
 </code></pre>
 <pre><code>paste the below code into the file
 </code></pre>
-<pre><code class="language-bash">            kind: Cluster
+<pre><code class="language-bash">            # Ignore this line 
+    kind: Cluster
     apiVersion: kind.x-k8s.io/v1alpha4
     nodes:
     - role: control-plane
@@ -1657,7 +1658,8 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
 </code></pre>
 <pre><code>copy and paste below content into it
 </code></pre>
-<pre><code class="language-yaml">            apiVersion: v1
+<pre><code class="language-bash">            # Ignore this line 
+    apiVersion: v1
     kind: ServiceAccount
     metadata:
       name: admin-user
@@ -1678,7 +1680,8 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
 </code></pre>
 <pre><code>copy and paste below content into it
 </code></pre>
-<pre><code class="language-yaml">            apiVersion: rbac.authorization.k8s.io/v1
+<pre><code class="language-bash">            # Ignore this line 
+    apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
       name: admin-user
@@ -1713,7 +1716,8 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
   Modify the service to use NodePort:
  </li>
 </ol>
-<pre><code class="language-yaml">            # Please edit the object below. Lines beginning with a &#x27;#&#x27; will be ignored,
+<pre><code class="language-bash">            # Ignore this line 
+    # Please edit the object below. Lines beginning with a &#x27;#&#x27; will be ignored,
     # and an empty file will abort the edit. If an error occurs while saving this file will be
     # reopened with the relevant failures.
     #
@@ -1840,7 +1844,8 @@ then generate token from host server by running the following command
 </code></pre>
 <pre><code>copy this and past it in the file
 </code></pre>
-<pre><code class="language-yaml">            apiVersion: v1
+<pre><code class="language-bash">            # Ignore this line 
+    apiVersion: v1
     kind: ServiceAccount
     metadata:
       name: dashboard-admin-sa
@@ -1856,7 +1861,8 @@ then generate token from host server by running the following command
 </code></pre>
 <pre><code>copy this and past it in the file
 </code></pre>
-<pre><code class="language-yaml">            apiVersion: rbac.authorization.k8s.io/v1
+<pre><code class="language-bash">            # Ignore this line 
+    apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
       name: dashboard-admin-sa-binding
@@ -1879,7 +1885,8 @@ then generate token from host server by running the following command
 </code></pre>
 <pre><code>copy this and past it in the file
 </code></pre>
-<pre><code class="language-yaml">            apiVersion: v1
+<pre><code class="language-bash">            # Ignore this line 
+    apiVersion: v1
     kind: Secret
     metadata:
       name: dashboard-admin-sa-token
