@@ -1597,7 +1597,8 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
 </code></pre>
 <pre><code>paste the below code into the file
 </code></pre>
-<pre><code class="language-yaml">        kind: Cluster
+<pre><code class="language-yaml">```yaml
+kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
 - role: control-plane
@@ -1607,12 +1608,11 @@ nodes:
   - containerPort: 443
     hostPort: 7801
 </code></pre>
-<ol>
- <li>
-  Create the Kind cluster:
- </li>
-</ol>
-<pre><code class="language-bash">        kind create cluster --config kind-config.yaml
+<pre><code>
+2. Create the Kind cluster:
+
+```bash
+        kind create cluster --config kind-config.yaml
 </code></pre>
 <h3>
  Label the Node
