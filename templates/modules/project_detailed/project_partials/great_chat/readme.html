@@ -1054,11 +1054,11 @@ include_files = {
         # http related config
         http:
         # port for http, default is 80. If https enabled, this port will redirect to https port
-        port: 8081
+        port: 8601
         # https related config
         https:
         # https port for harbor, default is 443
-        port: 8443
+        port: 8602
         # The path of cert and key files for nginx
         certificate: /etc/letsencrypt/live/arpansahu.me/fullchain.pem 
         private_key: /etc/letsencrypt/live/arpansahu.me/privkey.pem
@@ -1349,8 +1349,8 @@ include_files = {
             - harbor
             - harbor-notary
             ports:
-            - 8081:8080
-            - 8443:8443
+            - 8601:8080
+            - 8602:8443
             - 4443:4443
             depends_on:
             - registry
@@ -1376,8 +1376,8 @@ include_files = {
 </code></pre>
 <pre><code>    As you can see the ports we used in harbor.yml are configured here and nginx service have been removed.
     ports:
-      - 8081:8080
-      - 8443:8443
+      - 8601:8080
+      - 8602:8443
       - 4443:4443
 </code></pre>
 <ol>
@@ -1549,7 +1549,10 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
  --build tag with docker compose up will force image to be rebuild every time before starting the container
 </p>
 <h3>
- Step 3: Serving the requests from Nginx
+ Step 3.1: Installing Kubernetes cluster and Setting A Dashboard
+</h3>
+<h3>
+ Step 4: Serving the requests from Nginx
 </h3>
 <h4>
  Installing the Nginx server
@@ -1624,7 +1627,7 @@ sudo ln -s ../sites-available/arpansahu
  Now it's time to enable HTTPS for this server
 </p>
 <h3>
- Step 4: Enabling HTTPS
+ Step 5: Enabling HTTPS
 </h3>
 <ol>
  <li>
@@ -2071,7 +2074,7 @@ server {
 }
 </code></pre>
 <h3>
- Step 5: CI/CD using Jenkins
+ Step 6: CI/CD using Jenkins
 </h3>
 <h3>
  Installing Jenkins
