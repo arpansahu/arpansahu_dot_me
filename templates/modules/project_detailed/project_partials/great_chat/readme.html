@@ -2919,6 +2919,10 @@ sudo apt-get install jenkins
 </ul>
 <pre><code class="language-bash">pipeline {
     agent { label &#x27;local&#x27; }
+    parameters {
+        booleanParam(name: &#x27;skip_checks&#x27;, defaultValue: false, description: &#x27;Skip the Check for Changes stage&#x27;)
+        choice(name: &#x27;DEPLOY_TYPE&#x27;, choices: [&#x27;kubernetes&#x27;, &#x27;docker&#x27;], description: &#x27;Select deployment type&#x27;)
+    }
     environment {
         REGISTRY = &quot;harbor.arpansahu.me&quot;
         REPOSITORY = &quot;library/great_chat&quot;
@@ -2938,6 +2942,9 @@ sudo apt-get install jenkins
             }
         }
         stage(&#x27;Check for New Image&#x27;) {
+            when {
+                expression { !params.skip_checks }
+            }
             steps {
                 script {
                     // Get the ImageID of the currently running container
@@ -2963,18 +2970,27 @@ sudo apt-get install jenkins
         stage(&#x27;Deploy&#x27;) {
             when {
                 expression {
-                    env.NEW_IMAGE_AVAILABLE == &#x27;true&#x27;
+                    return params.skip_checks || env.NEW_IMAGE_AVAILABLE == &#x27;true&#x27;
                 }
             }
             steps {
                 script {
-                    // Ensure the correct image tag is used in the docker-compose.yml
-                    sh &#x27;&#x27;&#x27;
-                    sed -i &quot;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|&quot; docker-compose.yml
-                    &#x27;&#x27;&#x27;
-                    // Deploy using Docker Compose
-                    sh &#x27;docker-compose down&#x27;
-                    sh &#x27;docker-compose up -d&#x27;
+                    if (params.DEPLOY_TYPE == &#x27;docker&#x27;) {
+                        // Ensure the correct image tag is used in the docker-compose.yml
+                        sh &#x27;&#x27;&#x27;
+                        sed -i &quot;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|&quot; docker-compose.yml
+                        &#x27;&#x27;&#x27;
+                        // Deploy using Docker Compose
+                        sh &#x27;docker-compose down&#x27;
+                        sh &#x27;docker-compose up -d&#x27;
+                    } else if (params.DEPLOY_TYPE == &#x27;kubernetes&#x27;) {
+                        // Deploy to Kubernetes
+                        sh &#x27;&#x27;&#x27;
+                        kubectl create secret generic great-chat-secret --from-env-file=/root/projectenvs/great_chat/.env
+                        kubectl apply -f deployment.yaml
+                        kubectl apply -f service.yaml
+                        &#x27;&#x27;&#x27;
+                    }
                     currentBuild.description = &#x27;DEPLOYMENT_EXECUTED&#x27;
                 }
             }
