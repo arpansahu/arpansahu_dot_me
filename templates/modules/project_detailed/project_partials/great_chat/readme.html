@@ -2984,9 +2984,12 @@ sudo apt-get install jenkins
                         sh &#x27;docker-compose down&#x27;
                         sh &#x27;docker-compose up -d&#x27;
                     } else if (params.DEPLOY_TYPE == &#x27;kubernetes&#x27;) {
+                        // Copy the .env file to the workspace
+                        sh &quot;sudo cp /root/projectenvs/great_chat/.env ${env.WORKSPACE}/&quot;
+
                         // Deploy to Kubernetes
                         sh &#x27;&#x27;&#x27;
-                        kubectl create secret generic great-chat-secret --from-env-file=/root/projectenvs/great_chat/.env
+                        kubectl create secret generic great-chat-secret --from-env-file=${env.WORKSPACE}/.env
                         kubectl apply -f deployment.yaml
                         kubectl apply -f service.yaml
                         &#x27;&#x27;&#x27;
