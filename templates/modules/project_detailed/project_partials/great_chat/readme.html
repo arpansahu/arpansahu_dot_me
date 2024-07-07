@@ -1657,7 +1657,7 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
 </code></pre>
 <pre><code>copy and paste below content into it
 </code></pre>
-<pre><code class="language-bash">    apiVersion: v1
+<pre><code class="language-yaml">    apiVersion: v1
     kind: ServiceAccount
     metadata:
       name: admin-user
@@ -1678,7 +1678,7 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
 </code></pre>
 <pre><code>copy and paste below content into it
 </code></pre>
-<pre><code class="language-bash">    apiVersion: rbac.authorization.k8s.io/v1
+<pre><code class="language-yaml">    apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
       name: admin-user
@@ -1713,7 +1713,7 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
   Modify the service to use NodePort:
  </li>
 </ol>
-<pre><code class="language-bash">    # Please edit the object below. Lines beginning with a &#x27;#&#x27; will be ignored,
+<pre><code class="language-yaml">    # Please edit the object below. Lines beginning with a &#x27;#&#x27; will be ignored,
     # and an empty file will abort the edit. If an error occurs while saving this file will be
     # reopened with the relevant failures.
     #
@@ -1799,7 +1799,7 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
   Test the Nginx Configuration
  </li>
 </ol>
-<pre><code class="language-bash">    sudo nginx -t
+<pre><code class="language-bas">    sudo nginx -t
 </code></pre>
 <ol>
  <li>
@@ -1840,7 +1840,7 @@ then generate token from host server by running the following command
 </code></pre>
 <pre><code>copy this and past it in the file
 </code></pre>
-<pre><code class="language-bash">    apiVersion: v1
+<pre><code class="language-yaml">    apiVersion: v1
     kind: ServiceAccount
     metadata:
       name: dashboard-admin-sa
@@ -1856,7 +1856,7 @@ then generate token from host server by running the following command
 </code></pre>
 <pre><code>copy this and past it in the file
 </code></pre>
-<pre><code class="language-bash">    apiVersion: rbac.authorization.k8s.io/v1
+<pre><code class="language-yaml">    apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
       name: dashboard-admin-sa-binding
@@ -1879,7 +1879,7 @@ then generate token from host server by running the following command
 </code></pre>
 <pre><code>copy this and past it in the file
 </code></pre>
-<pre><code class="language-bash">    apiVersion: v1
+<pre><code class="language-yaml">    apiVersion: v1
     kind: Secret
     metadata:
       name: dashboard-admin-sa-token
