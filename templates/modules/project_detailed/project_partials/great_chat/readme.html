@@ -1507,6 +1507,41 @@ include_files = {
 </ol>
 <pre><code class="language-bash">    docker push harbor.arpansahu.me/library/image_name:latest
 </code></pre>
+<h3>
+ Create Image Retention Policy
+</h3>
+<p>
+ Inside project, default project is library
+</p>
+<p>
+ Go to >>> Library project
+ <br/>
+ Go to >>> Policy
+ <br/>
+ Click on >>> Add Policy
+</p>
+<p>
+ For the repositories == matching **
+ <br/>
+ By artifact count or number of days == retain the most recently pulled # artifacts  Count = 2/3 no of last no of images
+ <br/>
+ tags == matching      Untagged artifacts = ticketed
+</p>
+<p>
+ This is one time task for entire project
+</p>
+<p>
+ Same as below
+</p>
+<p>
+ <img alt="Add Retention Rule" class="d-block w-100" src="https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/harbor/retention_rule_add.png"/>
+</p>
+<p>
+ After adding rule schedule it as per requirement as below
+</p>
+<p>
+ <img alt="Add Retention Rule S" class="d-block w-100" src="https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/harbor/retention_rule_schedule.png"/>
+</p>
 <pre><code class="language-bash">FROM python:3.10.7
 
 WORKDIR /app
@@ -1699,6 +1734,14 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
 </code></pre>
 <ol>
  <li>
+  Apply both the files
+ </li>
+</ol>
+<pre><code class="language-bash">        kubectl apply -f dashboard-adminuser.yaml
+        kubectl apply -f dashboard-adminuser-rolebinding.yaml
+</code></pre>
+<ol>
+ <li>
   Get the admin user token:
  </li>
 </ol>
@@ -1716,7 +1759,7 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
 </code></pre>
 <ol>
  <li>
-  Modify the service to use NodePort:
+  Modify the service to use NodePort (do not copy blindly just make the mentioned changes):
  </li>
 </ol>
 <pre><code class="language-yaml">    # Please edit the object below. Lines beginning with a &#x27;#&#x27; will be ignored,
