@@ -2743,54 +2743,57 @@ sudo apt-get install jenkins
             }
         }
         stage(&#x27;Check for Changes&#x27;) {
-            when {
-                expression { return !params.skip_checks }
-            }
             steps {
                 script {
-                    // Get the current commit hash
-                    def currentCommit = sh(script: &quot;git rev-parse HEAD&quot;, returnStdout: true).trim()
-                    echo &quot;Current commit: ${currentCommit}&quot;
-
-                    // Check if the last commit file exists
-                    if (fileExists(COMMIT_FILE)) {
-                        def lastCommit = readFile(COMMIT_FILE).trim()
-                        echo &quot;Last commit: ${lastCommit}&quot;
-
-                        // Compare the current commit with the last commit
-                        if (currentCommit == lastCommit) {
-                            echo &quot;No changes detected. Skipping build.&quot;
-                            currentBuild.result = &#x27;NOT_BUILT&#x27;
-                            error(&quot;No changes detected. Skipping build.&quot;)
-                        } else {
-                            // Check for changes in relevant files
-                            def changes = sh(script: &quot;git diff --name-only ${lastCommit} ${currentCommit}&quot;, returnStdout: true).trim().split(&quot;\n&quot;)
-                            def relevantChanges = changes.findAll { 
-                                !(it in [&#x27;README.md&#x27;, &#x27;SECURITY.md&#x27;, &#x27;CHANGELOG.md&#x27;, &#x27;.github/dependabot.yml&#x27;])
-                            }
-
-                            if (relevantChanges.isEmpty()) {
-                                echo &quot;No relevant changes detected. Skipping build.&quot;
-                                currentBuild.result = &#x27;NOT_BUILT&#x27;
-                                error(&quot;No relevant changes detected. Skipping build.&quot;)
-                            } else {
-                                echo &quot;Relevant changes detected. Proceeding with build.&quot;
-                            }
-                        }
+                    if (params.skip_checks) {
+                        echo &quot;Skipping Checks is True. Proceeding with build.&quot;
                     } else {
-                        echo &quot;No last commit file found. Proceeding with initial build.&quot;
-                    }
+                        // Get the current commit hash
+                        def currentCommit = sh(script: &quot;git rev-parse HEAD&quot;, returnStdout: true).trim()
+                        echo &quot;Current commit: ${currentCommit}&quot;
 
-                    // Save the current commit hash to the file
-                    writeFile(file: COMMIT_FILE, text: currentCommit)
+                        // Check if the last commit file exists
+                        if (fileExists(COMMIT_FILE)) {
+                            def lastCommit = readFile(COMMIT_FILE).trim()
+                            echo &quot;Last commit: ${lastCommit}&quot;
+
+                            // Compare the current commit with the last commit
+                            if (currentCommit == lastCommit) {
+                                echo &quot;No changes detected. Skipping build.&quot;
+                                currentBuild.result = &#x27;NOT_BUILT&#x27;
+                                currentBuild.description = &quot;${currentBuild.fullDisplayName} build skipped due to no changes detected&quot;
+                                return
+                            } else {
+                                // Check for changes in relevant files
+                                def changes = sh(script: &quot;git diff --name-only ${lastCommit} ${currentCommit}&quot;, returnStdout: true).trim().split(&quot;\n&quot;)
+                                def relevantChanges = changes.findAll { 
+                                    !(it in [&#x27;README.md&#x27;, &#x27;SECURITY.md&#x27;, &#x27;CHANGELOG.md&#x27;, &#x27;.github/dependabot.yml&#x27;])
+                                }
+
+                                if (relevantChanges.isEmpty()) {
+                                    echo &quot;No relevant changes detected. Skipping build.&quot;
+                                    currentBuild.result = &#x27;NOT_BUILT&#x27;
+                                    currentBuild.description = &quot;${currentBuild.fullDisplayName} build skipped due to no relevant changes&quot;
+                                    return
+                                } else {
+                                    echo &quot;Relevant changes detected. Proceeding with build.&quot;
+                                    BUILD_STATUS = &#x27;BUILT&#x27;
+                                }
+                            }
+                        } else {
+                            echo &quot;No last commit file found. Proceeding with initial build.&quot;
+                            BUILD_STATUS = &#x27;BUILT&#x27;
+                        }
+
+                        // Save the current commit hash to the file
+                        writeFile(file: COMMIT_FILE, text: currentCommit)
+                    }
                 }
             }
         }
         stage(&#x27;Dependencies&#x27;) {
             when {
-                not {
-                    environment name: &#x27;BUILD_STATUS&#x27;, value: &#x27;NOT_BUILT&#x27;
-                }
+                expression { return BUILD_STATUS != &#x27;NOT_BUILT&#x27; }
             }
             steps {
                 script {
@@ -2801,9 +2804,7 @@ sudo apt-get install jenkins
         }
         stage(&#x27;Build Image&#x27;) {
             when {
-                not {
-                    environment name: &#x27;BUILD_STATUS&#x27;, value: &#x27;NOT_BUILT&#x27;
-                }
+                expression { return BUILD_STATUS != &#x27;NOT_BUILT&#x27; }
             }
             steps {
                 script {
@@ -2823,9 +2824,7 @@ sudo apt-get install jenkins
         }
         stage(&#x27;Push Image&#x27;) {
             when {
-                not {
-                    environment name: &#x27;BUILD_STATUS&#x27;, value: &#x27;NOT_BUILT&#x27;
-                }
+                expression { return BUILD_STATUS != &#x27;NOT_BUILT&#x27; }
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: &#x27;harbor-credentials&#x27;, passwordVariable: &#x27;DOCKER_REGISTRY_PASSWORD&#x27;, usernameVariable: &#x27;DOCKER_REGISTRY_USERNAME&#x27;)]) {
@@ -2848,7 +2847,9 @@ sudo apt-get install jenkins
     post {
         success {
             script {
-                currentBuild.description = &quot;Image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}&quot;
+                if (!currentBuild.description) {
+                    currentBuild.description = &quot;Image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} built and pushed successfully&quot;
+                }
 
                 // Send success notification email
                 sh &quot;&quot;&quot;curl -s \
@@ -2869,9 +2870,9 @@ sudo apt-get install jenkins
                                                     &quot;Name&quot;: &quot;Development Team&quot;
                                             }
                                     ],
-                                    &quot;Subject&quot;: &quot;${currentBuild.fullDisplayName} built successfully&quot;,
-                                    &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} is now built and pushed to the registry&quot;,
-                                    &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is now built and pushed to the registry &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
+                                    &quot;Subject&quot;: &quot;${currentBuild.description}&quot;,
+                                    &quot;TextPart&quot;: &quot;ola Development Team, your project ${currentBuild.fullDisplayName} : ${currentBuild.description}&quot;,
+                                    &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} : ${currentBuild.description} &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
                             }
                     ]
                 }&#x27;&quot;&quot;&quot;
@@ -2927,6 +2928,8 @@ sudo apt-get install jenkins
         REGISTRY = &quot;harbor.arpansahu.me&quot;
         REPOSITORY = &quot;library/great_chat&quot;
         IMAGE_TAG = &quot;latest&quot;  // or use a specific tag if needed
+        KUBECONFIG = &quot;${env.WORKSPACE}/kubeconfig&quot;  // Set the KUBECONFIG environment variable
+        NGINX_CONF = &quot;/etc/nginx/sites-available/arpansahu&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -2939,6 +2942,16 @@ sudo apt-get install jenkins
         stage(&#x27;Checkout&#x27;) {
             steps {
                 checkout scm
+            }
+        }
+        stage(&#x27;Setup Kubernetes Config&#x27;) {
+            steps {
+                script {
+                    // Copy the kubeconfig file to the workspace
+                    sh &quot;sudo cp /root/.kube/config ${env.WORKSPACE}/kubeconfig&quot;
+                    // Change permissions of the kubeconfig file
+                    sh &quot;sudo chmod 644 ${env.WORKSPACE}/kubeconfig&quot;
+                }
             }
         }
         stage(&#x27;Check for New Image&#x27;) {
@@ -2987,12 +3000,57 @@ sudo apt-get install jenkins
                         // Copy the .env file to the workspace
                         sh &quot;sudo cp /root/projectenvs/great_chat/.env ${env.WORKSPACE}/&quot;
 
-                        // Deploy to Kubernetes
-                        sh &#x27;&#x27;&#x27;
-                        kubectl create secret generic great-chat-secret --from-env-file=${WORKSPACE}/.env
-                        kubectl apply -f deployment.yaml
-                        kubectl apply -f service.yaml
-                        &#x27;&#x27;&#x27;
+                        // Check if the file is copied successfully
+                        if (fileExists(&quot;${env.WORKSPACE}/.env&quot;)) {
+                            echo &quot;.env file copied successfully.&quot;
+
+                            // Verify Kubernetes configuration
+                            sh &#x27;kubectl cluster-info&#x27;
+
+                            // Print current directory
+                            sh &#x27;pwd&#x27;
+
+                            // Delete existing secret if it exists
+                            sh &#x27;&#x27;&#x27;
+                            kubectl delete secret great-chat-secret || true
+                            &#x27;&#x27;&#x27;
+
+                            // Deploy to Kubernetes
+                            sh &#x27;&#x27;&#x27;
+                            kubectl create secret generic great-chat-secret --from-env-file=${WORKSPACE}/.env
+                            kubectl apply -f ${WORKSPACE}/deployment.yaml
+                            kubectl apply -f ${WORKSPACE}/service.yaml
+                            &#x27;&#x27;&#x27;
+
+                            // Check deployment status
+                            sh &#x27;&#x27;&#x27;
+                            kubectl rollout status deployment/great-chat-app
+                            &#x27;&#x27;&#x27;
+
+                            // Verify service and get NodePort
+                            def nodePort = sh(script: &quot;kubectl get service great-chat-service -o=jsonpath=&#x27;{.spec.ports[0].nodePort}&#x27;&quot;, returnStdout: true).trim()
+                            echo &quot;Service NodePort: ${nodePort}&quot;
+
+                            // Get cluster IP address
+                            def clusterIP = sh(script: &quot;kubectl get nodes -o=jsonpath=&#x27;{.items[0].status.addresses[0].address}&#x27;&quot;, returnStdout: true).trim()
+                            echo &quot;Cluster IP: ${clusterIP}&quot;
+
+                            // Verify if the service is accessible and delete the Docker container if accessible
+                            sh &quot;&quot;&quot;
+                            curl -v http://${clusterIP}:${nodePort} &amp;&amp; \
+                            if [ \$(docker ps -q -f name=great_chat) ]; then
+                                docker rm -f great_chat
+                            fi
+                            &quot;&quot;&quot;
+
+                            // Update Nginx configuration
+                            // sh &quot;&quot;&quot;
+                            // sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF}
+                            // sudo nginx -s reload
+                            // &quot;&quot;&quot;
+                        } else {
+                            error &quot;.env file not found in the workspace.&quot;
+                        }
                     }
                     currentBuild.description = &#x27;DEPLOYMENT_EXECUTED&#x27;
                 }
@@ -3017,7 +3075,7 @@ sudo apt-get install jenkins
                                         &quot;Name&quot;: &quot;Development Team&quot;
                                     }
                                 ],
-                                &quot;Subject&quot;: &quot;${currentBuild.fullDisplayName} deployed successfully&quot;,
+                                &quot;Subject&quot;: &quot;Jenkins Build Pipeline your project ${currentBuild.fullDisplayName} Ran Successfully&quot;,
                                 &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed&quot;,
                                 &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
                             }
@@ -3026,7 +3084,7 @@ sudo apt-get install jenkins
                     &#x27;&#x27;&#x27;
                 }
                 // Trigger the common_readme job on success
-                build job: &#x27;common_readme&#x27;, parameters: [string(name: &#x27;project_git_url&#x27;, value: &#x27;https://github.com/arpansahu/great_chat&#x27;), string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)], wait: false
+                // build job: &#x27;common_readme&#x27;, parameters: [string(name: &#x27;project_git_url&#x27;, value: &#x27;https://github.com/arpansahu/great_chat&#x27;), string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)], wait: false
             }
         }
         failure {
@@ -3046,7 +3104,7 @@ sudo apt-get install jenkins
                                     &quot;Name&quot;: &quot;Development Team&quot;
                                 }
                             ],
-                            &quot;Subject&quot;: &quot;${currentBuild.fullDisplayName} deployment failed&quot;,
+                            &quot;Subject&quot;: &quot;Jenkins Build Pipeline your project ${currentBuild.fullDisplayName} Ran Failed&quot;,
                             &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} deployment failed&quot;,
                             &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is not deployed, Build Failed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
                         }
