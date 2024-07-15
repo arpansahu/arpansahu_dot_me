@@ -2790,6 +2790,8 @@ sudo apt-get install jenkins
                 script {
                     if (params.skip_checks) {
                         echo &quot;Skipping Checks is True. Proceeding with build.&quot;
+                        BUILD_STATUS = &#x27;BUILT&#x27;
+                        currentBuild.description = &quot;${currentBuild.fullDisplayName} Skipping Checks is True. Proceeding with build.&quot;
                     } else {
                         // Get the current commit hash
                         def currentCommit = sh(script: &quot;git rev-parse HEAD&quot;, returnStdout: true).trim()
@@ -2803,7 +2805,6 @@ sudo apt-get install jenkins
                             // Compare the current commit with the last commit
                             if (currentCommit == lastCommit) {
                                 echo &quot;No changes detected. Skipping build.&quot;
-                                currentBuild.result = &#x27;NOT_BUILT&#x27;
                                 currentBuild.description = &quot;${currentBuild.fullDisplayName} build skipped due to no changes detected&quot;
                                 return
                             } else {
@@ -2815,7 +2816,6 @@ sudo apt-get install jenkins
 
                                 if (relevantChanges.isEmpty()) {
                                     echo &quot;No relevant changes detected. Skipping build.&quot;
-                                    currentBuild.result = &#x27;NOT_BUILT&#x27;
                                     currentBuild.description = &quot;${currentBuild.fullDisplayName} build skipped due to no relevant changes&quot;
                                     return
                                 } else {
@@ -2914,7 +2914,7 @@ sudo apt-get install jenkins
                                             }
                                     ],
                                     &quot;Subject&quot;: &quot;${currentBuild.description}&quot;,
-                                    &quot;TextPart&quot;: &quot;ola Development Team, your project ${currentBuild.fullDisplayName} : ${currentBuild.description}&quot;,
+                                    &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} : ${currentBuild.description}&quot;,
                                     &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} : ${currentBuild.description} &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
                             }
                     ]
@@ -2946,8 +2946,8 @@ sudo apt-get install jenkins
                                             }
                                     ],
                                     &quot;Subject&quot;: &quot;${currentBuild.fullDisplayName} build failed&quot;,
-                                    &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} build failed&quot;,
-                                    &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} build failed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
+                                    &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} build failed ${currentBuild.description} &quot;,
+                                    &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} build failed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; ${currentBuild.description}  &lt;/p&gt;&quot;
                             }
                     ]
                 }&#x27;&quot;&quot;&quot;
@@ -2972,7 +2972,7 @@ sudo apt-get install jenkins
         REPOSITORY = &quot;library/great_chat&quot;
         IMAGE_TAG = &quot;latest&quot;  // or use a specific tag if needed
         KUBECONFIG = &quot;${env.WORKSPACE}/kubeconfig&quot;  // Set the KUBECONFIG environment variable
-        NGINX_CONF = &quot;/etc/nginx/sites-available/arpansahu&quot;
+        NGINX_CONF = &quot;/etc/nginx/sites-available/great-chat&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -2988,6 +2988,9 @@ sudo apt-get install jenkins
             }
         }
         stage(&#x27;Setup Kubernetes Config&#x27;) {
+            when {
+                expression { return params.DEPLOY_TYPE == &#x27;kubernetes&#x27; }
+            }
             steps {
                 script {
                     // Copy the kubeconfig file to the workspace
@@ -3039,6 +3042,29 @@ sudo apt-get install jenkins
                         // Deploy using Docker Compose
                         sh &#x27;docker-compose down&#x27;
                         sh &#x27;docker-compose up -d&#x27;
+
+                        // Wait for a few seconds to let the app start
+                        sleep 10
+
+                        // Verify the container is running
+                        def containerRunning = sh(script: &quot;docker ps -q -f name=great_chat&quot;, returnStdout: true).trim()
+                        if (!containerRunning) {
+                            error &quot;Container great_chat is not running&quot;
+                        } else {
+                            echo &quot;Container great_chat is running&quot;
+                            // Execute curl and scale down Kubernetes deployment if curl is successful
+                            sh &quot;&quot;&quot;
+                                curl -v http://0.0.0.0:8002 &amp;&amp; \\
+                                replicas=\$(kubectl get deployment great-chat-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
+                                if [ &quot;\$replicas&quot; != &quot;&quot; ] &amp;&amp; [ \$replicas -gt 0 ]; then
+                                    kubectl scale deployment great-chat-app --replicas=0 &amp;&amp; \\
+                                    echo &#x27;Kubernetes deployment scaled down successfully.&#x27; &amp;&amp; \\
+                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:8002;|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload
+                                else
+                                    echo &#x27;No running Kubernetes deployment to scale down.&#x27;
+                                fi
+                            &quot;&quot;&quot;
+                        }
                     } else if (params.DEPLOY_TYPE == &#x27;kubernetes&#x27;) {
                         // Copy the .env file to the workspace
                         sh &quot;sudo cp /root/projectenvs/great_chat/.env ${env.WORKSPACE}/&quot;
@@ -3065,6 +3091,9 @@ sudo apt-get install jenkins
                             kubectl apply -f ${WORKSPACE}/service.yaml
                             &#x27;&#x27;&#x27;
 
+                            // Wait for a few seconds to let the app start
+                            sleep 10
+
                             // Check deployment status
                             sh &#x27;&#x27;&#x27;
                             kubectl rollout status deployment/great-chat-app
@@ -3078,19 +3107,14 @@ sudo apt-get install jenkins
                             def clusterIP = sh(script: &quot;kubectl get nodes -o=jsonpath=&#x27;{.items[0].status.addresses[0].address}&#x27;&quot;, returnStdout: true).trim()
                             echo &quot;Cluster IP: ${clusterIP}&quot;
 
-                            // Verify if the service is accessible and delete the Docker container if accessible
+                            // Verify if the service is accessible and delete the Docker container if accessible and update nginx configuration
                             sh &quot;&quot;&quot;
                             curl -v http://${clusterIP}:${nodePort} &amp;&amp; \
                             if [ \$(docker ps -q -f name=great_chat) ]; then
-                                docker rm -f great_chat
+                                docker rm -f great_chat &amp;&amp; \\
+                                sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload
                             fi
                             &quot;&quot;&quot;
-
-                            // Update Nginx configuration
-                            // sh &quot;&quot;&quot;
-                            // sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF}
-                            // sudo nginx -s reload
-                            // &quot;&quot;&quot;
                         } else {
                             error &quot;.env file not found in the workspace.&quot;
                         }
@@ -3104,57 +3128,60 @@ sudo apt-get install jenkins
         success {
             script {
                 if (currentBuild.description == &#x27;DEPLOYMENT_EXECUTED&#x27;) {
-                    sh &#x27;&#x27;&#x27;
-                    curl -s -X POST --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET https://api.mailjet.com/v3.1/send -H &quot;Content-Type:application/json&quot; -d &#x27;{
+                    sh &quot;&quot;&quot;curl -s \
+                    -X POST \
+                    --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
+                    https://api.mailjet.com/v3.1/send \
+                    -H &quot;Content-Type:application/json&quot; \
+                    -d &#x27;{
                         &quot;Messages&quot;:[
-                            {
-                                &quot;From&quot;: {
-                                    &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
-                                    &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
-                                },
-                                &quot;To&quot;: [
-                                    {
-                                        &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
-                                        &quot;Name&quot;: &quot;Development Team&quot;
-                                    }
-                                ],
-                                &quot;Subject&quot;: &quot;Jenkins Build Pipeline your project ${currentBuild.fullDisplayName} Ran Successfully&quot;,
-                                &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed&quot;,
-                                &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
-                            }
+                                {
+                                        &quot;From&quot;: {
+                                                &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
+                                                &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
+                                        },
+                                        &quot;To&quot;: [
+                                                {
+                                                        &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
+                                                        &quot;Name&quot;: &quot;Development Team&quot;
+                                                }
+                                        ],
+                                        &quot;Subject&quot;: &quot;Jenkins Build Pipeline your project ${currentBuild.fullDisplayName} Ran Successfully&quot;,
+                                        &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed&quot;,
+                                        &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
+                                }
                         ]
-                    }&#x27;
-                    &#x27;&#x27;&#x27;
+                    }&#x27;&quot;&quot;&quot;
                 }
                 // Trigger the common_readme job on success
-                // build job: &#x27;common_readme&#x27;, parameters: [string(name: &#x27;project_git_url&#x27;, value: &#x27;https://github.com/arpansahu/great_chat&#x27;), string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)], wait: false
+                build job: &#x27;common_readme&#x27;, parameters: [string(name: &#x27;project_git_url&#x27;, value: &#x27;https://github.com/arpansahu/great_chat&#x27;), string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)], wait: false
             }
         }
         failure {
-            script {
-                // Send deployment failure notification
-                sh &#x27;&#x27;&#x27;
-                curl -s -X POST --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET https://api.mailjet.com/v3.1/send -H &quot;Content-Type:application/json&quot; -d &#x27;{
-                    &quot;Messages&quot;:[
+            sh &quot;&quot;&quot;curl -s \
+            -X POST \
+            --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
+            https://api.mailjet.com/v3.1/send \
+            -H &quot;Content-Type:application/json&quot; \
+            -d &#x27;{
+                &quot;Messages&quot;:[
                         {
-                            &quot;From&quot;: {
-                                &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
-                                &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
-                            },
-                            &quot;To&quot;: [
-                                {
-                                    &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
-                                    &quot;Name&quot;: &quot;Development Team&quot;
-                                }
-                            ],
+                                &quot;From&quot;: {
+                                        &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
+                                        &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
+                                },
+                                &quot;To&quot;: [
+                                        {
+                                                &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
+                                                &quot;Name&quot;: &quot;Developer Team&quot;
+                                        }
+                                ],
                             &quot;Subject&quot;: &quot;Jenkins Build Pipeline your project ${currentBuild.fullDisplayName} Ran Failed&quot;,
                             &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} deployment failed&quot;,
                             &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is not deployed, Build Failed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
                         }
-                    ]
-                }&#x27;
-                &#x27;&#x27;&#x27;
-            }
+                ]
+            }&#x27;&quot;&quot;&quot;
         }
     }
 }
