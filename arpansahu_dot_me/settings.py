@@ -17,15 +17,18 @@ from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 MY_EMAIL_ADDRESS = config('MY_EMAIL_ADDRESS')
 MAIL_JET_EMAIL_ADDRESS = config('MAIL_JET_EMAIL_ADDRESS')
+
+REDISCLOUD_URL = config('REDISCLOUD_URL')
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
-DROPBOX_ACCESS_TOKEN = config('DROPBOX_ACCESS_TOKEN')
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(config('DEBUG'))
-
 ALLOWED_HOSTS = [config('ALLOWED_HOSTS')]
 
 # Application definition
@@ -38,8 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'check_service_health',
     # custom apps
-    'emails_otp'
+    'account',
+    'emails_otp',
+
 ]
 
 MIDDLEWARE = [
@@ -125,8 +131,7 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
-# AWS S3
+
 if not DEBUG:
     BUCKET_TYPE = config('BUCKET_TYPE')
 
@@ -146,15 +151,15 @@ if not DEBUG:
             'Access-Control-Allow-Origin': '*',
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = 'portfolio/arpansahu.me/static'
+        AWS_STATIC_LOCATION = 'portfolio/arpansahu_dot_me/static'
         STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STATIC_LOCATION}/'
         STATICFILES_STORAGE = 'arpansahu_dot_me.storage_backends.StaticStorage'
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = 'portfolio/arpansahu.me/media'
+        AWS_PUBLIC_MEDIA_LOCATION = 'portfolio/arpansahu_dot_me/media'
         MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_PUBLIC_MEDIA_LOCATION}/'
         DEFAULT_FILE_STORAGE = 'arpansahu_dot_me.storage_backends.PublicMediaStorage'
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = 'portfolio/arpansahu.me/private'
+        PRIVATE_MEDIA_LOCATION = 'portfolio/arpansahu_dot_me/private'
         PRIVATE_FILE_STORAGE = 'arpansahu_dot_me.storage_backends.PrivateMediaStorage'
 
     elif BUCKET_TYPE == 'BLACKBLAZE':
@@ -162,7 +167,7 @@ if not DEBUG:
         AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
         AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-        AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME')
+        AWS_S3_REGION_NAME = 'us-east-005'
 
         AWS_S3_ENDPOINT = f's3.{AWS_S3_REGION_NAME}.backblazeb2.com'
         AWS_S3_ENDPOINT_URL = f'https://{AWS_S3_ENDPOINT}'
@@ -178,17 +183,48 @@ if not DEBUG:
             'Access-Control-Allow-Origin': '*',
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = 'portfolio/arpansahu.me/static'
+        AWS_STATIC_LOCATION = 'portfolio/arpansahu_dot_me/static'
         STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.{AWS_STATIC_LOCATION}/'
         STATICFILES_STORAGE = 'arpansahu_dot_me.storage_backends.StaticStorage'
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = 'portfolio/arpansahu.me/media'
+        AWS_PUBLIC_MEDIA_LOCATION = 'portfolio/arpansahu_dot_me/media'
         MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.{AWS_PUBLIC_MEDIA_LOCATION}/'
         DEFAULT_FILE_STORAGE = 'arpansahu_dot_me.storage_backends.PublicMediaStorage'
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = 'portfolio/arpansahu.me/private'
+        PRIVATE_MEDIA_LOCATION = 'portfolio/arpansahu_dot_me/private'
         PRIVATE_FILE_STORAGE = 'arpansahu_dot_me.storage_backends.PrivateMediaStorage'
 
+    elif BUCKET_TYPE == 'MINIO':
+        AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+        AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+        AWS_S3_REGION_NAME = 'us-east-1'  # MinIO doesn't require this, but boto3 does
+        AWS_S3_ENDPOINT_URL = 'https://minio.arpansahu.me'
+        AWS_DEFAULT_ACL = 'public-read'
+        AWS_S3_OBJECT_PARAMETERS = {
+            'CacheControl': 'max-age=86400',
+        }
+        AWS_LOCATION = 'static'
+        AWS_QUERYSTRING_AUTH = False
+        AWS_HEADERS = {
+            'Access-Control-Allow-Origin': '*',
+        }
+
+        # s3 static settings
+        AWS_STATIC_LOCATION = 'portfolio/arpansahu_dot_me/static'
+        STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}/{AWS_STATIC_LOCATION}/'
+        STATICFILES_STORAGE = 'arpansahu_dot_me.storage_backends.StaticStorage'
+
+        # s3 public media settings
+        AWS_PUBLIC_MEDIA_LOCATION = 'portfolio/arpansahu_dot_me/media'
+        MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}/{AWS_PUBLIC_MEDIA_LOCATION}/'
+        DEFAULT_FILE_STORAGE = 'arpansahu_dot_me.storage_backends.PublicMediaStorage'
+
+        # s3 private media settings
+        PRIVATE_MEDIA_LOCATION = 'portfolio/arpansahu_dot_me/private'
+        PRIVATE_FILE_STORAGE = 'arpansahu_dot_me.storage_backends.PrivateMediaStorage'
+
+    
 
 else:
     # Static files (CSS, JavaScript, Images)
@@ -198,8 +234,8 @@ else:
 
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
 
 # Default primary key field type
@@ -207,11 +243,18 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL = config('EMAIL')
-PASS = config('PASS')
+AUTH_USER_MODEL = "account.Account"
+
+# Login_required Decorator
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+
+LOGIN_REDIRECT_URL = "/"
+
 
 MAIL_JET_API_KEY = config('MAIL_JET_API_KEY')
 MAIL_JET_API_SECRET = config('MAIL_JET_API_SECRET')
+
 OTP_EXPIRY_TIME = 60
 
 # HTTP_X_FORWARDED_PROTO
@@ -226,8 +269,45 @@ SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 #Caching
 CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": config('REDISCLOUD_URL'),
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': config('REDISCLOUD_URL'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
     }
 }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.core.management.commands.collectstatic': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+CSRF_TRUSTED_ORIGINS = ['https://arpansahu.me']

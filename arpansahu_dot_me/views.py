@@ -13,7 +13,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from braces import views
 
-import dropbox
 import base64
 import pyotp
 
@@ -289,8 +288,4 @@ class ContactView(View):
 
 class ResumeView(View):
     def get(self, *args, **kwargs):
-        # dbx = dropbox.Dropbox(app_secret='3ff49y21jcyqcy6', app_key='70ccz9td03ypgr7')
-        # dbx.files_download_to_file('arpansahuresume.pdf', '/' + 'arpansahuresume.pdf')
-        # file_path = os.path.join(str(settings.BASE_DIR) + '/', 'arpansahuresume.pdf')
-        # return FileResponse(open(file_path, 'rb'), content_type='application/pdf')
         return HttpResponseRedirect('https://github.com/arpansahu/arpansahu.me/blob/master/resume.pdf')
