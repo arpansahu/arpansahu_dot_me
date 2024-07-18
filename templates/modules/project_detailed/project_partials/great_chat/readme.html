@@ -835,6 +835,7 @@ include_files = {
     &quot;PROJECT_NAME_DASH&quot; : &quot;../readme_manager/partials/project_name_with_dash.md&quot;,
     &quot;PROJECT_DOCKER_PORT&quot;: &quot;../readme_manager/partials/project_docker_port.md&quot;,
     &quot;PROJECT_NODE_PORT&quot;: &quot;../readme_manager/partials/project_node_port.md&quot;,
+    &quot;DOMAIN_NAME&quot;: &quot;../readme_manager/partials/project_domain_name.md&quot;
 }
 </code></pre>
 <p>
@@ -2895,6 +2896,7 @@ sudo apt-get install jenkins
         REPOSITORY = &quot;library/great_chat&quot;
         IMAGE_TAG = &quot;${env.BUILD_ID}&quot;
         COMMIT_FILE = &quot;${env.WORKSPACE}/last_commit.txt&quot;
+        ENV_PROJECT_NAME = &quot;great_chat&quot;
     }
     stages {
         stage(&#x27;Checkout&#x27;) {
@@ -2958,7 +2960,7 @@ sudo apt-get install jenkins
             steps {
                 script {
                     // Copy .env file to the workspace
-                    sh &quot;sudo cp /root/projectenvs/great_chat/.env ${env.WORKSPACE}/&quot;
+                    sh &quot;sudo cp /root/projectenvs/${ENV_PROJECT_NAME}/.env ${env.WORKSPACE}/&quot;
                 }
             }
         }
@@ -3090,6 +3092,7 @@ sudo apt-get install jenkins
         IMAGE_TAG = &quot;latest&quot;  // or use a specific tag if needed
         KUBECONFIG = &quot;${env.WORKSPACE}/kubeconfig&quot;  // Set the KUBECONFIG environment variable
         NGINX_CONF = &quot;/etc/nginx/sites-available/great-chat&quot;
+        ENV_PROJECT_NAME = &quot;great_chat&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3184,7 +3187,7 @@ sudo apt-get install jenkins
                         }
                     } else if (params.DEPLOY_TYPE == &#x27;kubernetes&#x27;) {
                         // Copy the .env file to the workspace
-                        sh &quot;sudo cp /root/projectenvs/great_chat/.env ${env.WORKSPACE}/&quot;
+                        sh &quot;sudo cp /root/projectenvs/${ENV_PROJECT_NAME}/.env ${env.WORKSPACE}/&quot;
 
                         // Check if the file is copied successfully
                         if (fileExists(&quot;${env.WORKSPACE}/.env&quot;)) {
