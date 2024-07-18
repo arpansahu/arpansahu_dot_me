@@ -80,16 +80,6 @@ spec:
                 secretKeyRef:
                   name: arpansahu-dot-me-secret
                   key: MY_EMAIL_ADDRESS
-            - name: DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: DOMAIN
-            - name: PROTOCOL
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: PROTOCOL
           ports:
             - containerPort: 8002
               name: daphne
