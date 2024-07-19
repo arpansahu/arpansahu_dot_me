@@ -86,5 +86,5 @@ spec:
                   name: arpansahu-dot-me-secret
                   key: MY_EMAIL_ADDRESS
           ports:
-            - containerPort: 8002
-              name: daphne
+            - containerPort: 8000
+              name: gunicorn
