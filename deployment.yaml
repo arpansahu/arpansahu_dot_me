@@ -75,6 +75,11 @@ spec:
                 secretKeyRef:
                   name: arpansahu-dot-me-secret
                   key: MAIL_JET_API_SECRET
+            - name: MAIL_JET_EMAIL_ADDRESS
+              valueFrom:
+                secretKeyRef:
+                  name: arpansahu-dot-me-secret
+                  key: MAIL_JET_EMAIL_ADDRESS
             - name: MY_EMAIL_ADDRESS
               valueFrom:
                 secretKeyRef:
