@@ -41,8 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'check_service_health',
     # custom apps
+    'check_service_health',
+    'custom_tag_app',
     'account',
     'emails_otp',
 

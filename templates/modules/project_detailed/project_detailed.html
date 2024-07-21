@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_tags %}
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
 
@@ -47,11 +48,11 @@
 {% block content %}
 
     <!-- start hero -->
-    {% include 'modules/project_detailed/project_partials/great_chat/hero.html' %}
+    {% include 'modules/project_detailed/project_partials/'|add:project_name|add:'/hero.html' %}
     <!-- end hero -->
 
     <!-- start slider -->
-    {% include 'modules/project_detailed/project_partials/great_chat/slider.html' %}
+    {% include 'modules/project_detailed/project_partials/'|add:project_name|add:'/slider.html' %}
      <!-- end slider -->
 
      <div class="container-fluid py-4" style="background-color: black">
@@ -59,7 +60,7 @@
           <div class="col-12" style="border-radius: 10px">
             <div class="card mb-12" style="border-radius: 20px">
                 <div style="padding: 20px; border-radius: 10px">
-                  {% include 'modules/project_detailed/project_partials/great_chat/readme.html' %}
+                  {% include 'modules/project_detailed/project_partials/'|add:project_name|add:'/readme.html' %}
                 </div>
             </div>
           </div>
