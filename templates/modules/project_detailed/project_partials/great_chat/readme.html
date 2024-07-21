@@ -244,10 +244,6 @@
   <img alt="Postgres" src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white"/>
  </a>
  <br/>
- <a href="https://heroku.com/">
-  <img alt="Heroku" src="https://img.shields.io/badge/-Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white"/>
- </a>
- <br/>
  <a href="https://www.github.com/">
   <img alt="Github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>
  </a>
@@ -256,17 +252,21 @@
   <img alt="Docker" src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"/>
  </a>
  <br/>
- <a href="https://www.jenkins.io/">
-  <img alt="Jenkins" src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white"/>
+ <img alt="Harbor" src="https://img.shields.io/badge/HARBOR-TEXT?style=for-the-badge&logo=harbor&logoColor=white&color=blue"/>
+ <br/>
+ <a href="https://kubernetes.io/">
+  <img alt="Kubernetes" src="https://img.shields.io/badge/kubernetes-326ce5.svg?&style=for-the-badge&logo=kubernetes&logoColor=white"/>
  </a>
  <br/>
- <a href="https://aws.amazon.com/">
-  <img alt="AWS" src="https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white"/>
+ <a href="https://www.jenkins.io/">
+  <img alt="Jenkins" src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white"/>
  </a>
  <br/>
  <a href="https://nginx.org/en/">
   <img alt="Nginx" src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white"/>
  </a>
+ <br/>
+ <img alt="Minio" src="https://img.shields.io/badge/MINIO-TEXT?style=for-the-badge&logo=minio&logoColor=white&color=%23C72E49"/>
  <br/>
  <a href="https://ubuntu.com/">
   <img alt="Ubuntu" src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"/>
@@ -1441,7 +1441,14 @@ include_files = {
   Edit Nginx Configuration
  </li>
 </ol>
-<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/arpansahu
+<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/services
+</code></pre>
+<pre><code>if /etc/nginx/sites-available/services does not exists
+
+    1. Create a new configuration file: Create a new file in the Nginx configuration directory. The location of this directory varies depending on your  operating system and Nginx installation, but it’s usually found at /etc/nginx/sites-available/.
+</code></pre>
+<pre><code class="language-bash">            touch /etc/nginx/sites-available/services
+            vi /etc/nginx/sites-available/services
 </code></pre>
 <ol>
  <li>
@@ -1818,7 +1825,14 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
   Edit Nginx Configuration
  </li>
 </ol>
-<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/arpansahu
+<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/services
+</code></pre>
+<pre><code>if /etc/nginx/sites-available/services does not exists
+
+    1. Create a new configuration file: Create a new file in the Nginx configuration directory. The location of this directory varies depending on your  operating system and Nginx installation, but it’s usually found at /etc/nginx/sites-available/.
+</code></pre>
+<pre><code class="language-bash">            touch /etc/nginx/sites-available/services
+            vi /etc/nginx/sites-available/services
 </code></pre>
 <ol>
  <li>
@@ -2091,11 +2105,6 @@ spec:
                 secretKeyRef:
                   name: great-chat-secret
                   key: MAIL_JET_API_SECRET
-            - name: MY_EMAIL_ADDRESS
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: MY_EMAIL_ADDRESS
             - name: DOMAIN
               valueFrom:
                 secretKeyRef:
@@ -2714,9 +2723,20 @@ sudo apt-get install jenkins
 <p>
  Now for serving the Jenkins UI from Nginx add the following lines to the Nginx file located at
  <br/>
- /etc/nginx/sites-available/arpansahu by running the following command
+ /etc/nginx/sites-available/service by running the following command
 </p>
-<pre><code class="language-bash">sudo vi /etc/nginx/sites-available/arpansahu
+<p>
+ Edit Nginx Configuration
+</p>
+<pre><code class="language-bash">sudo vi /etc/nginx/sites-available/services
+</code></pre>
+<p>
+ if /etc/nginx/sites-available/services does not exists
+</p>
+<pre><code>1. Create a new configuration file: Create a new file in the Nginx configuration directory. The location of this directory varies depending on your  operating system and Nginx installation, but it’s usually found at /etc/nginx/sites-available/.
+</code></pre>
+<pre><code class="language-bash">        touch /etc/nginx/sites-available/services
+        vi /etc/nginx/sites-available/services
 </code></pre>
 <ul>
  <li>
@@ -2862,7 +2882,7 @@ sudo apt-get install jenkins
   Enable the new configuration: Create a symbolic link from this file to the sites-enabled directory.
  </li>
 </ol>
-<pre><code class="language-bash">      sudo ln -s /etc/nginx/sites-available/great-chat/etc/nginx/sites-enabled/
+<pre><code class="language-bash">      sudo ln -s /etc/nginx/sites-available/great-chat /etc/nginx/sites-enabled/
 </code></pre>
 <ol>
  <li>
@@ -3127,7 +3147,7 @@ sudo apt-get install jenkins
             steps {
                 script {
                     // Get the ImageID of the currently running container
-                    def currentImageID = sh(script: &quot;docker inspect -f &#x27;{{.Image}}&#x27; great_chat || echo &#x27;none&#x27;&quot;, returnStdout: true).trim()
+                    def currentImageID = sh(script: &quot;docker inspect -f &#x27;{{.Image}}&#x27; ${ENV_PROJECT_NAME} || echo &#x27;none&#x27;&quot;, returnStdout: true).trim()
                     echo &quot;Current image ID: ${currentImageID}&quot;
 
                     // Pull the latest image to get its ImageID
@@ -3167,11 +3187,11 @@ sudo apt-get install jenkins
                         sleep 10
 
                         // Verify the container is running
-                        def containerRunning = sh(script: &quot;docker ps -q -f name=great_chat&quot;, returnStdout: true).trim()
+                        def containerRunning = sh(script: &quot;docker ps -q -f name=${ENV_PROJECT_NAME}&quot;, returnStdout: true).trim()
                         if (!containerRunning) {
-                            error &quot;Container great_chat is not running&quot;
+                            error &quot;Container ${ENV_PROJECT_NAME} is not running&quot;
                         } else {
-                            echo &quot;Container great_chat is running&quot;
+                            echo &quot;Container ${ENV_PROJECT_NAME} is running&quot;
                             // Execute curl and scale down Kubernetes deployment if curl is successful
                             sh &quot;&quot;&quot;
                                 curl -v http://0.0.0.0:8002 &amp;&amp; \\
@@ -3207,8 +3227,8 @@ sudo apt-get install jenkins
                             // Deploy to Kubernetes
                             sh &#x27;&#x27;&#x27;
                             kubectl create secret generic great-chat-secret --from-env-file=${WORKSPACE}/.env
-                            kubectl apply -f ${WORKSPACE}/deployment.yaml
                             kubectl apply -f ${WORKSPACE}/service.yaml
+                            kubectl apply -f ${WORKSPACE}/deployment.yaml
                             &#x27;&#x27;&#x27;
 
                             // Wait for a few seconds to let the app start
@@ -3230,8 +3250,8 @@ sudo apt-get install jenkins
                             // Verify if the service is accessible and delete the Docker container if accessible and update nginx configuration
                             sh &quot;&quot;&quot;
                             curl -v http://${clusterIP}:${nodePort} &amp;&amp; \
-                            if [ \$(docker ps -q -f name=great_chat) ]; then
-                                docker rm -f great_chat &amp;&amp; \\
+                            if [ \$(docker ps -q -f name=${ENV_PROJECT_NAME}) ]; then
+                                docker rm -f ${ENV_PROJECT_NAME} &amp;&amp; \\
                                 sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload
                             fi
                             &quot;&quot;&quot;
@@ -3274,7 +3294,7 @@ sudo apt-get install jenkins
                     }&#x27;&quot;&quot;&quot;
                 }
                 // Trigger the common_readme job on success
-                build job: &#x27;common_readme&#x27;, parameters: [string(name: &#x27;project_git_url&#x27;, value: &#x27;https://github.com/arpansahu/great_chat&#x27;), string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)], wait: false
+                build job: &#x27;common_readme&#x27;, parameters: [string(name: &#x27;project_git_url&#x27;, value: &#x27;https://github.com/arpansahu/${ENV_PROJECT_NAME}&#x27;), string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)], wait: false
             }
         }
         failure {
@@ -3784,7 +3804,14 @@ pgadmin4
   Edit Nginx Configuration
  </li>
 </ol>
-<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/arpansahu
+<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/services
+</code></pre>
+<pre><code>if /etc/nginx/sites-available/services does not exists
+
+    1. Create a new configuration file: Create a new file in the Nginx configuration directory. The location of this directory varies depending on your  operating system and Nginx installation, but it’s usually found at /etc/nginx/sites-available/.
+</code></pre>
+<pre><code class="language-bash">            touch /etc/nginx/sites-available/services
+            vi /etc/nginx/sites-available/services
 </code></pre>
 <ol>
  <li>
@@ -3937,7 +3964,14 @@ pgadmin4
   Edit Nginx Configuration
  </li>
 </ol>
-<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/arpansahu
+<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/services
+</code></pre>
+<pre><code>if /etc/nginx/sites-available/services does not exists
+
+    1. Create a new configuration file: Create a new file in the Nginx configuration directory. The location of this directory varies depending on your  operating system and Nginx installation, but it’s usually found at /etc/nginx/sites-available/.
+</code></pre>
+<pre><code class="language-bash">            touch /etc/nginx/sites-available/services
+            vi /etc/nginx/sites-available/services
 </code></pre>
 <ol>
  <li>
@@ -4006,7 +4040,14 @@ pgadmin4
   </ol>
  </li>
 </ol>
-<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/arpansahu
+<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/services
+</code></pre>
+<pre><code>if /etc/nginx/sites-available/services does not exists
+
+    1. Create a new configuration file: Create a new file in the Nginx configuration directory. The location of this directory varies depending on your  operating system and Nginx installation, but it’s usually found at /etc/nginx/sites-available/.
+</code></pre>
+<pre><code class="language-bash">            touch /etc/nginx/sites-available/services
+            vi /etc/nginx/sites-available/services
 </code></pre>
 <pre><code>2. Add this server configuration
 </code></pre>
@@ -4336,10 +4377,17 @@ pgadmin4
 </code></pre>
 <ol>
  <li>
-  Creating Server Block in Nginx config file
+  Edit Nginx Configuration
  </li>
 </ol>
-<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/arpansahu
+<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/services
+</code></pre>
+<pre><code>if /etc/nginx/sites-available/services does not exists
+
+    1. Create a new configuration file: Create a new file in the Nginx configuration directory. The location of this directory varies depending on your  operating system and Nginx installation, but it’s usually found at /etc/nginx/sites-available/.
+</code></pre>
+<pre><code class="language-bash">            touch /etc/nginx/sites-available/services
+            vi /etc/nginx/sites-available/services
 </code></pre>
 <ol>
  <li>
@@ -5025,10 +5073,6 @@ if __name__ == &quot;__main__&quot;:
   <img alt="Postgres" src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white"/>
  </a>
  <br/>
- <a href="https://heroku.com/">
-  <img alt="Heroku" src="https://img.shields.io/badge/-Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white"/>
- </a>
- <br/>
  <a href="https://www.github.com/">
   <img alt="Github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>
  </a>
@@ -5037,17 +5081,21 @@ if __name__ == &quot;__main__&quot;:
   <img alt="Docker" src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"/>
  </a>
  <br/>
- <a href="https://www.jenkins.io/">
-  <img alt="Jenkins" src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white"/>
+ <img alt="Harbor" src="https://img.shields.io/badge/HARBOR-TEXT?style=for-the-badge&logo=harbor&logoColor=white&color=blue"/>
+ <br/>
+ <a href="https://kubernetes.io/">
+  <img alt="Kubernetes" src="https://img.shields.io/badge/kubernetes-326ce5.svg?&style=for-the-badge&logo=kubernetes&logoColor=white"/>
  </a>
  <br/>
- <a href="https://aws.amazon.com/">
-  <img alt="AWS" src="https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white"/>
+ <a href="https://www.jenkins.io/">
+  <img alt="Jenkins" src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white"/>
  </a>
  <br/>
  <a href="https://nginx.org/en/">
   <img alt="Nginx" src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white"/>
  </a>
+ <br/>
+ <img alt="Minio" src="https://img.shields.io/badge/MINIO-TEXT?style=for-the-badge&logo=minio&logoColor=white&color=%23C72E49"/>
  <br/>
  <a href="https://ubuntu.com/">
   <img alt="Ubuntu" src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"/>
@@ -5073,9 +5121,6 @@ if __name__ == &quot;__main__&quot;:
 </p>
 <p>
  MAIL_JET_API_SECRET=
-</p>
-<p>
- MY_EMAIL_ADDRESS=
 </p>
 <p>
  AWS_ACCESS_KEY_ID=
