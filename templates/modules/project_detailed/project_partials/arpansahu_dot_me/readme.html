@@ -1,146 +1,44 @@
 <h1>
- Great Chat
+ arpansahu | Django Portfolio Website
 </h1>
 <p>
- This WhatsApp clone project provides a comprehensive chat application with various advanced features. Below are the main components and functionalities of the project.
+ This project is implementation for the following topics related to technologies used with Django
 </p>
-<h2>
- Project Features
-</h2>
+<p>
+ -Build Portfolio Using Bootstrap 5.
+</p>
 <ol>
  <li>
-  <strong>
-   Account Functionality:
-  </strong>
-  Complete account management.
+  Used Bootstrap for building UI and Django as Backend.
  </li>
  <li>
-  <strong>
-   PostgreSql Integration:
-  </strong>
-  Utilized as a database.
+  Used DropBox API for showing updated Resumes.
  </li>
  <li>
-  <strong>
-   AWS S3/MinIO Integration:
-  </strong>
-  For file storage.
+  Used Javascript / Jquery for making templates Dynamic
  </li>
  <li>
-  <strong>
-   Redis Integration:
-  </strong>
-  Utilized for caching and message pub/sub.
+  Used SMTP to notify my whenever someone tries to message me on arpansahu.me
  </li>
  <li>
-  <strong>
-   Autocomplete JS Library:
-  </strong>
-  Implemented for enhanced user experience.
+  Used AWS S3 Bucket
  </li>
  <li>
-  <strong>
-   MailJet Integration:
-  </strong>
-  Used for email services.
- </li>
- <li>
-  <strong>
-   Dockerized Project:
-  </strong>
-  Fully containerized for easy deployment.
- </li>
- <li>
-  <strong>
-   Kubernetes-native
-  </strong>
-  Kubernetes support also available.
- </li>
- <li>
-  <strong>
-   CI/CD Pipeline:
-  </strong>
-  Continuous integration and deployment included using Jenkins.
+  Since Heroku doesn't allow to send mail using SMTP, Integrated Mail Jet
  </li>
 </ol>
-<h2>
- WhatsApp Clone Functionalities
-</h2>
+<p>
+ -Deployed on Heroku
+</p>
 <ol>
  <li>
-  <strong>
-   Messaging:
-  </strong>
+  Used Postgres
  </li>
  <li>
-  Send text messages and files.
+  Used Daphene
  </li>
  <li>
-  Download files via download links.
- </li>
- <li>
-  View images and GIFs directly in the chat.
- </li>
- <li>
-  <strong>
-   Private Chat:
-  </strong>
- </li>
- <li>
-  Chat privately with your contacts.
- </li>
- <li>
-  Search your private contacts.
- </li>
- <li>
-  <strong>
-   Group Chat:
-  </strong>
- </li>
- <li>
-  Chat with friends or others in private groups.
- </li>
- <li>
-  Invite people to your private group.
- </li>
- <li>
-  Leave a group chat if desired.
- </li>
- <li>
-  Admins can delete their own group chats.
- </li>
- <li>
-  Remove members from your own group.
- </li>
- <li>
-  <strong>
-   Global Chat:
-  </strong>
- </li>
- <li>
-  Participate in a global chat room.
- </li>
- <li>
-  <strong>
-   Profile Management:
-  </strong>
- </li>
- <li>
-  Set profile photos.
- </li>
- <li>
-  Set group chat photos.
- </li>
- <li>
-  <strong>
-   Message Display:
-  </strong>
- </li>
- <li>
-  View the last 30 messages.
- </li>
- <li>
-  See user online/offline status.
+  Used REDIS
  </li>
 </ol>
 <p>
@@ -174,9 +72,6 @@
  <li>
   PostgresSQL is also hosted on Home Server Itself.
  </li>
- <li>
-  Using MINIIO as self hosted S3 Storage Server.
- </li>
 </ol>
 <h2>
  What is Python ?
@@ -200,13 +95,7 @@
 <p>
  Redis is an in-memory data structure project implementing a distributed, in-memory key-value database with optional durability.
  <br/>
- The most common Redis use cases are session cache, full-page cache, queues, leader boards and counting, publish-subscribe, and much more. in this case, we will use Redis as a message broker.
-</p>
-<h2>
- What is Ajax?
-</h2>
-<p>
- Ajax is a set of web development techniques that uses various web technologies on the client-side to create asynchronous web applications. With Ajax, web applications can send and retrieve data from a server asynchronously without interfering with the display and behavior of the existing page.
+ The most common Redis use cases are session cache, full-page cache, queues, leaderboards and counting, publish-subscribe, and much more. in this case, we will use Redis as a message broker.
 </p>
 <h2>
  Tech Stack
@@ -218,6 +107,10 @@
  <br/>
  <a href="https://www.djangoproject.com/">
   <img alt="Django" src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://jquery.com/">
+  <img alt="Jquery" src="https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white"/>
  </a>
  <br/>
  <a href="https://developer.mozilla.org/en-US/docs/Glossary/HTML5">
@@ -236,39 +129,31 @@
   <img alt="Javascript" src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E"/>
  </a>
  <br/>
- <a href="https://redis.io/docs/">
-  <img alt="Redis" src="https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white"/>
- </a>
- <br/>
- <a href="https://www.postgresql.org/docs/">
-  <img alt="Postgres" src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white"/>
- </a>
- <br/>
  <a href="https://heroku.com/">
   <img alt="Heroku" src="https://img.shields.io/badge/-Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white"/>
- </a>
- <br/>
- <a href="https://www.github.com/">
-  <img alt="Github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>
- </a>
- <br/>
- <a href="https://www.docker.com/">
-  <img alt="Docker" src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"/>
- </a>
- <br/>
- <a href="https://www.jenkins.io/">
-  <img alt="Jenkins" src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white"/>
  </a>
  <br/>
  <a href="https://aws.amazon.com/">
   <img alt="AWS" src="https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white"/>
  </a>
  <br/>
- <a href="https://nginx.org/en/">
+ <a href="https://www.github.com/">
+  <img alt="Github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://www.nginx.com">
   <img alt="Nginx" src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white"/>
  </a>
  <br/>
- <a href="https://ubuntu.com/">
+ <a href="https://www.docker.com">
+  <img alt="Docker" src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://www.jenkins.io">
+  <img alt="Jenkins" src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="">
   <img alt="Ubuntu" src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"/>
  </a>
 </p>
@@ -276,14 +161,7 @@
  Demo
 </h2>
 <p>
- Available at: https://great-chat.arpansahu.me
-</p>
-<p>
- admin login details:--
- <br/>
- username: admin@arpansahu.me
- <br/>
- password: showmecode
+ Available at: https://www.arpansahu.me/
 </p>
 <h2>
  License
@@ -300,87 +178,67 @@
  Installing Pre requisites
 </p>
 <pre><code class="language-bash">  pip install -r requirements.txt
-</code></pre>
-<p>
- Create .env File and don't forget to add .env to gitignore
-</p>
-<pre><code class="language-bash">  add variables mentioned in .env.example
+
 </code></pre>
 <p>
  Making Migrations and Migrating them.
 </p>
 <pre><code class="language-bash">  python manage.py makemigrations
   python manage.py migrate
-</code></pre>
-<p>
- Run update_data Command
-</p>
-<pre><code>  python manage.py update_data
+
 </code></pre>
 <p>
  Creating Super User
 </p>
 <pre><code class="language-bash">  python manage.py createsuperuser
-</code></pre>
-<p>
- Installing Redis On Local (For ubuntu) for other Os Please refer to their website https://redis.io/
-</p>
-<pre><code class="language-bash">  curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
-  echo &quot;deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main&quot; | sudo tee /etc/apt/sources.list.d/redis.list
-  sudo apt-get update
-  sudo apt-get install redis
-  sudo systemctl restart redis.service
-</code></pre>
-<p>
- to check if its running or not
-</p>
-<pre><code class="language-bash">  sudo systemctl status redis
+
 </code></pre>
 <p>
  Run Server
 </p>
 <pre><code class="language-bash">  python manage.py runserver
 
-  or 
+</code></pre>
+<h2>
+ Integrating AWS S3 Bucket
+</h2>
+<p>
+ Install two python packages
+</p>
+<pre><code>pip install boto3
+pip install django-storages
+</code></pre>
+<p>
+ create a new file named
+ <code>
+  storage_backends.py
+ </code>
+ with this code inside it.
+</p>
+<pre><code>from django.conf import settings
+from storages.backends.s3boto3 import S3Boto3Storage
 
-  daphne -p 8000 great_chat.asgi:application
-</code></pre>
-<p>
- Use these CACHE settings
-</p>
-<pre><code class="language-python">CACHES = {
-    &#x27;default&#x27;: {
-        &#x27;BACKEND&#x27;: &#x27;django_redis.cache.RedisCache&#x27;,
-        &#x27;LOCATION&#x27;: config(&#x27;REDISCLOUD_URL&#x27;),
-        &#x27;OPTIONS&#x27;: {
-            &#x27;CLIENT_CLASS&#x27;: &#x27;django_redis.client.DefaultClient&#x27;,
-        }
-    }
-}
-</code></pre>
-<p>
- Use these Channels Settings
-</p>
-<pre><code class="language-python">if not DEBUG:
-    CHANNEL_LAYERS = {
-        &#x27;default&#x27;: {
-            &quot;BACKEND&quot;: &quot;channels.layers.InMemoryChannelLayer&quot;,
-        }
-    }
-else:
-    CHANNEL_LAYERS = {
-        &quot;default&quot;: {
-            &quot;BACKEND&quot;: &quot;channels_redis.core.RedisChannelLayer&quot;,
-            &quot;CONFIG&quot;: {
-                &quot;hosts&quot;: [(config(&#x27;REDISCLOUD_URL&#x27;))],
-            },
-        },
-    }
+
+class StaticStorage(S3Boto3Storage):
+    location = settings.AWS_STATIC_LOCATION
+
+
+class PublicMediaStorage(S3Boto3Storage):
+    location = settings.AWS_PUBLIC_MEDIA_LOCATION
+    file_overwrite = False
+
+
+class PrivateMediaStorage(S3Boto3Storage):
+    location = &#x27;private&#x27;
+    default_acl = &#x27;private&#x27;
+    file_overwrite = False
+    custom_domain = False
+
 </code></pre>
 <p>
  Change settings.py static files and media files settings | Now I have added support for BlackBlaze Static Storage also which also based on AWS S3 protocols
 </p>
-<pre><code class="language-python">if not DEBUG:
+<pre><code>if not DEBUG:
     BUCKET_TYPE = config(&#x27;BUCKET_TYPE&#x27;)
 
     if BUCKET_TYPE == &#x27;AWS&#x27;:
@@ -399,23 +257,23 @@ else:
             &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/great_chat/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/arpansahu.me/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;great_chat.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;arpansahu_dot_me.storage_backends.StaticStorage&#x27;
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/great_chat/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/arpansahu.me/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;great_chat.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PublicMediaStorage&#x27;
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/great_chat/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;great_chat.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/arpansahu.me/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PrivateMediaStorage&#x27;
 
     elif BUCKET_TYPE == &#x27;BLACKBLAZE&#x27;:
 
         AWS_ACCESS_KEY_ID = config(&#x27;AWS_ACCESS_KEY_ID&#x27;)
         AWS_SECRET_ACCESS_KEY = config(&#x27;AWS_SECRET_ACCESS_KEY&#x27;)
         AWS_STORAGE_BUCKET_NAME = config(&#x27;AWS_STORAGE_BUCKET_NAME&#x27;)
-        AWS_S3_REGION_NAME = &#x27;us-east-005&#x27;
+        AWS_S3_REGION_NAME = config(&#x27;AWS_S3_REGION_NAME&#x27;)
 
         AWS_S3_ENDPOINT = f&#x27;s3.{AWS_S3_REGION_NAME}.backblazeb2.com&#x27;
         AWS_S3_ENDPOINT_URL = f&#x27;https://{AWS_S3_ENDPOINT}&#x27;
@@ -431,47 +289,16 @@ else:
             &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/great_chat/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/arpansahu.me/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;great_chat.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;arpansahu_dot_me.storage_backends.StaticStorage&#x27;
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/great_chat/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/arpansahu.me/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;great_chat.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PublicMediaStorage&#x27;
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/great_chat/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;great_chat.storage_backends.PrivateMediaStorage&#x27;
-
-    elif BUCKET_TYPE == &#x27;MINIO&#x27;:
-        AWS_ACCESS_KEY_ID = config(&#x27;AWS_ACCESS_KEY_ID&#x27;)
-        AWS_SECRET_ACCESS_KEY = config(&#x27;AWS_SECRET_ACCESS_KEY&#x27;)
-        AWS_STORAGE_BUCKET_NAME = config(&#x27;AWS_STORAGE_BUCKET_NAME&#x27;)
-        AWS_S3_REGION_NAME = &#x27;us-east-1&#x27;  # MinIO doesn&#x27;t require this, but boto3 does
-        AWS_S3_ENDPOINT_URL = &#x27;https://minio.arpansahu.me&#x27;
-        AWS_DEFAULT_ACL = &#x27;public-read&#x27;
-        AWS_S3_OBJECT_PARAMETERS = {
-            &#x27;CacheControl&#x27;: &#x27;max-age=86400&#x27;,
-        }
-        AWS_LOCATION = &#x27;static&#x27;
-        AWS_QUERYSTRING_AUTH = False
-        AWS_HEADERS = {
-            &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
-        }
-
-        # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/great_chat/static&#x27;
-        STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;great_chat.storage_backends.StaticStorage&#x27;
-
-        # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/great_chat/media&#x27;
-        MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;great_chat.storage_backends.PublicMediaStorage&#x27;
-
-        # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/great_chat/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;great_chat.storage_backends.PrivateMediaStorage&#x27;
-
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/arpansahu.me/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PrivateMediaStorage&#x27;
 
 
 else:
@@ -482,447 +309,162 @@ else:
 
     STATIC_ROOT = os.path.join(BASE_DIR, &#x27;staticfiles&#x27;)
     MEDIA_URL = &#x27;/media/&#x27;
+    MEDIA_ROOT = os.path.join(BASE_DIR, &#x27;media&#x27;)
 
-MEDIA_ROOT = os.path.join(BASE_DIR, &#x27;media&#x27;)
 STATICFILES_DIRS = [os.path.join(BASE_DIR, &quot;static&quot;), ]
 </code></pre>
 <p>
  run below command
-</p>
-<pre><code class="language-bash">python manage.py collectstatic
-</code></pre>
-<p>
+ <code>
+  python manage.py collectstatic
+ </code>
  and you are good to go
 </p>
 <h2>
- Custom Django Management Commands
+ Deployment on Heroku
 </h2>
-<ol>
- <li>
-  Test DB
-  <br/>
-  Django management command designed to test the basic functionality of the database. It performs a series of CRUD (Create, Read, Update, Delete) operations to ensure the database is working correctly.
- </li>
-</ol>
-<pre><code class="language-bash">python manage.py test_db
+<p>
+ Installing Heroku Cli from : https://devcenter.heroku.com/articles/heroku-cli
+ <br/>
+ Create your account in Heroku.
+</p>
+<p>
+ Inside your project directory
+</p>
+<p>
+ Login Heroku CLI
+</p>
+<pre><code class="language-bash">  heroku login
+
 </code></pre>
-<ol>
- <li>
-  Test Cache
-  <br/>
-  Django management command designed to test the basic functionality of the caching system. It performs a set and get operation to ensure the cache is working correctly and validates the expiration of cache entries.
- </li>
-</ol>
-<pre><code class="language-bash">python manage.py test_cache
+<p>
+ Create Heroku App
+</p>
+<pre><code class="language-bash">  heroku create [app_name]
+
 </code></pre>
-<ol>
- <li>
-  Test Channels
-  <br/>
-  Django management command designed to test the functionality of Django Channels, ensuring that it is properly configured and operational.
- </li>
-</ol>
-<pre><code class="language-bash">python manage.py test_channels
+<p>
+ Push Heroku App
+</p>
+<pre><code>    git push heroku master
 </code></pre>
-<ol>
- <li>
-  Sync Media to S3
-  <br/>
-  In case if you are using production database and debug mode is on. all the media send in the chats will be stored to local media folder which might not get synced to s3 bucket and when you run in production those media will be missing.
- </li>
-</ol>
-<pre><code class="language-bash">python manage.py sync_media_to_s3
+<p>
+ Configure Heroku App Env Variables
+</p>
+<pre><code class="language-bash">  heroku config:set GITHUB_USERNAME=joesmith
+</code></pre>
+<p>
+ Configuring Django App for Heroku
+</p>
+<p>
+ Install whitenoise
+</p>
+<pre><code>pip install whitenoise 
+</code></pre>
+<p>
+ Include it in Middlewares.
+</p>
+<pre><code>MIDDLEWARE = [
+    # ...
+    &quot;django.middleware.security.SecurityMiddleware&quot;,
+    &quot;whitenoise.middleware.WhiteNoiseMiddleware&quot;,
+    # ...
+]
+</code></pre>
+<p>
+ Create Procfile and include this code snippet in it.
+</p>
+<pre><code>web: gunicorn arpansahu_dot_me.wsgi
+</code></pre>
+<p>
+ Create release-task.sh for running multilple commands in run: section of procfile
+</p>
+<pre><code>python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+<p>
+ Make relase-task.sh executable
+</p>
+<pre><code>chmod +x release-tasks.sh 
 </code></pre>
 <h2>
- Readme Manager
+ Enabling HSTS if Using EC2 to host with Nginx
 </h2>
-<p>
- Each repository contains an
- <code>
-  update_readme.sh
- </code>
- script located in the
- <code>
-  readme_manager
- </code>
- directory. This script is responsible for updating the README file in the repository by pulling in content from various sources.
-</p>
-<h3>
- What it Does
-</h3>
-<p>
- The
- <code>
-  update_readme.sh
- </code>
- script performs the following actions:
-</p>
-<ol>
- <li>
-  <strong>
-   Clone Required Files
-  </strong>
-  : Clones the
-  <code>
-   requirements.txt
-  </code>
-  ,
-  <code>
-   readme_updater.py
-  </code>
-  , and
-  <code>
-   baseREADME.md
-  </code>
-  files from the
-  <code>
-   common_readme
-  </code>
-  repository.
- </li>
- <li>
-  <strong>
-   Set Up Python Environment
-  </strong>
-  : Creates and activates a Python virtual environment.
- </li>
- <li>
-  <strong>
-   Install Dependencies
-  </strong>
-  : Installs the necessary dependencies listed in
-  <code>
-   requirements.txt
-  </code>
-  .
- </li>
- <li>
-  <strong>
-   Run Update Script
-  </strong>
-  : Executes the
-  <code>
-   readme_updater.py
-  </code>
-  script to update the README file using
-  <code>
-   baseREADME.md
-  </code>
-  and other specified sources.
- </li>
- <li>
-  <strong>
-   Clean Up
-  </strong>
-  : Deactivates the Python virtual environment and removes it.
- </li>
-</ol>
-<h3>
- How to Use
-</h3>
-<p>
- To run the
- <code>
-  update_readme.sh
- </code>
- script, navigate to the
- <code>
-  readme_manager
- </code>
- directory and execute the script:
-</p>
-<pre><code class="language-bash">cd readme_manager &amp;&amp; ./update_readme.sh
+<h1>
+ Add to project/settings.py
+</h1>
+<pre><code>SECURE_HSTS_SECONDS = 30  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!*
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_PROXY_SSL_HEADER = (&quot;HTTP_X_FORWARDED_PROTO&quot;, &quot;https&quot;)
 </code></pre>
+<h1>
+ Also Set Referrer-policy Header
+</h1>
 <p>
- This will update the
- <code>
-  README.md
- </code>
- file in the root of the repository with the latest content from the specified sources.
+ Add to project/settings.py
 </p>
-<h3>
- Updating Content
-</h3>
-<p>
- If you need to make changes that are specific to the project or project-specific files, you might need to update the content of the partial README files. Here are the files that are included:
-</p>
-<ul>
- <li>
-  <strong>
-   Project-Specific Files
-  </strong>
-  :
- </li>
- <li>
-  <code>
-   env.example
-  </code>
- </li>
- <li>
-  <code>
-   docker-compose.yml
-  </code>
- </li>
- <li>
-  <code>
-   Dockerfile
-  </code>
- </li>
- <li>
-  <p>
-   <code>
-    Jenkinsfile
-   </code>
-  </p>
- </li>
- <li>
-  <p>
-   <strong>
-    Project-Specific Partial Files
-   </strong>
-   :
-  </p>
- </li>
- <li>
-  <code>
-   INTRODUCTION
-  </code>
-  :
-  <code>
-   ../readme_manager/partials/introduction.md
-  </code>
- </li>
- <li>
-  <code>
-   DOC_AND_STACK
-  </code>
-  :
-  <code>
-   ../readme_manager/partials/documentation_and_stack.md
-  </code>
- </li>
- <li>
-  <code>
-   TECHNOLOGY QNA
-  </code>
-  :
-  <code>
-   ../readme_manager/partials/technology_qna.md
-  </code>
- </li>
- <li>
-  <code>
-   DEMO
-  </code>
-  :
-  <code>
-   ../readme_manager/partials/demo.md
-  </code>
- </li>
- <li>
-  <code>
-   INSTALLATION
-  </code>
-  :
-  <code>
-   ../readme_manager/partials/installation.md
-  </code>
- </li>
- <li>
-  <code>
-   DJANGO_COMMANDS
-  </code>
-  :
-  <code>
-   ../readme_manager/partials/django_commands.md
-  </code>
- </li>
- <li>
-  <code>
-   NGINX_SERVER
-  </code>
-  :
-  <code>
-   ../readme_manager/partials/nginx_server.md
-  </code>
- </li>
-</ul>
-<p>
- These files are specific to the project and should be updated within the project repository.
-</p>
-<ul>
- <li>
-  <strong>
-   Common Files
-  </strong>
-  :
- </li>
- <li>
-  All other files are common across projects and should be updated in the
-  <code>
-   common_readme
-  </code>
-  repository.
- </li>
-</ul>
-<p>
- There are a few files which are common for all projects. For convenience, these are inside the
- <code>
-  common_readme
- </code>
- repository so that if changes are made, they will be updated in all the projects' README files.
-</p>
-<pre><code class="language-python"># Define a dictionary with the placeholders and their corresponding GitHub raw URLs or local paths
-
-include_files = {
-    # common files
-
-    &quot;README of Docker Installation&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/Docker%20Readme/docker_installation.md&quot;,
-    &quot;DOCKER_END&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/Docker%20Readme/docker_end.md&quot;,
-    &quot;README of Nginx Setup&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/nginx.md&quot;,
-    &quot;README of Nginx HTTPS Setup&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/nginx_https.md&quot;,
-    &quot;README of Jenkins Setup&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/Jenkins/Jenkins.md&quot;,
-    &quot;JENKINS_END&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/Jenkins/jenkins_end.md&quot;,
-    &quot;README of PostgreSql Server With Nginx Setup&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/Postgres.md&quot;,
-    &quot;README of PGAdmin4 Server With Nginx Setup&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/Pgadmin.md&quot;,
-    &quot;README of Portainer Server With Nginx Setup&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/Portainer.md&quot;,
-    &quot;README of Redis Server Setup&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/Redis.md&quot;,
-    &quot;README of Redis Commander Setup&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/RedisComander.md&quot;,
-    &quot;README of Minio Server Setup&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/Minio.md&quot;,
-    &quot;README of Intro&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/Intro.md&quot;,
-    &quot;README of Readme Manager&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/Readme%20manager/readme_manager.md&quot;,
-    &quot;AWS DEPLOYMENT INTRODUCTION&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/Introduction/aws_desployment_introduction.md&quot;,
-    &quot;STATIC_FILES&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/Introduction/static_files_settings.md&quot;,
-    &quot;README of Harbor&quot; : &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/harbor/harbor.md&quot;,
-    &quot;HARBOR DOCKER COMPOSE&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/harbor/docker-compose.md&quot;,
-    &quot;INCLUDE FILES&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/include_files.py&quot;,
-    &quot;MONITORING&quot;: &quot;https://raw.githubusercontent.com/arpansahu/arpansahu-one-scripts/main/README.md?token=GHSAT0AAAAAACTHOPGXTRCHN6GJQNHQ43QKZUKVMPA&quot;,
-
-    #kubernetes
-    &quot;KIND CONFIG MD&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/kubernetes/yaml_md_files/kind-config.md&quot;,
-    &quot;DASHBOARD ADMIN USER MD&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/kubernetes/yaml_md_files/dashboard-adminuser.md&quot;,
-    &quot;DASHBOARD ADMIN USER ROLE BIND MD&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/kubernetes/yaml_md_files/dashboard-adminuser-rolebinding.md&quot;,
-    &quot;DASHBOARD SERVICE&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/kubernetes/yaml_md_files/dashbord-service.md&quot;,
-    &quot;DASHBOARD ADMIN SA MD&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/kubernetes/yaml_md_files/dashboard-admin-sa.md&quot;,
-    &quot;DASHBOARD ADMIN SA BINDING&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/kubernetes/yaml_md_files/dashboard-admin-sa-binding.md&quot;,
-    &quot;DASHBOARD ADMIN SA SECRET&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/kubernetes/yaml_md_files/dashboard-admin-sa-secret.md&quot;,
-    &quot;KUBE WITH DASHBOARD&quot; : &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/kubernetes/kube_with_dashboard.md&quot;, 
-    &quot;KUBE DEPLOYMENT&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/kubernetes/deployment.md&quot;,
-
-    # project files
-    &quot;env.example&quot;: &quot;../env.example&quot;,
-    &quot;docker-compose.yml&quot;: &quot;../docker-compose.yml&quot;,
-    &quot;Dockerfile&quot;: &quot;../Dockerfile&quot;,
-    &quot;Jenkinsfile-deploy&quot;: &quot;../Jenkinsfile-deploy&quot;,
-    &quot;Jenkinsfile-build&quot;: &quot;../Jenkinsfile-build&quot;,
-    &quot;DEPLOYMENT YAML&quot;: &quot;../deployment.yaml&quot;,
-    &quot;SERVICE YAML&quot;: &quot;../service.yaml&quot;,
-
-
-    # project partials files
-    &quot;INTRODUCTION&quot;: &quot;../readme_manager/partials/introduction.md&quot;,
-    &quot;INTRODUCTION MAIN&quot;: &quot;../readme_manager/partials/introduction_main.md&quot;,
-    &quot;DOC_AND_STACK&quot;: &quot;../readme_manager/partials/documentation_and_stack.md&quot;,
-    &quot;TECHNOLOGY QNA&quot;: &quot;../readme_manager/partials/technology_qna.md&quot;,
-    &quot;DEMO&quot;: &quot;../readme_manager/partials/demo.md&quot;,
-    &quot;INSTALLATION&quot;: &quot;../readme_manager/partials/installation.md&quot;,
-    &quot;DJANGO_COMMANDS&quot;: &quot;../readme_manager/partials/django_commands.md&quot;,
-    &quot;NGINX_SERVER&quot;: &quot;../readme_manager/partials/nginx_server.md&quot;,
-    &quot;SERVICES&quot;: &quot;../readme_manager/partials/services.md&quot;,
-    &quot;JENKINS PROJECT NAME&quot;: &quot;../readme_manager/partials/jenkins_project_name.md&quot;,
-    &quot;JENKINS BUILD PROJECT NAME&quot;: &quot;../readme_manager/partials/jenkins_build_project_name.md&quot;,
-    &quot;STATIC PROJECT NAME&quot;: &quot;../readme_manager/partials/static_project_name.md&quot;,
-    &quot;PROJECT_NAME_DASH&quot; : &quot;../readme_manager/partials/project_name_with_dash.md&quot;,
-    &quot;PROJECT_DOCKER_PORT&quot;: &quot;../readme_manager/partials/project_docker_port.md&quot;,
-    &quot;PROJECT_NODE_PORT&quot;: &quot;../readme_manager/partials/project_node_port.md&quot;,
-    &quot;DOMAIN_NAME&quot;: &quot;../readme_manager/partials/project_domain_name.md&quot;
-}
+<pre><code>SECURE_REFERRER_POLICY = &quot;strict-origin-when-cross-origin&quot;
 </code></pre>
-<p>
- Also, remember if you want to include new files, you need to change the
- <code>
-  baseREADME
- </code>
- file and the
- <code>
-  include_files
- </code>
- array in the
- <code>
-  common_readme
- </code>
- repository itself.
-</p>
 <h2>
  Deployment on AWS EC2/ Home Server Ubuntu 22.0 LTS/ Hostinger VPS Server
 </h2>
 <p>
  Previously This project was hosted on Heroku, but so I started hosting this and all other projects in a
  <br/>
- Single EC2 Machine, which cost me a lot, so now I have shifted all the projects to my own Home Server with
+ Single EC2 Machine, which costed me a lot, so now I have shifted all the projects into my own Home Server with
  <br/>
  Ubuntu 22.0 LTS Server, except for portfolio project at https://www.arpansahu.me along with Nginx
 </p>
 <p>
- Now there is an EC2 server running with an nginx server and arpansahu.me portfolio
+ Now there is EC2 server running with a nginx server and arpansahu.me portfolio
  <br/>
- Nginx forwarded https://arpansahu.me/ to the Home Server
+ Nginx forward https://arpansahu.me/ to Home Server
 </p>
 <p>
  Multiple Projects are running inside dockers so all projects are dockerized.
  <br/>
- You can refer to all projects at https://www.arpansahu.me/projects
+ You can refer to all projects on https://www.arpansahu.me/projects
 </p>
 <p>
- Every project has a different port on which it runs predefined inside Dockerfile and docker-compose.yml
+ Every project have different port on which its running predefined inside Dockerfile and docker-compose.yml
 </p>
 <p>
- <img alt="EC2 and Home Server along with Nginx, Docker and Jenkins Arrangement" class="d-block w-100" src="https://raw.githubusercontent.com/arpansahu/common_readme/main/Images/ec2_and_home_server.png"/>
+ <img alt="EC2 and Home Server along with Nginx, Docker and Jenkins Arrangement" class="d-block w-100" src="https://raw.githubusercontent.com/arpansahu/arpansahu_dot_me/main/ec2_and_home_server.png"/>
 </p>
 <p>
- Note: Update as of Aug 2023, I have decided to make some changes to my lifestyle, and from now I will be constantly on the go
+ Note: Update as of Aug 2023, I have decided to make some changes to my lifestyle, and from now i will be constantly on the go
  <br/>
- from my experience with running a free EC2 server for arpansahu. me and nginx in it and then using another home server
+ from my past experience with running free EC2 server for arpansahu.me and nginx in it and then using another home server
  <br/>
  with all the other projects hosted, my experience was
 </p>
-<ol>
- <li>
-  Downtime due to Broadband Service Provider Issues
- </li>
- <li>
-  Downtime due to Weather Sometimes
- </li>
- <li>
-  Downtime due to Machine Breakdown
- </li>
- <li>
-  Downtime due to Power Cuts (even though I had an inverted battery setup for my room)
- </li>
- <li>
-  Remotely it would be harder to fix these problems
- </li>
-</ol>
+<pre><code>  1. Downtime due to Broadband Service Provider Issues
+  2. Downtime due to Weather Sometimes
+  3. Downtime due to Machine Breakdown
+  4. Downtime due to Power Cuts (even though i had a inverted with battery setup for my room)
+  5. Remotely it would be harder to fix these problems
+</code></pre>
 <p>
- and due to all these reasons I decided to shift all the projects to a single EC2 Server, at first I was using t2.medium which costs more than 40$ a month
+ and due to all these reasons i decided to shift all the projects to single EC2 Server, at first i was using t2.medium which costs more than 40$ a month
  <br/>
- then I switched to t2.small and it only costs you 15$ if we take pre-paid plans prices can be slashed much further.
+ then i switched to t2.small and it only costs you 15$ and if we take pre paid plans prices can be slashed much further.
 </p>
 <p>
- Then again I shifted to Hostinger VPS which was more cost-friendly than EC2 Server. On Jan 2024
+ Then again i shifted to Hostinger VPS which was more cost friendly then EC2 Server. on Jan 2024
 </p>
 <p>
- Now My project arrangements look something similar to this
+ Now My project arrangements looks something similar to this
 </p>
 <p>
- <img alt="EC2 Sever along with Nginx, Docker and Jenkins Arrangement" class="d-block w-100" src="https://raw.githubusercontent.com/arpansahu/common_readme/main/Images/One%20Server%20Configuration%20for%20arpanahuone.png"/>
+ <img alt="EC2 Sever along with Nginx, Docker and Jenkins Arrangement" class="d-block w-100" src="https://raw.githubusercontent.com/arpansahu/arpansahu_dot_me/main/One%20Server%20Configuration%20for%20arpanahuone.png"/>
 </p>
 <h3>
- Step 1: Dockerize
+ Step 1: Dockerizing
 </h3>
-<h4>
- Installing Redis Commander
-</h4>
+<p>
+ Installing Docker on Home Server
+</p>
 <p>
  Reference: https://docs.docker.com/engine/install/ubuntu/
 </p>
@@ -934,7 +476,7 @@ include_files = {
   Update the apt package index and install packages to allow apt to use a repository over HTTPS:
  </li>
 </ol>
-<pre><code class="language-bash">       sudo apt-get update
+<pre><code>       sudo apt-get update
 
        sudo apt-get install \
        ca-certificates \
@@ -947,7 +489,7 @@ include_files = {
   Add Docker’s official GPG key:
  </li>
 </ol>
-<pre><code class="language-bash">       sudo mkdir -p /etc/apt/keyrings
+<pre><code>       sudo mkdir -p /etc/apt/keyrings
 
        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 </code></pre>
@@ -956,7 +498,7 @@ include_files = {
   Use the following command to set up the repository:
  </li>
 </ol>
-<pre><code class="language-bash">       echo \
+<pre><code>       echo \
          &quot;deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
          $(lsb_release -cs) stable&quot; | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
 </code></pre>
@@ -972,13 +514,13 @@ include_files = {
   </p>
  </li>
 </ol>
-<pre><code class="language-bash">       sudo apt-get update
+<pre><code>       sudo apt-get update
 </code></pre>
 <pre><code>  1. Receiving a GPG error when running apt-get update?
 
      Your default umask may be incorrectly configured, preventing detection of the repository public key file. Try granting read permission for the Docker public key file before updating the package index:
 </code></pre>
-<pre><code class="language-bash">            sudo chmod a+r /etc/apt/keyrings/docker.gpg
+<pre><code>            sudo chmod a+r /etc/apt/keyrings/docker.gpg
             sudo apt-get update
 </code></pre>
 <ol>
@@ -986,22 +528,14 @@ include_files = {
   Install Docker Engine, containerd, and Docker Compose.
  </li>
 </ol>
-<pre><code class="language-bash">        sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+<pre><code>        sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 </code></pre>
 <ol>
  <li>
-  Start Docker Engine
+  Verify that the Docker Engine installation is successful by running the hello-world image:
  </li>
 </ol>
-<pre><code class="language-bash">        sudo systemctl start docker
-</code></pre>
-<pre><code>4. Enable Docker Engine
-</code></pre>
-<pre><code class="language-bash">        sudo systemctl enable docker
-</code></pre>
-<pre><code>5. Verify that the Docker Engine installation is successful by running the hello-world image:
-</code></pre>
-<pre><code class="language-bash">         sudo docker run hello-world
+<pre><code>         sudo docker run hello-world
 </code></pre>
 <p>
  Now in your Git Repository
@@ -1009,579 +543,37 @@ include_files = {
 <p>
  Create a file named Dockerfile with no extension and add following lines in it
 </p>
-<h3>
- Step 2: Private Docker Registry
-</h3>
-<h2>
- Harbor (Self hosted Private Docker Registry)
-</h2>
-<p>
- Harbor is an open-source container image registry that secures images with role-based access control, scans images for vulnerabilities, and signs images as trusted. It extends the Docker Distribution by adding functionalities usually required by enterprise users, such as security, identity, and management.
-</p>
-<h3>
- Installing Harbor
-</h3>
-<ol>
- <li>
-  <strong>
-   Download Harbor:
-  </strong>
-  <br/>
-  Go to the Harbor releases page and download the latest offline installer tarball, e.g., harbor-offline-installer-
-  <version>
-   .tgz.
-   <br/>
-   Alternatively, you can use wget to download it directly:
-  </version>
- </li>
-</ol>
-<pre><code class="language-bash">    wget https://github.com/goharbor/harbor/releases/download/v2.4.2/harbor-offline-installer-v2.4.2.tgz
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Extract the tarball:
-  </strong>
- </li>
-</ol>
-<pre><code class="language-bash">    tar -zxvf harbor-offline-installer-v2.4.2.tgz
-    cd harbor
-</code></pre>
-<ol>
- <li>
-  <p>
-   <strong>
-    Configure Harbor:
-   </strong>
-   <br/>
-   Note: I am having multiple projects running in single machine and 1 nginx is handling subdomains and domain arpansahu.me. Similarly i want my harbor to be accessible
-   <br/>
-   from harbor.arpansahu.me.
-  </p>
-  <ol>
-   <li>
-    Copy and edit the configuration file:
-   </li>
-  </ol>
- </li>
-</ol>
-<pre><code class="language-bash">        cp harbor.yml.tmpl harbor.yml
-        vi harbor.yml
-</code></pre>
-<pre><code>2. Edit harbor.yml
-</code></pre>
-<pre><code class="language-bash">        # Configuration file of Harbor
-
-        # The IP address or hostname to access admin UI and registry service.
-        # DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
-        hostname: harbor.arpansahu.me
-
-        # http related config
-        http:
-        # port for http, default is 80. If https enabled, this port will redirect to https port
-        port: 8601
-        # https related config
-        https:
-        # https port for harbor, default is 443
-        port: 8602
-        # The path of cert and key files for nginx
-        certificate: /etc/letsencrypt/live/arpansahu.me/fullchain.pem 
-        private_key: /etc/letsencrypt/live/arpansahu.me/privkey.pem
-
-
-        .......
-        more lines
-        .......
-</code></pre>
-<pre><code>    There are almost 250 lines of code in this yml file but we have to make sure to edit this much configuration particularly 
-    default http port is 80 and https port is 443 since default harbor docker-compose.yml have nginx setup also. But we have our own nginx
-    thats why we will change these both ports to available free port on the machine. I picked 8081 for http and 8443 for https. You can choose accordingly.
-
-
-3. Edit docker-compose.yml
-
-    Here docker-compose.yml file only be available after running the below install command
-</code></pre>
-<pre><code class="language-bash">            sudo ./install.sh --with-notary --with-trivy --with-chartmuseum
-</code></pre>
-<pre><code>    Note: If docker compose is not available you need to install it
-
-        1. Installing docker compose
-</code></pre>
-<pre><code class="language-bash">                    sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose
-</code></pre>
-<pre><code>        2. Next, set the correct permissions so that the docker-compose command is executable:
-</code></pre>
-<pre><code class="language-bash">                    sudo chmod +x /usr/local/bin/docker-compose
-</code></pre>
-<pre><code>        3. To verify that the installation was successful, you can run:
-</code></pre>
-<pre><code class="language-bash">                    docker-compose --version
-</code></pre>
-<pre><code>    It might get success then you can see this file
-</code></pre>
-<pre><code class="language-bash">            vi docker-compose.yml
-</code></pre>
-<pre><code class="language-bash">                version: &#x27;2.3&#x27;
-        services:
-        log:
-            image: goharbor/harbor-log:v2.4.2
-            container_name: harbor-log
-            restart: always
-            cap_drop:
-            - ALL
-            cap_add:
-            - CHOWN
-            - DAC_OVERRIDE
-            - SETGID
-            - SETUID
-            volumes:
-            - /var/log/harbor/:/var/log/docker/:z
-            - type: bind
-                source: ./common/config/log/logrotate.conf
-                target: /etc/logrotate.d/logrotate.conf
-            - type: bind
-                source: ./common/config/log/rsyslog_docker.conf
-                target: /etc/rsyslog.d/rsyslog_docker.conf
-            ports:
-            - 127.0.0.1:1514:10514
-            networks:
-            - harbor
-        registry:
-            image: goharbor/registry-photon:v2.4.2
-            container_name: registry
-            restart: always
-            cap_drop:
-            - ALL
-            cap_add:
-            - CHOWN
-            - SETGID
-            - SETUID
-            volumes:
-            - /data/registry:/storage:z
-            - ./common/config/registry/:/etc/registry/:z
-            - type: bind
-                source: /data/secret/registry/root.crt
-                target: /etc/registry/root.crt
-            - type: bind
-                source: ./common/config/shared/trust-certificates
-                target: /harbor_cust_cert
-            networks:
-            - harbor
-            depends_on:
-            - log
-            logging:
-            driver: &quot;syslog&quot;
-            options:
-                syslog-address: &quot;tcp://localhost:1514&quot;
-                tag: &quot;registry&quot;
-        registryctl:
-            image: goharbor/harbor-registryctl:v2.4.2
-            container_name: registryctl
-            env_file:
-            - ./common/config/registryctl/env
-            restart: always
-            cap_drop:
-            - ALL
-            cap_add:
-            - CHOWN
-            - SETGID
-            - SETUID
-            volumes:
-            - /data/registry:/storage:z
-            - ./common/config/registry/:/etc/registry/:z
-            - type: bind
-                source: ./common/config/registryctl/config.yml
-                target: /etc/registryctl/config.yml
-            - type: bind
-                source: ./common/config/shared/trust-certificates
-                target: /harbor_cust_cert
-            networks:
-            - harbor
-            depends_on:
-            - log
-            logging:
-            driver: &quot;syslog&quot;
-            options:
-                syslog-address: &quot;tcp://localhost:1514&quot;
-                tag: &quot;registryctl&quot;
-        postgresql:
-            image: goharbor/harbor-db:v2.4.2
-            container_name: harbor-db
-            restart: always
-            cap_drop:
-            - ALL
-            cap_add:
-            - CHOWN
-            - DAC_OVERRIDE
-            - SETGID
-            - SETUID
-            volumes:
-            - /data/database:/var/lib/postgresql/data:z
-            networks:
-            harbor:
-            harbor-notary:
-                aliases:
-                - harbor-db
-            env_file:
-            - ./common/config/db/env
-            depends_on:
-            - log
-            logging:
-            driver: &quot;syslog&quot;
-            options:
-                syslog-address: &quot;tcp://localhost:1514&quot;
-                tag: &quot;postgresql&quot;
-            shm_size: &#x27;1gb&#x27;
-        core:
-            image: goharbor/harbor-core:v2.4.2
-            container_name: harbor-core
-            env_file:
-            - ./common/config/core/env
-            restart: always
-            cap_drop:
-            - ALL
-            cap_add:
-            - SETGID
-            - SETUID
-            volumes:
-            - /data/ca_download/:/etc/core/ca/:z
-            - /data/:/data/:z
-            - ./common/config/core/certificates/:/etc/core/certificates/:z
-            - type: bind
-                source: ./common/config/core/app.conf
-                target: /etc/core/app.conf
-            - type: bind
-                source: /data/secret/core/private_key.pem
-                target: /etc/core/private_key.pem
-            - type: bind
-                source: /data/secret/keys/secretkey
-                target: /etc/core/key
-            - type: bind
-                source: ./common/config/shared/trust-certificates
-                target: /harbor_cust_cert
-            networks:
-            harbor:
-            harbor-notary:
-            harbor-chartmuseum:
-                aliases:
-                - harbor-core
-            depends_on:
-            - log
-            - registry
-            - redis
-            - postgresql
-            logging:
-            driver: &quot;syslog&quot;
-            options:
-                syslog-address: &quot;tcp://localhost:1514&quot;
-                tag: &quot;core&quot;
-        portal:
-            image: goharbor/harbor-portal:v2.4.2
-            container_name: harbor-portal
-            restart: always
-            cap_drop:
-            - ALL
-            cap_add:
-            - CHOWN
-            - SETGID
-            - SETUID
-            - NET_BIND_SERVICE
-            volumes:
-            - type: bind
-                source: ./common/config/portal/nginx.conf
-                target: /etc/nginx/nginx.conf
-            networks:
-            - harbor
-            depends_on:
-            - log
-            logging:
-            driver: &quot;syslog&quot;
-            options:
-                syslog-address: &quot;tcp://localhost:1514&quot;
-                tag: &quot;portal&quot;
-        jobservice:
-            image: goharbor/harbor-jobservice:v2.4.2
-            container_name: harbor-jobservice
-            env_file:
-            - ./common/config/jobservice/env
-            restart: always
-            cap_drop:
-            - ALL
-            cap_add:
-            - CHOWN
-            - SETGID
-            - SETUID
-            volumes:
-            - /data/job_logs:/var/log/jobs:z
-            - type: bind
-                source: ./common/config/jobservice/config.yml
-                target: /etc/jobservice/config.yml
-            - type: bind
-                source: ./common/config/shared/trust-certificates
-                target: /harbor_cust_cert
-            networks:
-            - harbor
-            depends_on:
-            - core
-            logging:
-            driver: &quot;syslog&quot;
-            options:
-                syslog-address: &quot;tcp://localhost:1514&quot;
-                tag: &quot;jobservice&quot;
-        redis:
-            image: goharbor/redis-photon:v2.4.2
-            container_name: redis
-            restart: always
-            cap_drop:
-            - ALL
-            cap_add:
-            - CHOWN
-            - SETGID
-            - SETUID
-            volumes:
-            - /data/redis:/var/lib/redis
-            networks:
-            harbor:
-            harbor-chartmuseum:
-                aliases:
-                - redis
-            depends_on:
-            - log
-            logging:
-            driver: &quot;syslog&quot;
-            options:
-                syslog-address: &quot;tcp://localhost:1514&quot;
-                tag: &quot;redis&quot;
-        proxy:
-            image: goharbor/nginx-photon:v2.4.2
-            container_name: nginx
-            restart: always
-            cap_drop:
-            - ALL
-            cap_add:
-            - CHOWN
-            - SETGID
-            - SETUID
-            - NET_BIND_SERVICE
-            volumes:
-            - ./common/config/nginx:/etc/nginx:z
-            - /data/secret/cert:/etc/cert:z
-            - type: bind
-                source: ./common/config/shared/trust-certificates
-                target: /harbor_cust_cert
-            networks:
-            - harbor
-            - harbor-notary
-            ports:
-            - 8601:8080
-            - 8602:8443
-            - 4443:4443
-            depends_on:
-            - registry
-            - core
-            - portal
-            - log
-            logging:
-            driver: &quot;syslog&quot;
-            options:
-                syslog-address: &quot;tcp://localhost:1514&quot;
-                tag: &quot;proxy&quot;
-        notary-server:
-            image: goharbor/notary-server-photon:v2.4.2
-            container_name: notary-server
-            restart: always
-            networks:
-            - notary-sig
-            - harbor-notary
-            volumes:
-            - ./common/config/notary:/etc/notary:z
-            - type: bind
-                source: /data/secret/notary/notary-signer-ca
-</code></pre>
-<pre><code>    As you can see the ports we used in harbor.yml are configured here and nginx service have been removed.
-    ports:
-      - 8601:8080
-      - 8602:8443
-      - 4443:4443
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Run the Harbor install script:
-  </strong>
- </li>
-</ol>
-<pre><code class="language-bash">    sudo ./install.sh --with-notary --with-trivy --with-chartmuseum
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Complete Setup:
-  </strong>
-  <br/>
-  Follow the on-screen instructions to complete the setup process. You may choose to deploy a local agent for better performance, but it's not required for basic functionality.
- </li>
-</ol>
-<p>
- Once the setup is complete, you should have access to the Portainer dashboard, where you can manage and monitor your Docker containers, images, volumes, and networks through a user-friendly web interface.
-</p>
-<p>
- Keep in mind that the instructions provided here assume a basic setup. For production environments, it's recommended to secure the Portainer instance, such as by using HTTPS and setting up authentication. Refer to the
- <a href="https://documentation.portainer.io/">
-  Portainer documentation
- </a>
- for more advanced configurations and security considerations.
-</p>
-<h3>
- Configuring Nginx as Reverse proxy
-</h3>
-<ol>
- <li>
-  Edit Nginx Configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/arpansahu
-</code></pre>
-<ol>
- <li>
-  Add this server configuration
- </li>
-</ol>
-<pre><code class="language-bash">    server {
-        listen         80;
-        server_name    harbor.arpansahu.me;
-        # force https-redirects
-        if ($scheme = http) {
-            return 301 https://$server_name$request_uri;
-            }
-
-        location / {
-            proxy_pass              https://127.0.0.1:8443;
-            proxy_set_header        Host $host;
-            proxy_set_header    X-Forwarded-Proto $scheme;
-        }
-
-        listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
-        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-    }
-</code></pre>
-<ol>
- <li>
-  Test the Nginx Configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo nginx -t
-</code></pre>
-<ol>
- <li>
-  Reload Nginx to apply the new configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo systemctl reload nginx
-</code></pre>
-<h3>
- Access Harbor UI
-</h3>
-<p>
- Harbor UI can be accessed here : https://portainer.arpansahu.me/
-</p>
-<h3>
- Connecting Docker Registry
-</h3>
-<p>
- Login to Docker Registry
-</p>
-<p>
- You can connect to my Docker Registry
-</p>
-<pre><code class="language-bash">    docker login harbor.arpansahu.me
-</code></pre>
-<h3>
- Pushing Image to Harbor Docker Registry
-</h3>
-<ol>
- <li>
-  Tag Image
- </li>
-</ol>
-<pre><code class="language-bash">    docker tag image_name harbor.arpansahu.me/library/image_name:latest
-</code></pre>
-<ol>
- <li>
-  Push Image
- </li>
-</ol>
-<pre><code class="language-bash">    docker push harbor.arpansahu.me/library/image_name:latest
-</code></pre>
-<h3>
- Create Image Retention Policy
-</h3>
-<p>
- Inside project, default project is library
-</p>
-<p>
- Go to >>> Library project
- <br/>
- Go to >>> Policy
- <br/>
- Click on >>> Add Policy
-</p>
-<p>
- For the repositories == matching **
- <br/>
- By artifact count or number of days == retain the most recently pulled # artifacts  Count = 2/3 no of last no of images
- <br/>
- tags == matching      Untagged artifacts = ticketed
-</p>
-<p>
- This is one time task for entire project
-</p>
-<p>
- Same as below
-</p>
-<p>
- <img alt="Add Retention Rule" class="d-block w-100" src="https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/harbor/retention_rule_add.png"/>
-</p>
-<p>
- After adding rule schedule it as per requirement as below
-</p>
-<p>
- <img alt="Add Retention Rule S" class="d-block w-100" src="https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/harbor/retention_rule_schedule.png"/>
-</p>
-<pre><code class="language-bash">FROM python:3.10.7
+<pre><code>FROM python:3.10.7
 
 WORKDIR /app
 
-# Copy the requirements file and install dependencies
 COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
 
-# Copy the rest of the application code
 COPY . .
 
-# Expose the application port
-EXPOSE 8002
+RUN pip3 install -r requirements.txt
 
-# Run collectstatic and daphne in a single command
-CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --noinput &amp;&amp; daphne -b 0.0.0.0 -p 8002 great_chat.asgi:application&quot;]
+EXPOSE 8000
+
+CMD python manage.py collectstatic
+CMD gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
 </p>
-<pre><code class="language-bash">services:
+<pre><code>version: &#x27;3&#x27;
+
+services:
   web:
-    image: harbor.arpansahu.me/library/great_chat:latest
+    build: .
     env_file: ./.env
-    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; daphne -b 0.0.0.0 -p 8002 great_chat.asgi:application&quot;
-    container_name: great_chat
+    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi&quot;
+    image: arpansahu_dot_me
+    container_name: arpansahu_dot_me
     volumes:
-      - .:/great_chat
+      - .:/arpansahu_dot_me
     ports:
-      - &quot;8002:8002&quot;
+      - &quot;8000:8000&quot;
     restart: unless-stopped
 </code></pre>
 <h3>
@@ -1598,7 +590,7 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
 <p>
  Running Docker
 </p>
-<pre><code class="language-bash">docker compose up --build --detach 
+<pre><code>docker compose up --build --detach 
 </code></pre>
 <p>
  --detach tag is for running the docker even if terminal is closed
@@ -1609,545 +601,17 @@ CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --no
  --build tag with docker compose up will force image to be rebuild every time before starting the container
 </p>
 <h3>
- Step 3: Containerizing with Kubernetes
-</h3>
-<h2>
- Installing Kubernetes cluster and Setting A Dashboard
-</h2>
-<h3>
- Install Kind and Kubernetes CLI (kubectl)
-</h3>
-<ol>
- <li>
-  Install Kind:
- </li>
-</ol>
-<pre><code class="language-bash">        curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.14.0/kind-linux-amd64
-        chmod +x ./kind
-        sudo mv ./kind /usr/local/bin/kind
-</code></pre>
-<ol>
- <li>
-  Install kubectl:
- </li>
-</ol>
-<pre><code class="language-bash">        curl -LO &quot;https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl&quot;
-        chmod +x kubectl
-        sudo mv kubectl /usr/local/bin/
-</code></pre>
-<h3>
- Create a Kind Cluster with Port Mappings
-</h3>
-<ol>
- <li>
-  Create a configuration file for Kind:
- </li>
-</ol>
-<pre><code class="language-bash">        touch kind-config.yaml
-        vi kind-config.yaml
-</code></pre>
-<pre><code>paste the below code into the file
-</code></pre>
-<pre><code class="language-yaml">    kind: Cluster
-    apiVersion: kind.x-k8s.io/v1alpha4
-    nodes:
-    - role: control-plane
-      extraPortMappings:
-      - containerPort: 80
-        hostPort: 7800
-      - containerPort: 443
-        hostPort: 7801
-</code></pre>
-<ol>
- <li>
-  Create the Kind cluster:
- </li>
-</ol>
-<pre><code class="language-bash">        kind create cluster --config kind-config.yaml
-</code></pre>
-<h3>
- Label the Node
-</h3>
-<ol>
- <li>
-  Label the node to match the required node selectors:
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl label node kind-control-plane ingress-ready=true
-        kubectl label node kind-control-plane kubernetes.io/os=linux
-</code></pre>
-<h3>
- Deploy the Kubernetes Dashboard
-</h3>
-<ol>
- <li>
-  Create the kubernetes-dashboard namespace:
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl create namespace kubernetes-dashboard
-</code></pre>
-<ol>
- <li>
-  Deploy the Kubernetes Dashboard:
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
-</code></pre>
-<ol>
- <li>
-  <p>
-   Create an admin user:
-  </p>
-  <p>
-   Create a file named dashboard-adminuser.yaml
-  </p>
- </li>
-</ol>
-<pre><code class="language-bash">        touch dashboard-adminuser.yaml
-        vi dashboard-adminuser.yaml
-</code></pre>
-<pre><code>copy and paste below content into it
-</code></pre>
-<pre><code class="language-yaml">    apiVersion: v1
-    kind: ServiceAccount
-    metadata:
-      name: admin-user
-      namespace: kubernetes-dashboard
-</code></pre>
-<ol>
- <li>
-  <p>
-   Create ClusterRoleBinding:
-  </p>
-  <p>
-   Create a file named dashboard-adminuser-rolebinding.yaml
-  </p>
- </li>
-</ol>
-<pre><code class="language-bash">        touch dashboard-adminuser-rolebinding.yaml
-        vi dashboard-adminuser-rolebinding.yaml
-</code></pre>
-<pre><code>copy and paste below content into it
-</code></pre>
-<pre><code class="language-yaml">    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
-    metadata:
-      name: admin-user
-    roleRef:
-      apiGroup: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: cluster-admin
-    subjects:
-    - kind: ServiceAccount
-      name: admin-user
-      namespace: kubernetes-dashboar
-</code></pre>
-<ol>
- <li>
-  Apply both the files
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl apply -f dashboard-adminuser.yaml
-        kubectl apply -f dashboard-adminuser-rolebinding.yaml
-</code></pre>
-<ol>
- <li>
-  Get the admin user token:
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl -n kubernetes-dashboard create token admin-user
-</code></pre>
-<h3>
- Expose the Kubernetes Dashboard Service using NodePort
-</h3>
-<ol>
- <li>
-  Edit the Kubernetes Dashboard service:
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl -n kubernetes-dashboard edit service kubernetes-dashboard
-</code></pre>
-<ol>
- <li>
-  Modify the service to use NodePort (do not copy blindly just make the mentioned changes):
- </li>
-</ol>
-<pre><code class="language-yaml">    # Please edit the object below. Lines beginning with a &#x27;#&#x27; will be ignored,
-    # and an empty file will abort the edit. If an error occurs while saving this file will be
-    # reopened with the relevant failures.
-    #
-    apiVersion: v1
-    kind: Service
-    metadata:
-      annotations:
-        kubectl.kubernetes.io/last-applied-configuration: |
-          {&quot;apiVersion&quot;:&quot;v1&quot;,&quot;kind&quot;:&quot;Service&quot;,&quot;metadata&quot;:{&quot;annotations&quot;:{},&quot;labels&quot;:{&quot;k8s-app&quot;:&quot;kubernetes-dashboard&quot;},&quot;name&quot;:&quot;kubernetes-dashboard&quot;,&quot;namespace&quot;:&quot;kubernetes-dashboard&quot;},&quot;spec&quot;:{&quot;ports&quot;:[{&quot;port&quot;:443,&quot;targetPort&quot;:8443}],&quot;selector&quot;:{&quot;k8s-app&quot;:&quot;kubernetes-dashboard&quot;}}}
-      creationTimestamp: &quot;2024-07-06T11:14:04Z&quot;
-      labels:
-        k8s-app: kubernetes-dashboard
-      name: kubernetes-dashboard
-      namespace: kubernetes-dashboard
-      resourceVersion: &quot;1668&quot;
-      uid: e4211a82-97a1-4a65-b52e-be3bcb3b5150
-    spec:
-      clusterIP: 10.96.128.226
-      clusterIPs:
-      - 10.96.128.226
-      externalTrafficPolicy: Cluster
-      internalTrafficPolicy: Cluster
-      ipFamilies:
-      - IPv4
-      ipFamilyPolicy: SingleStack
-      ports:
-      - nodePort: 31000
-        port: 443
-        protocol: TCP
-        targetPort: 8443
-      selector:
-        k8s-app: kubernetes-dashboard
-      sessionAffinity: None
-      type: NodePort
-    status:
-      loadBalancer: {}
-</code></pre>
-<h3>
- Configure On-Premises Nginx as a Reverse Proxy
-</h3>
-<ol>
- <li>
-  Edit Nginx Configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/arpansahu
-</code></pre>
-<ol>
- <li>
-  To know Internal ip of kind cluster
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl get nodes -o wide
-</code></pre>
-<ol>
- <li>
-  Add this server configuration
- </li>
-</ol>
-<pre><code class="language-bash">    server {
-        listen         80;
-        server_name    kube.arpansahu.me;
-        # force https-redirects
-        if ($scheme = http) {
-            return 301 https://$server_name$request_uri;
-            }
-
-        location / {
-            proxy_pass              proxy_pass https://&lt;INTERNAL-IP&gt;:31000;
-            proxy_set_header        Host $host;
-            proxy_set_header    X-Forwarded-Proto $scheme;
-        }
-
-        listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
-        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-    }
-</code></pre>
-<ol>
- <li>
-  Test the Nginx Configuration
- </li>
-</ol>
-<pre><code class="language-bas">    sudo nginx -t
-</code></pre>
-<ol>
- <li>
-  Reload Nginx to apply the new configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo systemctl reload nginx
-</code></pre>
-<h3>
- Get the admin user token for login:
-</h3>
-<pre><code>Access:  https://kube.arpansahu.me
-
-then generate token from host server by running the following command
-</code></pre>
-<pre><code class="language-bash">        kubectl -n kubernetes-dashboard create token admin-user
-</code></pre>
-<pre><code>Note: The token generated by this command will have expiry and you may need to generate token again and again
-</code></pre>
-<h3>
- Generate token without expiry
-</h3>
-<ol>
- <li>
-  Delete the old ServiceAccount and ClusterRoleBinding:
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl -n kubernetes-dashboard delete serviceaccount admin-user
-        kubectl delete clusterrolebinding admin-user
-</code></pre>
-<ol>
- <li>
-  Create and apply the ServiceAccount:
- </li>
-</ol>
-<pre><code class="language-bash">        touch dashboard-admin-sa.yaml
-        vi dashboard-admin-sa.yaml
-</code></pre>
-<pre><code>copy this and past it in the file
-</code></pre>
-<pre><code class="language-yaml">    apiVersion: v1
-    kind: ServiceAccount
-    metadata:
-      name: dashboard-admin-sa
-      namespace: kubernetes-dashboard
-</code></pre>
-<ol>
- <li>
-  Create and apply the ClusterRoleBinding:
- </li>
-</ol>
-<pre><code class="language-bash">        touch dashboard-admin-sa-binding.yaml
-        vi dashboard-admin-sa-binding.yaml
-</code></pre>
-<pre><code>copy this and past it in the file
-</code></pre>
-<pre><code class="language-yaml">    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
-    metadata:
-      name: dashboard-admin-sa-binding
-    roleRef:
-      apiGroup: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: cluster-admin
-    subjects:
-    - kind: ServiceAccount
-      name: dashboard-admin-sa
-      namespace: kubernetes-dashboard
-</code></pre>
-<ol>
- <li>
-  Create the secret for the ServiceAccount:
- </li>
-</ol>
-<pre><code class="language-bash">        touch dashboard-admin-sa-secret.yaml
-        vi dashboard-admin-sa-secret.yaml
-</code></pre>
-<pre><code>copy this and past it in the file
-</code></pre>
-<pre><code class="language-yaml">    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: dashboard-admin-sa-token
-      namespace: kubernetes-dashboard
-      annotations:
-        kubernetes.io/service-account.name: dashboard-admin-sa
-    type: kubernetes.io/service-account-token
-</code></pre>
-<ol>
- <li>
-  Apply all the files
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl apply -f dashboard-admin-sa.yaml
-        kubectl apply -f dashboard-admin-sa-binding.yaml
-        kubectl apply -f dashboard-admin-sa-secret.yaml
-</code></pre>
-<ol>
- <li>
-  Check the Secret
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl -n kubernetes-dashboard get secret dashboard-admin-sa-token
-</code></pre>
-<ol>
- <li>
-  Patch the ServiceAccount:
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl -n kubernetes-dashboard patch serviceaccount dashboard-admin-sa -p &#x27;{&quot;secrets&quot;:[{&quot;name&quot;:&quot;dashboard-admin-sa-token&quot;}]}&#x27;
-</code></pre>
-<ol>
- <li>
-  Retrieve the token:
- </li>
-</ol>
-<pre><code class="language-bash">        SECRET_NAME=$(kubectl -n kubernetes-dashboard get sa dashboard-admin-sa -o jsonpath=&quot;{.secrets[0].name}&quot;)
-        kubectl -n kubernetes-dashboard get secret $SECRET_NAME -o jsonpath=&quot;{.data.token}&quot; | base64 --decode
-</code></pre>
-<h3>
- Accessing
+ Step2: Serving the requests from Nginx
 </h3>
 <p>
- Access the Dashboard
+ Installing Nginx server
 </p>
-<p>
- https://kube.arpansahu.me
-</p>
-<p>
- you will be required to fill token for login
-</p>
-<p>
- Access the cluster via Cli using kubectl
-</p>
-<pre><code class="language-bash">    kubectl get nodes
-</code></pre>
-<h3>
- Deployment
-</h3>
-<ol>
- <li>
-  Create Harbor Secret
- </li>
-</ol>
-<pre><code class="language-yaml">kubectl create secret docker-registry harbor-registry-secret \
-  --docker-server=harbor.arpansahu.me \
-  --docker-username=HARBOR_USERNAME \
-  --docker-password=HARBOR_PASSWORD \
-  --docker-email=YOUR_EMAIL_ID
-</code></pre>
-<ol>
- <li>
-  Create deployment.yaml file and fill it with the below contents.
- </li>
-</ol>
-<pre><code class="language-yaml">  apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: great-chat-app
-  labels:
-    app: great-chat
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: great-chat
-  template:
-    metadata:
-      labels:
-        app: great-chat
-    spec:
-      imagePullSecrets:
-        - name: harbor-registry-secret
-      containers:
-        - image: harbor.arpansahu.me/library/great_chat:latest
-          name: great-chat
-          env:
-            - name: SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: SECRET_KEY
-            - name: DEBUG
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: DEBUG
-            - name: ALLOWED_HOSTS
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: ALLOWED_HOSTS
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: AWS_ACCESS_KEY_ID
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: AWS_SECRET_ACCESS_KEY
-            - name: AWS_STORAGE_BUCKET_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: AWS_STORAGE_BUCKET_NAME
-            - name: BUCKET_TYPE
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: BUCKET_TYPE
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: DATABASE_URL
-            - name: REDISCLOUD_URL
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: REDISCLOUD_URL
-            - name: MAIL_JET_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: MAIL_JET_API_KEY
-            - name: MAIL_JET_API_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: MAIL_JET_API_SECRET
-            - name: MY_EMAIL_ADDRESS
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: MY_EMAIL_ADDRESS
-            - name: DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: DOMAIN
-            - name: PROTOCOL
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: PROTOCOL
-          ports:
-            - containerPort: 8002
-              name: daphne
-</code></pre>
-<ol>
- <li>
-  Create a service.yaml file and fill it with the below contents.
- </li>
-</ol>
-<pre><code class="language-yaml">  apiVersion: v1
-kind: Service
-metadata:
-  name: great-chat-service
-spec:
-  selector:
-    app: great-chat
-  ports:
-    - protocol: TCP
-      port: 8002
-      targetPort: 8002
-      nodePort: 32002
-  type: NodePort
-</code></pre>
-<ol>
- <li>
-  Create Env Secret for the project
- </li>
-</ol>
-<pre><code>  kubectl create secret generic &lt;SECRET_NAME&gt; --from-env-file=/root/projectenvs/&lt;PROJECT_NAME&gt;/.env
-</code></pre>
-<h3>
- Step 4: Serving the requests from Nginx
-</h3>
-<h4>
- Installing the Nginx server
-</h4>
-<pre><code class="language-bash">sudo apt-get install nginx
+<pre><code>sudo apt-get install nginx
 </code></pre>
 <p>
  Starting Nginx and checking its status
 </p>
-<pre><code class="language-bash">sudo systemctl start nginx
+<pre><code>sudo systemctl start nginx
 sudo systemctl status nginx
 </code></pre>
 <h4>
@@ -2156,27 +620,26 @@ sudo systemctl status nginx
 <p>
  Add these two records to your DNS Configurations
 </p>
-<pre><code class="language-bash">A Record    *   0.227.49.244 (public IP of ec2) Automatic
-A Record    @   0.227.49.244 (public IP of ec2) Automatic
+<pre><code>A Record    *   0.227.49.244 (public ip of ec2) Automatic
+A Record    @   0.227.49.244 (public ip of ec2) Automatic
 </code></pre>
 <p>
- Note: now you will be able to see nginx running page if you open the public IP of the machine
- <br/>
- IP
- <br/>
- Make Sure your EC2 security Group have these entry inbound rules
+ Note: now you will be able to see nginx running page if you open public ip of the machine
 </p>
-<pre><code class="language-bash">random-hash-id  IPv4    HTTP    TCP 80  0.0.0.0/0   –
+<p>
+ Make Sure your EC2 security Group have this entry inbound rules
+</p>
+<pre><code>random-hash-id  IPv4    HTTP    TCP 80  0.0.0.0/0   –
 </code></pre>
 <p>
  Open a new Nginx Configuration file name can be anything i am choosing arpansahu since my domain is arpansahu.me. there is already a default configuration file but we will leave it like that only
 </p>
-<pre><code class="language-bash">sudo vi /etc/nginx/sites-available/arpansahu
+<pre><code>sudo vi /etc/nginx/sites-available/arpansahu
 </code></pre>
 <p>
  paste this content in the above file
 </p>
-<pre><code class="language-bash">server_tokens               off;
+<pre><code>server_tokens               off;
 access_log                  /var/log/nginx/supersecure.access.log;
 error_log                   /var/log/nginx/supersecure.error.log;
 
@@ -2190,81 +653,81 @@ server {
 }
 </code></pre>
 <p>
- This single Nginx File will be hosting all the multiple projects which I have listed before also.
+ Basically this single Nginx File will be hosting all the multiple projects which I have listed before also.
 </p>
 <p>
- Checking if the configurations file is correct
+ Checking if configurations fie is correct
 </p>
-<pre><code class="language-bash">sudo service nginx configtest /etc/nginx/sites-available/arpansahu
+<pre><code>sudo service nginx configtest /etc/nginx/sites-available/arpansahu
 </code></pre>
 <p>
  Now you need to symlink this file to the sites-enabled directory:
 </p>
-<pre><code class="language-bash">cd /etc/nginx/sites-enabled
+<pre><code>cd /etc/nginx/sites-enabled
 sudo ln -s ../sites-available/arpansahu
 </code></pre>
 <p>
  Restarting Nginx Server
 </p>
-<pre><code class="language-bash">sudo systemctl restart nginx
+<pre><code>sudo systemctl restart nginx
 </code></pre>
 <p>
- Now it's time to enable HTTPS for this server
+ Now It's time to enable HTTPS for this server
 </p>
 <h3>
- Step 5: Enabling HTTPS
+ Step 3: Enabling HTTPS
 </h3>
 <ol>
  <li>
   <p>
-   Base Domain:  Enabling HTTPS for base domain only or a single subdomain
+   Base Domain:  Enabling https for base domain only or a single sub domain
   </p>
   <p>
-   To allow visitors to access your site over HTTPS, you’ll need an SSL/TLS certificate that sits on your web server. Certificates are issued by a Certificate Authority (CA). We’ll use a free CA called Let’s Encrypt. To install the certificate, you can use the Certbot client, which gives you an utterly painless step-by-step series of prompts.
+   To allow visitors to access your site over HTTPS, you’ll need an SSL/TLS certificate that sits on your web server. Certificates are issued by a Certificate Authority (CA).We’ll use a free CA called Let’s Encrypt. To actually install the certificate, you can use the Certbot client, which gives you an utterly painless step-by-step series of prompts.
    <br/>
-   Before starting with Certbot, you can tell Nginx up front to disable TLS versions 1.0 and 1.1 in favour of versions 1.2 and 1.3. TLS 1.0 is end-of-life (EOL), while TLS 1.1 contained several vulnerabilities that were fixed by TLS 1.2. To do this, open the file /etc/nginx/nginx.conf. Find the following line:
+   Before starting with Certbot, you can tell Nginx up front to disable TLS version 1.0 and 1.1 in favor of versions 1.2 and 1.3. TLS 1.0 is end-of-life (EOL), while TLS 1.1 contained several vulnerabilities that were fixed by TLS 1.2. To do this, open the file /etc/nginx/nginx.conf. Find the following line:
   </p>
   <p>
    Open nginx.conf file end change ssl_protocols
   </p>
  </li>
 </ol>
-<pre><code class="language-bash">    sudo vi /etc/nginx/nginx.conf
+<pre><code>    sudo vi /etc/nginx/nginx.conf
 
     From ssl_protocols TLSv1 TLSv1.1 TLSv1.2; to ssl_protocols TLSv1.2 TLSv1.3;
 </code></pre>
 <pre><code>Use this command to verify if nginx.conf file is correct or not
 </code></pre>
-<pre><code class="language-bash">    sudo nginx -t
+<pre><code>    sudo nginx -t
 </code></pre>
-<pre><code>Now you’re ready to install and use Certbot, you can use Snap to install Certbot:
+<pre><code>Now you’re ready to install and use Certbot, you can use snap to install Certbot:
 </code></pre>
-<pre><code class="language-bash">    sudo snap install --classic certbot
+<pre><code>    sudo snap install --classic certbot
     sudo ln -s /snap/bin/certbot /usr/bin/certbot
 </code></pre>
 <pre><code>Now installing certificate
 </code></pre>
-<pre><code class="language-bash">    sudo certbot --nginx --rsa-key-size 4096 --no-redirect
+<pre><code>    sudo certbot --nginx --rsa-key-size 4096 --no-redirect
 </code></pre>
-<pre><code>It will ask for the domain name then you can enter your base domain 
-I have generated SSL for arpansahu.me
+<pre><code>It will be asking for domain name then you can enter your base domain 
+I have generated ssl for arpansahu.me
 
-Then a few questions will be asked answer them all and your SSL certificate will be generated
+Then a few questions will be asked by them answer them all and done your ssl certificate will be geerated
 
 Now These lines will be added to your # Nginx configuration: /etc/nginx/sites-available/arpansahu
 </code></pre>
-<pre><code class="language-bash">    listen 443 ssl;
+<pre><code>    listen 443 ssl;
     ssl_certificate /etc/letsencrypt/live/www.supersecure.codes/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/www.supersecure.codes/privkey.pem;
     include /etc/letsencrypt/options-ssl-nginx.conf;
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 </code></pre>
 <pre><code>Redirecting HTTP to HTTPS
-Open the nginx configuration file  and make it like this
+Open nginx configuration file  and make it like this
 </code></pre>
-<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/arpansahu
+<pre><code>    sudo vi /etc/nginx/sites-available/arpansahu
 </code></pre>
-<pre><code class="language-bash">    server_tokens               off;
+<pre><code>    server_tokens               off;
     access_log                  /var/log/nginx/supersecure.access.log;
     error_log                   /var/log/nginx/supersecure.error.log;
 
@@ -2287,12 +750,12 @@ Open the nginx configuration file  and make it like this
         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
     }                          
 </code></pre>
-<pre><code>You can dry run and check whether it&#x27;s renewal is working or not
+<pre><code>You can dry run and check weather it&#x27;s renewal is working or not
 </code></pre>
-<pre><code class="language-bash">    sudo certbot renew --dry-run
+<pre><code>    sudo certbot renew --dry-run
 </code></pre>
 <pre><code>Note: this process was for arpansahu.me and not for all subdomains.
-For all subdomains, we will have to set a wildcard SSL certificate
+    For all subdomains we will have to setup a wildcard ssl certificate
 </code></pre>
 <ol>
  <li>
@@ -2300,24 +763,24 @@ For all subdomains, we will have to set a wildcard SSL certificate
    Enabling a Wildcard certificate
   </p>
   <p>
-   Here we will enable an SSL certificate for all subdomains at once
+   Here we will enable ssl certificate for all subdomains at once
   </p>
   <p>
-   Run the following Command
+   Run following Command
   </p>
  </li>
 </ol>
-<pre><code class="language-bash">    sudo certbot certonly --manual --preferred-challenges dns
+<pre><code>    sudo certbot certonly --manual --preferred-challenges dns
 </code></pre>
 <pre><code>Again you will be asked domain name and here you will use *.arpansahu.me. and second domain you will use is
 arpansahu.me.
 
-Now, you should have a question in your mind about why we are generating SSL for arpansahu.me separately.
-It&#x27;s because Let&#x27;s Encrypt does not include a base domain with wildcard certificates for subdomains.
+Now, you should be having a question in your mind that why we are generating ssl for arpansahu.me separately.
+It&#x27;s because Let&#x27;s Encrupt does not include base doamin with wildcard certificates for subdomains.
 
-After running the above command you will see a message similar to this
+After running above command you will see a message similar to this
 </code></pre>
-<pre><code class="language-bash">    Saving debug log to /var/log/letsencrypt/letsencrypt.log
+<pre><code>    Saving debug log to /var/log/letsencrypt/letsencrypt.log
     Please enter the domain name(s) you would like on your certificate (comma and/or
     space separated) (Enter &#x27;c&#x27; to cancel): *.arpansahu.me
     Requesting a certificate for *.arpansahu.me
@@ -2333,42 +796,42 @@ After running the above command you will see a message similar to this
 
     Before continuing, verify the TXT record has been deployed. Depending on the DNS
     provider, this may take some time, from a few seconds to multiple minutes. You can
-    check if it has finished deploying with the aid of online tools, such as Google
+    check if it has finished deploying with aid of online tools, such as the Google
     Admin Toolbox: https://toolbox.googleapps.com/apps/dig/#TXT/_acme-challenge.arpansahu.me.
-    Look for one or more bolded line(s) below the line &#x27;; ANSWER&#x27;. It should show the
+    Look for one or more bolded line(s) below the line &#x27;;ANSWER&#x27;. It should show the
     value(s) you&#x27;ve just added.
 
     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     Press Enter to Continue
 </code></pre>
-<pre><code>You will be given a DNS challenge called ACME challenger you have to create a DNS TXT record in DNS.
-Similar to the below record.
+<pre><code>You will be given a dns challenge called ACME challenger you have to create a dns TXT record in DNS.
+Similar to below record.
 </code></pre>
-<pre><code class="language-bash">    TXT Record  _acme-challenge dpWCxvq3mARF5iGzSfaRNXwmdkUSs0wgsTPhSaX1gK4 5 Automatic
+<pre><code>    TXT Record  _acme-challenge dpWCxvq3mARF5iGzSfaRNXwmdkUSs0wgsTPhSaX1gK4 5 Automatic
 </code></pre>
-<pre><code>Now, use this URL to verify whether records are updated or not
+<pre><code>Now, use this url to verify records are updated or not
 
 https://toolbox.googleapps.com/apps/dig/#TXT/_acme-challenge.arpansahu.me (arpansahu.me is domain)
 
-If it&#x27;s verified then press enter the terminal as mentioned above
+If its verified then press enter the terminal as mentioned above
 
 Then your certificate will be generated
 </code></pre>
-<pre><code class="language-bash">    Successfully received a certificate.
-    The certificate is saved at: /etc/letsencrypt/live/arpansahu.me-0001/fullchain.pem            (use this in your nginx configuration file)
+<pre><code>    Successfully received certificate.
+    Certificate is saved at: /etc/letsencrypt/live/arpansahu.me-0001/fullchain.pem            (use this in your nginx configuration file)
     Key is saved at:         /etc/letsencrypt/live/arpansahu.me-0001/privkey.pem
     This certificate expires on 2023-01-20.
-    These files will be updated when the certificate is renewed.
+    These files will be updated when the certificate renews.
 </code></pre>
-<pre><code>You can notice here, the certificate generated is arpansahu.me-0001 and not arpansahu.me
+<pre><code>You can notice here, certificate generated is arpansahu.me-0001 and not arpansahu.me
 because we already generated a certificate named arpansahu.me
 
 So remember to delete it before generating this wildcard certificate
 using command
 </code></pre>
-<pre><code class="language-bash">    sudo certbot delete
+<pre><code>    sudo certbot delete
 </code></pre>
-<pre><code>Note: This certificate will not be renewed automatically. Auto-renewal of --manual certificates requires the use of an authentication hook script (--manual-auth-hook) but one was not provided. To renew this certificate, repeat this same Certbot command before the certificate&#x27;s expiry date.
+<pre><code>Note: This certificate will not be renewed automatically. Auto-renewal of --manual certificates requires the use of an authentication hook script (--manual-auth-hook) but one was not provided. To renew this certificate, repeat this same certbot command before the certificate&#x27;s expiry date.
 </code></pre>
 <ol>
  <li>
@@ -2382,7 +845,7 @@ using command
   </ol>
  </li>
 </ol>
-<pre><code class="language-bash">      – sgr-0219f1387d28c96fb   IPv4    DNS (TCP)   TCP 53  0.0.0.0/0   –   
+<pre><code>      – sgr-0219f1387d28c96fb   IPv4    DNS (TCP)   TCP 53  0.0.0.0/0   –   
       – sgr-01b2b32c3cee53aa9   IPv4    SSH TCP 22  0.0.0.0/0   –
       – sgr-0dfd03bbcdf60a4f7   IPv4    HTTP    TCP 80  0.0.0.0/0   –
       – sgr-02668dff944b9b87f   IPv4    HTTPS   TCP 443 0.0.0.0/0   –
@@ -2395,36 +858,36 @@ using command
   </p>
   <ul>
    <li>
-    Create a folder for acme-dns and change the directory
+    Create folder for acme-dns and change directory
    </li>
   </ul>
  </li>
 </ol>
-<pre><code class="language-bash">         sudo mkdir /opt/acme-dns
+<pre><code>         sudo mkdir /opt/acme-dns
          cd !$
 </code></pre>
 <pre><code>  * Download and extract tar with acme-dns from GitHub
 </code></pre>
-<pre><code class="language-bash">        sudo curl -L -o acme-dns.tar.gz \
+<pre><code>        sudo curl -L -o acme-dns.tar.gz \
         https://github.com/joohoi/acme-dns/releases/download/v0.8/acme-dns_0.8_linux_amd64.tar.gz
         sudo tar -zxf acme-dns.tar.gz
 </code></pre>
 <pre><code>  * List files
 </code></pre>
-<pre><code class="language-bash">        sudo ls
+<pre><code>        sudo ls
 </code></pre>
 <pre><code>  * Clean Up
 </code></pre>
-<pre><code class="language-bash">        sudo rm acme-dns.tar.gz
+<pre><code>        sudo rm acme-dns.tar.gz
 </code></pre>
-<pre><code>  * Create a soft link
+<pre><code>  * Create soft link
 </code></pre>
-<pre><code class="language-bash">        sudo ln -s \
+<pre><code>        sudo ln -s \
         /opt/acme-dns/acme-dns /usr/local/bin/acme-dns
 </code></pre>
 <pre><code>  * Create a minimal acme-dns user
 </code></pre>
-<pre><code class="language-bash">         sudo adduser \
+<pre><code>         sudo adduser \
          --system \ 
          --gecos &quot;acme-dns Service&quot; \
          --disabled-password \
@@ -2432,9 +895,9 @@ using command
          --home /var/lib/acme-dns \
          acme-dns
 </code></pre>
-<pre><code>  * Update default acme-dns config compared with IP from the AWS console. Can&#x27;t bind to the public address need to use private one.
+<pre><code>  * Update default acme-dns config compare with IP from the AWS console. CAn&#x27;t bind to the public address need to use private one.
 </code></pre>
-<pre><code class="language-bash">        IP addr
+<pre><code>        ip addr
 
         sudo mkdir -p /etc/acme-dns
 
@@ -2444,9 +907,9 @@ using command
 </code></pre>
 <pre><code>  * Replace
 </code></pre>
-<pre><code class="language-bash">        listen = &quot;127.0.0.1:53” to listen = “private IP of the ec2 instance” 172.31.93.180:53(port will be 53)
+<pre><code>        listen = &quot;127.0.0.1:53” to listen = “private ip of the ec2 instance” 172.31.93.180:53(port will be 53)
 
-        Similarly, Edit other details mentioned below  
+        Similarly Edit other details mentioned below  
 
         # domain name to serve the requests off of
         domain = &quot;auth.arpansahu.me&quot;
@@ -2458,24 +921,24 @@ using command
 
         records = [
           # domain pointing to the public IP of your acme-dns server
-           &quot;auth.arpansahu.me. A 44.199.177.138. (public elastic IP)”,
+           &quot;auth.arpansahu.me. A 44.199.177.138. (public elastic ip)”,
           # specify that auth.example.org will resolve any *.auth.example.org records
            &quot;auth.arpansahu.me. NS auth.arpansahu.me.”,
         ]
 
         [api]
-        # listen IP eg. 127.0.0.1
-        IP = &quot;127.0.0.1”. (Changed)
+        # listen ip eg. 127.0.0.1
+        ip = &quot;127.0.0.1”. (Changed)
 
         # listen port, eg. 443 for default HTTPS
-        port = &quot;8080&quot; (Changed).         ——— We will use port 8090 because we will also use Jenkins which will be running on 8080 port
+        port = &quot;8080&quot; (Changed).         ——— we will use port 8090 because we will also use Jenkins which will be running on 8080 port
         # possible values: &quot;letsencrypt&quot;, &quot;letsencryptstaging&quot;, &quot;cert&quot;, &quot;none&quot;
         tls = &quot;none&quot;   (Changed)
 
 </code></pre>
 <pre><code>  * Move the systemd service and reload
 </code></pre>
-<pre><code class="language-bash">        cat acme-dns.service
+<pre><code>        cat acme-dns.service
 
         sudo mv \
         acme-dns.service /etc/systemd/system/acme-dns.service
@@ -2484,38 +947,38 @@ using command
 </code></pre>
 <pre><code>  * Start and enable acme-dns server
 </code></pre>
-<pre><code class="language-bash">        sudo systemctl enable acme-dns.service
+<pre><code>        sudo systemctl enable acme-dns.service
         sudo systemctl start acme-dns.service
 </code></pre>
 <pre><code>  * Check acme-dns for possible errors
 </code></pre>
-<pre><code class="language-bash">        sudo systemctl status acme-dns.service
+<pre><code>        sudo systemctl status acme-dns.service
 </code></pre>
 <pre><code>  * Use journalctl to debug in case of errors
 </code></pre>
-<pre><code class="language-bash">         journalctl --unit acme-dns --no-pager --follow
+<pre><code>         journalctl --unit acme-dns --no-pager --follow
 </code></pre>
 <pre><code>  * Create A record for your domain
 </code></pre>
-<pre><code class="language-bash">         auth.arpansahu.me IN A &lt;public-IP&gt;
+<pre><code>         auth.arpansahu.me IN A &lt;public-ip&gt;
 </code></pre>
 <pre><code>  * Create NS record for auth.arpansahu.me pointing to auth.arpansahu.me. This means, that auth.arpansahu.me is
     responsible for any *.auth.arpansahu.me records
 </code></pre>
-<pre><code class="language-bash">        auth.arpansahu.me IN NS auth.arpansahu.me
+<pre><code>        auth.arpansahu.me IN NS auth.arpansahu.me
 </code></pre>
 <pre><code>  * Your DNS record will be looking like this
 </code></pre>
-<pre><code class="language-bash">        A Record    auth    44.199.177.138  Automatic   
+<pre><code>        A Record    auth    44.199.177.138  Automatic   
         NS Record   auth    auth.arpansahu.me.  Automatic
 </code></pre>
 <pre><code>  * Test acme-dns server (Split the screen)
 </code></pre>
-<pre><code class="language-bash">        journalctl -u acme-dns --no-pager --follow
+<pre><code>        journalctl -u acme-dns --no-pager --follow
 </code></pre>
-<pre><code>  * From the local host try to resolve the random DNS record
+<pre><code>  * From local host try to resolve random DNS record
 </code></pre>
-<pre><code class="language-bash">        dig api.arpansahu.me
+<pre><code>        dig api.arpansahu.me
         dig api.auth.arpansahu.me
         dig 7gvhsbvf.auth.arpansahu.me
 </code></pre>
@@ -2524,7 +987,7 @@ using command
   Install acme-dns-client
  </li>
 </ol>
-<pre><code class="language-bash">     sudo mkdir /opt/acme-dns-client
+<pre><code>     sudo mkdir /opt/acme-dns-client
      cd !$
 
      sudo curl -L \
@@ -2542,63 +1005,60 @@ using command
   Install Certbot
  </li>
 </ol>
-<pre><code class="language-bash">     cd
+<pre><code>     cd
      sudo snap install core; sudo snap refresh core
      sudo snap install --classic certbot
      sudo ln -s /snap/bin/certbot /usr/bin/certbot
 </code></pre>
-<pre><code>Note: you can skip this step if Certbot is already installed
+<pre><code>Note: you can skip step4 if Certbot is already installed
 
 5. Get Letsencrypt Wildcard Certificate
    * Create a new acme-dns account for your domain and set it up
 </code></pre>
-<pre><code class="language-bash">         sudo acme-dns-client register \
+<pre><code>         sudo acme-dns-client register \
          -d arpansahu.me -s http://localhost:8090
-</code></pre>
-<pre><code>    The above command is old now we will use the new command
-</code></pre>
-<pre><code class="language-bash">         sudo acme-dns-client register \
+
+         Above command is old now we will use the new command 
+         sudo acme-dns-client register \
           -d arpansahu.me \
           -allow 0.0.0.0/0 \
           -s http://localhost:8080
 </code></pre>
 <pre><code>     Note: When we edited acme-dns config file there we mentioned the port 8090 and thats why we are using this port here also
-
    * Creating Another DNS Entry
 </code></pre>
-<pre><code class="language-bash">         CNAME Record   _acme-challenge e6ac0f0a-0358-46d6-a9d3-8dd41f44c7ec.auth.arpansahu.me. Automatic
+<pre><code>         CNAME Record   _acme-challenge e6ac0f0a-0358-46d6-a9d3-8dd41f44c7ec.auth.arpansahu.me. Automatic
 </code></pre>
 <pre><code>    Since the last update in  the last step now two more entries should be added
 </code></pre>
-<pre><code class="language-bash">         CAA Record @   0 issuewild &quot;letsencrypt.org; validationmethods=dns-01; accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/1424899626&quot;  Automatic
+<pre><code>         CAA Record @   0 issuewild &quot;letsencrypt.org; validationmethods=dns-01; accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/1424899626&quot;  Automatic
 
          CAA Record @   0 issue &quot;letsencrypt.org; validationmethods=dns-01; accounturi=https://acme-v02.api.letsencrypt.org/acme/acct/1424899626&quot;
          Automatic
 </code></pre>
-<pre><code>    Same as an entry that needs to be added to complete a time challenge as previously we did.
-   * Check whether the entry is added successfully or not
+<pre><code>     Same as an entry is needed to be added to complete one time challenge as in previously we did.
+   * Check the entry is added successfully or not
 </code></pre>
-<pre><code class="language-bash">         dig _acme-challenge.arpansahu.me
+<pre><code>         dig _acme-challenge.arpansahu.me
 </code></pre>
-<pre><code>   * Get a wildcard certificate
+<pre><code>   * Get wildcard certificate
 </code></pre>
-<pre><code class="language-bash">         sudo certbot certonly \
+<pre><code>         sudo certbot certonly \
          --manual \
          --test-cert \ 
          --preferred-challenges dns \ 
          --manual-auth-hook &#x27;acme-dns-client&#x27; \ 
          -d ‘*.arpansahu.me’ -d arpansahu.me
 </code></pre>
-<pre><code>    Note: Here we have to mention both the base and wildcard domain names with -d since let&#x27;s encrypt don&#x27;t provide base domain ssl by default in wildcard domain ssl
-
-   * Verifying the certificate
+<pre><code>     Note: Here we have to mention both the base and wildcard domain names with -d since let&#x27;s encrypt don&#x27;t provide base domain ssl by default in wildcard domain ssl
+   *Verifying the certificate
 </code></pre>
-<pre><code class="language-bash">         sudo openssl x509 -text -noout \
+<pre><code>         sudo openssl x509 -text -noout \
          -in /etc/letsencrypt/live/arpansahu.me/fullchain.pem
 </code></pre>
 <pre><code>   * Renew certificate (test)
 </code></pre>
-<pre><code class="language-bash">         sudo certbot renew \
+<pre><code>         sudo certbot renew \
          --manual \ 
          --test-cert \ 
          --dry-run \ 
@@ -2607,49 +1067,51 @@ using command
 </code></pre>
 <pre><code>   * Renew certificate (actually)
 </code></pre>
-<pre><code class="language-bash">         sudo certbot renew \
+<pre><code>         sudo certbot renew \
          --manual \
          --preferred-challenges dns \
          --manual-auth-hook &#x27;acme-dns-client&#x27;       
 </code></pre>
 <pre><code>   * Check the entry is added successfully or not
 </code></pre>
-<pre><code class="language-bash">         dig _acme-challenge.arpansahu.me
+<pre><code>         dig _acme-challenge.arpansahu.me
 </code></pre>
 <pre><code>6. Setup Auto-Renew for Letsencrypt WILDCARD Certificate
    * Setup cronjob
 </code></pre>
-<pre><code class="language-bash">         sudo crontab -e
+<pre><code>         sudo crontab -e
 </code></pre>
-<pre><code>   * Add the following lines to the file
+<pre><code>   * Add following lines to the file
 </code></pre>
-<pre><code class="language-bash">         0 */12 * * * certbot renew --manual --test-cert --preferred-challenges dns --manual-auth-hook &#x27;acme-dns-client&#x27;
+<pre><code>         0 */12 * * * certbot renew --manual --test-cert --preferred-challenges dns --manual-auth-hook &#x27;acme-dns-client&#x27;
 </code></pre>
 <p>
  After all these steps your Nginx configuration file located at /etc/nginx/sites-available/arpansahu will be looking similar to this
 </p>
-<pre><code class="language-bash">server_tokens               off;
+<pre><code>server_tokens               off;
 access_log                  /var/log/nginx/supersecure.access.log;
 error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    great-chat.arpansahu.me;
+    server_name    arpansahu.me;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
         }
 
     location / {
-         proxy_pass              http://{ip_of_home_server}:8014;
+         proxy_pass              http://{ip_of_home_server/ localhost}:8000;
          proxy_set_header        Host $host;
-         proxy_set_header        X-Forwarded-Proto $scheme;
+         proxy_set_header    X-Forwarded-Proto $scheme;
 
      # WebSocket support
          proxy_http_version 1.1;
          proxy_set_header Upgrade $http_upgrade;
          proxy_set_header Connection &quot;upgrade&quot;;
     }
+
+
 
     listen 443 ssl; # managed by Certbot
     ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
@@ -2659,16 +1121,16 @@ server {
 }
 </code></pre>
 <h3>
- Step 6: CI/CD using Jenkins
+ Step 4: CI/CD using Jenkins
 </h3>
-<h3>
+<p>
  Installing Jenkins
-</h3>
+</p>
 <p>
  Reference: https://www.jenkins.io/doc/book/installing/linux/
 </p>
 <p>
- Jenkins requires Java to run, yet certain distributions don’t include this by default and some Java versions are incompatible with Jenkins.
+ Jenkins requires Java in order to run, yet certain distributions don’t include this by default and some Java versions are incompatible with Jenkins.
 </p>
 <p>
  There are multiple Java implementations which you can use. OpenJDK is the most popular one at the moment, we will use it in this guide.
@@ -2676,7 +1138,7 @@ server {
 <p>
  Update the Debian apt repositories, install OpenJDK 11, and check the installation with the commands:
 </p>
-<pre><code class="language-bash">sudo apt update
+<pre><code>sudo apt update
 
 sudo apt install openjdk-11-jre
 
@@ -2688,7 +1150,7 @@ OpenJDK 64-Bit Server VM (build 11.0.12+7-post-Debian-2, mixed mode, sharing)
 <p>
  Long Term Support release
 </p>
-<pre><code class="language-bash">curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
+<pre><code>curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
   /usr/share/keyrings/jenkins-keyring.asc &gt; /dev/null
 echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
   https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
@@ -2699,31 +1161,31 @@ sudo apt-get install jenkins
 <p>
  Start Jenkins
 </p>
-<pre><code class="language-bash">sudo systemctl enable jenkins
+<pre><code>sudo systemctl enable jenkins
 </code></pre>
 <p>
  You can start the Jenkins service with the command:
 </p>
-<pre><code class="language-bash">sudo systemctl start jenkins
+<pre><code>sudo systemctl start jenkins
 </code></pre>
 <p>
  You can check the status of the Jenkins service using the command:
 </p>
-<pre><code class="language-bash">sudo systemctl status jenkins
+<pre><code>sudo systemctl status jenkins
 </code></pre>
 <p>
- Now for serving the Jenkins UI from Nginx add the following lines to the Nginx file located at
+ Now for serving the Jenkins UI from Nginx add these following lines to the Nginx file located at
  <br/>
  /etc/nginx/sites-available/arpansahu by running the following command
 </p>
-<pre><code class="language-bash">sudo vi /etc/nginx/sites-available/arpansahu
+<pre><code>sudo vi /etc/nginx/sites-available/arpansahu
 </code></pre>
 <ul>
  <li>
   Add these lines to it.
  </li>
 </ul>
-<pre><code class="language-bash">    server {
+<pre><code>    server {
         listen         80;
         server_name    jenkins.arpansahu.me;
         # force https-redirects
@@ -2732,7 +1194,7 @@ sudo apt-get install jenkins
             }
 
         location / {
-             proxy_pass              http://{ip_of_home_server}:8080;
+             proxy_pass              http://{ip_of_home_server/ localhost}:8080;
              proxy_set_header        Host $host;
              proxy_set_header    X-Forwarded-Proto $scheme;
         }
@@ -2747,11 +1209,11 @@ sudo apt-get install jenkins
 <p>
  You can add all the server blocks to the same nginx configuration file
  <br/>
- just make sure you place the server block for the base domain at the last
+ just make sure you place the server block for base domain at the last
 </p>
 <ul>
  <li>
-  To copy .env from the local server directory while building image
+  To copy .env from local server directory while buidling image
  </li>
 </ul>
 <p>
@@ -2762,520 +1224,73 @@ sudo apt-get install jenkins
 <p>
  and then put
 </p>
-<pre><code class="language-bash">stage(&#x27;Dependencies&#x27;) {
-            steps {
-                script {
-                    sh &quot;sudo cp /root/env/project_name/.env /var/lib/jenkins/workspace/pipeline_project_name&quot;
-                }
-            }
-        }
-</code></pre>
-<ul>
- <li>
-  <p>
-   Also we Need to modify the Nginx Configuration File
-  </p>
- </li>
- <li>
-  <p>
-   Create a new configuration file: Create a new file in the Nginx configuration directory. The location of this directory varies depending on your  operating system and Nginx installation, but it’s usually found at /etc/nginx/sites-available/.
-  </p>
- </li>
-</ul>
-<pre><code class="language-bash">    touch /etc/nginx/sites-available/great-chat
-    vi /etc/nginx/sites-available/great-chat
-</code></pre>
-<ol>
- <li>
-  Add the server block configuration: Copy and paste your server block configuration into this new file.
- </li>
-</ol>
 <p>
- We can have two configurations, one for docker and one for kubernetes deployment, out jenkins deployment file will handle it accordingly.
+ stage('Dependencies') {
+ <br/>
+ steps {
+ <br/>
+ script {
+ <br/>
+ sh "sudo cp /root/env/project_name/.env /var/lib/jenkins/workspace/project_name"
+ <br/>
+ }
+ <br/>
+ }
+ <br/>
+ }
 </p>
-<ol>
- <li>
-  Nginx for Docker Deployment
- </li>
-</ol>
-<pre><code class="language-bash">        server {
-            listen 80;
-            server_name great-chat.arpansahu.me;
-
-            # Force HTTPS redirects
-            if ($scheme = http) {
-                return 301 https://$server_name$request_uri;
-            }
-
-            location / {
-                proxy_pass http://0.0.0.0:8002;
-                proxy_set_header Host $host;
-                proxy_set_header X-Forwarded-Proto $scheme;
-
-                # WebSocket support
-                proxy_http_version 1.1;
-                proxy_set_header Upgrade $http_upgrade;
-                proxy_set_header Connection &quot;upgrade&quot;;
-            }
-
-            listen 443 ssl; # managed by Certbot
-            ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-            ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
-            include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-            ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-        }
-</code></pre>
-<ol>
- <li>
-  Nginx for Kubernetes Deployment
- </li>
-</ol>
-<pre><code class="language-bash">        server {
-            listen 80;
-            server_name great-chat.arpansahu.me;
-
-            # Force HTTPS redirects
-            if ($scheme = http) {
-                return 301 https://$server_name$request_uri;
-            }
-
-            location / {
-                proxy_pass http://&lt;CLUSTER_IP_ADDRESS&gt;:32002;
-                proxy_set_header Host $host;
-                proxy_set_header X-Forwarded-Proto $scheme;
-
-                # WebSocket support
-                proxy_http_version 1.1;
-                proxy_set_header Upgrade $http_upgrade;
-                proxy_set_header Connection &quot;upgrade&quot;;
-            }
-
-            listen 443 ssl; # managed by Certbot
-            ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-            ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
-            include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-            ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-        }
-</code></pre>
-<ol>
- <li>
-  Enable the new configuration: Create a symbolic link from this file to the sites-enabled directory.
- </li>
-</ol>
-<pre><code class="language-bash">      sudo ln -s /etc/nginx/sites-available/great-chat/etc/nginx/sites-enabled/
-</code></pre>
-<ol>
- <li>
-  Test the Nginx configuration: Ensure that the new configuration doesn’t have any syntax errors.
- </li>
-</ol>
-<pre><code class="language-bash">    sudo nginx -t
-</code></pre>
-<ol>
- <li>
-  Reload Nginx: Apply the new configuration by reloading Nginx.
- </li>
-</ol>
-<pre><code class="language-bash">    sudo systemctl reload nginx
-</code></pre>
 <p>
- in Jenkinsfile-build to copy .env file into build directory
+ in jenkinsfile
 </p>
 <ul>
  <li>
-  Now Create a file named Jenkinsfile-build at the root of Git Repo and add following lines to file
+  Now Create a file named Jenkinsfile at the root of Git Repo and add following lines to file
  </li>
 </ul>
-<pre><code class="language-bash">pipeline {
-    agent any
-    parameters {
-        booleanParam(name: &#x27;skip_checks&#x27;, defaultValue: false, description: &#x27;Skip the Check for Changes stage&#x27;)
-    }
-    environment {
-        REGISTRY = &quot;harbor.arpansahu.me&quot;
-        REPOSITORY = &quot;library/great_chat&quot;
-        IMAGE_TAG = &quot;${env.BUILD_ID}&quot;
-        COMMIT_FILE = &quot;${env.WORKSPACE}/last_commit.txt&quot;
-        ENV_PROJECT_NAME = &quot;great_chat&quot;
-    }
-    stages {
-        stage(&#x27;Checkout&#x27;) {
-            steps {
-                checkout scm
-            }
-        }
-        stage(&#x27;Check for Changes&#x27;) {
-            steps {
-                script {
-                    if (params.skip_checks) {
-                        echo &quot;Skipping Checks is True. Proceeding with build.&quot;
-                        BUILD_STATUS = &#x27;BUILT&#x27;
-                        currentBuild.description = &quot;${currentBuild.fullDisplayName} Skipping Checks is True. Proceeding with build.&quot;
-                    } else {
-                        // Get the current commit hash
-                        def currentCommit = sh(script: &quot;git rev-parse HEAD&quot;, returnStdout: true).trim()
-                        echo &quot;Current commit: ${currentCommit}&quot;
-
-                        // Check if the last commit file exists
-                        if (fileExists(COMMIT_FILE)) {
-                            def lastCommit = readFile(COMMIT_FILE).trim()
-                            echo &quot;Last commit: ${lastCommit}&quot;
-
-                            // Compare the current commit with the last commit
-                            if (currentCommit == lastCommit) {
-                                echo &quot;No changes detected. Skipping build.&quot;
-                                currentBuild.description = &quot;${currentBuild.fullDisplayName} build skipped due to no changes detected&quot;
-                                return
-                            } else {
-                                // Check for changes in relevant files
-                                def changes = sh(script: &quot;git diff --name-only ${lastCommit} ${currentCommit}&quot;, returnStdout: true).trim().split(&quot;\n&quot;)
-                                def relevantChanges = changes.findAll { 
-                                    !(it in [&#x27;README.md&#x27;, &#x27;SECURITY.md&#x27;, &#x27;CHANGELOG.md&#x27;, &#x27;.github/dependabot.yml&#x27;])
-                                }
-
-                                if (relevantChanges.isEmpty()) {
-                                    echo &quot;No relevant changes detected. Skipping build.&quot;
-                                    currentBuild.description = &quot;${currentBuild.fullDisplayName} build skipped due to no relevant changes&quot;
-                                    return
-                                } else {
-                                    echo &quot;Relevant changes detected. Proceeding with build.&quot;
-                                    BUILD_STATUS = &#x27;BUILT&#x27;
-                                }
-                            }
-                        } else {
-                            echo &quot;No last commit file found. Proceeding with initial build.&quot;
-                            BUILD_STATUS = &#x27;BUILT&#x27;
-                        }
-
-                        // Save the current commit hash to the file
-                        writeFile(file: COMMIT_FILE, text: currentCommit)
-                    }
-                }
-            }
-        }
-        stage(&#x27;Dependencies&#x27;) {
-            when {
-                expression { return BUILD_STATUS != &#x27;NOT_BUILT&#x27; }
-            }
-            steps {
-                script {
-                    // Copy .env file to the workspace
-                    sh &quot;sudo cp /root/projectenvs/${ENV_PROJECT_NAME}/.env ${env.WORKSPACE}/&quot;
-                }
-            }
-        }
-        stage(&#x27;Build Image&#x27;) {
-            when {
-                expression { return BUILD_STATUS != &#x27;NOT_BUILT&#x27; }
-            }
-            steps {
-                script {
-                    // Ensure Docker is running and can be accessed
-                    sh &#x27;docker --version&#x27;
-
-                    // Log the image details
-                    echo &quot;Building Docker image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}&quot;
-
-                    // Build the Docker image
-                    sh &quot;&quot;&quot;
-                    docker build -t ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} .
-                    docker tag ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} ${REGISTRY}/${REPOSITORY}:latest
-                    &quot;&quot;&quot;
-                }
-            }
-        }
-        stage(&#x27;Push Image&#x27;) {
-            when {
-                expression { return BUILD_STATUS != &#x27;NOT_BUILT&#x27; }
-            }
-            steps {
-                withCredentials([usernamePassword(credentialsId: &#x27;harbor-credentials&#x27;, passwordVariable: &#x27;DOCKER_REGISTRY_PASSWORD&#x27;, usernameVariable: &#x27;DOCKER_REGISTRY_USERNAME&#x27;)]) {
-                    script {
-                        // Log in to Docker registry using environment variables without direct interpolation
-                        sh &#x27;&#x27;&#x27;
-                        echo $DOCKER_REGISTRY_PASSWORD | docker login ${REGISTRY} -u $DOCKER_REGISTRY_USERNAME --password-stdin
-                        &#x27;&#x27;&#x27;
-
-                        // Push the Docker image to the registry
-                        sh &#x27;&#x27;&#x27;
-                        docker push ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}
-                        docker push ${REGISTRY}/${REPOSITORY}:latest
-                        &#x27;&#x27;&#x27;
-                    }
-                }
-            }
-        }
-    }
-    post {
-        success {
-            script {
-                if (!currentBuild.description) {
-                    currentBuild.description = &quot;Image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} built and pushed successfully&quot;
-                }
-
-                // Send success notification email
-                sh &quot;&quot;&quot;curl -s \
-                -X POST \
-                --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
-                https://api.mailjet.com/v3.1/send \
-                -H &quot;Content-Type:application/json&quot; \
-                -d &#x27;{
-                    &quot;Messages&quot;:[
-                            {
-                                    &quot;From&quot;: {
-                                            &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
-                                            &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
-                                    },
-                                    &quot;To&quot;: [
-                                            {
-                                                    &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
-                                                    &quot;Name&quot;: &quot;Development Team&quot;
-                                            }
-                                    ],
-                                    &quot;Subject&quot;: &quot;${currentBuild.description}&quot;,
-                                    &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} : ${currentBuild.description}&quot;,
-                                    &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} : ${currentBuild.description} &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
-                            }
-                    ]
-                }&#x27;&quot;&quot;&quot;
-
-                // Trigger great_chat job only if the build is stable
-                build job: &#x27;great_chat&#x27;, wait: false
-            }
-        }
-        failure {
-            script {
-                // Send failure notification email
-                sh &quot;&quot;&quot;curl -s \
-                -X POST \
-                --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
-                https://api.mailjet.com/v3.1/send \
-                -H &quot;Content-Type:application/json&quot; \
-                -d &#x27;{
-                    &quot;Messages&quot;:[
-                            {
-                                    &quot;From&quot;: {
-                                            &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
-                                            &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
-                                    },
-                                    &quot;To&quot;: [
-                                            {
-                                                    &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
-                                                    &quot;Name&quot;: &quot;Development Team&quot;
-                                            }
-                                    ],
-                                    &quot;Subject&quot;: &quot;${currentBuild.fullDisplayName} build failed&quot;,
-                                    &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} build failed ${currentBuild.description} &quot;,
-                                    &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} build failed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; ${currentBuild.description}  &lt;/p&gt;&quot;
-                            }
-                    ]
-                }&#x27;&quot;&quot;&quot;
-            }
-        }
-    }
-}
-</code></pre>
-<ul>
- <li>
-  Now Create a file named Jenkinsfile-deploy at the root of Git Repo and add following lines to file
- </li>
-</ul>
-<pre><code class="language-bash">pipeline {
+<pre><code>pipeline {
     agent { label &#x27;local&#x27; }
-    parameters {
-        booleanParam(name: &#x27;skip_checks&#x27;, defaultValue: false, description: &#x27;Skip the Check for Changes stage&#x27;)
-        choice(name: &#x27;DEPLOY_TYPE&#x27;, choices: [&#x27;kubernetes&#x27;, &#x27;docker&#x27;], description: &#x27;Select deployment type&#x27;)
-    }
-    environment {
-        REGISTRY = &quot;harbor.arpansahu.me&quot;
-        REPOSITORY = &quot;library/great_chat&quot;
-        IMAGE_TAG = &quot;latest&quot;  // or use a specific tag if needed
-        KUBECONFIG = &quot;${env.WORKSPACE}/kubeconfig&quot;  // Set the KUBECONFIG environment variable
-        NGINX_CONF = &quot;/etc/nginx/sites-available/great-chat&quot;
-        ENV_PROJECT_NAME = &quot;great_chat&quot;
-    }
     stages {
-        stage(&#x27;Initialize&#x27;) {
+        stage(&#x27;Dependencies&#x27;) {
             steps {
                 script {
-                    echo &quot;Current workspace path is: ${env.WORKSPACE}&quot;
+                    sh &quot;sudo cp /root/projectenvs/arpansahu_dot_me/.env /var/lib/jenkins/workspace/arpansahu_dot_me&quot;
                 }
             }
         }
-        stage(&#x27;Checkout&#x27;) {
-            steps {
-                checkout scm
-            }
-        }
-        stage(&#x27;Setup Kubernetes Config&#x27;) {
-            when {
-                expression { return params.DEPLOY_TYPE == &#x27;kubernetes&#x27; }
-            }
+        stage(&#x27;Production&#x27;) {
             steps {
                 script {
-                    // Copy the kubeconfig file to the workspace
-                    sh &quot;sudo cp /root/.kube/config ${env.WORKSPACE}/kubeconfig&quot;
-                    // Change permissions of the kubeconfig file
-                    sh &quot;sudo chmod 644 ${env.WORKSPACE}/kubeconfig&quot;
-                }
-            }
-        }
-        stage(&#x27;Check for New Image&#x27;) {
-            when {
-                expression { !params.skip_checks }
-            }
-            steps {
-                script {
-                    // Get the ImageID of the currently running container
-                    def currentImageID = sh(script: &quot;docker inspect -f &#x27;{{.Image}}&#x27; great_chat || echo &#x27;none&#x27;&quot;, returnStdout: true).trim()
-                    echo &quot;Current image ID: ${currentImageID}&quot;
-
-                    // Pull the latest image to get its ImageID
-                    sh &quot;docker pull ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}&quot;
-                    def latestImageID = sh(script: &quot;docker inspect -f &#x27;{{.Id}}&#x27; ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}&quot;, returnStdout: true).trim()
-                    echo &quot;Latest image ID: ${latestImageID}&quot;
-
-                    // Check if the ImageIDs are different
-                    if (currentImageID != latestImageID) {
-                        env.NEW_IMAGE_AVAILABLE = &#x27;true&#x27;
-                        echo &quot;New image available, proceeding with deployment.&quot;
-                    } else {
-                        env.NEW_IMAGE_AVAILABLE = &#x27;false&#x27;
-                        echo &quot;No new image available, skipping deployment.&quot;
-                    }
-                }
-            }
-        }
-        stage(&#x27;Deploy&#x27;) {
-            when {
-                expression {
-                    return params.skip_checks || env.NEW_IMAGE_AVAILABLE == &#x27;true&#x27;
-                }
-            }
-            steps {
-                script {
-                    if (params.DEPLOY_TYPE == &#x27;docker&#x27;) {
-                        // Ensure the correct image tag is used in the docker-compose.yml
-                        sh &#x27;&#x27;&#x27;
-                        sed -i &quot;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|&quot; docker-compose.yml
-                        &#x27;&#x27;&#x27;
-                        // Deploy using Docker Compose
-                        sh &#x27;docker-compose down&#x27;
-                        sh &#x27;docker-compose up -d&#x27;
-
-                        // Wait for a few seconds to let the app start
-                        sleep 10
-
-                        // Verify the container is running
-                        def containerRunning = sh(script: &quot;docker ps -q -f name=great_chat&quot;, returnStdout: true).trim()
-                        if (!containerRunning) {
-                            error &quot;Container great_chat is not running&quot;
-                        } else {
-                            echo &quot;Container great_chat is running&quot;
-                            // Execute curl and scale down Kubernetes deployment if curl is successful
-                            sh &quot;&quot;&quot;
-                                curl -v http://0.0.0.0:8002 &amp;&amp; \\
-                                replicas=\$(kubectl get deployment great-chat-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
-                                if [ &quot;\$replicas&quot; != &quot;&quot; ] &amp;&amp; [ \$replicas -gt 0 ]; then
-                                    kubectl scale deployment great-chat-app --replicas=0 &amp;&amp; \\
-                                    echo &#x27;Kubernetes deployment scaled down successfully.&#x27; &amp;&amp; \\
-                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:8002;|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload
-                                else
-                                    echo &#x27;No running Kubernetes deployment to scale down.&#x27;
-                                fi
-                            &quot;&quot;&quot;
-                        }
-                    } else if (params.DEPLOY_TYPE == &#x27;kubernetes&#x27;) {
-                        // Copy the .env file to the workspace
-                        sh &quot;sudo cp /root/projectenvs/${ENV_PROJECT_NAME}/.env ${env.WORKSPACE}/&quot;
-
-                        // Check if the file is copied successfully
-                        if (fileExists(&quot;${env.WORKSPACE}/.env&quot;)) {
-                            echo &quot;.env file copied successfully.&quot;
-
-                            // Verify Kubernetes configuration
-                            sh &#x27;kubectl cluster-info&#x27;
-
-                            // Print current directory
-                            sh &#x27;pwd&#x27;
-
-                            // Delete existing secret if it exists
-                            sh &#x27;&#x27;&#x27;
-                            kubectl delete secret great-chat-secret || true
-                            &#x27;&#x27;&#x27;
-
-                            // Deploy to Kubernetes
-                            sh &#x27;&#x27;&#x27;
-                            kubectl create secret generic great-chat-secret --from-env-file=${WORKSPACE}/.env
-                            kubectl apply -f ${WORKSPACE}/deployment.yaml
-                            kubectl apply -f ${WORKSPACE}/service.yaml
-                            &#x27;&#x27;&#x27;
-
-                            // Wait for a few seconds to let the app start
-                            sleep 10
-
-                            // Check deployment status
-                            sh &#x27;&#x27;&#x27;
-                            kubectl rollout status deployment/great-chat-app
-                            &#x27;&#x27;&#x27;
-
-                            // Verify service and get NodePort
-                            def nodePort = sh(script: &quot;kubectl get service great-chat-service -o=jsonpath=&#x27;{.spec.ports[0].nodePort}&#x27;&quot;, returnStdout: true).trim()
-                            echo &quot;Service NodePort: ${nodePort}&quot;
-
-                            // Get cluster IP address
-                            def clusterIP = sh(script: &quot;kubectl get nodes -o=jsonpath=&#x27;{.items[0].status.addresses[0].address}&#x27;&quot;, returnStdout: true).trim()
-                            echo &quot;Cluster IP: ${clusterIP}&quot;
-
-                            // Verify if the service is accessible and delete the Docker container if accessible and update nginx configuration
-                            sh &quot;&quot;&quot;
-                            curl -v http://${clusterIP}:${nodePort} &amp;&amp; \
-                            if [ \$(docker ps -q -f name=great_chat) ]; then
-                                docker rm -f great_chat &amp;&amp; \\
-                                sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload
-                            fi
-                            &quot;&quot;&quot;
-                        } else {
-                            error &quot;.env file not found in the workspace.&quot;
-                        }
-                    }
-                    currentBuild.description = &#x27;DEPLOYMENT_EXECUTED&#x27;
+                    sh &quot;docker compose up --build --detach&quot;
                 }
             }
         }
     }
     post {
         success {
-            script {
-                if (currentBuild.description == &#x27;DEPLOYMENT_EXECUTED&#x27;) {
-                    sh &quot;&quot;&quot;curl -s \
-                    -X POST \
-                    --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
-                    https://api.mailjet.com/v3.1/send \
-                    -H &quot;Content-Type:application/json&quot; \
-                    -d &#x27;{
-                        &quot;Messages&quot;:[
-                                {
-                                        &quot;From&quot;: {
-                                                &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
-                                                &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
-                                        },
-                                        &quot;To&quot;: [
-                                                {
-                                                        &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
-                                                        &quot;Name&quot;: &quot;Development Team&quot;
-                                                }
-                                        ],
-                                        &quot;Subject&quot;: &quot;Jenkins Build Pipeline your project ${currentBuild.fullDisplayName} Ran Successfully&quot;,
-                                        &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed&quot;,
-                                        &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
-                                }
-                        ]
-                    }&#x27;&quot;&quot;&quot;
-                }
-                // Trigger the common_readme job on success
-                build job: &#x27;common_readme&#x27;, parameters: [string(name: &#x27;project_git_url&#x27;, value: &#x27;https://github.com/arpansahu/great_chat&#x27;), string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)], wait: false
-            }
+            sh &quot;&quot;&quot;curl -s \
+            -X POST \
+            --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
+            https://api.mailjet.com/v3.1/send \
+            -H &quot;Content-Type:application/json&quot; \
+            -d &#x27;{
+                &quot;Messages&quot;:[
+                        {
+                                &quot;From&quot;: {
+                                        &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
+                                        &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
+                                },
+                                &quot;To&quot;: [
+                                        {
+                                                &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
+                                                &quot;Name&quot;: &quot;Development Team&quot;
+                                        }
+                                ],
+                                &quot;Subject&quot;: &quot;${currentBuild.fullDisplayName} deployed succcessfully&quot;,
+                                &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed&quot;,
+                                &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
+                        }
+                ]
+            }&#x27;&quot;&quot;&quot;
         }
         failure {
             sh &quot;&quot;&quot;curl -s \
@@ -3296,9 +1311,9 @@ sudo apt-get install jenkins
                                                 &quot;Name&quot;: &quot;Developer Team&quot;
                                         }
                                 ],
-                            &quot;Subject&quot;: &quot;Jenkins Build Pipeline your project ${currentBuild.fullDisplayName} Ran Failed&quot;,
-                            &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} deployment failed&quot;,
-                            &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is not deployed, Build Failed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
+                                &quot;Subject&quot;: &quot;${currentBuild.fullDisplayName} deployment failed&quot;,
+                                &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} deployment failed&quot;,
+                                &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is not deployed, Build Failed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
                         }
                 ]
             }&#x27;&quot;&quot;&quot;
@@ -3307,7 +1322,11 @@ sudo apt-get install jenkins
 }
 </code></pre>
 <p>
- Note: agent {label 'local'} is used to specify which node will execute the jenkins job deployment. So local linux server is labelled with 'local' are the project with this label will be executed in local machine node.
+ Note: agent {label 'local'} is used to specify which node will execute the jenkins job deployment. Basically there are two nodes in this project
+ <br/>
+ One is my local Linux Server and Another is AWS EC2 machine where nginx is hosted there arpansahu.me my portfolio is also hosted is also hosted.
+ <br/>
+ So local linux server is labelled with 'local' are the project with this label will be executed in local machine node.
 </p>
 <ul>
  <li>
@@ -3315,31 +1334,13 @@ sudo apt-get install jenkins
  </li>
 </ul>
 <p>
- Make sure to use Pipeline project and name it whatever you want I have named it as per great_chat
+ Make sure to use Pipline project and name it whatever you want I have named it as arpansahu_me
 </p>
 <p>
- <img alt="Jenkins Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/great_chat/main/Jenkins-deploy.png"/>
-</p>
-<ul>
- <li>
-  Configure another Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
- </li>
-</ul>
-<p>
- Make sure to use Pipeline project and name it whatever you want I have named it as {project_name}_build
+ <img alt="Jenkins Project for ArpanSahuDotMe CRM Configuration File" class="d-block w-100" src="https://raw.githubusercontent.com/arpansahu/arpansahu_dot_me/main/Arpan-Sahu-Dot-Me-Config-Jenkins-.png"/>
 </p>
 <p>
- <img alt="Jenkins Build Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/great_chat/main/Jenkins-build.png"/>
-</p>
-<p>
- This pipeline is triggered on another branch named as build. Whenever a new commit is pushed, it checks
- <br/>
- if there are changes in the files other then few .md files and dependabot.yml file. If, changes are there it pushed the image.
- <br/>
- If image is pushed successfully, email is sent to notify and then another Jenkins Pipeline great_chat_build is called.
-</p>
-<p>
- In this above picture you can see credentials right? you can add your github credentials and harbor credentials use harbor-credentials as id for harbor credentials.
+ In this above picture you can see credentials right? you can add your github credentials
  <br/>
  from Manage Jenkins on home Page --> Manage Credentials
 </p>
@@ -3351,7 +1352,7 @@ sudo apt-get install jenkins
   Add a .env file to you project using following command (This step is no more required stage('Dependencies'))
  </li>
 </ul>
-<pre><code class="language-bash">    sudo vi  /var/lib/jenkins/workspace/great_chat/.env
+<pre><code>    sudo vi  /var/lib/jenkins/workspace/arpansahu_dot_me/.env
 </code></pre>
 <pre><code>Your workspace name may be different.
 
@@ -3383,1612 +1384,6 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  Now you are good to go.
 </p>
-<h1>
- Services on AWS EC2/ Home Server Ubuntu 22.0 LTS s
-</h1>
-<h2>
- Postgresql Server
-</h2>
-<p>
- IT would be a nightmare to have your own vps to save cost and not hosting your own postgresql server.
-</p>
-<p>
- postgresql_server can be access accessed
-</p>
-<h3>
- Installing PostgreSql
-</h3>
-<ol>
- <li>
-  Update the package list to make sure you have the latest information
- </li>
-</ol>
-<pre><code class="language-bash">    sudo apt update
-</code></pre>
-<ol>
- <li>
-  Install the PostgreSQL package
- </li>
-</ol>
-<pre><code class="language-bash">    sudo apt install postgresql postgresql-contrib
-</code></pre>
-<ol>
- <li>
-  PostgreSQL should now be installed on your server. By default, PostgreSQL creates a user named
-  <code>
-   postgres
-  </code>
-  with administrative privileges. You can switch to this user to perform administrative tasks:
- </li>
-</ol>
-<pre><code class="language-bash">    sudo -i -u postgres
-</code></pre>
-<ol>
- <li>
-  Access the PostgreSQL interactive terminal by running:
- </li>
-</ol>
-<pre><code class="language-bash">    psql
-</code></pre>
-<ol>
- <li>
-  Set a password for the
-  <code>
-   postgres
-  </code>
-  user:
- </li>
-</ol>
-<pre><code class="language-sql">    ALTER USER postgres WITH PASSWORD &#x27;your_password&#x27;;
-</code></pre>
-<p>
- Replace
- <code>
-  &#x27;your_password&#x27;
- </code>
- with the desired password.
-</p>
-<ol>
- <li>
-  Exit the PostgreSQL shell:
- </li>
-</ol>
-<pre><code class="language-sql">    \q
-</code></pre>
-<ol>
- <li>
-  Exit the
-  <code>
-   postgres
-  </code>
-  user session:
- </li>
-</ol>
-<pre><code class="language-bash">    exit
-</code></pre>
-<p>
- Now, PostgreSQL is installed on your Ubuntu server. You can access the PostgreSQL database by logging in with the
- <code>
-  postgres
- </code>
- user and the password you set.
-</p>
-<p>
- Remember to configure your PostgreSQL server according to your security needs, such as modifying the
- <code>
-  pg_hba.conf
- </code>
- file to control access, setting up SSL for secure connections, and configuring other PostgreSQL settings as required for your environment.
-</p>
-<h2>
- Configuring Postgresql
-</h2>
-<ol>
- <li>
-  open postgresql.conf file
- </li>
-</ol>
-<pre><code class="language-bash">    sudo vi /etc/postgresql/14/main/postgresql.conf
-</code></pre>
-<pre><code>14 is the version which i have installed your version can be different
-</code></pre>
-<ol>
- <li>
-  Find the listen_addresses line and set it to:
- </li>
-</ol>
-<pre><code class="language-bash">    listen_addresses = &#x27;localhost&#x27;
-</code></pre>
-<pre><code>Now the thing is if u don&#x27;t want to serve it using nginx u can also set it to * all so that database can be connected from any where
-</code></pre>
-<ol>
- <li>
-  Edit pg_hba.conf to allow connections:
- </li>
-</ol>
-<pre><code class="language-bash">    sudo nano /etc/postgresql/14/main/pg_hba.conf
-</code></pre>
-<pre><code>14 is the version which i have installed your version can be different
-</code></pre>
-<ol>
- <li>
-  Add the following line in the end:
- </li>
-</ol>
-<pre><code class="language-bash">    host    all             all             127.0.0.1/32            md5
-</code></pre>
-<pre><code>if u want to use without nginx
-</code></pre>
-<pre><code class="language-bash">    host    all             all             0.0.0.0/0            md5
-</code></pre>
-<pre><code>I have added both
-</code></pre>
-<ol>
- <li>
-  Restart PostgreSQL to apply changes:
- </li>
-</ol>
-<pre><code class="language-bash">    sudo systemctl restart postgresql
-</code></pre>
-<h2>
- Configuring Nginx as Reverse proxy
-</h2>
-<p>
- Note: In previous steps we have already seen how to setup the reverse proxy with Nginx for Django projects and installation process and everything
-</p>
-<ol>
- <li>
-  Install the nginx-extras package to support the stream module:
- </li>
-</ol>
-<pre><code class="language-bash">    sudo apt install nginx-extras
-````
-
-2.  Add a stream configuration file for the PostgreSQL stream:
-
-```bash
-    sudo vi /etc/nginx/nginx.conf
-</code></pre>
-<pre><code>1.  Add the following configuration:
-</code></pre>
-<pre><code class="language-bash">    stream {
-        upstream postgresql_upstream {
-            server 127.0.0.1:5432;  # PostgreSQL server
-        }
-
-        server {
-            listen 9550 ssl;  # Use SSL on port 443
-            proxy_pass postgresql_upstream;
-
-            ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem;  # SSL certificate
-            ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem;  # SSL certificate key
-            ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;  # SSL DH parameters
-            include /etc/letsencrypt/options-ssl-nginx.conf;  # SSL options
-
-            proxy_timeout 600s;
-            proxy_connect_timeout 600s;
-        }
-    }
-</code></pre>
-<pre><code>Since i have generated ssl certs already in nginx setup i am using those certificates here itself
-
-2.  Test the Nginx Configuration:
-</code></pre>
-<pre><code class="language-bash">    sudo nginx -t
-</code></pre>
-<pre><code>If error comes nginx: [emerg] &quot;stream&quot; directive is not allowed here in /etc/nginx/conf.d/postgresql.conf:1
-nginx: configuration file /etc/nginx/nginx.conf test failed
-
-Follow these steps:
-
-    0.  Remove the custom configuration file:
-</code></pre>
-<pre><code class="language-bash">            sudo rm /etc/nginx/conf.d/postgresql.conf
-</code></pre>
-<pre><code>    1.  Open the main Nginx configuration file:
-</code></pre>
-<pre><code class="language-bash">            sudo nano /etc/nginx/nginx.conf
-</code></pre>
-<pre><code>    2.  Add the Stream Block at the Appropriate Place
-    Add the following stream block at the end of the nginx.conf file, or within the appropriate context:
-</code></pre>
-<pre><code class="language-bash">            user www-data;
-            worker_processes auto;
-            pid /run/nginx.pid;
-            include /etc/nginx/modules-enabled/*.conf;
-
-            events {
-                worker_connections 768;
-            }
-
-            http {
-                sendfile on;
-                tcp_nopush on;
-                tcp_nodelay on;
-                keepalive_timeout 65;
-                types_hash_max_size 2048;
-
-                include /etc/nginx/mime.types;
-                default_type application/octet-stream;
-
-                access_log /var/log/nginx/access.log;
-                error_log /var/log/nginx/error.log;
-
-                gzip on;
-                gzip_disable &quot;msie6&quot;;
-
-                include /etc/nginx/conf.d/*.conf;
-                include /etc/nginx/sites-enabled/*;
-            }
-
-            stream {
-                upstream postgresql_upstream {
-                    server 127.0.0.1:5432;  # PostgreSQL server
-                }
-
-                server {
-                    listen 9550 ssl;  # Use SSL on port different 443
-                    proxy_pass postgresql_upstream;
-
-                    ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem;  # SSL certificate
-                    ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem;  # SSL certificate key
-                    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;  # SSL DH parameters
-                    include /etc/letsencrypt/options-ssl-nginx.conf;  # SSL options
-
-                    proxy_timeout 600s;
-                    proxy_connect_timeout 600s;
-                }
-            }
-</code></pre>
-<pre><code>    3.  Test the Nginx Configuration
-</code></pre>
-<pre><code class="language-bash">            sudo nginx -t
-</code></pre>
-<pre><code>3. Reload Nginx to apply the new configuration:
-</code></pre>
-<pre><code class="language-bash">    sudo systemctl reload nginx
-</code></pre>
-<ol>
- <li>
-  Testing connecting with postgres without ip and using domain
- </li>
-</ol>
-<pre><code class="language-bash">    psql &quot;postgres://username:password@domain/database_name?sslmode=require&quot;
-</code></pre>
-<pre><code class="language-bash">psql &quot;postgres://user:user_pass@arpansahu.me/database_name?sslmode=require&quot;
-</code></pre>
-<h3>
- Installing PgAdmin
-</h3>
-<ol>
- <li>
-  <strong>
-   Create a Virtual Environment:
-  </strong>
- </li>
-</ol>
-<p>
- It's good practice to use virtual environments to isolate your project's dependencies. This helps avoid conflicts with system packages. You can create a virtual environment like this:
-</p>
-<pre><code class="language-bash">   python3 -m venv pgadmin_venv
-   source pgadmin_venv/bin/activate
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Install pgAdmin 4:
-  </strong>
- </li>
-</ol>
-<p>
- Once you are in the virtual environment, install pgAdmin 4:
-</p>
-<pre><code class="language-bash">   pip install pgadmin4
-</code></pre>
-<p>
- If you encounter any dependency conflicts, the virtual environment will help isolate the packages.
-</p>
-<ol>
- <li>
-  <strong>
-   Run pgAdmin 4:
-  </strong>
- </li>
-</ol>
-<p>
- After installing, try running pgAdmin 4:
-</p>
-<pre><code class="language-bash">   pgadmin4
-</code></pre>
-<p>
- By using a virtual environment, you avoid potential conflicts with system packages, and you can manage dependencies for pgAdmin 4 more effectively.
-</p>
-<p>
- Remember to activate your virtual environment whenever you want to run pgAdmin 4:
-</p>
-<pre><code class="language-bash">source pgadmin_venv/bin/activate
-pgadmin4
-</code></pre>
-<h3>
- Manage PgAdmin using Pm2
-</h3>
-<ol>
- <li>
-  Create a Startup Script for pgAdmin 4
- </li>
-</ol>
-<pre><code class="language-bash">        touch /root/run_pgadmin.sh 
-</code></pre>
-<ol>
- <li>
-  Edit this script and add following
- </li>
-</ol>
-<pre><code class="language-bash">        vi /root/run_pgadmin.sh 
-</code></pre>
-<pre><code class="language-bash">        source pgadmin_venv/bin/activate
-        pgadmin4
-</code></pre>
-<ol>
- <li>
-  Making Script Executable
- </li>
-</ol>
-<pre><code class="language-bash">        chmod +x /root/run_pgadmin.sh
-</code></pre>
-<ol>
- <li>
-  Installing pm2
- </li>
-</ol>
-<pre><code class="language-bash">        npm install pm2 -g
-</code></pre>
-<ol>
- <li>
-  Start pgAdmin 4 with PM2
- </li>
-</ol>
-<pre><code class="language-bash">        pm2 start /root/run_pgadmin.sh --name pgadmin4
-</code></pre>
-<ol>
- <li>
-  Save PM2 configuration
- </li>
-</ol>
-<pre><code class="language-bash">        pm2 save
-</code></pre>
-<ol>
- <li>
-  Set PM2 to Start on Boot
- </li>
-</ol>
-<pre><code class="language-bash">        pm2 startup
-</code></pre>
-<p>
- And deactivate it when you're done:
-</p>
-<pre><code class="language-bash">deactivate
-</code></pre>
-<ol>
- <li>
-  Edit Host from 127.0.0.1 tto 0.0.0.0
- </li>
-</ol>
-<pre><code class="language-bash">vi /root/pgadmin_venv/lib/python3.10/site-packages/pgadmin4/config.py
-</code></pre>
-<h3>
- Configuring Nginx as Reverse proxy
-</h3>
-<ol>
- <li>
-  Edit Nginx Configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/arpansahu
-</code></pre>
-<ol>
- <li>
-  Add this server configuration
- </li>
-</ol>
-<pre><code class="language-bash">    server {
-        listen         80;
-        server_name    pgadmin.arpansahu.me;
-        # force https-redirects
-        if ($scheme = http) {
-            return 301 https://$server_name$request_uri;
-            }
-
-        location / {
-            proxy_pass              http://0.0.0.0:9997;
-            proxy_set_header        Host $host;
-            proxy_set_header    X-Forwarded-Proto $scheme;
-        }
-
-        listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
-        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-    }
-</code></pre>
-<ol>
- <li>
-  Test the Nginx Configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo nginx -t
-</code></pre>
-<ol>
- <li>
-  Reload Nginx to apply the new configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo systemctl reload nginx
-</code></pre>
-<h3>
- Conclusion
-</h3>
-<p>
- This approach should help you manage the dependencies and resolve the version conflicts more effectively while ensuring pgAdmin runs in the background and is accessible via Nginx as a reverse proxy.
-</p>
-<p>
- My PGAdmin4 can be accessed here : https://pgadmin.arpansahu.me/
-</p>
-<h2>
- Portainer
-</h2>
-<p>
- Portainer is a web UI to manage your docker, and kubernetes. Portainer consists of two elements, the Portainer Server, and the Portainer Agent. Both elements run as lightweight Docker containers on a Docker engine.
-</p>
-<h3>
- Installing Portainer
-</h3>
-<ol>
- <li>
-  <strong>
-   Create a Docker Volume for Portainer Data (optional but recommended):
-  </strong>
-  <br/>
-  This step is optional but recommended as it allows you to persist Portainer's data across container restarts.
- </li>
-</ol>
-<pre><code class="language-bash">    docker volume create portainer_data
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Run Portainer Container:
-  </strong>
-  <br/>
-  Run the Portainer container using the following command. Replace
-  <code>
-   /var/run/docker.sock
-  </code>
-  with the path to your Docker socket if it's in a different location.
- </li>
-</ol>
-<pre><code class="language-bash">    docker run -d -p 0.0.0.0:9998:9000 -p 9444:8000 -p 9443:9443 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
-    to use it in nginx server configuration
-</code></pre>
-<p>
- This command pulls the Portainer Community Edition image from Docker Hub, creates a persistent volume for Portainer data, and starts the Portainer container. The
- <code>
-  -p 9000:9000
- </code>
- option maps Portainer's web interface to port 9000 on your host.
-</p>
-<ol>
- <li>
-  <p>
-   <strong>
-    Access Portainer UI:
-   </strong>
-   <br/>
-   Open your web browser and go to
-   <code>
-    http://localhost:9000
-   </code>
-   (or replace
-   <code>
-    localhost
-   </code>
-   with your server's IP address if you are using a remote server). You will be prompted to set up an admin user and password.
-  </p>
- </li>
- <li>
-  <p>
-   <strong>
-    Connect Portainer to the Docker Daemon:
-   </strong>
-   <br/>
-   On the Portainer setup page, choose the "Docker" environment, and connect Portainer to the Docker daemon. You can usually use the default settings (
-   <code>
-    unix:///var/run/docker.sock
-   </code>
-   for the Docker API endpoint).
-  </p>
- </li>
- <li>
-  <p>
-   <strong>
-    Complete Setup:
-   </strong>
-   <br/>
-   Follow the on-screen instructions to complete the setup process. You may choose to deploy a local agent for better performance, but it's not required for basic functionality.
-  </p>
- </li>
-</ol>
-<p>
- Once the setup is complete, you should have access to the Portainer dashboard, where you can manage and monitor your Docker containers, images, volumes, and networks through a user-friendly web interface.
-</p>
-<p>
- Keep in mind that the instructions provided here assume a basic setup. For production environments, it's recommended to secure the Portainer instance, such as by using HTTPS and setting up authentication. Refer to the
- <a href="https://documentation.portainer.io/">
-  Portainer documentation
- </a>
- for more advanced configurations and security considerations.
-</p>
-<h3>
- Configuring Nginx as Reverse proxy
-</h3>
-<ol>
- <li>
-  Edit Nginx Configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/arpansahu
-</code></pre>
-<ol>
- <li>
-  Add this server configuration
- </li>
-</ol>
-<pre><code class="language-bash">    server {
-        listen         80;
-        server_name    portainer.arpansahu.me;
-        # force https-redirects
-        if ($scheme = http) {
-            return 301 https://$server_name$request_uri;
-            }
-
-        location / {
-            proxy_pass              http://0.0.0.0:9998;
-            proxy_set_header        Host $host;
-            proxy_set_header    X-Forwarded-Proto $scheme;
-        }
-
-        listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
-        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-    }
-</code></pre>
-<ol>
- <li>
-  Test the Nginx Configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo nginx -t
-</code></pre>
-<ol>
- <li>
-  Reload Nginx to apply the new configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo systemctl reload nginx
-</code></pre>
-<h3>
- Running Portainer Agent
-</h3>
-<ol>
- <li>
-  Run this command to start the portainer agent docker container
- </li>
-</ol>
-<pre><code class="language-bash">        docker run -d -p 9995:9001 \
-        --name portainer_agent \
-        --restart=always \
-        -v /var/run/docker.sock:/var/run/docker.sock \
-        -v /var/lib/docker/volumes:/var/lib/docker/volumes \
-        portainer/agent:2.19.5
-</code></pre>
-<ol>
- <li>
-  <p>
-   Configuring Nginx as Reverse proxy
-  </p>
-  <ol>
-   <li>
-    Edit Nginx Configuration
-   </li>
-  </ol>
- </li>
-</ol>
-<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/arpansahu
-</code></pre>
-<pre><code>2. Add this server configuration
-</code></pre>
-<pre><code class="language-bash">        server {
-            listen         80;
-            server_name    portainer-agent.arpansahu.me;
-            # force https-redirects
-            if ($scheme = http) {
-                return 301 https://$server_name$request_uri;
-                }
-
-            location / {
-                proxy_pass              http://0.0.0.0:9995;
-                proxy_set_header        Host $host;
-                proxy_set_header    X-Forwarded-Proto $scheme;
-            }
-
-            listen 443 ssl; # managed by Certbot
-            ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-            ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
-            include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-            ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-        }
-</code></pre>
-<pre><code>3. Test the Nginx Configuration
-</code></pre>
-<pre><code class="language-bash">        sudo nginx -t
-</code></pre>
-<pre><code>4. Reload Nginx to apply the new configuration
-</code></pre>
-<pre><code class="language-bash">        sudo systemctl reload nginx
-</code></pre>
-<ol>
- <li>
-  <p>
-   Adding Environment
-  </p>
-  <ol>
-   <li>
-    <p>
-     Go to environment ---> Choose Docker Standalone ----> Start Wizard
-    </p>
-   </li>
-   <li>
-    <p>
-     Will show you a command same as step 1. Run this command to start the portainer agent docker container, this is default command we have modified ports although
-    </p>
-   </li>
-  </ol>
- </li>
-</ol>
-<pre><code class="language-bash">            docker run -d -p 9001:9001 \    
-            --name portainer_agent \
-            --restart=always \
-            -v /var/run/docker.sock:/var/run/docker.sock \
-            -v /var/lib/docker/volumes:/var/lib/docker/volumes \
-            portainer/agent:2.19.5
-</code></pre>
-<pre><code>3. Add Name, I have used docker-prod-env
-4. Add Environment address domain:port combination is needed in my case portainer-agent.arpansahu.me: 9995
-5. Click Connect
-</code></pre>
-<p>
- My Portainer can be accessed here : https://portainer.arpansahu.me/
-</p>
-<h2>
- Redis Server
-</h2>
-<p>
- Redis is versatile and widely used for its speed and efficiency in various applications. Its ability to serve different roles, such as caching, real-time analytics, and pub/sub messaging, makes it a valuable tool in many technology stacks.
-</p>
-<h3>
- Installing Redis and Setting Up Authentication
-</h3>
-<ol>
- <li>
-  <p>
-   Step 1: Install Redis on Ubuntu
-  </p>
- </li>
- <li>
-  <p>
-   <strong>
-    Update your package list:
-   </strong>
-  </p>
- </li>
-</ol>
-<pre><code class="language-sh">      sudo apt update
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Install Redis:
-  </strong>
- </li>
-</ol>
-<pre><code class="language-sh">      sudo apt install redis-server
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Start and enable Redis:
-  </strong>
- </li>
-</ol>
-<pre><code class="language-sh">      sudo systemctl start redis
-      sudo systemctl enable redis
-</code></pre>
-<ol>
- <li>
-  <p>
-   Step 2: Configure Redis
-  </p>
- </li>
- <li>
-  <p>
-   <strong>
-    Open the Redis configuration file:
-   </strong>
-  </p>
- </li>
-</ol>
-<pre><code class="language-sh">      sudo vi /etc/redis/redis.conf
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Change the host to 0.0.0.0:
-  </strong>
-  <br/>
-  Find the line with
-  <code>
-   bind 127.0.0.1 ::1
-  </code>
-  and change it to:
- </li>
-</ol>
-<pre><code>      bind 0.0.0.0
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Set up authentication:
-  </strong>
-  <br/>
-  Find the line with
-  <code>
-   # requirepass foobared
-  </code>
-  and uncomment it. Replace
-  <code>
-   foobared
-  </code>
-  with your desired password:
- </li>
-</ol>
-<pre><code>      requirepass your_secure_password
-</code></pre>
-<ol>
- <li>
-  <p>
-   <strong>
-    Save and exit the editor
-   </strong>
-   (
-   <code>
-    esc + :wq + enter
-   </code>
-   in vi).
-  </p>
- </li>
- <li>
-  <p>
-   <strong>
-    Restart Redis to apply the changes:
-   </strong>
-  </p>
- </li>
-</ol>
-<pre><code class="language-sh">      sudo systemctl restart redis
-</code></pre>
-<ol>
- <li>
-  <p>
-   Step 3: Verify Configuration
-  </p>
- </li>
- <li>
-  <p>
-   <strong>
-    Connect to Redis using the CLI:
-   </strong>
-  </p>
- </li>
-</ol>
-<pre><code class="language-sh">      redis-cli
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Authenticate with your password:
-  </strong>
- </li>
-</ol>
-<pre><code class="language-sh">      AUTH your_secure_password
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Check the connection:
-  </strong>
- </li>
-</ol>
-<pre><code class="language-sh">      PING
-</code></pre>
-<pre><code>  You should receive a response:
-</code></pre>
-<pre><code>      PONG
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Verify the binding to 0.0.0.0:
-  </strong>
- </li>
-</ol>
-<pre><code class="language-sh">      sudo netstat -tulnp | grep redis
-</code></pre>
-<pre><code>  You should see Redis listening on `0.0.0.0:6379`.
-</code></pre>
-<ol>
- <li>
-  <p>
-   Step 4: Connecting to Redis
-  </p>
- </li>
- <li>
-  <p>
-   <strong>
-    Connect to Redis using the CLI from a remote host:
-   </strong>
-  </p>
- </li>
-</ol>
-<pre><code class="language-sh">      redis-cli -h arpansahu.me -p 6379 -a your_secure_password
-</code></pre>
-<h2>
- Note: If you want to use SSL connection
-</h2>
-<ol>
- <li>
-  Open the Redis configuration file:
- </li>
-</ol>
-<pre><code class="language-sh">    sudo vi /etc/redis/redis.conf
-</code></pre>
-<ol>
- <li>
-  Add the following configuration:
- </li>
-</ol>
-<pre><code>    tls-port 6379
-    port 0
-
-    tls-cert-file /path/to/redis.crt
-    tls-key-file /path/to/redis.key
-    tls-dh-params-file /path/to/dhparam.pem
-
-    tls-auth-clients no
-</code></pre>
-<p>
- Mostly Redis is used as cache and we want it to be super fast; hence, we are not putting it behind a reverse proxy like Nginx, similar to PostgreSQL.
-</p>
-<p>
- Mostly redis is used as cache and we want it to be super fast hence we are not putting it behind reverse proxy e.g. nginx same as postgres
-</p>
-<p>
- Also one more thing redis by default don't support ssl connections even if u use ssl
-</p>
-<p>
- redis server can be accessed
-</p>
-<pre><code class="language-bash">redis-cli -h arpansahu.me -p 6379 -a password_required
-</code></pre>
-<h2>
- Redis Commander
-</h2>
-<p>
- Redis Commander is a web-based management tool for Redis databases. It provides a user-friendly interface to interact with Redis, making it easier to manage and monitor your Redis instances.
-</p>
-<h3>
- Installing Redis Commander
-</h3>
-<ol>
- <li>
-  Installation:
-  <br/>
-  You can install redis-commander globally using npm (Node Package Manager) with the following command:
- </li>
-</ol>
-<pre><code class="language-bash">    npm install -g redis-commander
-</code></pre>
-<ol>
- <li>
-  Run
- </li>
-</ol>
-<pre><code class="language-bash">    redis-commander --redis-host your-redis-server-ip --redis-port your-redis-port --redis-password your-redis-password --port 9996
-</code></pre>
-<h3>
- Serving with Nginx, as well password protecting Redis Commander
-</h3>
-<p>
- Redis Commander d'ont have native password protection enabled
-</p>
-<ol>
- <li>
-  Create a Basic Authentication File
-  <br/>
-  Use the htpasswd utility to create a username and password combination. Replace your_username with your desired username.
- </li>
-</ol>
-<pre><code class="language-bash">    sudo htpasswd -c /etc/nginx/.htpasswd your_username
-</code></pre>
-<pre><code>You’ll be prompted to enter a password.
-</code></pre>
-<ol>
- <li>
-  Creating Server Block in Nginx config file
- </li>
-</ol>
-<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/arpansahu
-</code></pre>
-<ol>
- <li>
-  Add this server block to it.
- </li>
-</ol>
-<pre><code class="language-bash">    server {
-        listen         80;
-        server_name    redis.arpansahu.me;
-        # force https-redirects
-        if ($scheme = http) {
-            return 301 https://$server_name$request_uri;
-            }
-
-        location / {
-            proxy_pass              http://127.0.0.1:9996;
-            proxy_set_header        Host $host;
-            proxy_set_header    X-Forwarded-Proto $scheme;
-            auth_basic &quot;Restricted Access&quot;;
-            auth_basic_user_file /etc/nginx/.htpasswd;
-        }
-
-        listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
-        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    }
-</code></pre>
-<ol>
- <li>
-  Test the Nginx Configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo nginx -t
-</code></pre>
-<ol>
- <li>
-  Reload Nginx to apply the new configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo systemctl reload nginx
-</code></pre>
-<h3>
- Running Redis Commander in background Using pm2
-</h3>
-<ol>
- <li>
-  Install pm2 globally (if not already installed):
- </li>
-</ol>
-<pre><code class="language-bash">    npm install -g pm2
-</code></pre>
-<ol>
- <li>
-  Start redis-commander with pm2:
- </li>
-</ol>
-<pre><code class="language-bash">    pm2 start redis-commander --name redis-commander -- --port 9996 --redis-host your-redis-server-ip --redis-port your-redis-port --redis-password your-redis-password
-</code></pre>
-<pre><code>This starts redis-commander with pm2 and names the process “redis-commander.”
-</code></pre>
-<ol>
- <li>
-  Optionally, you can save the current processes to ensure they restart on system reboot:
- </li>
-</ol>
-<pre><code class="language-bash">    pm2 save
-</code></pre>
-<pre><code class="language-bash">    pm2 startup
-</code></pre>
-<p>
- Now, redis-commander is running in the background managed by pm2. You can view its status, logs, and manage it using pm2 commands. For example:
-</p>
-<ol>
- <li>
-  View the status:
- </li>
-</ol>
-<pre><code class="language-bash">    pm2 status  
-</code></pre>
-<pre><code>Stop the process:
-</code></pre>
-<pre><code class="language-bash">    pm2 stop redis-commander
-</code></pre>
-<pre><code>Restart the process:
-</code></pre>
-<pre><code class="language-bash">    pm2 restart redis-commander
-</code></pre>
-<pre><code>View logs:
-</code></pre>
-<pre><code class="language-bash">    pm2 logs redis-commander
-</code></pre>
-<p>
- My Redis Commander can be accessed here : https://redis.arpansahu.me/
-</p>
-<h2>
- MiniIo (Self hosted S3 Storage)
-</h2>
-<p>
- MinIO is a high-performance, distributed object storage system designed for large-scale data infrastructures. It is open-source and compatible with the Amazon S3 API, making it a popular choice for organizations looking for scalable, secure, and cost-effective storage solutions.
-</p>
-<h3>
- Installing Minio
-</h3>
-<ol>
- <li>
-  Install MinIO on your server. You can download it from the official website or use a package manager if available.
- </li>
-</ol>
-<pre><code class="language-bash">    wget https://dl.min.io/server/minio/release/linux-amd64/minio
-    chmod +x minio
-    sudo mv minio /usr/local/bin
-</code></pre>
-<ol>
- <li>
-  <p>
-   Generate SSL Certificates using Certbot
-   <br/>
-   While setting up nginx we already automated this auto regeneration of certificates every3 months
-   <br/>
-   The certificates will be stored in /etc/letsencrypt/live/arpansahu.me/.
-  </p>
- </li>
- <li>
-  <p>
-   Configure MinIO with SSL Certificates:
-   <br/>
-   Configure MinIO to use the SSL certificates generated by Certbot. Create a directory to store the certificates and copy them from the Certbot directory.
-  </p>
- </li>
-</ol>
-<pre><code class="language-bash">    sudo mkdir -p /etc/minio/certs
-    sudo cp /etc/letsencrypt/live/yourdomain.com/fullchain.pem /etc/minio/certs/public.crt
-    sudo cp /etc/letsencrypt/live/yourdomain.com/privkey.pem /etc/minio/certs/private.key
-</code></pre>
-<ol>
- <li>
-  Environment File Configuration
-  <br/>
-  Ensure your environment file, usually located at /etc/default/minio, has the following content: if the file is not present create it
- </li>
-</ol>
-<pre><code class="language-bash">    MINIO_VOLUMES=&quot;/mnt/minio&quot;
-
-    # Define where to find the TLS certificates
-    MINIO_OPTS=&quot;--certs-dir /etc/minio/certs --console-address :9001&quot;
-
-    # Define the admin user (min 3 characters)
-    MINIO_ROOT_USER=user_edit_this
-
-    # Define the default admin user password (min 8 characters)
-    MINIO_ROOT_PASSWORD=password_edit_this
-</code></pre>
-<ol>
- <li>
-  Setup Directory and Permissions
- </li>
-</ol>
-<pre><code class="language-bash">    sudo mkdir -p /mnt/minio
-    sudo chown -R minio-user:minio-user /mnt/minio
-
-    sudo mkdir -p /etc/minio/certs
-    sudo chown -R minio-user:minio-user /etc/minio/certs
-
-    sudo chown minio-user:minio-user /etc/minio/certs/public.crt
-    sudo chown minio-user:minio-user /etc/minio/certs/private.key
-</code></pre>
-<ol>
- <li>
-  Reload Systemd and Start MinIO
-  <br/>
-  Reload the system daemon and start the MinIO service
- </li>
-</ol>
-<pre><code class="language-echo">    sudo systemctl daemon-reload
-    sudo systemctl start minio
-</code></pre>
-<p>
- Note: minio api and ui server both run at 0.0.0.0 host by default
-</p>
-<h3>
- Nginx Setup as Reverse Proxy
-</h3>
-<p>
- Note: Nginx is already set in the other steps as seen before right now I will discuss server configuration for minio and minioui
-</p>
-<ol>
- <li>
-  Nginx Server configuration for minio API server
- </li>
-</ol>
-<pre><code class="language-bash">    server {
-        listen         80;
-        server_name    minio.arpansahu.me;
-
-        # Redirect HTTP to HTTPS
-        if ($scheme = http) {
-            return 301 https://$server_name$request_uri;
-        }
-    }
-
-    server {
-        listen         443 ssl;
-        server_name    minio.arpansahu.me;
-
-        # SSL certificates
-        ssl_certificate /etc/minio/certs/public.crt;
-        ssl_certificate_key /etc/minio/certs/private.key;
-
-        # Allow special characters in headers
-        ignore_invalid_headers off;
-
-        # Allow any size file to be uploaded.
-        # Set to a value such as 1000m; to restrict file size to a specific value
-        client_max_body_size 0;
-
-        # Disable buffering
-        proxy_buffering off;
-        proxy_request_buffering off;
-
-        location / {
-            proxy_pass          https://0.0.0.0:9000;
-            proxy_set_header    Host $host;
-            proxy_set_header    X-Real-IP $remote_addr;
-            proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header    X-Forwarded-Proto $scheme;
-
-            # Set maximum allowed body size for uploads
-            client_max_body_size 0; # Adjust the value as needed
-
-            proxy_connect_timeout 300;
-            # Default is HTTP/1, keepalive is only enabled in HTTP/1.1
-            proxy_http_version 1.1;
-            proxy_set_header Connection &quot;&quot;;
-            chunked_transfer_encoding off;
-        }
-    }
-</code></pre>
-<ol>
- <li>
-  Nginx Server configuration for minio ui server
- </li>
-</ol>
-<pre><code class="language-bash">    server {
-        listen         80;
-        server_name    minioui.arpansahu.me;
-        # force https-redirects
-        if ($scheme = http) {
-            return 301 https://$server_name$request_uri;
-            }
-
-        location / {
-             proxy_pass               https://0.0.0.0:9001;
-             proxy_set_header        Host $host;
-             proxy_set_header    X-Forwarded-Proto $scheme;
-
-             # WebSocket support
-             proxy_http_version 1.1;
-             proxy_set_header Upgrade $http_upgrade;
-             proxy_set_header Connection &quot;upgrade&quot;;
-        }
-
-        listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
-        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-    }
-</code></pre>
-<h4>
- Setup Copy Cron to copy whenever cerbot updates the certificate to /etc/minio/certs
-</h4>
-<ol>
- <li>
-  Create a Cron Shell file
- </li>
-</ol>
-<pre><code class="language-bash">    sudo vi /usr/local/bin/update_minio_certs.sh
-</code></pre>
-<ol>
- <li>
-  Add this script to update_minio_certs.sh
- </li>
-</ol>
-<pre><code class="language-bash">    #!/bin/bash
-    # Paths to the Let&#x27;s Encrypt certificates
-    CERT_SRC_DIR=&quot;/etc/letsencrypt/live/yourdomain.com&quot;
-    CERT_DST_DIR=&quot;/etc/minio/certs&quot;
-
-    # Path to the public certificate and private key in the source directory
-    SRC_PUBLIC_CERT=&quot;${CERT_SRC_DIR}/fullchain.pem&quot;
-    SRC_PRIVATE_KEY=&quot;${CERT_SRC_DIR}/privkey.pem&quot;
-
-    # Path to the public certificate and private key in the destination directory
-    DST_PUBLIC_CERT=&quot;${CERT_DST_DIR}/public.crt&quot;
-    DST_PRIVATE_KEY=&quot;${CERT_DST_DIR}/private.key&quot;
-
-    # Function to send email using Mailjet API
-    send_email() {
-        local subject=$1
-        local body=$2
-
-        python3 &lt;&lt;END
-    import os
-    from mailjet_rest import Client
-
-    api_key = &#x27;your-mailjet-api-key&#x27;
-    api_secret = &#x27;your-mailjet-api-secret&#x27;
-    mailjet = Client(auth=(api_key, api_secret), version=&#x27;v3.1&#x27;)
-
-    data = {
-    &#x27;Messages&#x27;: [
-        {
-        &quot;From&quot;: {
-            &quot;Email&quot;: &quot;your-email@example.com&quot;,
-            &quot;Name&quot;: &quot;MinIO Cert Update&quot;
-        },
-        &quot;To&quot;: [
-            {
-            &quot;Email&quot;: &quot;recipient-email@example.com&quot;,
-            &quot;Name&quot;: &quot;Recipient&quot;
-            }
-        ],
-        &quot;Subject&quot;: &quot;$subject&quot;,
-        &quot;TextPart&quot;: &quot;$body&quot;
-        }
-    ]
-    }
-
-    result = mailjet.send.create(data=data)
-    print(result.status_code)
-    print(result.json())
-    END
-    }
-
-    # Check if the certificates have changed and copy if they have
-    if ! cmp -s &quot;$SRC_PUBLIC_CERT&quot; &quot;$DST_PUBLIC_CERT&quot; || ! cmp -s &quot;$SRC_PRIVATE_KEY&quot; &quot;$DST_PRIVATE_KEY&quot;; then
-        sudo cp &quot;$SRC_PUBLIC_CERT&quot; &quot;$DST_PUBLIC_CERT&quot;
-        sudo cp &quot;$SRC_PRIVATE_KEY&quot; &quot;$DST_PRIVATE_KEY&quot;
-        sudo systemctl restart minio
-        echo &quot;MinIO certificates updated and service restarted at $(date)&quot; &gt;&gt; /var/log/minio_cert_update.log
-        send_email &quot;MinIO Certificates Updated&quot; &quot;MinIO certificates were updated and the service was restarted on $(date).&quot;
-    else
-        echo &quot;No changes detected in MinIO certificates at $(date)&quot; &gt;&gt; /var/log/minio_cert_update.log
-        send_email &quot;No Changes in MinIO Certificates&quot; &quot;No changes were detected in MinIO certificates on $(date).&quot;
-    fi
-</code></pre>
-<pre><code>Here you need to replace your-mailjet-api-key, your-mailjet-api-secret, your-email@example.com and yourdomain.com
-
-1. Get Api Credentials from mailJet visit https://www.mailjet.com
-</code></pre>
-<ol>
- <li>
-  Changing permissions to execute update_minio_certs.sh
- </li>
-</ol>
-<pre><code class="language-bash">    sudo chmod +x /usr/local/bin/update_minio_certs.sh
-</code></pre>
-<ol>
- <li>
-  Update Cron Job or Systemd Timer
- </li>
-</ol>
-<pre><code class="language-bash">    sudo crontab -e
-</code></pre>
-<pre><code>Add the following line to run the script every day at midnight:
-</code></pre>
-<pre><code class="language-bash">    0 0 * * * /usr/local/bin/update_minio_certs.sh
-</code></pre>
-<ol>
- <li>
-  Install mailjet-rest python module
- </li>
-</ol>
-<pre><code class="language-bash">    pip install mailjet-rest
-</code></pre>
-<ol>
- <li>
-  Test the script
- </li>
-</ol>
-<pre><code class="language-bash">        cd /usr/local/bin
-        ./update_minio_certs.sh
-</code></pre>
-<p>
- You can connect to my MiniIo Server using terminal
-</p>
-<pre><code class="language-bash">  mc alias set myminio https://arpansahu.me api_key api_secret --api S3v4
-  mc ls
-</code></pre>
-<h1>
- Website Uptime Monitor
-</h1>
-<p>
- This project monitors the uptime of specified websites and sends an email alert if any website is down or returns a non-2xx status code. The project uses a shell script to set up a virtual environment, install dependencies, run the monitoring script, and then clean up the virtual environment.
-</p>
-<h2>
- Prerequisites
-</h2>
-<ul>
- <li>
-  Python 3
- </li>
- <li>
-  Pip (Python package installer)
- </li>
- <li>
-  Mailjet account for email alerts
- </li>
- <li>
-  Cron for scheduling the script
- </li>
-</ul>
-<h2>
- Setup
-</h2>
-<h3>
- 1. Clone the Repository
-</h3>
-<pre><code class="language-sh">git clone https://github.com/yourusername/website-uptime-monitor.git
-cd website-uptime-monitor
-</code></pre>
-<h3>
- 2. Create a
- <code>
-  .env
- </code>
- File
-</h3>
-<p>
- Create a
- <code>
-  .env
- </code>
- file in the root directory and add the following content:
-</p>
-<pre><code class="language-env">MAILJET_API_KEY=your_mailjet_api_key
-MAILJET_SECRET_KEY=your_mailjet_secret_key
-SENDER_EMAIL=your_sender_email@example.com
-RECEIVER_EMAIL=your_receiver_email@example.com
-</code></pre>
-<h3>
- 3. Create
- <code>
-  requirements.txt
- </code>
-</h3>
-<p>
- Create a
- <code>
-  requirements.txt
- </code>
- file in the root directory with the following content:
-</p>
-<pre><code class="language-txt">requests
-retrying
-python-dotenv
-</code></pre>
-<h3>
- 4. Create the Shell Script
-</h3>
-<p>
- Create a shell script
- <code>
-  setup_and_run.sh
- </code>
- in the root directory with the following content:
-</p>
-<pre><code class="language-sh">#!/bin/bash
-
-# Define the virtual environment directory
-VENV_DIR=&quot;venv&quot;
-
-# Define the requirements file
-REQUIREMENTS_FILE=&quot;requirements.txt&quot;
-
-# Define the Python script to run
-PYTHON_SCRIPT=&quot;website_monitor.py&quot;
-
-# Check if virtual environment directory exists
-if [ -d &quot;$VENV_DIR&quot; ]; then
-    echo &quot;Virtual environment already exists.&quot;
-else
-    # Create a virtual environment
-    echo &quot;Creating virtual environment...&quot;
-    python3 -m venv &quot;$VENV_DIR&quot;
-fi
-
-# Activate the virtual environment
-source &quot;$VENV_DIR/bin/activate&quot;
-
-# Upgrade pip in the virtual environment
-echo &quot;Upgrading pip...&quot;
-pip install --upgrade pip
-
-# Install requirements
-if [ -f &quot;$REQUIREMENTS_FILE&quot; ]; then
-    echo &quot;Installing dependencies...&quot;
-    pip install -r &quot;$REQUIREMENTS_FILE&quot;
-else
-    echo &quot;Requirements file not found. Skipping dependency installation.&quot;
-fi
-
-# Run the Python script
-if [ -f &quot;$PYTHON_SCRIPT&quot; ]; then
-    echo &quot;Running the Python script...&quot;
-    python &quot;$PYTHON_SCRIPT&quot;
-else
-    echo &quot;Python script not found. Exiting.&quot;
-fi
-
-# Deactivate the virtual environment
-deactivate
-
-# Remove the virtual environment directory
-echo &quot;Deleting virtual environment...&quot;
-rm -rf &quot;$VENV_DIR&quot;
-
-echo &quot;Done.&quot;
-</code></pre>
-<p>
- Make the script executable:
-</p>
-<pre><code class="language-sh">chmod +x setup_and_run.sh
-</code></pre>
-<h3>
- 5. Create the Python Script
-</h3>
-<p>
- Create a Python script
- <code>
-  website_monitor.py
- </code>
- in the root directory with the following content:
-</p>
-<pre><code class="language-python">import requests
-import smtplib
-import logging
-from email.mime.text import MIMEText
-from requests.exceptions import HTTPError, RequestException
-from time import sleep
-from retrying import retry
-from dotenv import load_dotenv
-import os
-
-# Load environment variables from .env file
-load_dotenv()
-
-# Website to monitor
-website_urls = [
-    &quot;https://arpansahu.me&quot;,
-    &quot;https://prometheus.arpansahu.me/&quot;,
-    &quot;https://jenkins.arpansahu.me/&quot;,
-    &quot;https://pgadmin.arpansahu.me/&quot;,
-    &quot;https://grafana.arpansahu.me/&quot;,
-    &quot;https://redis.arpansahu.me/&quot;,
-    &quot;https://portainer.arpansahu.me/&quot;,
-    &quot;https://minioui.arpansahu.me/&quot;,
-    &quot;https://kube.arpansahu.me/&quot;,
-    &quot;https://harbor.arpansahu.me/&quot;,
-]
-
-# Mailjet API credentials
-mailjet_api_key = os.getenv(&quot;MAILJET_API_KEY&quot;)
-mailjet_secret_key = os.getenv(&quot;MAILJET_SECRET_KEY&quot;)
-sender_email = os.getenv(&quot;SENDER_EMAIL&quot;)
-receiver_email = os.getenv(&quot;RECEIVER_EMAIL&quot;)
-
-# Set up logging
-logging.basicConfig(level=logging.INFO, format=&#x27;%(asctime)s - %(levelname)s - %(message)s&#x27;)
-
-def send_email(subject, body):
-    msg = MIMEText(body)
-    msg[&quot;Subject&quot;] = subject
-    msg[&quot;From&quot;] = sender_email
-    msg[&quot;To&quot;] = receiver_email
-
-    try:
-        # Connect to the SMTP server
-        with smtplib.SMTP(&quot;smtp.mailjet.com&quot;, 587) as server:
-            server.starttls()
-            server.login(mailjet_api_key, mailjet_secret_key)
-            # Send email
-            server.sendmail(sender_email, [receiver_email], msg.as_string())
-        logging.info(f&quot;Email sent successfully: {subject}&quot;)
-    except smtplib.SMTPException as e:
-        logging.error(f&quot;Failed to send email: {e}&quot;)
-
-@retry(stop_max_attempt_number=3, wait_fixed=2000)
-def check_website_status(website):
-    response = requests.get(website, timeout=10)  # Set a timeout for the request
-    response.raise_for_status()  # Raise an HTTPError for bad responses (4xx or 5xx)
-    return response
-
-def check_websites():
-    for website in website_urls:
-        try:
-            response = check_website_status(website)
-            if response.status_code // 100 != 2:
-                send_email(&quot;Website Alert&quot;, f&quot;The website {website} returned a non-2xx status code: {response.status_code}&quot;)
-        except HTTPError as e:
-            if e.response.status_code == 401 or e.response.status_code == 403:
-                logging.info(f&quot;The website {website} returned a {e.response.status_code} status code. This is allowed.&quot;)
-            else:
-                send_email(&quot;Website Alert&quot;, f&quot;An error occurred while checking the website {website}. Error: {str(e)}&quot;)
-        except RequestException as e:
-            send_email(&quot;Website Alert&quot;, f&quot;An error occurred while checking the website {website}. Error: {str(e)}&quot;)
-
-if __name__ == &quot;__main__&quot;:
-    check_websites()
-</code></pre>
-<h2>
- Running the Script
-</h2>
-<p>
- To run the script manually, execute:
-</p>
-<pre><code class="language-sh">./setup_and_run.sh
-</code></pre>
-<h2>
- Setting Up a Cron Job
-</h2>
-<p>
- To run the script automatically at regular intervals, set up a cron job:
-</p>
-<ol>
- <li>
-  Edit the crontab:
- </li>
-</ol>
-<pre><code class="language-sh">crontab -e
-</code></pre>
-<ol>
- <li>
-  Add the following line to run the script every 5 hours:
- </li>
-</ol>
-<pre><code class="language-sh">0 */5 * * * /bin/bash /root/arpansahu-one-scripts/setup_and_run.sh &gt;&gt; /root/logs/website_up_time.log 2&gt;&amp;1
-</code></pre>
-<h2>
- License
-</h2>
-<p>
- This project is licensed under the MIT License. See the
- <a href="LICENSE">
-  LICENSE
- </a>
- file for details.
-</p>
 <h2>
  Documentation
 </h2>
@@ -4999,6 +1394,10 @@ if __name__ == &quot;__main__&quot;:
  <br/>
  <a href="https://www.djangoproject.com/">
   <img alt="Django" src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://jquery.com/">
+  <img alt="Jquery" src="https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white"/>
  </a>
  <br/>
  <a href="https://developer.mozilla.org/en-US/docs/Glossary/HTML5">
@@ -5017,39 +1416,31 @@ if __name__ == &quot;__main__&quot;:
   <img alt="Javascript" src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E"/>
  </a>
  <br/>
- <a href="https://redis.io/docs/">
-  <img alt="Redis" src="https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white"/>
- </a>
- <br/>
- <a href="https://www.postgresql.org/docs/">
-  <img alt="Postgres" src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white"/>
- </a>
- <br/>
  <a href="https://heroku.com/">
   <img alt="Heroku" src="https://img.shields.io/badge/-Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white"/>
- </a>
- <br/>
- <a href="https://www.github.com/">
-  <img alt="Github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>
- </a>
- <br/>
- <a href="https://www.docker.com/">
-  <img alt="Docker" src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"/>
- </a>
- <br/>
- <a href="https://www.jenkins.io/">
-  <img alt="Jenkins" src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white"/>
  </a>
  <br/>
  <a href="https://aws.amazon.com/">
   <img alt="AWS" src="https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white"/>
  </a>
  <br/>
- <a href="https://nginx.org/en/">
+ <a href="https://www.github.com/">
+  <img alt="Github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://www.nginx.com">
   <img alt="Nginx" src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white"/>
  </a>
  <br/>
- <a href="https://ubuntu.com/">
+ <a href="https://www.docker.com">
+  <img alt="Docker" src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://www.jenkins.io">
+  <img alt="Jenkins" src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="">
   <img alt="Ubuntu" src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"/>
  </a>
 </p>
@@ -5058,6 +1449,21 @@ if __name__ == &quot;__main__&quot;:
 </h2>
 <p>
  To run this project, you will need to add the following environment variables to your .env file
+</p>
+<p>
+ EMAIL=
+</p>
+<p>
+ PASS=
+</p>
+<p>
+ MY_EMAIL_ADDRESS=
+</p>
+<p>
+ DATABASE_URL=
+</p>
+<p>
+ REDISCLOUD_URL=
 </p>
 <p>
  SECRET_KEY=
@@ -5075,7 +1481,16 @@ if __name__ == &quot;__main__&quot;:
  MAIL_JET_API_SECRET=
 </p>
 <p>
- MY_EMAIL_ADDRESS=
+ MAIL_JET_EMAIL_ADDRESS=
+</p>
+<p>
+ DOMAIN=
+</p>
+<p>
+ PROTOCOL=
+</p>
+<p>
+ DROPBOX_ACCESS_TOKEN=
 </p>
 <p>
  AWS_ACCESS_KEY_ID=
@@ -5086,18 +1501,12 @@ if __name__ == &quot;__main__&quot;:
 <p>
  AWS_STORAGE_BUCKET_NAME=
 </p>
+<h1>
+ Blackblaze bucket instead of AWS S3 bucket
+</h1>
+<p>
+ AWS_S3_REGION_NAME=
+</p>
 <p>
  BUCKET_TYPE=
-</p>
-<p>
- DOMAIN=
-</p>
-<p>
- PROTOCOL=
-</p>
-<p>
- DATABASE_URL=
-</p>
-<p>
- REDISCLOUD_URL=
 </p>
