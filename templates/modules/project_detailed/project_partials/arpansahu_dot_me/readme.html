@@ -832,8 +832,6 @@ include_files = {
 </p>
 <p>
  <img alt="EC2 Sever along with Nginx, Docker and Jenkins Arrangement" class="d-block w-100" src="https://raw.githubusercontent.com/arpansahu/common_readme/main/Images/One%20Server%20Configuration%20for%20arpanahuone.png"/>
- <br/>
- kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
 </p>
 <h3>
  Step 1: Dockerize
@@ -3168,7 +3166,7 @@ sudo apt-get install jenkins
 
                             // Verify if the service is accessible and delete the Docker container if accessible and update nginx configuration
                             sh &quot;&quot;&quot;
-                            curl -v http://${clusterIP}:${nodePort} &amp;&amp; \
+                            curl -s -o /dev/null -w &quot;%{http_code}&quot; http://${clusterIP}:${nodePort} | grep -q &quot;200&quot; &amp;&amp; \\
                             if [ \$(docker ps -q -f name=${ENV_PROJECT_NAME}) ]; then
                                 docker rm -f ${ENV_PROJECT_NAME} &amp;&amp; \\
                                 sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload
@@ -3186,6 +3184,8 @@ sudo apt-get install jenkins
     post {
         success {
             script {
+                // Retrieve the latest commit message
+                def commitMessage = sh(script: &quot;git log -1 --pretty=%B&quot;, returnStdout: true).trim()
                 if (currentBuild.description == &#x27;DEPLOYMENT_EXECUTED&#x27;) {
                     sh &quot;&quot;&quot;curl -s \
                     -X POST \
@@ -3212,8 +3212,12 @@ sudo apt-get install jenkins
                         ]
                     }&#x27;&quot;&quot;&quot;
                 }
-                // Trigger the common_readme job on success
-                build job: &#x27;common_readme&#x27;, parameters: [string(name: &#x27;project_git_url&#x27;, value: &#x27;https://github.com/arpansahu/${ENV_PROJECT_NAME}&#x27;), string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)], wait: false
+                // Trigger the common_readme job on success if the commit message is not &quot;Automatic Update readme.html for all repositories&quot;
+                if (commitMessage != &quot;Automatic Update readme.html for all repositories&quot;) {
+                    build job: &#x27;common_readme&#x27;, parameters: [string(name: &#x27;project_git_url&#x27;, value: &#x27;https://github.com/arpansahu/${ENV_PROJECT_NAME}&#x27;), string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)], wait: false
+                } else {
+                    echo &quot;Skipping common_readme job trigger due to commit message: ${commitMessage}&quot;
+                }
             }
         }
         failure {
