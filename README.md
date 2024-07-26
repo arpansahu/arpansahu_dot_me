@@ -438,7 +438,6 @@ Note: Update as of Aug 2023, I have decided to make some changes to my lifestyle
 Now My project arrangements look something similar to this
 
 ![EC2 Sever along with Nginx, Docker and Jenkins Arrangement](https://github.com/arpansahu/common_readme/blob/main/Images/One%20Server%20Configuration%20for%20arpanahuone.png)
-kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
 
 ### Step 1: Dockerize
 
@@ -2711,7 +2710,7 @@ pipeline {
 
                             // Verify if the service is accessible and delete the Docker container if accessible and update nginx configuration
                             sh """
-                            curl -v http://${clusterIP}:${nodePort} && \
+                            curl -s -o /dev/null -w "%{http_code}" http://${clusterIP}:${nodePort} | grep -q "200" && \\
                             if [ \$(docker ps -q -f name=${ENV_PROJECT_NAME}) ]; then
                                 docker rm -f ${ENV_PROJECT_NAME} && \\
                                 sudo sed -i 's|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|' ${NGINX_CONF} && sudo nginx -s reload
@@ -2729,6 +2728,8 @@ pipeline {
     post {
         success {
             script {
+                // Retrieve the latest commit message
+                def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
                 if (currentBuild.description == 'DEPLOYMENT_EXECUTED') {
                     sh """curl -s \
                     -X POST \
@@ -2755,8 +2756,12 @@ pipeline {
                         ]
                     }'"""
                 }
-                // Trigger the common_readme job on success
-                build job: 'common_readme', parameters: [string(name: 'project_git_url', value: 'https://github.com/arpansahu/${ENV_PROJECT_NAME}'), string(name: 'environment', value: 'prod')], wait: false
+                // Trigger the common_readme job on success if the commit message is not "Automatic Update readme.html for all repositories"
+                if (commitMessage != "Automatic Update readme.html for all repositories") {
+                    build job: 'common_readme', parameters: [string(name: 'project_git_url', value: 'https://github.com/arpansahu/${ENV_PROJECT_NAME}'), string(name: 'environment', value: 'prod')], wait: false
+                } else {
+                    echo "Skipping common_readme job trigger due to commit message: ${commitMessage}"
+                }
             }
         }
         failure {
