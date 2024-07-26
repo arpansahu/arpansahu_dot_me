@@ -916,8 +916,6 @@ include_files = {
 </p>
 <p>
  <img alt="EC2 Sever along with Nginx, Docker and Jenkins Arrangement" class="d-block w-100" src="https://raw.githubusercontent.com/arpansahu/common_readme/main/Images/One%20Server%20Configuration%20for%20arpanahuone.png"/>
- <br/>
- kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
 </p>
 <h3>
  Step 1: Dockerize
@@ -3251,7 +3249,7 @@ sudo apt-get install jenkins
 
                             // Verify if the service is accessible and delete the Docker container if accessible and update nginx configuration
                             sh &quot;&quot;&quot;
-                            curl -v http://${clusterIP}:${nodePort} &amp;&amp; \
+                            curl -s -o /dev/null -w &quot;%{http_code}&quot; http://${clusterIP}:${nodePort} | grep -q &quot;200&quot; &amp;&amp; \\
                             if [ \$(docker ps -q -f name=${ENV_PROJECT_NAME}) ]; then
                                 docker rm -f ${ENV_PROJECT_NAME} &amp;&amp; \\
                                 sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload
