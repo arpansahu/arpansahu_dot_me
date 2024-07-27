@@ -4823,6 +4823,157 @@ RECEIVER_EMAIL=your_receiver_email@example.com
 <pre><code class="language-sh">0 */5 * * * /bin/bash /root/arpansahu-one-scripts/setup_and_run.sh &gt;&gt; /root/logs/website_up_time.log 2&gt;&amp;1
 0 0 * * * /usr/bin/docker system prune -af --volumes &gt; /root/logs/docker_prune.log 2&gt;&amp;1 &amp;&amp; /root/arpansahu-one-scripts/docker_cleanup_mail.sh
 </code></pre>
+<h1>
+ Integrating Jenkins
+</h1>
+<ul>
+ <li>
+  Now Create a file named Jenkinsfile at the root of Git Repo and add following lines to file
+ </li>
+</ul>
+<pre><code class="language-bash">pipeline {
+    agent { label &#x27;local&#x27; }
+    environment {
+        ENV_PROJECT_NAME = &quot;arpansahu_one_scripts&quot;
+    }
+    stages {
+        stage(&#x27;Initialize&#x27;) {
+            steps {
+                script {
+                    echo &quot;Current workspace path is: ${env.WORKSPACE}&quot;
+                }
+            }
+        }
+        stage(&#x27;Checkout&#x27;) {
+            steps {
+                checkout scm
+            }
+        }
+    }
+    post {
+        success {
+            script {
+                // Retrieve the latest commit message
+                def commitMessage = sh(script: &quot;git log -1 --pretty=%B&quot;, returnStdout: true).trim()
+                if (currentBuild.description == &#x27;DEPLOYMENT_EXECUTED&#x27;) {
+                    sh &quot;&quot;&quot;curl -s \
+                    -X POST \
+                    --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
+                    https://api.mailjet.com/v3.1/send \
+                    -H &quot;Content-Type:application/json&quot; \
+                    -d &#x27;{
+                        &quot;Messages&quot;:[
+                                {
+                                        &quot;From&quot;: {
+                                                &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
+                                                &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
+                                        },
+                                        &quot;To&quot;: [
+                                                {
+                                                        &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
+                                                        &quot;Name&quot;: &quot;Development Team&quot;
+                                                }
+                                        ],
+                                        &quot;Subject&quot;: &quot;Jenkins Build Pipeline your project ${currentBuild.fullDisplayName} Ran Successfully&quot;,
+                                        &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed&quot;,
+                                        &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
+                                }
+                        ]
+                    }&#x27;&quot;&quot;&quot;
+                }
+                // Trigger the common_readme job for all repositories&quot;
+                build job: &#x27;common_readme&#x27;, parameters: [string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)], wait: false
+
+            }
+        }
+        failure {
+            sh &quot;&quot;&quot;curl -s \
+            -X POST \
+            --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
+            https://api.mailjet.com/v3.1/send \
+            -H &quot;Content-Type:application/json&quot; \
+            -d &#x27;{
+                &quot;Messages&quot;:[
+                        {
+                                &quot;From&quot;: {
+                                        &quot;Email&quot;: &quot;$MAIL_JET_EMAIL_ADDRESS&quot;,
+                                        &quot;Name&quot;: &quot;ArpanSahuOne Jenkins Notification&quot;
+                                },
+                                &quot;To&quot;: [
+                                        {
+                                                &quot;Email&quot;: &quot;$MY_EMAIL_ADDRESS&quot;,
+                                                &quot;Name&quot;: &quot;Developer Team&quot;
+                                        }
+                                ],
+                            &quot;Subject&quot;: &quot;Jenkins Build Pipeline your project ${currentBuild.fullDisplayName} Ran Failed&quot;,
+                            &quot;TextPart&quot;: &quot;Hola Development Team, your project ${currentBuild.fullDisplayName} deployment failed&quot;,
+                            &quot;HTMLPart&quot;: &quot;&lt;h3&gt;Hola Development Team, your project ${currentBuild.fullDisplayName} is not deployed, Build Failed &lt;/h3&gt; &lt;br&gt; &lt;p&gt; Build Url: ${env.BUILD_URL}  &lt;/p&gt;&quot;
+                        }
+                ]
+            }&#x27;&quot;&quot;&quot;
+        }
+    }
+}
+</code></pre>
+<p>
+ Note: agent {label 'local'} is used to specify which node will execute the jenkins job deployment. So local linux server is labelled with 'local' are the project with this label will be executed in local machine node.
+</p>
+<ul>
+ <li>
+  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
+ </li>
+</ul>
+<p>
+ Make sure to use Pipeline project and name it whatever you want I have named it as per great_chat
+</p>
+<p>
+ <img alt="Jenkins Pipeline Configuration" src="https://github.com/arpansahu/arpansahu-one-scripts/raw/main/Jenkinsfile.png"/>
+</p>
+<p>
+ In this above picture you can see credentials right? you can add your github credentials and harbor credentials use harbor-credentials as id for harbor credentials.
+ <br/>
+ from Manage Jenkins on home Page --> Manage Credentials
+</p>
+<p>
+ and add your GitHub credentials from there
+</p>
+<ul>
+ <li>
+  Add a .env file to you project using following command (This step is no more required stage('Dependencies'))
+ </li>
+</ul>
+<pre><code class="language-bash">    sudo vi  /var/lib/jenkins/workspace/arpansahu_one_script/.env
+</code></pre>
+<pre><code>Your workspace name may be different.
+
+Add all the env variables as required and mentioned in the Readme File.
+</code></pre>
+<ul>
+ <li>
+  <p>
+   Add Global Jenkins Variables from Dashboard --> Manage --> Jenkins
+   <br/>
+   Configure System
+  </p>
+ </li>
+ <li>
+  <p>
+   MAIL_JET_API_KEY
+  </p>
+ </li>
+ <li>
+  MAIL_JET_API_SECRET
+ </li>
+ <li>
+  MAIL_JET_EMAIL_ADDRESS
+ </li>
+ <li>
+  MY_EMAIL_ADDRESS
+ </li>
+</ul>
+<p>
+ Now you are good to go.
+</p>
 <h2>
  License
 </h2>
