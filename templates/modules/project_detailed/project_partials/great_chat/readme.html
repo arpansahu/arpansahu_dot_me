@@ -3251,11 +3251,47 @@ sudo apt-get install jenkins
 
                             // Verify if the service is accessible and delete the Docker container if accessible and update nginx configuration
                             sh &quot;&quot;&quot;
-                            curl -s -o /dev/null -w &quot;%{http_code}&quot; http://${clusterIP}:${nodePort} | grep -q &quot;200&quot; &amp;&amp; \\
-                            if [ \$(docker ps -q -f name=${ENV_PROJECT_NAME}) ]; then
-                                docker rm -f ${ENV_PROJECT_NAME} &amp;&amp; \\
-                                sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload
-                            fi
+                                HTTP_STATUS=\$(curl -s -o /dev/null -w &quot;%{http_code}&quot; -L http://${clusterIP}:${nodePort})
+                                echo &quot;HTTP Status: \$HTTP_STATUS&quot;
+
+                                if [ &quot;\$HTTP_STATUS&quot; -eq 200 ]; then
+                                    echo &quot;Service is reachable at http://${clusterIP}:${nodePort}&quot;
+
+                                    DOCKER_CONTAINER=\$(docker ps -q -f name=${ENV_PROJECT_NAME})
+
+                                    if [ &quot;\$DOCKER_CONTAINER&quot; ]; then
+                                        echo &quot;Docker container ${ENV_PROJECT_NAME} is running. Removing it...&quot;
+                                        docker rm -f ${ENV_PROJECT_NAME}
+
+                                        if [ \$? -ne 0 ]; then
+                                            echo &quot;Failed to remove Docker container ${ENV_PROJECT_NAME}&quot;
+                                            exit 1
+                                        fi
+
+                                        echo &quot;Updating Nginx configuration at ${NGINX_CONF}...&quot;
+                                        sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF}
+
+                                        if [ \$? -ne 0 ]; then
+                                            echo &quot;Failed to update Nginx configuration&quot;
+                                            exit 1
+                                        fi
+
+                                        echo &quot;Reloading Nginx...&quot;
+                                        sudo nginx -s reload
+
+                                        if [ \$? -ne 0 ]; then
+                                            echo &quot;Failed to reload Nginx&quot;
+                                            exit 1
+                                        fi
+
+                                        echo &quot;Nginx reloaded successfully&quot;
+                                    else
+                                        echo &quot;Docker container ${ENV_PROJECT_NAME} is not running. Skipping removal and Nginx update.&quot;
+                                    fi
+                                else
+                                    echo &quot;Service is not reachable at http://${clusterIP}:${nodePort}. HTTP Status: \$HTTP_STATUS&quot;
+                                    exit 1
+                                fi
                             &quot;&quot;&quot;
                         } else {
                             error &quot;.env file not found in the workspace.&quot;
@@ -4984,4 +5020,10 @@ RECEIVER_EMAIL=your_receiver_email@example.com
 </p>
 <p>
  REDISCLOUD_URL=
+</p>
+<p>
+ HARBOR_USERNAME=
+</p>
+<p>
+ HARBOR_PASSWORD=
 </p>
