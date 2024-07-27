@@ -204,6 +204,7 @@
  </a>
  <br/>
  <img alt="Harbor" src="https://img.shields.io/badge/HARBOR-TEXT?style=for-the-badge&logo=harbor&logoColor=white&color=blue"/>
+ (https://goharbor.io/)
  <br/>
  <a href="https://kubernetes.io/">
   <img alt="Kubernetes" src="https://img.shields.io/badge/kubernetes-326ce5.svg?&style=for-the-badge&logo=kubernetes&logoColor=white"/>
@@ -218,6 +219,7 @@
  </a>
  <br/>
  <img alt="Minio" src="https://img.shields.io/badge/MINIO-TEXT?style=for-the-badge&logo=minio&logoColor=white&color=%23C72E49"/>
+ (https://min.io/)
  <br/>
  <a href="https://ubuntu.com/">
   <img alt="Ubuntu" src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"/>
@@ -4752,183 +4754,17 @@ MAILJET_SECRET_KEY=your_mailjet_secret_key
 SENDER_EMAIL=your_sender_email@example.com
 RECEIVER_EMAIL=your_receiver_email@example.com
 </code></pre>
-<h3>
- 3. Create
- <code>
-  requirements.txt
- </code>
-</h3>
-<p>
- Create a
- <code>
-  requirements.txt
- </code>
- file in the root directory with the following content:
-</p>
-<pre><code class="language-txt">requests
-retrying
-python-dotenv
-</code></pre>
-<h3>
- 4. Create the Shell Script
-</h3>
-<p>
- Create a shell script
- <code>
-  setup_and_run.sh
- </code>
- in the root directory with the following content:
-</p>
-<pre><code class="language-sh">#!/bin/bash
-
-# Define the virtual environment directory
-VENV_DIR=&quot;venv&quot;
-
-# Define the requirements file
-REQUIREMENTS_FILE=&quot;requirements.txt&quot;
-
-# Define the Python script to run
-PYTHON_SCRIPT=&quot;website_monitor.py&quot;
-
-# Check if virtual environment directory exists
-if [ -d &quot;$VENV_DIR&quot; ]; then
-    echo &quot;Virtual environment already exists.&quot;
-else
-    # Create a virtual environment
-    echo &quot;Creating virtual environment...&quot;
-    python3 -m venv &quot;$VENV_DIR&quot;
-fi
-
-# Activate the virtual environment
-source &quot;$VENV_DIR/bin/activate&quot;
-
-# Upgrade pip in the virtual environment
-echo &quot;Upgrading pip...&quot;
-pip install --upgrade pip
-
-# Install requirements
-if [ -f &quot;$REQUIREMENTS_FILE&quot; ]; then
-    echo &quot;Installing dependencies...&quot;
-    pip install -r &quot;$REQUIREMENTS_FILE&quot;
-else
-    echo &quot;Requirements file not found. Skipping dependency installation.&quot;
-fi
-
-# Run the Python script
-if [ -f &quot;$PYTHON_SCRIPT&quot; ]; then
-    echo &quot;Running the Python script...&quot;
-    python &quot;$PYTHON_SCRIPT&quot;
-else
-    echo &quot;Python script not found. Exiting.&quot;
-fi
-
-# Deactivate the virtual environment
-deactivate
-
-# Remove the virtual environment directory
-echo &quot;Deleting virtual environment...&quot;
-rm -rf &quot;$VENV_DIR&quot;
-
-echo &quot;Done.&quot;
-</code></pre>
-<p>
- Make the script executable:
-</p>
-<pre><code class="language-sh">chmod +x setup_and_run.sh
-</code></pre>
-<h3>
- 5. Create the Python Script
-</h3>
-<p>
- Create a Python script
- <code>
-  website_monitor.py
- </code>
- in the root directory with the following content:
-</p>
-<pre><code class="language-python">import requests
-import smtplib
-import logging
-from email.mime.text import MIMEText
-from requests.exceptions import HTTPError, RequestException
-from time import sleep
-from retrying import retry
-from dotenv import load_dotenv
-import os
-
-# Load environment variables from .env file
-load_dotenv()
-
-# Website to monitor
-website_urls = [
-    &quot;https://arpansahu.me&quot;,
-    &quot;https://prometheus.arpansahu.me/&quot;,
-    &quot;https://jenkins.arpansahu.me/&quot;,
-    &quot;https://pgadmin.arpansahu.me/&quot;,
-    &quot;https://grafana.arpansahu.me/&quot;,
-    &quot;https://redis.arpansahu.me/&quot;,
-    &quot;https://portainer.arpansahu.me/&quot;,
-    &quot;https://minioui.arpansahu.me/&quot;,
-    &quot;https://kube.arpansahu.me/&quot;,
-    &quot;https://harbor.arpansahu.me/&quot;,
-]
-
-# Mailjet API credentials
-mailjet_api_key = os.getenv(&quot;MAILJET_API_KEY&quot;)
-mailjet_secret_key = os.getenv(&quot;MAILJET_SECRET_KEY&quot;)
-sender_email = os.getenv(&quot;SENDER_EMAIL&quot;)
-receiver_email = os.getenv(&quot;RECEIVER_EMAIL&quot;)
-
-# Set up logging
-logging.basicConfig(level=logging.INFO, format=&#x27;%(asctime)s - %(levelname)s - %(message)s&#x27;)
-
-def send_email(subject, body):
-    msg = MIMEText(body)
-    msg[&quot;Subject&quot;] = subject
-    msg[&quot;From&quot;] = sender_email
-    msg[&quot;To&quot;] = receiver_email
-
-    try:
-        # Connect to the SMTP server
-        with smtplib.SMTP(&quot;smtp.mailjet.com&quot;, 587) as server:
-            server.starttls()
-            server.login(mailjet_api_key, mailjet_secret_key)
-            # Send email
-            server.sendmail(sender_email, [receiver_email], msg.as_string())
-        logging.info(f&quot;Email sent successfully: {subject}&quot;)
-    except smtplib.SMTPException as e:
-        logging.error(f&quot;Failed to send email: {e}&quot;)
-
-@retry(stop_max_attempt_number=3, wait_fixed=2000)
-def check_website_status(website):
-    response = requests.get(website, timeout=10)  # Set a timeout for the request
-    response.raise_for_status()  # Raise an HTTPError for bad responses (4xx or 5xx)
-    return response
-
-def check_websites():
-    for website in website_urls:
-        try:
-            response = check_website_status(website)
-            if response.status_code // 100 != 2:
-                send_email(&quot;Website Alert&quot;, f&quot;The website {website} returned a non-2xx status code: {response.status_code}&quot;)
-        except HTTPError as e:
-            if e.response.status_code == 401 or e.response.status_code == 403:
-                logging.info(f&quot;The website {website} returned a {e.response.status_code} status code. This is allowed.&quot;)
-            else:
-                send_email(&quot;Website Alert&quot;, f&quot;An error occurred while checking the website {website}. Error: {str(e)}&quot;)
-        except RequestException as e:
-            send_email(&quot;Website Alert&quot;, f&quot;An error occurred while checking the website {website}. Error: {str(e)}&quot;)
-
-if __name__ == &quot;__main__&quot;:
-    check_websites()
-</code></pre>
 <h2>
  Running the Script
 </h2>
 <p>
- To run the script manually, execute:
+ To run the script manually, give permissions and execute:
 </p>
-<pre><code class="language-sh">./setup_and_run.sh
+<pre><code class="language-sh">chmod +x ./setup_and_run.sh
+./setup_and_run.sh
+</code></pre>
+<pre><code class="language-sh">chmod +x ./docker_cleanup_mail.sh
+./docker_cleanup_mail.sh
 </code></pre>
 <h2>
  Setting Up a Cron Job
@@ -4949,6 +4785,7 @@ if __name__ == &quot;__main__&quot;:
  </li>
 </ol>
 <pre><code class="language-sh">0 */5 * * * /bin/bash /root/arpansahu-one-scripts/setup_and_run.sh &gt;&gt; /root/logs/website_up_time.log 2&gt;&amp;1
+0 0 * * * /usr/bin/docker system prune -af --volumes &gt; /root/logs/docker_prune.log 2&gt;&amp;1 &amp;&amp; /root/arpansahu-one-scripts/docker_cleanup_mail.sh
 </code></pre>
 <h2>
  License
@@ -5005,6 +4842,7 @@ if __name__ == &quot;__main__&quot;:
  </a>
  <br/>
  <img alt="Harbor" src="https://img.shields.io/badge/HARBOR-TEXT?style=for-the-badge&logo=harbor&logoColor=white&color=blue"/>
+ (https://goharbor.io/)
  <br/>
  <a href="https://kubernetes.io/">
   <img alt="Kubernetes" src="https://img.shields.io/badge/kubernetes-326ce5.svg?&style=for-the-badge&logo=kubernetes&logoColor=white"/>
@@ -5019,6 +4857,7 @@ if __name__ == &quot;__main__&quot;:
  </a>
  <br/>
  <img alt="Minio" src="https://img.shields.io/badge/MINIO-TEXT?style=for-the-badge&logo=minio&logoColor=white&color=%23C72E49"/>
+ (https://min.io/)
  <br/>
  <a href="https://ubuntu.com/">
   <img alt="Ubuntu" src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"/>
@@ -5068,4 +4907,10 @@ if __name__ == &quot;__main__&quot;:
 </p>
 <p>
  REDISCLOUD_URL=
+</p>
+<p>
+ HARBOR_USERNAME=
+</p>
+<p>
+ HARBOR_PASSWORD=
 </p>
