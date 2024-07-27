@@ -54,7 +54,7 @@ smmap==5.0.0
 sqlparse==0.4.2
 stone==3.3.1
 uritemplate==4.1.1
-urllib3==1.26.9
+urllib3==1.26.19
 whitenoise==6.0.0
 wrapt==1.14.1
 zipp==3.8.0
