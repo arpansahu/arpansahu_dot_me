@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+    
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+<section class="section bg-light" id="contact">
+ 
+    <div class="container">
+      
+
+
+                        <embed
+                            src="{% static 'pdfs/resume.pdf' %}#toolbar=0&navpanes=0&scrollbar=0"
+                            type="application/pdf"
+                            frameBorder="0"
+                            scrolling="auto"
+                            height="4525px"
+                            width="800px"
+                            style="margin-left: 180px;"
+                        ></embed>
+
+            
+    </div><!-- end container -->
+</section>
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+
+
+
+{% endblock javascripts %}
