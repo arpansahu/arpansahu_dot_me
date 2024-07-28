@@ -44,22 +44,42 @@ pipeline {
             }
             steps {
                 script {
-                    // Get the ImageID of the currently running container
-                    def currentImageID = sh(script: "docker inspect -f '{{.Image}}' ${ENV_PROJECT_NAME} || echo 'none'", returnStdout: true).trim()
-                    echo "Current image ID: ${currentImageID}"
-
-                    // Pull the latest image to get its ImageID
-                    sh "docker pull ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}"
-                    def latestImageID = sh(script: "docker inspect -f '{{.Id}}' ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}", returnStdout: true).trim()
-                    echo "Latest image ID: ${latestImageID}"
-
-                    // Check if the ImageIDs are different
-                    if (currentImageID != latestImageID) {
-                        env.NEW_IMAGE_AVAILABLE = 'true'
-                        echo "New image available, proceeding with deployment."
+                    def currentTag = ''
+                    def runningInDocker = sh(script: "docker ps -q -f name=${ENV_PROJECT_NAME}", returnStdout: true).trim()
+                    if (runningInDocker) {
+                        // Get the image tag of the currently running Docker container
+                        echo "Docker is running getting image tag from the current Docker container"
+                        currentTag = sh(script: "docker inspect -f '{{.Config.Image}}' ${ENV_PROJECT_NAME} | awk -F':' '{print \$2}'", returnStdout: true).trim()
+                        echo "Current Docker image tag: ${currentTag}"
                     } else {
-                        env.NEW_IMAGE_AVAILABLE = 'false'
-                        echo "No new image available, skipping deployment."
+                        def podName = sh(script: "kubectl get pods -l app=${ENV_PROJECT_NAME} -o=jsonpath='{.items[0].metadata.name}' || echo 'none'", returnStdout: true).trim()
+                        if (podName != 'none') {
+                            echo "Pod is running getting image tag from the currentn running pod"
+                            // Get the image tag of the currently running Kubernetes pod
+                            currentTag = sh(script: "kubectl get pod ${podName} -o=jsonpath='{.spec.containers[0].image}' | awk -F':' '{print \$2}'", returnStdout: true).trim()
+                            echo "Current Kubernetes image tag: ${currentTag}"
+                        } else {
+                            currentTag = 'none'
+                        }
+                    }
+
+                    if (currentTag == 'none') {
+                        echo "No running instance found in Docker or Kubernetes."
+                        currentBuild.description = 'No running instance found'
+                    } else{
+                        // Pull the latest image to get its tag
+                        sh "docker pull ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}"
+                        def latestTag = sh(script: "docker inspect -f '{{.Config.Labels.build}}' ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} || echo 'none'", returnStdout: true).trim()
+                        echo "Latest image tag: ${latestTag}"
+
+                        // Check if the tags are different
+                        if (currentTag != latestTag) {
+                            env.NEW_IMAGE_AVAILABLE = 'true'
+                            echo "New image available, proceeding with deployment."
+                        } else {
+                            env.NEW_IMAGE_AVAILABLE = 'false'
+                            echo "No new image available, skipping deployment."
+                        }
                     }
                 }
             }
@@ -67,7 +87,7 @@ pipeline {
         stage('Deploy') {
             when {
                 expression {
-                    return params.skip_checks || env.NEW_IMAGE_AVAILABLE == 'true'
+                    return params.skip_checks || env.NEW_IMAGE_AVAILABLE == 'true' ||  currentBuild.description == 'No running instance found'
                 }
             }
             steps {
