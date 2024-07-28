@@ -1,9 +1,0 @@
-#!/bin/bash
-DOCKER_REGISTRY_USERNAME=$1
-DOCKER_REGISTRY_PASSWORD=$2
-REGISTRY=$3
-REPOSITORY=$4
-IMAGE_TAG=$5
-
-digest=$(curl -s -u ${DOCKER_REGISTRY_USERNAME}:${DOCKER_REGISTRY_PASSWORD} https://${REGISTRY}/v2/${REPOSITORY}/manifests/${IMAGE_TAG} | jq -r '.config.digest')
-echo $digest
