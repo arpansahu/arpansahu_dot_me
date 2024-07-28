@@ -17,6 +17,17 @@ pipeline {
             steps {
                 script {
                     echo "Current workspace path is: ${env.WORKSPACE}"
+                    writeFile file: 'get_image_digest.sh', text: '''#!/bin/bash
+                    DOCKER_REGISTRY_USERNAME=$1
+                    DOCKER_REGISTRY_PASSWORD=$2
+                    REGISTRY=$3
+                    REPOSITORY=$4
+                    IMAGE_TAG=$5
+
+                    digest=$(curl -s -u ${DOCKER_REGISTRY_USERNAME}:${DOCKER_REGISTRY_PASSWORD} https://${REGISTRY}/v2/${REPOSITORY}/manifests/${IMAGE_TAG} | jq -r '.config.digest')
+                    echo $digest
+                    '''
+                    sh 'chmod +x get_image_digest.sh'
                 }
             }
         }
@@ -80,11 +91,11 @@ pipeline {
                         currentBuild.description = 'No running instance found'
                         echo "Moving on with the Deployment..."
                     } else {
-                        echo "Now Checking latest image digest from harbor image registry..."
-                        // Get the latest image digest from the Docker registry
                         withCredentials([usernamePassword(credentialsId: 'harbor-credentials', passwordVariable: 'DOCKER_REGISTRY_PASSWORD', usernameVariable: 'DOCKER_REGISTRY_USERNAME')]) {
                             // Get the latest image digest from the Docker registry
-                            def latestDigest = sh(script: "./get_image_digest.sh ${DOCKER_REGISTRY_USERNAME} ${DOCKER_REGISTRY_PASSWORD} ${REGISTRY} ${REPOSITORY} ${IMAGE_TAG}", returnStdout: true).trim()
+                            def latestDigest = sh(script: '''
+                                ./get_image_digest.sh "${DOCKER_REGISTRY_USERNAME}" "${DOCKER_REGISTRY_PASSWORD}" "${REGISTRY}" "${REPOSITORY}" "${IMAGE_TAG}"
+                            ''', returnStdout: true).trim()
                             echo "Latest image digest: ${latestDigest}"
 
                             // Check if the digests are different
@@ -103,7 +114,7 @@ pipeline {
         stage('Deploy') {
             when {
                 expression {
-                    return params.skip_checks || env.NEW_IMAGE_AVAILABLE == 'true' ||  currentBuild.description == 'No running instance found'
+                    return params.skip_checks || env.NEW_IMAGE_AVAILABLE == 'true' || currentBuild.description == 'No running instance found'
                 }
             }
             steps {
@@ -190,121 +201,4 @@ pipeline {
 
                             // Verify if the service is accessible and delete the Docker container if accessible and update nginx configuration
                             sh """
-                                HTTP_STATUS=\$(curl -s -o /dev/null -w "%{http_code}" -L http://${clusterIP}:${nodePort})
-                                echo "HTTP Status: \$HTTP_STATUS"
-                                
-                                if [ "\$HTTP_STATUS" -eq 200 ]; then
-                                    echo "Service is reachable at http://${clusterIP}:${nodePort}"
-                                    
-                                    DOCKER_CONTAINER=\$(docker ps -q -f name=${ENV_PROJECT_NAME})
-                                    
-                                    if [ "\$DOCKER_CONTAINER" ]; then
-                                        echo "Docker container ${ENV_PROJECT_NAME} is running. Removing it..."
-                                        docker rm -f ${ENV_PROJECT_NAME}
-                                        
-                                        if [ \$? -ne 0 ]; then
-                                            echo "Failed to remove Docker container ${ENV_PROJECT_NAME}"
-                                            exit 1
-                                        fi
-                                        
-                                        echo "Updating Nginx configuration at ${NGINX_CONF}..."
-                                        sudo sed -i 's|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|' ${NGINX_CONF}
-                                        
-                                        if [ \$? -ne 0 ]; then
-                                            echo "Failed to update Nginx configuration"
-                                            exit 1
-                                        fi
-                                        
-                                        echo "Reloading Nginx..."
-                                        sudo nginx -s reload
-                                        
-                                        if [ \$? -ne 0 ]; then
-                                            echo "Failed to reload Nginx"
-                                            exit 1
-                                        fi
-                                        
-                                        echo "Nginx reloaded successfully"
-                                    else
-                                        echo "Docker container ${ENV_PROJECT_NAME} is not running. Skipping removal and Nginx update."
-                                    fi
-                                else
-                                    echo "Service is not reachable at http://${clusterIP}:${nodePort}. HTTP Status: \$HTTP_STATUS"
-                                    exit 1
-                                fi
-                            """
-                        } else {
-                            error ".env file not found in the workspace."
-                        }
-                    }
-                    currentBuild.description = 'DEPLOYMENT_EXECUTED'
-                }
-            }
-        }
-    }
-    post {
-        success {
-            script {
-                // Retrieve the latest commit message
-                def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
-                if (currentBuild.description == 'DEPLOYMENT_EXECUTED') {
-                    sh """curl -s \
-                    -X POST \
-                    --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
-                    https://api.mailjet.com/v3.1/send \
-                    -H "Content-Type:application/json" \
-                    -d '{
-                        "Messages":[
-                                {
-                                        "From": {
-                                                "Email": "$MAIL_JET_EMAIL_ADDRESS",
-                                                "Name": "ArpanSahuOne Jenkins Notification"
-                                        },
-                                        "To": [
-                                                {
-                                                        "Email": "$MY_EMAIL_ADDRESS",
-                                                        "Name": "Development Team"
-                                                }
-                                        ],
-                                        "Subject": "Jenkins Build Pipeline your project ${currentBuild.fullDisplayName} Ran Successfully",
-                                        "TextPart": "Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed",
-                                        "HTMLPart": "<h3>Hola Development Team, your project ${currentBuild.fullDisplayName} is now deployed </h3> <br> <p> Build Url: ${env.BUILD_URL}  </p>"
-                                }
-                        ]
-                    }'"""
-                }
-                // Trigger the common_readme job on success if the commit message is not "Automatic Update readme.html for all repositories"
-                if (commitMessage != "Automatic Update readme.html for all repositories") {
-                    build job: 'common_readme', parameters: [string(name: 'project_git_url', value: 'https://github.com/arpansahu/${ENV_PROJECT_NAME}'), string(name: 'environment', value: 'prod')], wait: false
-                } else {
-                    echo "Skipping common_readme job trigger due to commit message: ${commitMessage}"
-                }
-            }
-        }
-        failure {
-            sh """curl -s \
-            -X POST \
-            --user $MAIL_JET_API_KEY:$MAIL_JET_API_SECRET \
-            https://api.mailjet.com/v3.1/send \
-            -H "Content-Type:application/json" \
-            -d '{
-                "Messages":[
-                        {
-                                "From": {
-                                        "Email": "$MAIL_JET_EMAIL_ADDRESS",
-                                        "Name": "ArpanSahuOne Jenkins Notification"
-                                },
-                                "To": [
-                                        {
-                                                "Email": "$MY_EMAIL_ADDRESS",
-                                                "Name": "Developer Team"
-                                        }
-                                ],
-                            "Subject": "Jenkins Build Pipeline your project ${currentBuild.fullDisplayName} Ran Failed",
-                            "TextPart": "Hola Development Team, your project ${currentBuild.fullDisplayName} deployment failed",
-                            "HTMLPart": "<h3>Hola Development Team, your project ${currentBuild.fullDisplayName} is not deployed, Build Failed </h3> <br> <p> Build Url: ${env.BUILD_URL}  </p>"
-                        }
-                ]
-            }'"""
-        }
-    }
-}
+                                HTTP_STATUS=\$(curl -s -o /dev/null -
