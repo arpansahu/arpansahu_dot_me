@@ -52,8 +52,8 @@ pipeline {
                         currentTag = sh(script: "docker inspect -f '{{.Config.Image}}' ${ENV_PROJECT_NAME} | awk -F':' '{print \$2}'", returnStdout: true).trim()
                         echo "Current Docker image tag: ${currentTag}"
                     } else {
-                        sh 'kubectl get pods -l app=arpansahu_dot_me'
-                        def podName = sh(script: "kubectl get pods -l app=arpansahu_dot_me -o=jsonpath='{.items[0].metadata.name}' || echo 'none'", returnStdout: true).trim()
+                        sh 'kubectl get pods -l app=arpansahu-dot-me'
+                        def podName = sh(script: "kubectl get pods -l app=arpansahu-dot-me -o=jsonpath='{.items[0].metadata.name}' || echo 'none'", returnStdout: true).trim()
                         if (podName != 'none') {
                             echo "Pod is running, getting image tag from the currently running pod"
                             // Get the image tag of the currently running Kubernetes pod
