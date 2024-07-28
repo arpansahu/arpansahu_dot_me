@@ -122,11 +122,6 @@ pipeline {
                             kubectl delete secret arpansahu-dot-me-secret || true
                             '''
 
-                            // Update deployment.yaml with the new image tag
-                            sh '''
-                            sed -i "s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|" ${WORKSPACE}/deployment.yaml
-                            '''
-
                             // Delete the existing service and deployment
                             sh '''
                             kubectl delete service arpansahu-dot-me-service || true
