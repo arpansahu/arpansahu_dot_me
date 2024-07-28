@@ -127,10 +127,11 @@ pipeline {
                             sed -i "s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|" ${WORKSPACE}/deployment.yaml
                             '''
 
-                            // Force a rollout by updating the deployment with a dummy annotation
+                            // Delete the existing service and deployment
                             sh '''
-                            kubectl patch deployment arpansahu-dot-me-app -p \
-                            "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"$(date +'%s')\"}}}}}"
+                            kubectl delete service arpansahu-dot-me-service || true
+                            kubectl scale deployment arpansahu-dot-me-app --replicas=0 || true
+                            kubectl delete deployment arpansahu-dot-me-app || true
                             '''
 
                             // Deploy to Kubernetes
