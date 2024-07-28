@@ -44,37 +44,36 @@ pipeline {
             }
             steps {
                 script {
-                    def currentTag = ''
+                    def currentDigest = ''
                     def runningInDocker = sh(script: "docker ps -q -f name=${ENV_PROJECT_NAME}", returnStdout: true).trim()
                     if (runningInDocker) {
-                        // Get the image tag of the currently running Docker container
-                        echo "Docker is running, getting image tag from the current Docker container"
-                        currentTag = sh(script: "docker inspect -f '{{.Config.Image}}' ${ENV_PROJECT_NAME} | awk -F':' '{print \$2}'", returnStdout: true).trim()
-                        echo "Current Docker image tag: ${currentTag}"
+                        // Get the digest of the currently running Docker container
+                        echo "Docker is running, getting image digest from the current Docker container"
+                        currentDigest = sh(script: "docker inspect --format='{{.RepoDigests}}' ${ENV_PROJECT_NAME} | grep -o 'sha256:[a-f0-9]*'", returnStdout: true).trim()
+                        echo "Current Docker image digest: ${currentDigest}"
                     } else {
                         def podName = sh(script: "kubectl get pods -l app=arpansahu-dot-me -o=jsonpath='{.items[0].metadata.name}' || echo 'none'", returnStdout: true).trim()
                         if (podName != 'none') {
-                            echo "Pod is running, getting image tag from the currently running pod"
-                            // Get the image tag of the currently running Kubernetes pod
-                            currentTag = sh(script: "kubectl get pod ${podName} -o=jsonpath='{.spec.containers[0].image}' | awk -F':' '{print \$2}'", returnStdout: true).trim()
-                            echo "Current Kubernetes image tag: ${currentTag}"
+                            echo "Pod is running, getting image digest from the currently running pod"
+                            // Get the digest of the currently running Kubernetes pod
+                            currentDigest = sh(script: "kubectl get pod ${podName} -o=jsonpath='{.status.containerStatuses[0].imageID}' | grep -o 'sha256:[a-f0-9]*'", returnStdout: true).trim()
+                            echo "Current Kubernetes image digest: ${currentDigest}"
                         } else {
-                            currentTag = 'none'
+                            currentDigest = 'none'
                         }
                     }
 
-                    if (currentTag == 'none') {
+                    if (currentDigest == 'none') {
                         echo "No running instance found in Docker or Kubernetes."
                         currentBuild.description = 'No running instance found'
                         echo "Moving on with the Deployment..."
                     } else {
-                        // Pull the latest image to get its tag
-                        sh "docker pull ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}"
-                        def latestTag = sh(script: "docker inspect -f '{{.Config.Labels.build}}' ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} || echo 'none'", returnStdout: true).trim()
-                        echo "Latest image tag: ${latestTag}"
+                        // Get the latest image digest from the Docker registry
+                        def latestDigest = sh(script: "curl -s -u ${DOCKER_REGISTRY_USERNAME}:${DOCKER_REGISTRY_PASSWORD} https://${REGISTRY}/v2/${REPOSITORY}/manifests/${IMAGE_TAG} | jq -r '.config.digest'", returnStdout: true).trim()
+                        echo "Latest image digest: ${latestDigest}"
 
-                        // Check if the tags are different
-                        if (currentTag != latestTag) {
+                        // Check if the digests are different
+                        if (currentDigest != latestDigest) {
                             env.NEW_IMAGE_AVAILABLE = 'true'
                             echo "New image available, proceeding with deployment."
                         } else {
