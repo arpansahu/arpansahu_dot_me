@@ -23,6 +23,7 @@ from .views import (
     ProjectsView,
     ResumeView,
     GetOTPView,
+    ResumeDownloadView
 )
 
 
@@ -35,4 +36,5 @@ urlpatterns = [
     path('projects/', ProjectsView.as_view(), name='projects'),
     path('resume/', ResumeView.as_view(), name='resume'),
     path('get-otp', GetOTPView.as_view(), name='get-otp'),
+    path('download/resume/', ResumeDownloadView.as_view(), name='resume_download'),
 ]

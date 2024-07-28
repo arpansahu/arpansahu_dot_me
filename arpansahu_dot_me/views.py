@@ -6,6 +6,7 @@ from datetime import datetime
 from braces.views import AjaxResponseMixin
 from django.conf import settings
 from django.http import HttpResponseRedirect
+from django.http import FileResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render
 from .forms import ContactForm
 from django.utils.decorators import method_decorator
@@ -19,7 +20,13 @@ import pyotp
 from django.conf import settings
 from mailjet_rest import Client
 
+import os
+import boto3
+from botocore.exceptions import NoCredentialsError, PartialCredentialsError
+
+
 from emails_otp.models import EmailsOtpRecord
+
 
 mailjet = Client(auth=(settings.MAIL_JET_API_KEY, settings.MAIL_JET_API_SECRET), version='v3.1')
 
@@ -288,4 +295,30 @@ class ContactView(View):
 
 class ResumeView(View):
     def get(self, *args, **kwargs):
-        return HttpResponseRedirect('https://github.com/arpansahu/arpansahu.me/blob/master/resume.pdf')
+        return render(self.request, template_name='resume.html',)
+
+class ResumeDownloadView(View):
+    def get(self, request, *args, **kwargs):
+        if settings.DEBUG:
+            # Serve the file from local static files
+            file_path = os.path.join(settings.STATIC_ROOT, 'pdfs', 'resume.pdf')
+            if os.path.exists(file_path):
+                return FileResponse(open(file_path, 'rb'), as_attachment=True, filename='resume.pdf')
+            else:
+                return HttpResponseNotFound('The requested file was not found on the server.')
+        else:
+            # Serve the file from S3
+            s3_client = boto3.client('s3', 
+                                     aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                                     aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+                                     region_name=settings.AWS_S3_REGION_NAME)
+
+            try:
+                presigned_url = s3_client.generate_presigned_url(
+                    'get_object',
+                    Params={'Bucket': settings.AWS_STORAGE_BUCKET_NAME, 'Key': 'pdfs/resume.pdf'},
+                    ExpiresIn=3600  # URL expiration time in seconds
+                )
+                return HttpResponseRedirect(presigned_url)
+            except (NoCredentialsError, PartialCredentialsError):
+                return HttpResponseNotFound('The requested file was not found on the server.')
