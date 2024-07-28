@@ -48,13 +48,14 @@ pipeline {
                     def runningInDocker = sh(script: "docker ps -q -f name=${ENV_PROJECT_NAME}", returnStdout: true).trim()
                     if (runningInDocker) {
                         // Get the image tag of the currently running Docker container
-                        echo "Docker is running getting image tag from the current Docker container"
+                        echo "Docker is running, getting image tag from the current Docker container"
                         currentTag = sh(script: "docker inspect -f '{{.Config.Image}}' ${ENV_PROJECT_NAME} | awk -F':' '{print \$2}'", returnStdout: true).trim()
                         echo "Current Docker image tag: ${currentTag}"
                     } else {
-                        def podName = sh(script: "kubectl get pods -l app=${ENV_PROJECT_NAME} -o=jsonpath='{.items[0].metadata.name}' || echo 'none'", returnStdout: true).trim()
+                        sh 'kubectl get pods -l app=arpansahu_dot_me'
+                        def podName = sh(script: "kubectl get pods -l app=arpansahu_dot_me -o=jsonpath='{.items[0].metadata.name}' || echo 'none'", returnStdout: true).trim()
                         if (podName != 'none') {
-                            echo "Pod is running getting image tag from the currentn running pod"
+                            echo "Pod is running, getting image tag from the currently running pod"
                             // Get the image tag of the currently running Kubernetes pod
                             currentTag = sh(script: "kubectl get pod ${podName} -o=jsonpath='{.spec.containers[0].image}' | awk -F':' '{print \$2}'", returnStdout: true).trim()
                             echo "Current Kubernetes image tag: ${currentTag}"
@@ -66,7 +67,8 @@ pipeline {
                     if (currentTag == 'none') {
                         echo "No running instance found in Docker or Kubernetes."
                         currentBuild.description = 'No running instance found'
-                    } else{
+                        echo "Moving on with the Deployment..."
+                    } else {
                         // Pull the latest image to get its tag
                         sh "docker pull ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}"
                         def latestTag = sh(script: "docker inspect -f '{{.Config.Labels.build}}' ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} || echo 'none'", returnStdout: true).trim()
