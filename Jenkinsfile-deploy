@@ -76,8 +76,7 @@ pipeline {
                             echo $DOCKER_REGISTRY_PASSWORD | docker login ${REGISTRY} -u $DOCKER_REGISTRY_USERNAME --password-stdin
                             '''
 
-                            def latestDigest = sh(script: "curl -H "Authorization: Bearer $(cat ~/.docker/config.json | jq -r '.auths["harbor.arpansahu.me"].auth')" -s https://harbor.arpansahu.me/v2/library/arpansahu_dot_me/manifests/latest | jq -r '.config.digest'", returnStdout: true).trim()
-
+                            def latestDigest = sh(script: '''curl -H "Authorization: Bearer $(cat ~/.docker/config.json | jq -r '.auths["https://harbor.arpansahu.me"].auth')" -s https://harbor.arpansahu.me/v2/library/arpansahu_dot_me/manifests/latest | jq -r '.config.digest'''', returnStdout: true).trim()
                             echo "Latest image digest: ${latestDigest}"
 
                             // Check if the digests are different
