@@ -70,9 +70,14 @@ pipeline {
                     } else {
                         withCredentials([usernamePassword(credentialsId: 'harbor-credentials', passwordVariable: 'DOCKER_REGISTRY_PASSWORD', usernameVariable: 'DOCKER_REGISTRY_USERNAME')]) {
                             // Get the latest image digest from the Docker registry
-                            def latestDigest = sh(script: """
-                                curl -s -u ${DOCKER_REGISTRY_USERNAME}:${DOCKER_REGISTRY_PASSWORD} https://${REGISTRY}/v2/${REPOSITORY}/manifests/${IMAGE_TAG} | python -c "import sys, json; print(json.load(sys.stdin)['config']['digest'])"
-                            """, returnStdout: true).trim()
+
+                            // Log in to Docker registry using environment variables without direct interpolation
+                            sh '''
+                            echo $DOCKER_REGISTRY_PASSWORD | docker login ${REGISTRY} -u $DOCKER_REGISTRY_USERNAME --password-stdin
+                            '''
+
+                            def latestDigest = sh(script: "curl -H "Authorization: Bearer $token" -s https://harbor.arpansahu.me/v2/library/arpansahu_dot_me/manifests/latest | jq -r '.config.digest'", returnStdout: true).trim()
+
                             echo "Latest image digest: ${latestDigest}"
 
                             // Check if the digests are different
