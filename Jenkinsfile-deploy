@@ -85,20 +85,17 @@ pipeline {
                     } else {
                         withCredentials([usernamePassword(credentialsId: 'harbor-credentials', passwordVariable: 'DOCKER_REGISTRY_PASSWORD', usernameVariable: 'DOCKER_REGISTRY_USERNAME')]) {
                             // Get the latest image digest from the Docker registry
-                            
-                            sh 'curl -H "Authorization: Bearer" -s https://harbor.arpansahu.me/v2/library/arpansahu_dot_me/manifests/latest'
-                            echo "curl is running successfully"
 
-                            // def manifest = sh(script: """curl -H "Authorization: Bearer" -s https://harbor.arpansahu.me/v2/library/arpansahu_dot_me/manifests/latest""", returnStdout: true).trim()
-                            // echo "Manifest: ${manifest}"
+                            def manifest = sh(script: """curl -H "Authorization: Bearer" -s https://harbor.arpansahu.me/v2/library/arpansahu_dot_me/manifests/latest""", returnStdout: true).trim()
+                            echo "Manifest: ${manifest}"
 
                             // Extract the digest line
-                            // def digestLine = manifest.split('\n').find { it.contains('"digest"') }
-                            // echo "Digest Line: ${digestLine}"
+                            def digestLine = manifest.split('\n').find { it.contains('"digest"') }
+                            echo "Digest Line: ${digestLine}"
 
                             // Extract the digest value
-                            // def latestDigest = digestLine.split('"')[3]
-                            // echo "Latest Digest: ${latestDigest}"
+                            def latestDigest = digestLine.split('"')[3]
+                            echo "Latest Digest: ${latestDigest}"
                             
 
                             if (currentDigest != latestDigest) {
