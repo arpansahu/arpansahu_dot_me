@@ -250,6 +250,35 @@ pipeline {
                 }
             }
         }
+        stage('Check for Current Deployment Image Digest') {
+            when {
+                expression { !params.skip_checks }
+            }
+            steps {
+                script {
+                    echo "Checking for Current Deployment Image Digest"
+                    def currentDigest = ''
+                    def runningInDocker = sh(script: "docker ps -q -f name=${ENV_PROJECT_NAME}", returnStdout: true).trim()
+                    if (runningInDocker) {
+                        // Get the digest of the currently running Docker container
+                        echo "Docker is running, getting image digest from the current Docker container"
+                        currentDigest = sh(script: "docker inspect --format='{{.RepoDigests}}' ${ENV_PROJECT_NAME} | grep -o 'sha256:[a-f0-9]*'", returnStdout: true).trim()
+                        echo "Current Docker image digest: ${currentDigest}"
+                    } else {
+                        def podName = sh(script: "kubectl get pods -l app=arpansahu-dot-me -o=jsonpath='{.items[0].metadata.name}' || echo 'none'", returnStdout: true).trim()
+                        if (podName != 'none') {
+                            echo "Pod is running, getting image digest from the currently running pod"
+                            // Get the digest of the currently running Kubernetes pod
+                            currentDigest = sh(script: "kubectl get pod ${podName} -o=jsonpath='{.status.containerStatuses[0].imageID}' | grep -o 'sha256:[a-f0-9]*'", returnStdout: true).trim()
+                            echo "Current Docker image Digest: ${currentDigest}"
+                        } else {
+                            currentDigest = 'none'
+                            else "Nothing is running either docker or pod"
+                        }
+                    }
+                }
+            }
+        }
     }
     post {
         success {
