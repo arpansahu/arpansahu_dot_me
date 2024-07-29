@@ -53,6 +53,18 @@ pipeline {
                 }
             }
         }
+        stage('Extract Port from Dockerfile') {
+            steps {
+                script {
+                    env.EXPOSED_PORT = sh(script: "grep '^EXPOSE' Dockerfile | awk '{print \$2}'", returnStdout: true).trim()
+                    if (!env.EXPOSED_PORT) {
+                        error "No EXPOSE directive found in Dockerfile"
+                    } else {
+                        echo "Exposed port found in Dockerfile: ${env.EXPOSED_PORT}"
+                    }
+                }
+            }
+        }
         stage('Check for New Image') {
             when {
                 expression { !params.skip_checks }
@@ -119,31 +131,25 @@ pipeline {
             steps {
                 script {
                     if (params.DEPLOY_TYPE == 'docker') {
-                        // Ensure the correct image tag is used in the docker-compose.yml
                         sh '''
                         sed -i "s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|" docker-compose.yml
                         '''
-                        // Deploy using Docker Compose
                         sh 'docker-compose down'
                         sh 'docker-compose up -d'
-
-                        // Wait for a few seconds to let the app start
                         sleep 10
 
-                        // Verify the container is running
                         def containerRunning = sh(script: "docker ps -q -f name=${ENV_PROJECT_NAME}", returnStdout: true).trim()
                         if (!containerRunning) {
                             error "Container ${ENV_PROJECT_NAME} is not running"
                         } else {
                             echo "Container ${ENV_PROJECT_NAME} is running"
-                            // Execute curl and scale down Kubernetes deployment if curl is successful
                             sh """
-                                curl -v http://0.0.0.0:8002 && \\
+                                curl -v http://0.0.0.0:${env.EXPOSED_PORT} && \\
                                 replicas=\$(kubectl get deployment arpansahu-dot-me-app -o=jsonpath='{.spec.replicas}') || true
                                 if [ "\$replicas" != "" ] && [ \$replicas -gt 0 ]; then
                                     kubectl scale deployment arpansahu-dot-me-app --replicas=0 && \\
                                     echo 'Kubernetes deployment scaled down successfully.' && \\
-                                    sudo sed -i 's|proxy_pass .*;|proxy_pass http://0.0.0.0:8002;|' ${NGINX_CONF} && sudo nginx -s reload
+                                    sudo sed -i 's|proxy_pass .*;|proxy_pass http://0.0.0.0:${env.EXPOSED_PORT};|' ${NGINX_CONF} && sudo nginx -s reload
                                 else
                                     echo 'No running Kubernetes deployment to scale down.'
                                 fi
