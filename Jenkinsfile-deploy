@@ -86,7 +86,8 @@ pipeline {
                             // Get the latest image digest from the Docker registry
 
                             def latestDigest = sh(script: """curl -H "Authorization: Bearer <your_token>" -s https://harbor.arpansahu.me/v2/library/arpansahu_dot_me/manifests/latest | grep -o '"digest": *"sha256:[^"]*"' | head -n 1 | awk -F':' '{print \$3}' | tr -d ' "'""", returnStdout: true).trim()
-                            // Check if the digests are different
+                            echo "Latest Digest: ${latestDigest}"
+
                             if (currentDigest != latestDigest) {
                                 env.NEW_IMAGE_AVAILABLE = 'true'
                                 echo "New image available, proceeding with deployment."
