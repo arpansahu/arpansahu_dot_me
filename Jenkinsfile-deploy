@@ -273,7 +273,7 @@ pipeline {
                             echo "Current Docker image Digest: ${currentDigest}"
                         } else {
                             currentDigest = 'none'
-                            else "Nothing is running either docker or pod"
+                            echo "Nothing is running either docker or pod"
                         }
                     }
                 }
