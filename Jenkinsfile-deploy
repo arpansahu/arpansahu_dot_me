@@ -84,6 +84,9 @@ pipeline {
                     } else {
                         withCredentials([usernamePassword(credentialsId: 'harbor-credentials', passwordVariable: 'DOCKER_REGISTRY_PASSWORD', usernameVariable: 'DOCKER_REGISTRY_USERNAME')]) {
                             // Get the latest image digest from the Docker registry
+                            
+                            sh 'curl -H "Authorization: Bearer" -s https://harbor.arpansahu.me/v2/library/arpansahu_dot_me/manifests/latest'
+                            echo "curl is running successfully"
 
                             def manifest = sh(script: """curl -H "Authorization: Bearer" -s https://harbor.arpansahu.me/v2/library/arpansahu_dot_me/manifests/latest""", returnStdout: true).trim()
                             echo "Manifest: ${manifest}"
