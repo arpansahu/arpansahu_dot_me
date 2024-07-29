@@ -72,6 +72,7 @@ pipeline {
                             echo "Pod is running, getting image digest from the currently running pod"
                             // Get the digest of the currently running Kubernetes pod
                             currentDigest = sh(script: "kubectl get pod ${podName} -o=jsonpath='{.status.containerStatuses[0].imageID}' | grep -o 'sha256:[a-f0-9]*'", returnStdout: true).trim()
+                            echo "currentDigest: ${currentDigest}"
                         } else {
                             currentDigest = 'none'
                         }
