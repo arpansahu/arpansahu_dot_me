@@ -1,7 +1,6 @@
 pipeline {
     agent { label 'local' }
     parameters {
-        booleanParam(name: 'skip_checks', defaultValue: false, description: 'Skip the Check for Changes stage')
         choice(name: 'DEPLOY_TYPE', choices: ['kubernetes', 'docker'], description: 'Select deployment type')
     }
     environment {
@@ -38,21 +37,6 @@ pipeline {
                 }
             }
         }
-        stage('Login to Docker') {
-            when {
-                expression { !params.skip_checks }
-            }
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'harbor-credentials', passwordVariable: 'DOCKER_REGISTRY_PASSWORD', usernameVariable: 'DOCKER_REGISTRY_USERNAME')]) {
-                        // Log in to Docker registry using credentials store
-                        sh '''
-                        echo $DOCKER_REGISTRY_PASSWORD | docker login ${REGISTRY} -u $DOCKER_REGISTRY_USERNAME --password-stdin
-                        '''
-                    }
-                }
-            }
-        }
         stage('Extract Port from Dockerfile') {
             steps {
                 script {
@@ -65,69 +49,7 @@ pipeline {
                 }
             }
         }
-        stage('Check for New Image') {
-            when {
-                expression { !params.skip_checks }
-            }
-            steps {
-                script {
-                    def currentDigest = ''
-                    def runningInDocker = sh(script: "docker ps -q -f name=${ENV_PROJECT_NAME}", returnStdout: true).trim()
-                    if (runningInDocker) {
-                        // Get the digest of the currently running Docker container
-                        echo "Docker is running, getting image digest from the current Docker container"
-                        currentDigest = sh(script: "docker inspect --format='{{.RepoDigests}}' ${ENV_PROJECT_NAME} | grep -o 'sha256:[a-f0-9]*'", returnStdout: true).trim()
-                        echo "Current Docker image digest: ${currentDigest}"
-                    } else {
-                        def podName = sh(script: "kubectl get pods -l app=arpansahu-dot-me -o=jsonpath='{.items[0].metadata.name}' || echo 'none'", returnStdout: true).trim()
-                        if (podName != 'none') {
-                            echo "Pod is running, getting image digest from the currently running pod"
-                            // Get the digest of the currently running Kubernetes pod
-                            currentDigest = sh(script: "kubectl get pod ${podName} -o=jsonpath='{.status.containerStatuses[0].imageID}' | grep -o 'sha256:[a-f0-9]*'", returnStdout: true).trim()
-                            echo "currentDigest: ${currentDigest}"
-                        } else {
-                            currentDigest = 'none'
-                        }
-                    }
-
-                    if (currentDigest == 'none') {
-                        echo "No running instance found in Docker or Kubernetes."
-                        currentBuild.description = 'No running instance found'
-                        echo "Moving on with the Deployment..."
-                    } else {
-                        withCredentials([usernamePassword(credentialsId: 'harbor-credentials', passwordVariable: 'DOCKER_REGISTRY_PASSWORD', usernameVariable: 'DOCKER_REGISTRY_USERNAME')]) {
-                            // Get the latest image digest from the Docker registry
-
-                            def manifest = sh(script: """curl -H "Authorization: Bearer" -s https://harbor.arpansahu.me/v2/library/arpansahu_dot_me/manifests/latest""", returnStdout: true).trim()
-                            echo "Manifest: ${manifest}"
-
-                            // Extract the digest line
-                            def digestLine = manifest.split('\n').find { it.contains('"digest"') }
-                            echo "Digest Line: ${digestLine}"
-
-                            // Extract the digest value
-                            def latestDigest = digestLine.split('"')[3]
-                            echo "Latest Digest: ${latestDigest}"
-                            
-
-                            if (currentDigest != latestDigest) {
-                                env.NEW_IMAGE_AVAILABLE = 'true'
-                                echo "New image available, proceeding with deployment."
-                            } else {
-                                env.NEW_IMAGE_AVAILABLE = 'false'
-                                echo "No new image available, skipping deployment."
-                            }
-                        }
-                    }
-                }
-            }
-        }
         stage('Deploy') {
-            when {
-                expression {
-                    return params.skip_checks || env.NEW_IMAGE_AVAILABLE == 'true' || currentBuild.description == 'No running instance found'
-                }
-            }
             steps {
                 script {
                     if (params.DEPLOY_TYPE == 'docker') {
@@ -253,35 +175,6 @@ pipeline {
                         }
                     }
                     currentBuild.description = 'DEPLOYMENT_EXECUTED'
-                }
-            }
-        }
-        stage('Check for Current Deployment Image Digest') {
-            when {
-                expression { !params.skip_checks }
-            }
-            steps {
-                script {
-                    echo "Checking for Current Deployment Image Digest"
-                    def currentDigest = ''
-                    def runningInDocker = sh(script: "docker ps -q -f name=${ENV_PROJECT_NAME}", returnStdout: true).trim()
-                    if (runningInDocker) {
-                        // Get the digest of the currently running Docker container
-                        echo "Docker is running, getting image digest from the current Docker container"
-                        currentDigest = sh(script: "docker inspect --format='{{.RepoDigests}}' ${ENV_PROJECT_NAME} | grep -o 'sha256:[a-f0-9]*'", returnStdout: true).trim()
-                        echo "Current Docker image digest: ${currentDigest}"
-                    } else {
-                        def podName = sh(script: "kubectl get pods -l app=arpansahu-dot-me -o=jsonpath='{.items[0].metadata.name}' || echo 'none'", returnStdout: true).trim()
-                        if (podName != 'none') {
-                            echo "Pod is running, getting image digest from the currently running pod"
-                            // Get the digest of the currently running Kubernetes pod
-                            currentDigest = sh(script: "kubectl get pod ${podName} -o=jsonpath='{.status.containerStatuses[0].imageID}' | grep -o 'sha256:[a-f0-9]*'", returnStdout: true).trim()
-                            echo "Current Docker image Digest: ${currentDigest}"
-                        } else {
-                            currentDigest = 'none'
-                            echo "Nothing is running either docker or pod"
-                        }
-                    }
                 }
             }
         }
