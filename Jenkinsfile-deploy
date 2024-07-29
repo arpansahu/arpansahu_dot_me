@@ -97,9 +97,6 @@ pipeline {
                             def latestDigest = digestLine.split('"')[3]
                             echo "Latest Digest: ${latestDigest}"
                             
-                            // Assuming currentDigest is obtained from somewhere else in your pipeline
-                            def currentDigest = "your_current_digest_value" // Replace with actual logic to get currentDigest
-                            echo "Current Digest: ${currentDigest}"
 
                             if (currentDigest != latestDigest) {
                                 env.NEW_IMAGE_AVAILABLE = 'true'
