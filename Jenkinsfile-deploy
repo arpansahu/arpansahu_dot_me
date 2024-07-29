@@ -85,8 +85,21 @@ pipeline {
                         withCredentials([usernamePassword(credentialsId: 'harbor-credentials', passwordVariable: 'DOCKER_REGISTRY_PASSWORD', usernameVariable: 'DOCKER_REGISTRY_USERNAME')]) {
                             // Get the latest image digest from the Docker registry
 
-                            def latestDigest = sh(script: """curl -H "Authorization: Bearer <your_token>" -s https://harbor.arpansahu.me/v2/library/arpansahu_dot_me/manifests/latest | grep -o '"digest": *"sha256:[^"]*"' | head -n 1 | awk -F':' '{print \$3}' | tr -d ' "'""", returnStdout: true).trim()
+                             // Step 1: Fetch the manifest
+                            def manifest = sh(script: """curl -H "Authorization: Bearer <your_token>" -s https://harbor.arpansahu.me/v2/library/arpansahu_dot_me/manifests/latest""", returnStdout: true).trim()
+                            echo "Manifest: ${manifest}"
+                            
+                            // Step 2: Extract the digest line
+                            def digestLine = manifest.split('\n').find { it.contains('"digest"') }
+                            echo "Digest Line: ${digestLine}"
+                            
+                            // Step 3: Extract the digest value
+                            def latestDigest = digestLine.split('"')[3]
                             echo "Latest Digest: ${latestDigest}"
+                            
+                            // Assuming currentDigest is obtained from somewhere else in your pipeline
+                            def currentDigest = "your_current_digest_value" // Replace with actual logic to get currentDigest
+                            echo "Current Digest: ${currentDigest}"
 
                             if (currentDigest != latestDigest) {
                                 env.NEW_IMAGE_AVAILABLE = 'true'
