@@ -54,10 +54,6 @@ Redis is an in-memory data structure project implementing a distributed, in-memo
 The most common Redis use cases are session cache, full-page cache, queues, leader boards and counting, publish-subscribe, and much more. in this case, we will use Redis as a message broker.
 
 
-
-EXTRA README CONTENT JUST FOR TESTING PURPOSE
-
-
 ## Tech Stack
 
 [![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
@@ -2783,8 +2779,12 @@ pipeline {
                     }'"""
                 }
                 // Trigger the common_readme job on success if the commit message is not "Automatic Update readme.html for all repositories"
-                if (commitMessage != "Automatic Update readme.html for all repositories") {
-                    build job: 'common_readme', parameters: [string(name: 'project_git_url', value: "https://github.com/arpansahu/${ENV_PROJECT_NAME}"), string(name: 'environment', value: 'prod')], wait: false
+                if (!commitMessage.contains("Automatic Update")) {
+                    def expandedProjectUrl = "https://github.com/arpansahu/${ENV_PROJECT_NAME}"
+                    build job: 'common_readme', parameters: [
+                        string(name: 'project_git_url', value: expandedProjectUrl),
+                        string(name: 'environment', value: 'prod')
+                    ], wait: false
                 } else {
                     echo "Skipping common_readme job trigger due to commit message: ${commitMessage}"
                 }
