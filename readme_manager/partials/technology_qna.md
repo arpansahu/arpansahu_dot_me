@@ -10,7 +10,3 @@ Django is a Python-based free and open-source web framework that follows the mod
     
 Redis is an in-memory data structure project implementing a distributed, in-memory key-value database with optional durability. 
 The most common Redis use cases are session cache, full-page cache, queues, leader boards and counting, publish-subscribe, and much more. in this case, we will use Redis as a message broker.
-
-
-
-EXTRA README CONTENT JUST FOR TESTING PURPOSE
