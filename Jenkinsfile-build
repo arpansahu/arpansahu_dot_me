@@ -152,7 +152,7 @@ pipeline {
                 }'"""
 
                 // Trigger arpansahu_dot_me job only if the build is stable
-                build job: 'arpansahu_dot_me', parameters: [string(name: 'DEPLOY', value: true)] wait: false
+                build job: 'arpansahu_dot_me', parameters: [booleanParam(name: 'DEPLOY', value: true)] wait: false
             }
         }
         failure {
