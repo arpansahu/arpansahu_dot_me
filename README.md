@@ -1477,6 +1477,7 @@ spec:
         - name: harbor-registry-secret
       containers:
         - image: harbor.arpansahu.me/library/arpansahu_dot_me:latest
+          imagePullPolicy: Always
           name: arpansahu-dot-me
           env:
             - name: SECRET_KEY
@@ -2522,7 +2523,7 @@ pipeline {
                 }'"""
 
                 // Trigger arpansahu_dot_me job only if the build is stable
-                build job: 'arpansahu_dot_me', wait: false
+                build job: 'arpansahu_dot_me', parameters: [booleanParam(name: 'DEPLOY', value: true)], wait: false
             }
         }
         failure {
@@ -2564,7 +2565,7 @@ pipeline {
 pipeline {
     agent { label 'local' }
     parameters {
-        booleanParam(name: 'skip_checks', defaultValue: false, description: 'Skip the Check for Changes stage')
+        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Skip the Check for Changes stage')
         choice(name: 'DEPLOY_TYPE', choices: ['kubernetes', 'docker'], description: 'Select deployment type')
     }
     environment {
@@ -2601,66 +2602,44 @@ pipeline {
                 }
             }
         }
-        stage('Check for New Image') {
-            when {
-                expression { !params.skip_checks }
-            }
+        stage('Extract Port from Dockerfile') {
             steps {
                 script {
-                    // Get the ImageID of the currently running container
-                    def currentImageID = sh(script: "docker inspect -f '{{.Image}}' ${ENV_PROJECT_NAME} || echo 'none'", returnStdout: true).trim()
-                    echo "Current image ID: ${currentImageID}"
-
-                    // Pull the latest image to get its ImageID
-                    sh "docker pull ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}"
-                    def latestImageID = sh(script: "docker inspect -f '{{.Id}}' ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}", returnStdout: true).trim()
-                    echo "Latest image ID: ${latestImageID}"
-
-                    // Check if the ImageIDs are different
-                    if (currentImageID != latestImageID) {
-                        env.NEW_IMAGE_AVAILABLE = 'true'
-                        echo "New image available, proceeding with deployment."
+                    env.EXPOSED_PORT = sh(script: "grep '^EXPOSE' Dockerfile | awk '{print \$2}'", returnStdout: true).trim()
+                    if (!env.EXPOSED_PORT) {
+                        error "No EXPOSE directive found in Dockerfile"
                     } else {
-                        env.NEW_IMAGE_AVAILABLE = 'false'
-                        echo "No new image available, skipping deployment."
+                        echo "Exposed port found in Dockerfile: ${env.EXPOSED_PORT}"
                     }
                 }
             }
         }
         stage('Deploy') {
             when {
-                expression {
-                    return params.skip_checks || env.NEW_IMAGE_AVAILABLE == 'true'
-                }
+                expression { params.DEPLOY }
             }
             steps {
                 script {
                     if (params.DEPLOY_TYPE == 'docker') {
-                        // Ensure the correct image tag is used in the docker-compose.yml
                         sh '''
                         sed -i "s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|" docker-compose.yml
                         '''
-                        // Deploy using Docker Compose
                         sh 'docker-compose down'
                         sh 'docker-compose up -d'
-
-                        // Wait for a few seconds to let the app start
                         sleep 10
 
-                        // Verify the container is running
                         def containerRunning = sh(script: "docker ps -q -f name=${ENV_PROJECT_NAME}", returnStdout: true).trim()
                         if (!containerRunning) {
                             error "Container ${ENV_PROJECT_NAME} is not running"
                         } else {
                             echo "Container ${ENV_PROJECT_NAME} is running"
-                            // Execute curl and scale down Kubernetes deployment if curl is successful
                             sh """
-                                curl -v http://0.0.0.0:8002 && \\
+                                curl -v http://0.0.0.0:${env.EXPOSED_PORT} && \\
                                 replicas=\$(kubectl get deployment arpansahu-dot-me-app -o=jsonpath='{.spec.replicas}') || true
                                 if [ "\$replicas" != "" ] && [ \$replicas -gt 0 ]; then
                                     kubectl scale deployment arpansahu-dot-me-app --replicas=0 && \\
                                     echo 'Kubernetes deployment scaled down successfully.' && \\
-                                    sudo sed -i 's|proxy_pass .*;|proxy_pass http://0.0.0.0:8002;|' ${NGINX_CONF} && sudo nginx -s reload
+                                    sudo sed -i 's|proxy_pass .*;|proxy_pass http://0.0.0.0:${env.EXPOSED_PORT};|' ${NGINX_CONF} && sudo nginx -s reload
                                 else
                                     echo 'No running Kubernetes deployment to scale down.'
                                 fi
@@ -2683,6 +2662,13 @@ pipeline {
                             // Delete existing secret if it exists
                             sh '''
                             kubectl delete secret arpansahu-dot-me-secret || true
+                            '''
+
+                            // Delete the existing service and deployment
+                            sh '''
+                            kubectl delete service arpansahu-dot-me-service || true
+                            kubectl scale deployment arpansahu-dot-me-app --replicas=0 || true
+                            kubectl delete deployment arpansahu-dot-me-app || true
                             '''
 
                             // Deploy to Kubernetes
