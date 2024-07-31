@@ -187,7 +187,6 @@ pipeline {
         success {
             script {
                 // Retrieve the latest commit message
-                def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
                 if (currentBuild.description == 'DEPLOYMENT_EXECUTED') {
                     sh """curl -s \
                     -X POST \
@@ -215,6 +214,7 @@ pipeline {
                     }'"""
                 }
                 // Trigger the common_readme job on success if the commit message is not "Automatic Update readme.html for all repositories"
+                def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
                 if (!commitMessage.contains("Automatic Update")) {
                     def expandedProjectUrl = "https://github.com/arpansahu/${ENV_PROJECT_NAME}"
                     build job: 'common_readme', parameters: [
