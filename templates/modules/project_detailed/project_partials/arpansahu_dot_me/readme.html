@@ -1967,6 +1967,7 @@ spec:
         - name: harbor-registry-secret
       containers:
         - image: harbor.arpansahu.me/library/arpansahu_dot_me:latest
+          imagePullPolicy: Always
           name: arpansahu-dot-me
           env:
             - name: SECRET_KEY
@@ -2979,7 +2980,7 @@ sudo apt-get install jenkins
                 }&#x27;&quot;&quot;&quot;
 
                 // Trigger arpansahu_dot_me job only if the build is stable
-                build job: &#x27;arpansahu_dot_me&#x27;, wait: false
+                build job: &#x27;arpansahu_dot_me&#x27;, parameters: [booleanParam(name: &#x27;DEPLOY&#x27;, value: true)], wait: false
             }
         }
         failure {
@@ -3022,7 +3023,7 @@ sudo apt-get install jenkins
 <pre><code class="language-bash">pipeline {
     agent { label &#x27;local&#x27; }
     parameters {
-        booleanParam(name: &#x27;skip_checks&#x27;, defaultValue: false, description: &#x27;Skip the Check for Changes stage&#x27;)
+        booleanParam(name: &#x27;DEPLOY&#x27;, defaultValue: false, description: &#x27;Skip the Check for Changes stage&#x27;)
         choice(name: &#x27;DEPLOY_TYPE&#x27;, choices: [&#x27;kubernetes&#x27;, &#x27;docker&#x27;], description: &#x27;Select deployment type&#x27;)
     }
     environment {
@@ -3059,66 +3060,44 @@ sudo apt-get install jenkins
                 }
             }
         }
-        stage(&#x27;Check for New Image&#x27;) {
-            when {
-                expression { !params.skip_checks }
-            }
+        stage(&#x27;Extract Port from Dockerfile&#x27;) {
             steps {
                 script {
-                    // Get the ImageID of the currently running container
-                    def currentImageID = sh(script: &quot;docker inspect -f &#x27;{{.Image}}&#x27; ${ENV_PROJECT_NAME} || echo &#x27;none&#x27;&quot;, returnStdout: true).trim()
-                    echo &quot;Current image ID: ${currentImageID}&quot;
-
-                    // Pull the latest image to get its ImageID
-                    sh &quot;docker pull ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}&quot;
-                    def latestImageID = sh(script: &quot;docker inspect -f &#x27;{{.Id}}&#x27; ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}&quot;, returnStdout: true).trim()
-                    echo &quot;Latest image ID: ${latestImageID}&quot;
-
-                    // Check if the ImageIDs are different
-                    if (currentImageID != latestImageID) {
-                        env.NEW_IMAGE_AVAILABLE = &#x27;true&#x27;
-                        echo &quot;New image available, proceeding with deployment.&quot;
+                    env.EXPOSED_PORT = sh(script: &quot;grep &#x27;^EXPOSE&#x27; Dockerfile | awk &#x27;{print \$2}&#x27;&quot;, returnStdout: true).trim()
+                    if (!env.EXPOSED_PORT) {
+                        error &quot;No EXPOSE directive found in Dockerfile&quot;
                     } else {
-                        env.NEW_IMAGE_AVAILABLE = &#x27;false&#x27;
-                        echo &quot;No new image available, skipping deployment.&quot;
+                        echo &quot;Exposed port found in Dockerfile: ${env.EXPOSED_PORT}&quot;
                     }
                 }
             }
         }
         stage(&#x27;Deploy&#x27;) {
             when {
-                expression {
-                    return params.skip_checks || env.NEW_IMAGE_AVAILABLE == &#x27;true&#x27;
-                }
+                expression { params.DEPLOY }
             }
             steps {
                 script {
                     if (params.DEPLOY_TYPE == &#x27;docker&#x27;) {
-                        // Ensure the correct image tag is used in the docker-compose.yml
                         sh &#x27;&#x27;&#x27;
                         sed -i &quot;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|&quot; docker-compose.yml
                         &#x27;&#x27;&#x27;
-                        // Deploy using Docker Compose
                         sh &#x27;docker-compose down&#x27;
                         sh &#x27;docker-compose up -d&#x27;
-
-                        // Wait for a few seconds to let the app start
                         sleep 10
 
-                        // Verify the container is running
                         def containerRunning = sh(script: &quot;docker ps -q -f name=${ENV_PROJECT_NAME}&quot;, returnStdout: true).trim()
                         if (!containerRunning) {
                             error &quot;Container ${ENV_PROJECT_NAME} is not running&quot;
                         } else {
                             echo &quot;Container ${ENV_PROJECT_NAME} is running&quot;
-                            // Execute curl and scale down Kubernetes deployment if curl is successful
                             sh &quot;&quot;&quot;
-                                curl -v http://0.0.0.0:8002 &amp;&amp; \\
+                                curl -v http://0.0.0.0:${env.EXPOSED_PORT} &amp;&amp; \\
                                 replicas=\$(kubectl get deployment arpansahu-dot-me-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
                                 if [ &quot;\$replicas&quot; != &quot;&quot; ] &amp;&amp; [ \$replicas -gt 0 ]; then
                                     kubectl scale deployment arpansahu-dot-me-app --replicas=0 &amp;&amp; \\
                                     echo &#x27;Kubernetes deployment scaled down successfully.&#x27; &amp;&amp; \\
-                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:8002;|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload
+                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${env.EXPOSED_PORT};|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload
                                 else
                                     echo &#x27;No running Kubernetes deployment to scale down.&#x27;
                                 fi
@@ -3141,6 +3120,13 @@ sudo apt-get install jenkins
                             // Delete existing secret if it exists
                             sh &#x27;&#x27;&#x27;
                             kubectl delete secret arpansahu-dot-me-secret || true
+                            &#x27;&#x27;&#x27;
+
+                            // Delete the existing service and deployment
+                            sh &#x27;&#x27;&#x27;
+                            kubectl delete service arpansahu-dot-me-service || true
+                            kubectl scale deployment arpansahu-dot-me-app --replicas=0 || true
+                            kubectl delete deployment arpansahu-dot-me-app || true
                             &#x27;&#x27;&#x27;
 
                             // Deploy to Kubernetes
