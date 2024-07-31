@@ -3209,7 +3209,6 @@ sudo apt-get install jenkins
         success {
             script {
                 // Retrieve the latest commit message
-                def commitMessage = sh(script: &quot;git log -1 --pretty=%B&quot;, returnStdout: true).trim()
                 if (currentBuild.description == &#x27;DEPLOYMENT_EXECUTED&#x27;) {
                     sh &quot;&quot;&quot;curl -s \
                     -X POST \
@@ -3237,6 +3236,7 @@ sudo apt-get install jenkins
                     }&#x27;&quot;&quot;&quot;
                 }
                 // Trigger the common_readme job on success if the commit message is not &quot;Automatic Update readme.html for all repositories&quot;
+                def commitMessage = sh(script: &quot;git log -1 --pretty=%B&quot;, returnStdout: true).trim()
                 if (!commitMessage.contains(&quot;Automatic Update&quot;)) {
                     def expandedProjectUrl = &quot;https://github.com/arpansahu/${ENV_PROJECT_NAME}&quot;
                     build job: &#x27;common_readme&#x27;, parameters: [
