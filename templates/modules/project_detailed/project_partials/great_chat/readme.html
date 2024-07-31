@@ -3323,7 +3323,16 @@ sudo apt-get install jenkins
                     }&#x27;&quot;&quot;&quot;
                 }
                 // Trigger the common_readme job on success
-                build job: &#x27;common_readme&#x27;, parameters: [string(name: &#x27;project_git_url&#x27;, value: &#x27;https://github.com/arpansahu/${ENV_PROJECT_NAME}&#x27;), string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)], wait: false
+                def commitMessage = sh(script: &quot;git log -1 --pretty=%B&quot;, returnStdout: true).trim()
+                if (!commitMessage.contains(&quot;Automatic Update&quot;)) {
+                    def expandedProjectUrl = &quot;https://github.com/arpansahu/${ENV_PROJECT_NAME}&quot;
+                    build job: &#x27;common_readme&#x27;, parameters: [
+                        string(name: &#x27;project_git_url&#x27;, value: expandedProjectUrl),
+                        string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)
+                    ], wait: false
+                } else {
+                    echo &quot;Skipping common_readme job trigger due to commit message: ${commitMessage}&quot;
+                }            
             }
         }
         failure {
