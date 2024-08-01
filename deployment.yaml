@@ -18,7 +18,6 @@ spec:
         - name: harbor-registry-secret
       containers:
         - image: harbor.arpansahu.me/library/arpansahu_dot_me:latest
-          imagePullPolicy: Always
           name: arpansahu-dot-me
           env:
             - name: SECRET_KEY
