@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'custom_tag_app',
     'account',
     'emails_otp',
-
+    'resume'
 ]
 
 MIDDLEWARE = [
@@ -311,4 +311,4 @@ LOGGING = {
     },
 }
 
-CSRF_TRUSTED_ORIGINS = ['https://arpansahu.me']
+CSRF_TRUSTED_ORIGINS = ['https://arpansahu.me', ]
