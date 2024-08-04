@@ -1,32 +1,21 @@
-import argparse
+import base64
 import os
 import traceback
 from datetime import datetime
 
 from braces.views import AjaxResponseMixin
 from django.conf import settings
-from django.http import HttpResponseRedirect
-from django.http import FileResponse, HttpResponseRedirect, HttpResponseNotFound
-from django.shortcuts import render
-from .forms import ContactForm
+from django.http import HttpResponseRedirect, FileResponse, HttpResponseNotFound
+from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-from braces import views
-
-import base64
+from mailjet_rest import Client
 import pyotp
 
-from django.conf import settings
-from mailjet_rest import Client
-
-import os
-import boto3
-from botocore.exceptions import NoCredentialsError, PartialCredentialsError
-
-
 from emails_otp.models import EmailsOtpRecord
-
+from resume.models import Resume
+from .forms import ContactForm
 
 mailjet = Client(auth=(settings.MAIL_JET_API_KEY, settings.MAIL_JET_API_SECRET), version='v3.1')
 
@@ -110,6 +99,7 @@ class ProjectDetailedView(View):
         template_name = 'modules/project_detailed/project_detailed.html'
         return render(request, template_name=template_name, context={'project_name': project_name})
         
+
 class AboutView(View):
     def get(self, *args, **kwargs):
         return render(self.request, template_name='about.html', context={'about': 'active'})
@@ -121,7 +111,7 @@ class ProjectsView(View):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class GetOTPView(views.JSONResponseMixin, views.AjaxResponseMixin, View):
+class GetOTPView(AjaxResponseMixin, View):
 
     def dispatch(self, request, *args, **kwargs):
         request_method = request.method.lower()
@@ -154,7 +144,6 @@ class GetOTPView(views.JSONResponseMixin, views.AjaxResponseMixin, View):
             status_code = 400
             status = 'Failed'
             message = 'Same Email address cannot generate more than 5 otp in a day'
-
         else:
             key = base64.b32encode((email + settings.SECRET_KEY).encode())  # Key is generated
             otp_obj = pyotp.TOTP(key, interval=settings.OTP_EXPIRY_TIME)
@@ -239,7 +228,6 @@ class ContactView(View):
             otp_obj = pyotp.TOTP(key, interval=settings.OTP_EXPIRY_TIME)
 
             if otp_obj.verify(otp):
-
                 text = """\
                 Hi message from {0},
                 How are you?<br>
@@ -299,26 +287,16 @@ class ResumeView(View):
 
 class ResumeDownloadView(View):
     def get(self, request, *args, **kwargs):
-        if settings.DEBUG:
-            # Serve the file from local static files
-            file_path = os.path.join(settings.STATIC_ROOT, 'pdfs', 'resume.pdf')
-            if os.path.exists(file_path):
-                return FileResponse(open(file_path, 'rb'), as_attachment=True, filename='resume.pdf')
-            else:
-                return HttpResponseNotFound('The requested file was not found on the server.')
-        else:
-            # Serve the file from S3
-            s3_client = boto3.client('s3', 
-                                     aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-                                     aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-                                     region_name=settings.AWS_S3_REGION_NAME)
+        # Get the latest resume file from the database by ordering by id
+        resume = Resume.objects.order_by('id').last()
 
-            try:
-                presigned_url = s3_client.generate_presigned_url(
-                    'get_object',
-                    Params={'Bucket': settings.AWS_STORAGE_BUCKET_NAME, 'Key': 'pdfs/resume.pdf'},
-                    ExpiresIn=3600  # URL expiration time in seconds
-                )
-                return HttpResponseRedirect(presigned_url)
-            except (NoCredentialsError, PartialCredentialsError):
-                return HttpResponseNotFound('The requested file was not found on the server.')
+        if not resume:
+            return HttpResponseNotFound('The requested file was not found on the server.')
+
+        try:
+            # Open the file from storage
+            resume.file.open()
+            response = FileResponse(resume.file, as_attachment=True, filename=resume.file.name)
+            return response
+        except Exception as e:
+            return HttpResponseNotFound(f'The requested file was not found on the server. Error: {str(e)}')
