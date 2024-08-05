@@ -184,6 +184,24 @@ pipeline {
                 }
             }
         }
+        stage('MergeIntoBuild') {
+            when {
+                expression {
+                    // Check if the last commit includes only HTML files
+                    def changes = sh(script: 'git diff-tree --no-commit-id --name-only -r HEAD', returnStdout: true).trim().split("\n")
+                    return changes.every { it.endsWith('.html') }
+                }
+            }
+            steps {
+                script {
+                    sh 'chmod +x merge_main_into_build_branch.sh'
+                    sh """
+                    echo "Running merge_main_into_build_branch.sh "
+                    ./merge_main_into_build_branch.sh
+                    """
+                }
+            }
+        }
     }
     post {
         success {
