@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Source the repository list
-source repos_list.sh
-
 # Function to set up the environment
 setup_environment() {
     
@@ -71,11 +68,9 @@ main() {
     # This scrip is built for prod only
     # Setup the environment
     setup_environment
-
-    # Change to the directory where the script is located
-    cd "$SCRIPT_DIR"
-        
-    merge_main_into_build "https://github.com/arpansahu/arpansahu_dot_me"
+    pwd
+    ls
+    # merge_main_into_build "https://github.com/arpansahu/arpansahu_dot_me"
 
 }
 
