@@ -2135,7 +2135,7 @@ server {
         }
 
     location / {
-         proxy_pass              http://{ip_of_home_server}:8014;
+         proxy_pass              http://{ip_of_home_server}:8000;
          proxy_set_header        Host $host;
          proxy_set_header        X-Forwarded-Proto $scheme;
 
@@ -2574,6 +2574,8 @@ pipeline {
         KUBECONFIG = "${env.WORKSPACE}/kubeconfig"  // Set the KUBECONFIG environment variable
         NGINX_CONF = "/etc/nginx/sites-available/arpansahu-dot-me"
         ENV_PROJECT_NAME = "arpansahu_dot_me"
+        DOCKER_PORT = "8000"
+        PROJECT_NAME_WITH_DASH = "arpansahu-dot-me"
     }
     stages {
         stage('Initialize') {
@@ -2633,12 +2635,12 @@ pipeline {
                         } else {
                             echo "Container ${ENV_PROJECT_NAME} is running"
                             sh """
-                                curl -v http://0.0.0.0:${env.EXPOSED_PORT} && \\
-                                replicas=\$(kubectl get deployment arpansahu-dot-me-app -o=jsonpath='{.spec.replicas}') || true
+                                curl -v http://0.0.0.0:${DOCKER_PORT} && \\
+                                replicas=\$(kubectl get deployment great-chat-app -o=jsonpath='{.spec.replicas}') || true
                                 if [ "\$replicas" != "" ] && [ \$replicas -gt 0 ]; then
-                                    kubectl scale deployment arpansahu-dot-me-app --replicas=0 && \\
+                                    kubectl scale deployment great-chat-app --replicas=0 && \\
                                     echo 'Kubernetes deployment scaled down successfully.' && \\
-                                    sudo sed -i 's|proxy_pass .*;|proxy_pass http://0.0.0.0:${env.EXPOSED_PORT};|' ${NGINX_CONF} && sudo nginx -s reload
+                                    sudo sed -i 's|proxy_pass .*;|proxy_pass http://0.0.0.0:${DOCKER_PORT};|' ${NGINX_CONF} && sudo nginx -s reload
                                 else
                                     echo 'No running Kubernetes deployment to scale down.'
                                 fi
@@ -2659,23 +2661,23 @@ pipeline {
                             sh 'pwd'
                             
                             // Delete existing secret if it exists
-                            sh '''
-                            kubectl delete secret arpansahu-dot-me-secret || true
-                            '''
+                            sh """
+                            kubectl delete secret ${PROJECT_NAME_WITH_DASH}-secret || true
+                            """
 
                             // Delete the existing service and deployment
-                            sh '''
-                            kubectl delete service arpansahu-dot-me-service || true
-                            kubectl scale deployment arpansahu-dot-me-app --replicas=0 || true
-                            kubectl delete deployment arpansahu-dot-me-app || true
-                            '''
+                            sh """
+                            kubectl delete service ${PROJECT_NAME_WITH_DASH}-service || true
+                            kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 || true
+                            kubectl delete deployment ${PROJECT_NAME_WITH_DASH}-app || true
+                            """
 
                             // Deploy to Kubernetes
-                            sh '''
-                            kubectl create secret generic arpansahu-dot-me-secret --from-env-file=${WORKSPACE}/.env
+                            sh """
+                            kubectl create secret generic ${PROJECT_NAME_WITH_DASH}-secret --from-env-file=${WORKSPACE}/.env
                             kubectl apply -f ${WORKSPACE}/service.yaml
                             kubectl apply -f ${WORKSPACE}/deployment.yaml
-                            '''
+                            """
                             
                             // Wait for a few seconds to let the app start
                             sleep 10
