@@ -1,1 +1,1 @@
-Available at: https://arpansahu.me
+Available at: https://[DOMAIN_NAME]
