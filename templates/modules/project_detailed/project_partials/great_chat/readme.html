@@ -3183,9 +3183,9 @@ sudo apt-get install jenkins
                             // Execute curl and scale down Kubernetes deployment if curl is successful
                             sh &quot;&quot;&quot;
                                 curl -v http://0.0.0.0:${DOCKER_PORT} &amp;&amp; \\
-                                replicas=\$(kubectl get deployment great-chat-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
+                                replicas=\$(kubectl get deployment ${PROJECT_NAME_WITH_DASH}-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
                                 if [ &quot;\$replicas&quot; != &quot;&quot; ] &amp;&amp; [ \$replicas -gt 0 ]; then
-                                    kubectl scale deployment great-chat-app --replicas=0 &amp;&amp; \\
+                                    kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 &amp;&amp; \\
                                     echo &#x27;Kubernetes deployment scaled down successfully.&#x27; &amp;&amp; \\
                                     sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${DOCKER_PORT};|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload
                                 else
@@ -3230,12 +3230,12 @@ sudo apt-get install jenkins
                             sleep 10
 
                             // Check deployment status
-                            sh &#x27;&#x27;&#x27;
-                            kubectl rollout status deployment/great-chat-app
-                            &#x27;&#x27;&#x27;
+                            sh &quot;&quot;&quot;
+                            kubectl rollout status deployment/${PROJECT_NAME_WITH_DASH}-app
+                            &quot;&quot;&quot;
 
                             // Verify service and get NodePort
-                            def nodePort = sh(script: &quot;kubectl get service great-chat-service -o=jsonpath=&#x27;{.spec.ports[0].nodePort}&#x27;&quot;, returnStdout: true).trim()
+                            def nodePort = sh(script: &quot;kubectl get service ${PROJECT_NAME_WITH_DASH}-service -o=jsonpath=&#x27;{.spec.ports[0].nodePort}&#x27;&quot;, returnStdout: true).trim()
                             echo &quot;Service NodePort: ${nodePort}&quot;
 
                             // Get cluster IP address
