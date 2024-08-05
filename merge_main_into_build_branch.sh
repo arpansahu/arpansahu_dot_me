@@ -53,7 +53,7 @@ merge_main_into_build() {
     cd "$repo_name" || { echo "Failed to navigate to repository directory: $repo_name"; return; }
     
     # Check if readme.html was created or updated
-    git checkout test_build
+    git checkout build
     git rebase origin/main
     git push 
     
