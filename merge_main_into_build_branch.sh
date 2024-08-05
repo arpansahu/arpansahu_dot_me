@@ -29,7 +29,7 @@ merge_main_into_build() {
     REPO_PATH="${repo_url#https://github.com/}"
 
     # Construct the authenticated URL for prod
-    AUTHENTICATED_URL="https://${GIT_USERNAME}@github.com/${REPO_PATH}"
+    AUTHENTICATED_URL="https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${REPO_PATH}"
    
     # Log the URL being used (without exposing the password)
     echo "Using URL: $AUTHENTICATED_URL"
@@ -53,7 +53,12 @@ merge_main_into_build() {
     if git show-ref --verify --quiet "refs/remotes/origin/build"; then
         git checkout build
         git rebase origin/main
-       git push "$AUTHENTICATED_URL"
+        
+        # Retry push operation until successful
+        while ! git push "$AUTHENTICATED_URL"; do
+            echo "Push failed, retrying..."
+            sleep 5
+        done
     else
         echo "Branch 'build' does not exist in the remote repository: $repo_url"
     fi
