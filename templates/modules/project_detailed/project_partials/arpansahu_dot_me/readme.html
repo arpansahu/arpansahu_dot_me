@@ -3205,6 +3205,24 @@ sudo apt-get install jenkins
                 }
             }
         }
+        stage(&#x27;MergeIntoBuild&#x27;) {
+            when {
+                expression {
+                    // Check if the last commit includes only HTML files
+                    def changes = sh(script: &#x27;git diff-tree --no-commit-id --name-only -r HEAD&#x27;, returnStdout: true).trim().split(&quot;\n&quot;)
+                    return changes.every { it.endsWith(&#x27;.html&#x27;) }
+                }
+            }
+            steps {
+                script {
+                    sh &#x27;chmod +x merge_main_into_build_branch.sh&#x27;
+                    sh &quot;&quot;&quot;
+                    echo &quot;Running merge_main_into_build_branch.sh &quot;
+                    ./merge_main_into_build_branch.sh
+                    &quot;&quot;&quot;
+                }
+            }
+        }
     }
     post {
         success {
