@@ -1,7 +1,7 @@
 {% load static %}
 <section class="hero-one position-relative bg-black" id="home"  style="background-image: url('{% static "images/personal/main-bg.png" %}'); background-size: cover; background-position: center center;">
   <div class="row align-items-center justify-content-center" style="padding: 5px; align-items: center; text-align: center">
-      <h4 style="color: white">Django Portfolio Project</h4>
+      <h4 style="color: white">Django Project CRUD using AJAX, DJANGO FORMS, GRAPHQL and DJANGO REST/GRAPHQL APIs</h4>
   </div>
   <div class="row align-items-center justify-content-center" style="padding: 5px">
       <div class="col-lg-8  mx-auto">
@@ -13,41 +13,65 @@
               <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" style="background-color: black"></button>
               <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4" style="background-color: black"></button>
               <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5" style="background-color: black"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-label="Slide 6" style="background-color: black"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6" aria-label="Slide 7" style="background-color: black"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="7" aria-label="Slide 8" style="background-color: black"></button>
             </div>
             <div class="carousel-inner border-radius-sm">
               <div class="carousel-item active">
-                <img class="d-block w-100" src="{% static 'images/sliders/project10/project10_1.png' %}" alt="First slide" />
+                <img class="d-block w-100" src="{% static 'images/sliders/project1/project1_1.png' %}" alt="First slide" />
                   <div class="carousel-caption d-none d-md-block" style="color: black">
-                    <h5>About</h5>
+                    <h5>Home Page</h5>
                     <p></p>
                   </div>
               </div>
               <div class="carousel-item">
-                <img class="d-block w-100" src="{% static 'images/sliders/project10/project10_2.png' %}" alt="Second slide" />
+                <img class="d-block w-100" src="{% static 'images/sliders/project1/project1_2.png' %}" alt="Second slide" />
                   <div class="carousel-caption d-none d-md-block" style="color: black">
-                    <h5>Skills</h5>
+                    <h5>Login Page</h5>
                     <p></p>
                   </div>
               </div>
               <div class="carousel-item">
-                <img class="d-block w-100" src="{% static 'images/sliders/project10/project10_3.png' %}" alt="Third slide" />
+                <img class="d-block w-100" src="{% static 'images/sliders/project1/project1_3.png' %}" alt="Third slide" />
                   <div class="carousel-caption d-none d-md-block" style="color: black">
-                    <h5>Education and Experience</h5>
+                    <h5>Reset Password Page</h5>
                     <p></p>
                   </div>
               </div>
               <div class="carousel-item">
-                <img class="d-block w-100" src="{% static 'images/sliders/project10/project10_4.png' %}" alt="Fourth slide" />
+                <img class="d-block w-100" src="{% static 'images/sliders/project1/project1_4.png' %}" alt="Fourth slide" />
                   <div class="carousel-caption d-none d-md-block" style="color: black">
-                    <h5>Projects</h5>
+                    <h5>Crud with Django Forms Home Page</h5>
                     <p></p>
                   </div>
               </div>
               <div class="carousel-item">
-                <img class="d-block w-100" src="{% static 'images/sliders/project10/project10_5.png' %}" alt="Fifth slide" />
+                <img class="d-block w-100" src="{% static 'images/sliders/project1/project1_5.png' %}" alt="Fifth slide" />
                   <div class="carousel-caption d-none d-md-block" style="color: black">
-                    <h5>Contact</h5>
+                    <h5>Crud with Ajax Home Page</h5>
                     <p></p>
+                  </div>
+              </div>
+              <div class="carousel-item">
+                <img class="d-block w-100" src="{% static 'images/sliders/project1/project1_6.png' %}" alt="Sixth slide" />
+                  <div class="carousel-caption d-none d-md-block" style="color: black">
+                    <h5>Crud with Graphql Home Page</h5>
+                    <p></p>
+                  </div>
+              </div>
+              <div class="carousel-item">
+                <img class="d-block w-100" src="{% static 'images/sliders/project1/project1_7.png' %}" alt="Seventh slide" />
+                  <div class="carousel-caption d-none d-md-block" style="color: black">
+                    <h5>Schema of APIs</h5>
+                    <p>This include Graphql and Django Rest APIs </p>
+                  </div>
+              </div>
+              <div class="carousel-item">
+                <img class="d-block w-100" src="{% static 'images/sliders/project1/project1_8.png' %}" alt="Eighth slide" />
+                  <div class="carousel-caption d-none d-md-block" style="color: black">
+                    <h5>Swagger</h5>
+                    <p>This include Graphql and Django Rest APIs Open Core base swagger</p>
                   </div>
               </div>
             </div>
@@ -68,15 +92,15 @@
           <span class="wrap"></span>
           <div class="mb-4 mb-lg-0">
               <div class="d-inline-block">
-                {% include 'modules/project_detailed/project_partials/'|add:project_name|add:'/technologies.html' %}
+                {% include 'modules/project_detailed/project_partials/'|add:project_name|add:'/technologies.html' %}    
               </div>
           </div>
 
           <div class="mb-5 mb-lg-0" style="margin-top: 15px">
-              <a class="btn btn-block btn-social btn-github" href="https://github.com/arpansahu/arpansahu.me" target="_blank" style="color: white">
+              <a class="btn btn-block btn-social btn-github" href="https://github.com/arpansahu/chew-and-cheer" target="_blank" style="color: white">
                   <span class="fa fa-github" style="margin-right: 10px; color: white"></span> Check Repo
               </a>
-              <a class="btn btn-block btn-social btn-github" href="https://www.arpansahu.me/" target="_blank" style="color: white">
+              <a class="btn btn-block btn-social btn-github" href="https://chew-and-cheers.arpansahu.me" target="_blank" style="color: white">
                   <span class="fa fa-youtube" style="margin-right: 10px; color: white"></span> Live Demo
               </a>
           </div>

@@ -83,10 +83,9 @@
             <span class="wrap"></span>
             <div class="mb-4 mb-lg-0">
                 <div class="d-inline-block">
-                  {% include 'modules/project_detailed/project_partials/great_chat/technologies.html' %}
+                  {% include 'modules/project_detailed/project_partials/'|add:project_name|add:'/technologies.html' %}   
                 </div>
             </div>
-
             <div class="mb-5 mb-lg-0" style="margin-top: 15px">
                 <a class="btn btn-block btn-social btn-github" href="https://github.com/arpansahu/django-chat-app-tortise-with-sqlite3" target="_blank" style="color: white">
                     <span class="fa fa-github" style="margin-right: 10px; color: white"></span> Check Repo
