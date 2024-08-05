@@ -55,11 +55,11 @@ merge_main_into_build() {
     git push 
     
     # Navigate back to the script directory
-    cd ".."
+    cd "../.."
 
     # Remove the cloned repository
     echo "Cleaning up ..."
-    rm -rf "$repo_name"
+    rm -rf "playground_dir"
 }
 
 # Main script execution
@@ -68,9 +68,9 @@ main() {
     # This scrip is built for prod only
     # Setup the environment
     setup_environment
-    pwd
-    ls
-    # merge_main_into_build "https://github.com/arpansahu/arpansahu_dot_me"
+    mkdir "playground_dir"
+    cd "playground_dir"
+    merge_main_into_build "https://github.com/arpansahu/arpansahu_dot_me"
 
 }
 
