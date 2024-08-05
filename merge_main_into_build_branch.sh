@@ -53,7 +53,7 @@ merge_main_into_build() {
     if git show-ref --verify --quiet "refs/remotes/origin/build"; then
         git checkout build
         git rebase origin/main
-        git push
+       git push "$AUTHENTICATED_URL"
     else
         echo "Branch 'build' does not exist in the remote repository: $repo_url"
     fi
