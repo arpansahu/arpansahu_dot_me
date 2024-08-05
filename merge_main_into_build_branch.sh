@@ -45,22 +45,25 @@ merge_main_into_build() {
 
     # Navigate to the repository directory
     cd "$repo_name" || { echo "Failed to navigate to repository directory: $repo_name"; return 1; }
-    
-    # Check if the build branch exists and merge main into build
-    if git rev-parse --verify build > /dev/null 2>&1; then
+
+    # Fetch all branches from the remote
+    git fetch origin
+
+    # Check if the build branch exists in the remote repository and merge main into build
+    if git show-ref --verify --quiet "refs/remotes/origin/build"; then
         git checkout build
         git rebase origin/main
         git push
     else
-        echo "Branch 'build' does not exist in repository: $repo_url"
+        echo "Branch 'build' does not exist in the remote repository: $repo_url"
     fi
     
-    # Navigate back to the script directory
-    cd "$SCRIPT_DIR"
+    # Navigate back to the playground directory
+    cd "$SCRIPT_DIR/playground_dir"
 
     # Remove the cloned repository
     echo "Cleaning up ..."
-    rm -rf "playground_dir"
+    rm -rf "$repo_name"
 }
 
 # Main script execution
@@ -71,6 +74,11 @@ main() {
     mkdir "playground_dir"
     cd "playground_dir"
     merge_main_into_build "https://github.com/arpansahu/arpansahu_dot_me"
+
+    # Navigate back to the script directory and clean up the playground directory
+    cd "$SCRIPT_DIR"
+    echo "Removing playground directory ..."
+    rm -rf "playground_dir"
 }
 
 # Execute the main function with provided arguments or default to prod environment and all repositories
