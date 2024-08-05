@@ -2569,7 +2569,7 @@ server {
         }
 
     location / {
-         proxy_pass              http://{ip_of_home_server}:8014;
+         proxy_pass              http://{ip_of_home_server}:8000;
          proxy_set_header        Host $host;
          proxy_set_header        X-Forwarded-Proto $scheme;
 
@@ -3032,6 +3032,8 @@ sudo apt-get install jenkins
         KUBECONFIG = &quot;${env.WORKSPACE}/kubeconfig&quot;  // Set the KUBECONFIG environment variable
         NGINX_CONF = &quot;/etc/nginx/sites-available/arpansahu-dot-me&quot;
         ENV_PROJECT_NAME = &quot;arpansahu_dot_me&quot;
+        DOCKER_PORT = &quot;8000&quot;
+        PROJECT_NAME_WITH_DASH = &quot;arpansahu-dot-me&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3091,12 +3093,12 @@ sudo apt-get install jenkins
                         } else {
                             echo &quot;Container ${ENV_PROJECT_NAME} is running&quot;
                             sh &quot;&quot;&quot;
-                                curl -v http://0.0.0.0:${env.EXPOSED_PORT} &amp;&amp; \\
-                                replicas=\$(kubectl get deployment arpansahu-dot-me-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
+                                curl -v http://0.0.0.0:${DOCKER_PORT} &amp;&amp; \\
+                                replicas=\$(kubectl get deployment great-chat-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
                                 if [ &quot;\$replicas&quot; != &quot;&quot; ] &amp;&amp; [ \$replicas -gt 0 ]; then
-                                    kubectl scale deployment arpansahu-dot-me-app --replicas=0 &amp;&amp; \\
+                                    kubectl scale deployment great-chat-app --replicas=0 &amp;&amp; \\
                                     echo &#x27;Kubernetes deployment scaled down successfully.&#x27; &amp;&amp; \\
-                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${env.EXPOSED_PORT};|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload
+                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${DOCKER_PORT};|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload
                                 else
                                     echo &#x27;No running Kubernetes deployment to scale down.&#x27;
                                 fi
@@ -3117,23 +3119,23 @@ sudo apt-get install jenkins
                             sh &#x27;pwd&#x27;
 
                             // Delete existing secret if it exists
-                            sh &#x27;&#x27;&#x27;
-                            kubectl delete secret arpansahu-dot-me-secret || true
-                            &#x27;&#x27;&#x27;
+                            sh &quot;&quot;&quot;
+                            kubectl delete secret ${PROJECT_NAME_WITH_DASH}-secret || true
+                            &quot;&quot;&quot;
 
                             // Delete the existing service and deployment
-                            sh &#x27;&#x27;&#x27;
-                            kubectl delete service arpansahu-dot-me-service || true
-                            kubectl scale deployment arpansahu-dot-me-app --replicas=0 || true
-                            kubectl delete deployment arpansahu-dot-me-app || true
-                            &#x27;&#x27;&#x27;
+                            sh &quot;&quot;&quot;
+                            kubectl delete service ${PROJECT_NAME_WITH_DASH}-service || true
+                            kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 || true
+                            kubectl delete deployment ${PROJECT_NAME_WITH_DASH}-app || true
+                            &quot;&quot;&quot;
 
                             // Deploy to Kubernetes
-                            sh &#x27;&#x27;&#x27;
-                            kubectl create secret generic arpansahu-dot-me-secret --from-env-file=${WORKSPACE}/.env
+                            sh &quot;&quot;&quot;
+                            kubectl create secret generic ${PROJECT_NAME_WITH_DASH}-secret --from-env-file=${WORKSPACE}/.env
                             kubectl apply -f ${WORKSPACE}/service.yaml
                             kubectl apply -f ${WORKSPACE}/deployment.yaml
-                            &#x27;&#x27;&#x27;
+                            &quot;&quot;&quot;
 
                             // Wait for a few seconds to let the app start
                             sleep 10
