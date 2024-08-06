@@ -1035,7 +1035,7 @@ RUN pip3 install -r requirements.txt
 
 EXPOSE 8000
 
-CMD bash -c "python manage.py collectstatic && gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi"
+CMD bash -c "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi"
 ```
 
 Create a file named docker-compose.yml and add following lines in it
