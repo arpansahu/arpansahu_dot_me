@@ -3101,6 +3101,10 @@ sudo apt-get install jenkins
             steps {
                 script {
                     if (params.DEPLOY_TYPE == &#x27;docker&#x27;) {
+
+                        // Copy the .env file to the workspace
+                        sh &quot;sudo cp /root/projectenvs/${ENV_PROJECT_NAME}/.env ${env.WORKSPACE}/&quot;
+
                         // Ensure the correct image tag is used in the docker-compose.yml
                         sh &#x27;&#x27;&#x27;
                         sed -i &quot;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|&quot; docker-compose.yml
