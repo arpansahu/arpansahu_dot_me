@@ -3092,12 +3092,11 @@ sudo apt-get install jenkins
                         } else {
                             echo &quot;Container ${ENV_PROJECT_NAME} is running&quot;
                             sh &quot;&quot;&quot;
-                                curl -v http://0.0.0.0:${DOCKER_PORT} &amp;&amp; \\
+                                curl -v http://0.0.0.0:${DOCKER_PORT} &amp;&amp; sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${DOCKER_PORT};|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload \\
                                 replicas=\$(kubectl get deployment ${PROJECT_NAME_WITH_DASH}-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
                                 if [ &quot;\$replicas&quot; != &quot;&quot; ] &amp;&amp; [ \$replicas -gt 0 ]; then
                                     kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 &amp;&amp; \\
-                                    echo &#x27;Kubernetes deployment scaled down successfully.&#x27; &amp;&amp; \\
-                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${DOCKER_PORT};|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload
+                                    echo &#x27;Kubernetes deployment scaled down successfully.&#x27;
                                 else
                                     echo &#x27;No running Kubernetes deployment to scale down.&#x27;
                                 fi
@@ -3160,6 +3159,24 @@ sudo apt-get install jenkins
                                 if [ &quot;\$HTTP_STATUS&quot; -eq 200 ]; then
                                     echo &quot;Service is reachable at http://${clusterIP}:${nodePort}&quot;
 
+                                    echo &quot;Updating Nginx configuration at ${NGINX_CONF}...&quot;
+                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF}
+
+                                    if [ \$? -ne 0 ]; then
+                                        echo &quot;Failed to update Nginx configuration&quot;
+                                        exit 1
+                                    fi
+
+                                    echo &quot;Reloading Nginx...&quot;
+                                    sudo nginx -s reload
+
+                                    if [ \$? -ne 0 ]; then
+                                        echo &quot;Failed to reload Nginx&quot;
+                                        exit 1
+                                    fi
+
+                                    echo &quot;Nginx reloaded successfully&quot;
+
                                     DOCKER_CONTAINER=\$(docker ps -q -f name=${ENV_PROJECT_NAME})
 
                                     if [ &quot;\$DOCKER_CONTAINER&quot; ]; then
@@ -3171,26 +3188,10 @@ sudo apt-get install jenkins
                                             exit 1
                                         fi
 
-                                        echo &quot;Updating Nginx configuration at ${NGINX_CONF}...&quot;
-                                        sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF}
-
-                                        if [ \$? -ne 0 ]; then
-                                            echo &quot;Failed to update Nginx configuration&quot;
-                                            exit 1
-                                        fi
-
-                                        echo &quot;Reloading Nginx...&quot;
-                                        sudo nginx -s reload
-
-                                        if [ \$? -ne 0 ]; then
-                                            echo &quot;Failed to reload Nginx&quot;
-                                            exit 1
-                                        fi
-
-                                        echo &quot;Nginx reloaded successfully&quot;
                                     else
-                                        echo &quot;Docker container ${ENV_PROJECT_NAME} is not running. Skipping removal and Nginx update.&quot;
+                                        echo &quot;Docker container ${ENV_PROJECT_NAME} is not running. Skipping removal&quot;
                                     fi
+
                                 else
                                     echo &quot;Service is not reachable at http://${clusterIP}:${nodePort}. HTTP Status: \$HTTP_STATUS&quot;
                                     exit 1
