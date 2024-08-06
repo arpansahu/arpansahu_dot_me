@@ -2798,7 +2798,7 @@ pipeline {
                         ]
                     }'"""
                 }
-                // Trigger the common_readme job on success if the commit message is not "Automatic Update readme.html for all repositories"
+                // Trigger the common_readme job on success when last commit is not Automatic Update from common_readme
                 def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
                 if (!commitMessage.contains("Automatic Update")) {
                     def expandedProjectUrl = "https://github.com/arpansahu/${ENV_PROJECT_NAME}"
