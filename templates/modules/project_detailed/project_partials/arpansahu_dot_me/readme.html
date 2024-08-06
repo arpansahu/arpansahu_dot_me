@@ -3214,11 +3214,13 @@ sudo apt-get install jenkins
             }
             steps {
                 script {
-                    sh &#x27;chmod +x merge_main_into_build_branch.sh&#x27;
-                    sh &quot;&quot;&quot;
-                    echo &quot;Running merge_main_into_build_branch.sh &quot;
-                    ./merge_main_into_build_branch.sh
-                    &quot;&quot;&quot;
+                    withCredentials([usernamePassword(credentialsId: &#x27;a8543f6d-1f32-4a4c-bb31-d7fffe78828e&#x27;, usernameVariable: &#x27;GIT_USERNAME&#x27;, passwordVariable: &#x27;GIT_PASSWORD&#x27;)]) {
+                        sh &#x27;chmod +x merge_main_into_build_branch.sh&#x27;
+                        sh &quot;&quot;&quot;
+                        echo &quot;Running merge_main_into_build_branch.sh &quot;
+                        ./merge_main_into_build_branch.sh
+                        &quot;&quot;&quot;
+                    }
                 }
             }
         }
