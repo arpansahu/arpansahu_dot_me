@@ -3326,7 +3326,7 @@ sudo apt-get install jenkins
                         ]
                     }&#x27;&quot;&quot;&quot;
                 }
-                // Trigger the common_readme job on success
+                // Trigger the common_readme job on success when not Automatic Update
                 def commitMessage = sh(script: &quot;git log -1 --pretty=%B&quot;, returnStdout: true).trim()
                 if (!commitMessage.contains(&quot;Automatic Update&quot;)) {
                     def expandedProjectUrl = &quot;https://github.com/arpansahu/${ENV_PROJECT_NAME}&quot;
@@ -3336,7 +3336,7 @@ sudo apt-get install jenkins
                     ], wait: false
                 } else {
                     echo &quot;Skipping common_readme job trigger due to commit message: ${commitMessage}&quot;
-                }            
+                }
             }
         }
         failure {
