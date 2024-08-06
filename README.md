@@ -2571,7 +2571,7 @@ pipeline {
         REPOSITORY = "library/arpansahu_dot_me"
         IMAGE_TAG = "latest"  // or use a specific tag if needed
         KUBECONFIG = "${env.WORKSPACE}/kubeconfig"  // Set the KUBECONFIG environment variable
-        NGINX_CONF = "/etc/nginx/sites-available/arpansahu-dot-me"
+        NGINX_CONF = "/etc/nginx/sites-available/arpansahu"
         ENV_PROJECT_NAME = "arpansahu_dot_me"
         DOCKER_PORT = "8000"
         PROJECT_NAME_WITH_DASH = "arpansahu-dot-me"
