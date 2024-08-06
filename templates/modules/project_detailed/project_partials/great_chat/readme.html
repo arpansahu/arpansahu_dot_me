@@ -1576,7 +1576,8 @@ COPY . .
 EXPOSE 8002
 
 # Run collectstatic and daphne in a single command
-CMD [&quot;bash&quot;, &quot;-c&quot;, &quot;python manage.py collectstatic --noinput &amp;&amp; daphne -b 0.0.0.0 -p 8002 great_chat.asgi:application&quot;]
+
+CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; daphne -b 0.0.0.0 -p 8002 great_chat.asgi:application&quot;
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
