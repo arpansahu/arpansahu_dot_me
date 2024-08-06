@@ -1,8 +1,8 @@
 <h1>
- arpansahu.me | Django Portfolio Project
+ chew_and_cheer | Django Project CRUD using AJAX, DJANGO FORMS, GRAPHQL and DJANGO REST/GRAPHQL APIs
 </h1>
 <p>
- This is a simple django portfolio project
+ This is a simple django CRUD project
 </p>
 <h2>
  Project Features
@@ -58,48 +58,55 @@
  </li>
 </ol>
 <h2>
- WhatsApp Clone Functionalities
+ CURD Functionalities
 </h2>
-<ol>
+<p>
+ CRUD Operations
+</p>
+<h3>
+ Django Forms
+</h3>
+<pre><code>-   Create Operation: Users can create new entries using Django forms. The form data is validated on the server side, and upon successful validation, the data is saved to the PostgreSQL database.
+-   Read Operation: The project displays existing entries using Django views and templates. Users can view a list of entries or details of a specific entry.
+-   Update Operation: Users can update existing entries through forms. The current data is pre-populated in the form, allowing users to make changes and save them.
+-   Delete Operation: Users can delete entries. Upon confirmation, the entry is removed from the database.
+</code></pre>
+<h3>
+ AJAX Integration
+</h3>
+<pre><code>-   Asynchronous Form Submission: Forms are submitted using AJAX to provide a seamless user experience. The page does not need to reload, and users receive immediate feedback.
+-   Dynamic Content Loading: Data is fetched asynchronously to update parts of the web page without a full reload, enhancing responsiveness.
+</code></pre>
+<h3>
+ GraphQL Integration
+</h3>
+<pre><code>-   Querying Data: Users can query entries using GraphQL queries. This allows fetching specific data fields, reducing the amount of data transferred.
+-   Mutations: Users can create, update, and delete entries using GraphQL mutations, providing a flexible and efficient way to manage data.
+</code></pre>
+<h2>
+ Django REST Framework (DRF) API
+</h2>
+<p>
+ The project includes an API app that demonstrates different views available in Django REST Framework:
+</p>
+<pre><code>-  Function-Based Views (FBVs)
+-   FBV with @api_view Decorator
+-   Basic Class-Based Views (CBVs)
+-   Class-Based Views using APIView
+-   Generic API Views with Mixins
+-   ViewSets
+-   ViewSets with Authentication and Permissions
+-   ListAPIView with Filters and Pagination
+-   Nested Serializers and Hyperlinked Serializers
+</code></pre>
+<ul>
  <li>
-  <strong>
-   Portfolio:
-  </strong>
+  Have Open Schema View
  </li>
  <li>
-  Show Casing Important Information
+  Have Docs View
  </li>
- <li>
-  Technologies | Education | Career
- </li>
- <li>
-  <strong>
-   Display all Projects:
-  </strong>
- </li>
- <li>
-  Showcase all projects together in short information
- </li>
- <li>
-  In detail description of each project
- </li>
- <li>
-  <strong>
-   Resume Download:
-  </strong>
- </li>
- <li>
-  Resume download feature.
- </li>
- <li>
-  <strong>
-   Contact Page:
-  </strong>
- </li>
- <li>
-  Contact Via Email Page.
- </li>
-</ol>
+</ul>
 <p>
  -Deployed on AWS / Now in My Own Home Ubuntu Server LTS 22.0 / Hostinger VPS Server
 </p>
@@ -158,6 +165,24 @@
  Redis is an in-memory data structure project implementing a distributed, in-memory key-value database with optional durability.
  <br/>
  The most common Redis use cases are session cache, full-page cache, queues, leader boards and counting, publish-subscribe, and much more. in this case, we will use Redis as a message broker.
+</p>
+<h2>
+ What is GraphQL?
+</h2>
+<p>
+ GraphQL is a query language for APIs developed by Facebook, enabling clients to request exactly the data they need. Using a single endpoint, GraphQL allows clients to specify queries and mutations, which can reduce network overhead and improve efficiency. It is strongly typed, providing a clear and precise schema that defines the structure of the data and the possible queries. GraphQL also supports real-time updates with subscriptions, allowing clients to receive live data changes. This flexibility and efficiency make it a powerful tool for modern API development.
+</p>
+<h2>
+ Django Rest Framework
+</h2>
+<p>
+ Django Rest Framework (DRF) is a powerful and flexible toolkit for building Web APIs in Django. It supports RESTful API development, enabling the creation of endpoints for various HTTP methods like GET, POST, PUT, and DELETE. DRF simplifies serialization, authentication, and authorization, making it easy to convert complex data types such as querysets and model instances to native Python datatypes that can be easily rendered into JSON, XML, or other content types. Its extensive documentation, built-in features, and customizable components make it a popular choice for building robust and scalable APIs in Django.
+</p>
+<h2>
+ What is AJAX?
+</h2>
+<p>
+ A web development technique that enables asynchronous data exchange between a web browser and a server without requiring a full page refresh. By using JavaScript to send HTTP requests and receive responses, AJAX can update parts of a web page dynamically, enhancing user experience with faster and more interactive interfaces. It supports various data formats, including JSON, XML, HTML, and plain text. AJAX is widely used in web applications for tasks such as form submissions, content updates, and data retrieval, providing a seamless and responsive user experience.
 </p>
 <h2>
  Tech Stack
@@ -224,12 +249,23 @@
  <a href="https://ubuntu.com/">
   <img alt="Ubuntu" src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"/>
  </a>
+ <br/>
+ <a href="https://graphql.org/">
+  <img alt="GraphQL" src="https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white"/>
+ </a>
 </p>
 <h2>
  Demo
 </h2>
 <p>
- Available at: https://arpansahu.me
+ Available at: https://chew-and-cheer.arpansahu.me
+</p>
+<p>
+ admin login details:--
+ <br/>
+ username: arpansahu
+ <br/>
+ password: showmecode
 </p>
 <h2>
  License
@@ -289,7 +325,7 @@
 
   or 
 
-  gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi
+  gunicorn --bind 0.0.0.0:8001 chew_and_cheer.wsgi
 </code></pre>
 <p>
  Use these CACHE settings
@@ -326,16 +362,16 @@
             &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/arpansahu_dot_me/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/chew_and_cheer/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;arpansahu_dot_me.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;chew_and_cheer.storage_backends.StaticStorage&#x27;
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/arpansahu_dot_me/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/chew_and_cheer/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;chew_and_cheer.storage_backends.PublicMediaStorage&#x27;
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/arpansahu_dot_me/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/chew_and_cheer/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;chew_and_cheer.storage_backends.PrivateMediaStorage&#x27;
 
     elif BUCKET_TYPE == &#x27;BLACKBLAZE&#x27;:
 
@@ -358,16 +394,16 @@
             &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/arpansahu_dot_me/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/chew_and_cheer/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;arpansahu_dot_me.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;chew_and_cheer.storage_backends.StaticStorage&#x27;
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/arpansahu_dot_me/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/chew_and_cheer/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;chew_and_cheer.storage_backends.PublicMediaStorage&#x27;
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/arpansahu_dot_me/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/chew_and_cheer/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;chew_and_cheer.storage_backends.PrivateMediaStorage&#x27;
 
     elif BUCKET_TYPE == &#x27;MINIO&#x27;:
         AWS_ACCESS_KEY_ID = config(&#x27;AWS_ACCESS_KEY_ID&#x27;)
@@ -386,18 +422,18 @@
         }
 
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/arpansahu_dot_me/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/chew_and_cheer/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;arpansahu_dot_me.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;chew_and_cheer.storage_backends.StaticStorage&#x27;
 
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/arpansahu_dot_me/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/chew_and_cheer/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;chew_and_cheer.storage_backends.PublicMediaStorage&#x27;
 
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/arpansahu_dot_me/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/chew_and_cheer/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;chew_and_cheer.storage_backends.PrivateMediaStorage&#x27;
 
 
 
@@ -441,15 +477,6 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, &quot;static&quot;), ]
  </li>
 </ol>
 <pre><code class="language-bash">python manage.py test_cache
-</code></pre>
-<ol>
- <li>
-  Sync Media to S3
-  <br/>
-  In case if you are using production database and debug mode is on. all the media send in the chats will be stored to local media folder which might not get synced to s3 bucket and when you run in production those media will be missing.
- </li>
-</ol>
-<pre><code class="language-bash">python manage.py sync_media_to_s3
 </code></pre>
 <h2>
  Readme Manager
@@ -1487,10 +1514,9 @@ COPY . .
 
 RUN pip3 install -r requirements.txt
 
-EXPOSE 8000
+EXPOSE 8001
 
-CMD python manage.py collectstatic
-CMD gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi
+CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; gunicorn --bind 0.0.0.0:8001 chew_and_cheer.wsgi&quot;
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
@@ -1501,13 +1527,13 @@ services:
   web:
     build: .
     env_file: ./.env
-    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi&quot;
-    image: arpansahu_dot_me
-    container_name: arpansahu_dot_me
+    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8001 chew_and_cheer.wsgi&quot;
+    image: chew_and_cheer
+    container_name: chew_and_cheer
     volumes:
-      - .:/arpansahu_dot_me
+      - .:/chew_and_cheer
     ports:
-      - &quot;8000:8000&quot;
+      - &quot;8001:8001&quot;
     restart: unless-stopped
 </code></pre>
 <h3>
@@ -1950,92 +1976,87 @@ then generate token from host server by running the following command
 <pre><code class="language-yaml">  apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: arpansahu-dot-me-app
+  name: chew-and-cheer-app
   labels:
-    app: arpansahu-dot-me
+    app: chew-and-cheer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: arpansahu-dot-me
+      app: chew-and-cheer
   template:
     metadata:
       labels:
-        app: arpansahu-dot-me
+        app: chew-and-cheer
     spec:
       imagePullSecrets:
         - name: harbor-registry-secret
       containers:
-        - image: harbor.arpansahu.me/library/arpansahu_dot_me:latest
-          name: arpansahu-dot-me
+        - image: harbor.arpansahu.me/library/chew_and_cheer:latest
+          name: chew-and-cheer
           env:
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: chew-and-cheer-secret
                   key: SECRET_KEY
             - name: DEBUG
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: chew-and-cheer-secret
                   key: DEBUG
             - name: ALLOWED_HOSTS
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: chew-and-cheer-secret
                   key: ALLOWED_HOSTS
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: chew-and-cheer-secret
                   key: AWS_ACCESS_KEY_ID
             - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: chew-and-cheer-secret
                   key: AWS_SECRET_ACCESS_KEY
             - name: AWS_STORAGE_BUCKET_NAME
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: chew-and-cheer-secret
                   key: AWS_STORAGE_BUCKET_NAME
             - name: BUCKET_TYPE
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: chew-and-cheer-secret
                   key: BUCKET_TYPE
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: chew-and-cheer-secret
                   key: DATABASE_URL
             - name: REDISCLOUD_URL
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: chew-and-cheer-secret
                   key: REDISCLOUD_URL
             - name: MAIL_JET_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: chew-and-cheer-secret
                   key: MAIL_JET_API_KEY
             - name: MAIL_JET_API_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: chew-and-cheer-secret
                   key: MAIL_JET_API_SECRET
             - name: MAIL_JET_EMAIL_ADDRESS
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: chew-and-cheer-secret
                   key: MAIL_JET_EMAIL_ADDRESS
-            - name: MY_EMAIL_ADDRESS
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: MY_EMAIL_ADDRESS
           ports:
-            - containerPort: 8000
+            - containerPort: 8001
               name: gunicorn
 </code></pre>
 <ol>
@@ -2046,15 +2067,15 @@ spec:
 <pre><code class="language-yaml">  apiVersion: v1
 kind: Service
 metadata:
-  name: arpansahu-dot-me-service
+  name: chew-and-cheer-service
 spec:
   selector:
-    app: arpansahu-dot-me
+    app: chew-and-cheer
   ports:
     - protocol: TCP
-      port: 8000
-      targetPort: 8000
-      nodePort: 32000
+      port: 8001
+      targetPort: 8001
+      nodePort: 32001
   type: NodePort
 </code></pre>
 <ol>
@@ -2562,14 +2583,14 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    arpansahu.me;
+    server_name    chew-and-cheer.arpansahu.me;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
         }
 
     location / {
-         proxy_pass              http://{ip_of_home_server}:8000;
+         proxy_pass              http://{ip_of_home_server}:8001;
          proxy_set_header        Host $host;
          proxy_set_header        X-Forwarded-Proto $scheme;
 
@@ -2721,8 +2742,8 @@ sudo apt-get install jenkins
   </p>
  </li>
 </ul>
-<pre><code class="language-bash">    touch /etc/nginx/sites-available/arpansahu-dot-me
-    vi /etc/nginx/sites-available/arpansahu-dot-me
+<pre><code class="language-bash">    touch /etc/nginx/sites-available/chew-and-cheer
+    vi /etc/nginx/sites-available/chew-and-cheer
 </code></pre>
 <ol>
  <li>
@@ -2739,7 +2760,7 @@ sudo apt-get install jenkins
 </ol>
 <pre><code class="language-bash">        server {
             listen 80;
-            server_name arpansahu.me;
+            server_name chew-and-cheer.arpansahu.me;
 
             # Force HTTPS redirects
             if ($scheme = http) {
@@ -2747,7 +2768,7 @@ sudo apt-get install jenkins
             }
 
             location / {
-                proxy_pass http://0.0.0.0:8000;
+                proxy_pass http://0.0.0.0:8001;
                 proxy_set_header Host $host;
                 proxy_set_header X-Forwarded-Proto $scheme;
 
@@ -2771,7 +2792,7 @@ sudo apt-get install jenkins
 </ol>
 <pre><code class="language-bash">        server {
             listen 80;
-            server_name arpansahu.me;
+            server_name chew-and-cheer.arpansahu.me;
 
             # Force HTTPS redirects
             if ($scheme = http) {
@@ -2779,7 +2800,7 @@ sudo apt-get install jenkins
             }
 
             location / {
-                proxy_pass http://&lt;CLUSTER_IP_ADDRESS&gt;:32002;
+                proxy_pass http://&lt;CLUSTER_IP_ADDRESS&gt;:32001;
                 proxy_set_header Host $host;
                 proxy_set_header X-Forwarded-Proto $scheme;
 
@@ -2801,7 +2822,7 @@ sudo apt-get install jenkins
   Enable the new configuration: Create a symbolic link from this file to the sites-enabled directory.
  </li>
 </ol>
-<pre><code class="language-bash">      sudo ln -s /etc/nginx/sites-available/arpansahu-dot-me /etc/nginx/sites-enabled/
+<pre><code class="language-bash">      sudo ln -s /etc/nginx/sites-available/chew-and-cheer /etc/nginx/sites-enabled/
 </code></pre>
 <ol>
  <li>
@@ -2832,10 +2853,10 @@ sudo apt-get install jenkins
     }
     environment {
         REGISTRY = &quot;harbor.arpansahu.me&quot;
-        REPOSITORY = &quot;library/arpansahu_dot_me&quot;
+        REPOSITORY = &quot;library/chew_and_cheer&quot;
         IMAGE_TAG = &quot;${env.BUILD_ID}&quot;
         COMMIT_FILE = &quot;${env.WORKSPACE}/last_commit.txt&quot;
-        ENV_PROJECT_NAME = &quot;arpansahu_dot_me&quot;
+        ENV_PROJECT_NAME = &quot;chew_and_cheer&quot;
     }
     stages {
         stage(&#x27;Checkout&#x27;) {
@@ -2978,8 +2999,8 @@ sudo apt-get install jenkins
                     ]
                 }&#x27;&quot;&quot;&quot;
 
-                // Trigger arpansahu_dot_me job only if the build is stable
-                build job: &#x27;arpansahu_dot_me&#x27;, parameters: [booleanParam(name: &#x27;DEPLOY&#x27;, value: true)], wait: false
+                // Trigger chew_and_cheer job only if the build is stable
+                build job: &#x27;chew_and_cheer&#x27;, parameters: [booleanParam(name: &#x27;DEPLOY&#x27;, value: true)], wait: false
             }
         }
         failure {
@@ -3027,13 +3048,13 @@ sudo apt-get install jenkins
     }
     environment {
         REGISTRY = &quot;harbor.arpansahu.me&quot;
-        REPOSITORY = &quot;library/arpansahu_dot_me&quot;
+        REPOSITORY = &quot;library/chew_and_cheer&quot;
         IMAGE_TAG = &quot;latest&quot;  // or use a specific tag if needed
         KUBECONFIG = &quot;${env.WORKSPACE}/kubeconfig&quot;  // Set the KUBECONFIG environment variable
-        NGINX_CONF = &quot;/etc/nginx/sites-available/arpansahu-dot-me&quot;
-        ENV_PROJECT_NAME = &quot;arpansahu_dot_me&quot;
-        DOCKER_PORT = &quot;8000&quot;
-        PROJECT_NAME_WITH_DASH = &quot;arpansahu-dot-me&quot;
+        NGINX_CONF = &quot;/etc/nginx/sites-available/chew-and-cheer&quot;
+        ENV_PROJECT_NAME = &quot;chew_and_cheer&quot;
+        DOCKER_PORT = &quot;8001&quot;
+        PROJECT_NAME_WITH_DASH = &quot;chew-and-cheer&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3080,25 +3101,30 @@ sudo apt-get install jenkins
             steps {
                 script {
                     if (params.DEPLOY_TYPE == &#x27;docker&#x27;) {
+                        // Ensure the correct image tag is used in the docker-compose.yml
                         sh &#x27;&#x27;&#x27;
                         sed -i &quot;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|&quot; docker-compose.yml
                         &#x27;&#x27;&#x27;
+                        // Deploy using Docker Compose
                         sh &#x27;docker-compose down&#x27;
                         sh &#x27;docker-compose up -d&#x27;
+
+                        // Wait for a few seconds to let the app start
                         sleep 10
 
+                        // Verify the container is running
                         def containerRunning = sh(script: &quot;docker ps -q -f name=${ENV_PROJECT_NAME}&quot;, returnStdout: true).trim()
                         if (!containerRunning) {
                             error &quot;Container ${ENV_PROJECT_NAME} is not running&quot;
                         } else {
                             echo &quot;Container ${ENV_PROJECT_NAME} is running&quot;
+                            // Execute curl and scale down Kubernetes deployment if curl is successful
                             sh &quot;&quot;&quot;
-                                curl -v http://0.0.0.0:${DOCKER_PORT} &amp;&amp; \\
+                                curl -v http://0.0.0.0:${DOCKER_PORT} &amp;&amp; sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${DOCKER_PORT};|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload \\
                                 replicas=\$(kubectl get deployment ${PROJECT_NAME_WITH_DASH}-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
                                 if [ &quot;\$replicas&quot; != &quot;&quot; ] &amp;&amp; [ \$replicas -gt 0 ]; then
                                     kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 &amp;&amp; \\
-                                    echo &#x27;Kubernetes deployment scaled down successfully.&#x27; &amp;&amp; \\
-                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${DOCKER_PORT};|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload
+                                    echo &#x27;Kubernetes deployment scaled down successfully.&#x27;
                                 else
                                     echo &#x27;No running Kubernetes deployment to scale down.&#x27;
                                 fi
@@ -3161,6 +3187,24 @@ sudo apt-get install jenkins
                                 if [ &quot;\$HTTP_STATUS&quot; -eq 200 ]; then
                                     echo &quot;Service is reachable at http://${clusterIP}:${nodePort}&quot;
 
+                                    echo &quot;Updating Nginx configuration at ${NGINX_CONF}...&quot;
+                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF}
+
+                                    if [ \$? -ne 0 ]; then
+                                        echo &quot;Failed to update Nginx configuration&quot;
+                                        exit 1
+                                    fi
+
+                                    echo &quot;Reloading Nginx...&quot;
+                                    sudo nginx -s reload
+
+                                    if [ \$? -ne 0 ]; then
+                                        echo &quot;Failed to reload Nginx&quot;
+                                        exit 1
+                                    fi
+
+                                    echo &quot;Nginx reloaded successfully&quot;
+
                                     DOCKER_CONTAINER=\$(docker ps -q -f name=${ENV_PROJECT_NAME})
 
                                     if [ &quot;\$DOCKER_CONTAINER&quot; ]; then
@@ -3172,26 +3216,10 @@ sudo apt-get install jenkins
                                             exit 1
                                         fi
 
-                                        echo &quot;Updating Nginx configuration at ${NGINX_CONF}...&quot;
-                                        sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF}
-
-                                        if [ \$? -ne 0 ]; then
-                                            echo &quot;Failed to update Nginx configuration&quot;
-                                            exit 1
-                                        fi
-
-                                        echo &quot;Reloading Nginx...&quot;
-                                        sudo nginx -s reload
-
-                                        if [ \$? -ne 0 ]; then
-                                            echo &quot;Failed to reload Nginx&quot;
-                                            exit 1
-                                        fi
-
-                                        echo &quot;Nginx reloaded successfully&quot;
                                     else
-                                        echo &quot;Docker container ${ENV_PROJECT_NAME} is not running. Skipping removal and Nginx update.&quot;
+                                        echo &quot;Docker container ${ENV_PROJECT_NAME} is not running. Skipping removal&quot;
                                     fi
+
                                 else
                                     echo &quot;Service is not reachable at http://${clusterIP}:${nodePort}. HTTP Status: \$HTTP_STATUS&quot;
                                     exit 1
@@ -3209,7 +3237,6 @@ sudo apt-get install jenkins
     post {
         success {
             script {
-                // Retrieve the latest commit message
                 if (currentBuild.description == &#x27;DEPLOYMENT_EXECUTED&#x27;) {
                     sh &quot;&quot;&quot;curl -s \
                     -X POST \
@@ -3236,7 +3263,7 @@ sudo apt-get install jenkins
                         ]
                     }&#x27;&quot;&quot;&quot;
                 }
-                // Trigger the common_readme job on success if the commit message is not &quot;Automatic Update readme.html for all repositories&quot;
+                // Trigger the common_readme job on success when last commit is not Automatic Update from common_readme
                 def commitMessage = sh(script: &quot;git log -1 --pretty=%B&quot;, returnStdout: true).trim()
                 if (!commitMessage.contains(&quot;Automatic Update&quot;)) {
                     def expandedProjectUrl = &quot;https://github.com/arpansahu/${ENV_PROJECT_NAME}&quot;
@@ -3246,7 +3273,7 @@ sudo apt-get install jenkins
                     ], wait: false
                 } else {
                     echo &quot;Skipping common_readme job trigger due to commit message: ${commitMessage}&quot;
-                }
+                }            
             }
         }
         failure {
@@ -3287,10 +3314,10 @@ sudo apt-get install jenkins
  </li>
 </ul>
 <p>
- Make sure to use Pipeline project and name it whatever you want I have named it as per arpansahu_dot_me
+ Make sure to use Pipeline project and name it whatever you want I have named it as per chew_and_cheer
 </p>
 <p>
- <img alt="Jenkins Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/arpansahu_dot_me/main/Jenkins-deploy.png"/>
+ <img alt="Jenkins Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/chew_and_cheer/main/Jenkins-deploy.png"/>
 </p>
 <ul>
  <li>
@@ -3301,14 +3328,14 @@ sudo apt-get install jenkins
  Make sure to use Pipeline project and name it whatever you want I have named it as {project_name}_build
 </p>
 <p>
- <img alt="Jenkins Build Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/arpansahu_dot_me/main/Jenkins-build.png"/>
+ <img alt="Jenkins Build Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/chew_and_cheer/main/Jenkins-build.png"/>
 </p>
 <p>
  This pipeline is triggered on another branch named as build. Whenever a new commit is pushed, it checks
  <br/>
  if there are changes in the files other then few .md files and dependabot.yml file. If, changes are there it pushed the image.
  <br/>
- If image is pushed successfully, email is sent to notify and then another Jenkins Pipeline arpansahu_dot_me_build is called.
+ If image is pushed successfully, email is sent to notify and then another Jenkins Pipeline chew_and_cheer_build is called.
 </p>
 <p>
  In this above picture you can see credentials right? you can add your github credentials and harbor credentials use harbor-credentials as id for harbor credentials.
@@ -3323,7 +3350,7 @@ sudo apt-get install jenkins
   Add a .env file to you project using following command (This step is no more required stage('Dependencies'))
  </li>
 </ul>
-<pre><code class="language-bash">    sudo vi  /var/lib/jenkins/workspace/arpansahu_dot_me/.env
+<pre><code class="language-bash">    sudo vi  /var/lib/jenkins/workspace/chew_and_cheer/.env
 </code></pre>
 <pre><code>Your workspace name may be different.
 
@@ -5040,15 +5067,16 @@ Add all the env variables as required and mentioned in the Readme File.
  <a href="https://ubuntu.com/">
   <img alt="Ubuntu" src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"/>
  </a>
+ <br/>
+ <a href="https://graphql.org/">
+  <img alt="GraphQL" src="https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white"/>
+ </a>
 </p>
 <h2>
  Environment Variables
 </h2>
 <p>
  To run this project, you will need to add the following environment variables to your .env file
-</p>
-<p>
- MY_EMAIL_ADDRESS=
 </p>
 <p>
  SECRET_KEY=
@@ -5070,8 +5098,7 @@ Add all the env variables as required and mentioned in the Readme File.
 </p>
 <p>
  AWS_ACCESS_KEY_ID=
-</p>
-<p>
+ <br/>
  AWS_SECRET_ACCESS_KEY=
 </p>
 <p>
@@ -5086,6 +5113,9 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  REDISCLOUD_URL=
 </p>
+<h1>
+ deploy_kube.sh requiurements
+</h1>
 <p>
  HARBOR_USERNAME=
 </p>
