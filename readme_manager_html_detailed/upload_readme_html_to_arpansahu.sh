@@ -3,7 +3,7 @@
 # Define variables
 TARGET_REPO_URL="https://github.com/arpansahu/arpansahu_dot_me.git"
 COMMIT_MESSAGE="Automatic Update readme.html"
-RELATIVE_PATH="templates/modules/project_detailed/project_partials/great_chat/"
+RELATIVE_PATH="templates/modules/project_detailed/project_partials/arpansahu_dot_me/"
 
 # Function to extract the repository name from the URL
 extract_repo_name() {
