@@ -3124,13 +3124,23 @@ sudo apt-get install jenkins
                             echo &quot;Container ${ENV_PROJECT_NAME} is running&quot;
                             // Execute curl and scale down Kubernetes deployment if curl is successful
                             sh &quot;&quot;&quot;
-                                curl -v http://0.0.0.0:${DOCKER_PORT} &amp;&amp; \
-                                sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${DOCKER_PORT};|&#x27; ${NGINX_CONF} &amp;&amp; \
-                                sudo nginx -s reload
+                                # Fetch HTTP status code
+                                HTTP_STATUS=\$(curl -s -o /dev/null -w &quot;%{http_code}&quot; http://0.0.0.0:${DOCKER_PORT})
+                                echo &quot;HTTP Status: \$HTTP_STATUS&quot;
 
+                                # Update Nginx configuration if status code is 200 (OK)
+                                if [ &quot;\$HTTP_STATUS&quot; -eq 200 ]; then
+                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${DOCKER_PORT};|&#x27; ${NGINX_CONF}
+                                    sudo nginx -s reload
+                                    echo &#x27;Nginx configuration updated and reloaded successfully.&#x27;
+                                else
+                                    echo &#x27;Service not available. Nginx configuration not updated.&#x27;
+                                fi
+
+                                # Scale down Kubernetes deployment if it exists and is running
                                 replicas=\$(kubectl get deployment ${PROJECT_NAME_WITH_DASH}-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
                                 if [ &quot;\$replicas&quot; != &quot;&quot; ] &amp;&amp; [ \$replicas -gt 0 ]; then
-                                    kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 &amp;&amp; \
+                                    kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0
                                     echo &#x27;Kubernetes deployment scaled down successfully.&#x27;
                                 else
                                     echo &#x27;No running Kubernetes deployment to scale down.&#x27;
