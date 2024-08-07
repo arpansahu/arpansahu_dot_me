@@ -3124,10 +3124,13 @@ sudo apt-get install jenkins
                             echo &quot;Container ${ENV_PROJECT_NAME} is running&quot;
                             // Execute curl and scale down Kubernetes deployment if curl is successful
                             sh &quot;&quot;&quot;
-                                curl -v http://0.0.0.0:${DOCKER_PORT} &amp;&amp; sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${DOCKER_PORT};|&#x27; ${NGINX_CONF} &amp;&amp; sudo nginx -s reload \\
+                                curl -v http://0.0.0.0:${DOCKER_PORT} &amp;&amp; \
+                                sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${DOCKER_PORT};|&#x27; ${NGINX_CONF} &amp;&amp; \
+                                sudo nginx -s reload
+
                                 replicas=\$(kubectl get deployment ${PROJECT_NAME_WITH_DASH}-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
                                 if [ &quot;\$replicas&quot; != &quot;&quot; ] &amp;&amp; [ \$replicas -gt 0 ]; then
-                                    kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 &amp;&amp; \\
+                                    kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 &amp;&amp; \
                                     echo &#x27;Kubernetes deployment scaled down successfully.&#x27;
                                 else
                                     echo &#x27;No running Kubernetes deployment to scale down.&#x27;
@@ -3168,7 +3171,7 @@ sudo apt-get install jenkins
                             &quot;&quot;&quot;
 
                             // Wait for a few seconds to let the app start
-                            sleep 10
+                            sleep 20
 
                             // Check deployment status
                             sh &quot;&quot;&quot;
