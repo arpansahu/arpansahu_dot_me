@@ -18,7 +18,7 @@ spec:
         - name: harbor-registry-secret
       containers:
         - image: harbor.arpansahu.me/library/arpansahu_dot_me_mac:latest
-          name: arpansahu_dot_me_mac
+          name: arpansahu-dot-me-mac
           env:
             - name: SECRET_KEY
               valueFrom:
