@@ -88,7 +88,7 @@ function set_default_variables {
 # Function to set mac specific variables
 function set_mac_variables {
     IMAGE_NAME="arpansahu_dot_me_mac"
-    KUBE_DEPLOYMENT="arpansahu-dot-me-app-mac"
+    KUBE_DEPLOYMENT="arpansahu-dot-me-mac-app"
     DEPLOYMENT_FILE="deployment-mac.yaml"
 }
 
