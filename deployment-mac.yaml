@@ -19,7 +19,7 @@ spec:
       containers:
         - image: harbor.arpansahu.me/library/arpansahu_dot_me_mac:latest
           imagePullPolicy: Always
-          name: arpansahu-dot-me
+          name: arpansahu_dot_me_mac
           env:
             - name: SECRET_KEY
               valueFrom:
