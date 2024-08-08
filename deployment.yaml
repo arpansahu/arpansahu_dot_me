@@ -18,7 +18,7 @@ spec:
         - name: harbor-registry-secret
       containers:
         - image: harbor.arpansahu.me/library/arpansahu_dot_me:latest
-          name: arpansahu-dot-me
+          name: arpansahu_dot_me
           env:
             - name: SECRET_KEY
               valueFrom:
