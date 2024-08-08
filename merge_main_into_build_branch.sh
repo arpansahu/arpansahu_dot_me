@@ -21,7 +21,7 @@ EOF
 SCRIPT_DIR=$(pwd)
 
 # Function to update Home.md for each repository
-merge_main_into_build() {
+force_push_main_to_build() {
     local repo_url=$1
     local repo_name=$(basename -s .git "$repo_url")
 
@@ -49,15 +49,10 @@ merge_main_into_build() {
     # Fetch all branches from the remote
     git fetch origin
 
-    # Check if the build branch exists in the remote repository and merge main into build
-    if git show-ref --verify --quiet "refs/remotes/origin/build"; then
-        git checkout build
-        git rebase origin/main
-        git push -f "$AUTHENTICATED_URL"
-    else
-        echo "Branch 'build' does not exist in the remote repository: $repo_url"
-    fi
-    
+    # Force push main branch to build branch
+    echo "Force pushing main branch to build branch"
+    git push -f origin main:build
+
     # Navigate back to the playground directory
     cd "$SCRIPT_DIR/playground_dir"
 
@@ -73,7 +68,7 @@ main() {
     setup_environment
     mkdir "playground_dir"
     cd "playground_dir"
-    merge_main_into_build "https://github.com/arpansahu/arpansahu_dot_me"
+    force_push_main_to_build "https://github.com/arpansahu/arpansahu_dot_me"
 
     # Navigate back to the script directory and clean up the playground directory
     cd "$SCRIPT_DIR"
