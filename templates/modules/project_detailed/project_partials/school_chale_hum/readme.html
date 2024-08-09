@@ -1,5 +1,5 @@
 <h1>
- chew_and_cheer | Django Project CRUD using AJAX, DJANGO FORMS, GRAPHQL and DJANGO REST/GRAPHQL APIs
+ school_chale_hum | Django Project CRUD using AJAX, DJANGO FORMS, GRAPHQL and DJANGO REST/GRAPHQL APIs
 </h1>
 <p>
  This is a simple django CRUD project
@@ -57,56 +57,20 @@
   Continuous integration and deployment included using Jenkins.
  </li>
 </ol>
-<h2>
- CURD Functionalities
-</h2>
-<p>
- CRUD Operations
-</p>
-<h3>
- Django Forms
-</h3>
-<pre><code>-   Create Operation: Users can create new entries using Django forms. The form data is validated on the server side, and upon successful validation, the data is saved to the PostgreSQL database.
--   Read Operation: The project displays existing entries using Django views and templates. Users can view a list of entries or details of a specific entry.
--   Update Operation: Users can update existing entries through forms. The current data is pre-populated in the form, allowing users to make changes and save them.
--   Delete Operation: Users can delete entries. Upon confirmation, the entry is removed from the database.
-</code></pre>
-<h3>
- AJAX Integration
-</h3>
-<pre><code>-   Asynchronous Form Submission: Forms are submitted using AJAX to provide a seamless user experience. The page does not need to reload, and users receive immediate feedback.
--   Dynamic Content Loading: Data is fetched asynchronously to update parts of the web page without a full reload, enhancing responsiveness.
-</code></pre>
-<h3>
- GraphQL Integration
-</h3>
-<pre><code>-   Querying Data: Users can query entries using GraphQL queries. This allows fetching specific data fields, reducing the amount of data transferred.
--   Mutations: Users can create, update, and delete entries using GraphQL mutations, providing a flexible and efficient way to manage data.
-</code></pre>
-<h2>
- Django REST Framework (DRF) API
-</h2>
-<p>
- The project includes an API app that demonstrates different views available in Django REST Framework:
-</p>
-<pre><code>-  Function-Based Views (FBVs)
--   FBV with @api_view Decorator
--   Basic Class-Based Views (CBVs)
--   Class-Based Views using APIView
--   Generic API Views with Mixins
--   ViewSets
--   ViewSets with Authentication and Permissions
--   ListAPIView with Filters and Pagination
--   Nested Serializers and Hyperlinked Serializers
-</code></pre>
-<ul>
+<h1>
+ Implemented Student Manager
+</h1>
+<ol>
  <li>
-  Have Open Schema View
+  Django app for managing students, their respective schools and books
  </li>
  <li>
-  Have Docs View
+  Every student's progress with a particular book can be seen on the app
  </li>
-</ul>
+ <li>
+  Built Django Command for extracting data from csv and storing it into database
+ </li>
+</ol>
 <p>
  -Deployed on AWS / Now in My Own Home Ubuntu Server LTS 22.0 / Hostinger VPS Server
 </p>
@@ -165,24 +129,6 @@
  Redis is an in-memory data structure project implementing a distributed, in-memory key-value database with optional durability.
  <br/>
  The most common Redis use cases are session cache, full-page cache, queues, leader boards and counting, publish-subscribe, and much more. in this case, we will use Redis as a message broker.
-</p>
-<h2>
- What is GraphQL?
-</h2>
-<p>
- GraphQL is a query language for APIs developed by Facebook, enabling clients to request exactly the data they need. Using a single endpoint, GraphQL allows clients to specify queries and mutations, which can reduce network overhead and improve efficiency. It is strongly typed, providing a clear and precise schema that defines the structure of the data and the possible queries. GraphQL also supports real-time updates with subscriptions, allowing clients to receive live data changes. This flexibility and efficiency make it a powerful tool for modern API development.
-</p>
-<h2>
- Django Rest Framework
-</h2>
-<p>
- Django Rest Framework (DRF) is a powerful and flexible toolkit for building Web APIs in Django. It supports RESTful API development, enabling the creation of endpoints for various HTTP methods like GET, POST, PUT, and DELETE. DRF simplifies serialization, authentication, and authorization, making it easy to convert complex data types such as querysets and model instances to native Python datatypes that can be easily rendered into JSON, XML, or other content types. Its extensive documentation, built-in features, and customizable components make it a popular choice for building robust and scalable APIs in Django.
-</p>
-<h2>
- What is AJAX?
-</h2>
-<p>
- A web development technique that enables asynchronous data exchange between a web browser and a server without requiring a full page refresh. By using JavaScript to send HTTP requests and receive responses, AJAX can update parts of a web page dynamically, enhancing user experience with faster and more interactive interfaces. It supports various data formats, including JSON, XML, HTML, and plain text. AJAX is widely used in web applications for tasks such as form submissions, content updates, and data retrieval, providing a seamless and responsive user experience.
 </p>
 <h2>
  Tech Stack
@@ -249,16 +195,12 @@
  <a href="https://ubuntu.com/">
   <img alt="Ubuntu" src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"/>
  </a>
- <br/>
- <a href="https://graphql.org/">
-  <img alt="GraphQL" src="https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white"/>
- </a>
 </p>
 <h2>
  Demo
 </h2>
 <p>
- Available at: https://chew-and-cheer.arpansahu.me
+ Available at: https://school-chale-hum.arpansahu.me
 </p>
 <p>
  admin login details:--
@@ -325,7 +267,7 @@
 
   or 
 
-  gunicorn --bind 0.0.0.0:8001 chew_and_cheer.wsgi
+  gunicorn --bind 0.0.0.0:8013 school_chale_hum.wsgi
 </code></pre>
 <p>
  Use these CACHE settings
@@ -362,16 +304,16 @@
             &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/chew_and_cheer/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/django_starter/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;chew_and_cheer.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;django_starter.storage_backends.StaticStorage&#x27;
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/chew_and_cheer/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/django_starter/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;chew_and_cheer.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;django_starter.storage_backends.PublicMediaStorage&#x27;
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/chew_and_cheer/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;chew_and_cheer.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/django_starter/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;django_starter.storage_backends.PrivateMediaStorage&#x27;
 
     elif BUCKET_TYPE == &#x27;BLACKBLAZE&#x27;:
 
@@ -394,16 +336,16 @@
             &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/chew_and_cheer/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/django_starter/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;chew_and_cheer.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;django_starter.storage_backends.StaticStorage&#x27;
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/chew_and_cheer/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/django_starter/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;chew_and_cheer.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;django_starter.storage_backends.PublicMediaStorage&#x27;
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/chew_and_cheer/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;chew_and_cheer.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/django_starter/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;django_starter.storage_backends.PrivateMediaStorage&#x27;
 
     elif BUCKET_TYPE == &#x27;MINIO&#x27;:
         AWS_ACCESS_KEY_ID = config(&#x27;AWS_ACCESS_KEY_ID&#x27;)
@@ -422,18 +364,18 @@
         }
 
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/chew_and_cheer/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/django_starter/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;chew_and_cheer.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;django_starter.storage_backends.StaticStorage&#x27;
 
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/chew_and_cheer/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/django_starter/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;chew_and_cheer.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;django_starter.storage_backends.PublicMediaStorage&#x27;
 
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/chew_and_cheer/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;chew_and_cheer.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/django_starter/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;django_starter.storage_backends.PrivateMediaStorage&#x27;
 
 
 
@@ -1514,9 +1456,10 @@ COPY . .
 
 RUN pip3 install -r requirements.txt
 
-EXPOSE 8001
+EXPOSE 8013
 
-CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; gunicorn --bind 0.0.0.0:8001 chew_and_cheer.wsgi&quot;
+CMD python manage.py collectstatic
+CMD gunicorn --bind 0.0.0.0:8013 school_chale_hum.wsgi
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
@@ -1527,13 +1470,13 @@ services:
   web:
     build: .
     env_file: ./.env
-    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8001 chew_and_cheer.wsgi&quot;
-    image: chew_and_cheer
-    container_name: chew_and_cheer
+    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8013 school_chale_hum.wsgi&quot;
+    image: school_chale_hum
+    container_name: school_chale_hum
     volumes:
-      - .:/chew_and_cheer
+      - .:/school_chale_hum
     ports:
-      - &quot;8001:8001&quot;
+      - &quot;8013:8013&quot;
     restart: unless-stopped
 </code></pre>
 <h3>
@@ -1976,88 +1919,93 @@ then generate token from host server by running the following command
 <pre><code class="language-yaml">  apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: chew-and-cheer-app
+  name: school-chale-hum-app
   labels:
-    app: chew-and-cheer
+    app: school-chale-hum
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: chew-and-cheer
+      app: school-chale-hum
   template:
     metadata:
       labels:
-        app: chew-and-cheer
+        app: school-chale-hum
     spec:
       imagePullSecrets:
         - name: harbor-registry-secret
       containers:
-        - image: harbor.arpansahu.me/library/chew_and_cheer:latest
-          name: chew-and-cheer
+        - image: harbor.arpansahu.me/library/school_chale_hum:latest
+          name: school-chale-hum
           env:
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: chew-and-cheer-secret
+                  name: school-chale-hum-secret
                   key: SECRET_KEY
             - name: DEBUG
               valueFrom:
                 secretKeyRef:
-                  name: chew-and-cheer-secret
+                  name: school-chale-hum-secret
                   key: DEBUG
             - name: ALLOWED_HOSTS
               valueFrom:
                 secretKeyRef:
-                  name: chew-and-cheer-secret
+                  name: school-chale-hum-secret
                   key: ALLOWED_HOSTS
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
-                  name: chew-and-cheer-secret
+                  name: school-chale-hum-secret
                   key: AWS_ACCESS_KEY_ID
             - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: chew-and-cheer-secret
+                  name: school-chale-hum-secret
                   key: AWS_SECRET_ACCESS_KEY
             - name: AWS_STORAGE_BUCKET_NAME
               valueFrom:
                 secretKeyRef:
-                  name: chew-and-cheer-secret
+                  name: school-chale-hum-secret
                   key: AWS_STORAGE_BUCKET_NAME
             - name: BUCKET_TYPE
               valueFrom:
                 secretKeyRef:
-                  name: chew-and-cheer-secret
+                  name: school-chale-hum-secret
                   key: BUCKET_TYPE
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: chew-and-cheer-secret
+                  name: school-chale-hum-secret
                   key: DATABASE_URL
             - name: REDISCLOUD_URL
               valueFrom:
                 secretKeyRef:
-                  name: chew-and-cheer-secret
+                  name: school-chale-hum-secret
                   key: REDISCLOUD_URL
             - name: MAIL_JET_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: chew-and-cheer-secret
+                  name: school-chale-hum-secret
                   key: MAIL_JET_API_KEY
             - name: MAIL_JET_API_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: chew-and-cheer-secret
+                  name: school-chale-hum-secret
                   key: MAIL_JET_API_SECRET
-            - name: MAIL_JET_EMAIL_ADDRESS
+            - name: DOMAIN
               valueFrom:
                 secretKeyRef:
-                  name: chew-and-cheer-secret
-                  key: MAIL_JET_EMAIL_ADDRESS
+                  name: school-chale-hum-secret
+                  key: DOMAIN
+            - name: PROTOCOL
+              valueFrom:
+                secretKeyRef:
+                  name: school-chale-hum-secret
+                  key: PROTOCOL
           ports:
-            - containerPort: 8001
-              name: gunicorn
+            - containerPort: 8013
+              name: daphne
 </code></pre>
 <ol>
  <li>
@@ -2067,15 +2015,15 @@ spec:
 <pre><code class="language-yaml">  apiVersion: v1
 kind: Service
 metadata:
-  name: chew-and-cheer-service
+  name: school-chale-hum-service
 spec:
   selector:
-    app: chew-and-cheer
+    app: school-chale-hum
   ports:
     - protocol: TCP
-      port: 8001
-      targetPort: 8001
-      nodePort: 32001
+      port: 8013
+      targetPort: 8013
+      nodePort: 32013
   type: NodePort
 </code></pre>
 <ol>
@@ -2583,14 +2531,14 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    chew-and-cheer.arpansahu.me;
+    server_name    school-chale-hum.arpansahu.me;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
         }
 
     location / {
-         proxy_pass              http://{ip_of_home_server}:8001;
+         proxy_pass              http://{ip_of_home_server}:8013;
          proxy_set_header        Host $host;
          proxy_set_header        X-Forwarded-Proto $scheme;
 
@@ -2742,8 +2690,8 @@ sudo apt-get install jenkins
   </p>
  </li>
 </ul>
-<pre><code class="language-bash">    touch /etc/nginx/sites-available/chew-and-cheer
-    vi /etc/nginx/sites-available/chew-and-cheer
+<pre><code class="language-bash">    touch /etc/nginx/sites-available/django_starter
+    vi /etc/nginx/sites-available/django_starter
 </code></pre>
 <ol>
  <li>
@@ -2760,7 +2708,7 @@ sudo apt-get install jenkins
 </ol>
 <pre><code class="language-bash">        server {
             listen 80;
-            server_name chew-and-cheer.arpansahu.me;
+            server_name school-chale-hum.arpansahu.me;
 
             # Force HTTPS redirects
             if ($scheme = http) {
@@ -2768,7 +2716,7 @@ sudo apt-get install jenkins
             }
 
             location / {
-                proxy_pass http://0.0.0.0:8001;
+                proxy_pass http://0.0.0.0:8013;
                 proxy_set_header Host $host;
                 proxy_set_header X-Forwarded-Proto $scheme;
 
@@ -2792,7 +2740,7 @@ sudo apt-get install jenkins
 </ol>
 <pre><code class="language-bash">        server {
             listen 80;
-            server_name chew-and-cheer.arpansahu.me;
+            server_name school-chale-hum.arpansahu.me;
 
             # Force HTTPS redirects
             if ($scheme = http) {
@@ -2800,7 +2748,7 @@ sudo apt-get install jenkins
             }
 
             location / {
-                proxy_pass http://&lt;CLUSTER_IP_ADDRESS&gt;:32001;
+                proxy_pass http://&lt;CLUSTER_IP_ADDRESS&gt;:32013;
                 proxy_set_header Host $host;
                 proxy_set_header X-Forwarded-Proto $scheme;
 
@@ -2822,7 +2770,7 @@ sudo apt-get install jenkins
   Enable the new configuration: Create a symbolic link from this file to the sites-enabled directory.
  </li>
 </ol>
-<pre><code class="language-bash">      sudo ln -s /etc/nginx/sites-available/chew-and-cheer /etc/nginx/sites-enabled/
+<pre><code class="language-bash">      sudo ln -s /etc/nginx/sites-available/django_starter /etc/nginx/sites-enabled/
 </code></pre>
 <ol>
  <li>
@@ -2853,10 +2801,10 @@ sudo apt-get install jenkins
     }
     environment {
         REGISTRY = &quot;harbor.arpansahu.me&quot;
-        REPOSITORY = &quot;library/chew_and_cheer&quot;
+        REPOSITORY = &quot;library/school_chale_hum&quot;
         IMAGE_TAG = &quot;${env.BUILD_ID}&quot;
         COMMIT_FILE = &quot;${env.WORKSPACE}/last_commit.txt&quot;
-        ENV_PROJECT_NAME = &quot;chew_and_cheer&quot;
+        ENV_PROJECT_NAME = &quot;school_chale_hum&quot;
     }
     stages {
         stage(&#x27;Checkout&#x27;) {
@@ -2999,8 +2947,8 @@ sudo apt-get install jenkins
                     ]
                 }&#x27;&quot;&quot;&quot;
 
-                // Trigger chew_and_cheer job only if the build is stable
-                build job: &#x27;chew_and_cheer&#x27;, parameters: [booleanParam(name: &#x27;DEPLOY&#x27;, value: true)], wait: false
+                // Trigger django_starter job only if the build is stable
+                build job: &#x27;school_chale_hum&#x27;, parameters: [booleanParam(name: &#x27;DEPLOY&#x27;, value: true)], wait: false
             }
         }
         failure {
@@ -3048,13 +2996,13 @@ sudo apt-get install jenkins
     }
     environment {
         REGISTRY = &quot;harbor.arpansahu.me&quot;
-        REPOSITORY = &quot;library/chew_and_cheer&quot;
+        REPOSITORY = &quot;library/school_chale_hum&quot;
         IMAGE_TAG = &quot;latest&quot;  // or use a specific tag if needed
         KUBECONFIG = &quot;${env.WORKSPACE}/kubeconfig&quot;  // Set the KUBECONFIG environment variable
-        NGINX_CONF = &quot;/etc/nginx/sites-available/chew-and-cheer&quot;
-        ENV_PROJECT_NAME = &quot;chew_and_cheer&quot;
-        DOCKER_PORT = &quot;8001&quot;
-        PROJECT_NAME_WITH_DASH = &quot;chew-and-cheer&quot;
+        NGINX_CONF = &quot;/etc/nginx/sites-available/school-chale-hum&quot;
+        ENV_PROJECT_NAME = &quot;school_chale_hum&quot;
+        DOCKER_PORT = &quot;8013&quot;
+        PROJECT_NAME_WITH_DASH = &quot;school-chale-hum&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3331,10 +3279,10 @@ sudo apt-get install jenkins
  </li>
 </ul>
 <p>
- Make sure to use Pipeline project and name it whatever you want I have named it as per chew_and_cheer
+ Make sure to use Pipeline project and name it whatever you want I have named it as per school_chale_hum
 </p>
 <p>
- <img alt="Jenkins Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/chew_and_cheer/main/Jenkins-deploy.png"/>
+ <img alt="Jenkins Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/school_chale_hum/main/Jenkins-deploy.png"/>
 </p>
 <ul>
  <li>
@@ -3345,14 +3293,14 @@ sudo apt-get install jenkins
  Make sure to use Pipeline project and name it whatever you want I have named it as {project_name}_build
 </p>
 <p>
- <img alt="Jenkins Build Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/chew_and_cheer/main/Jenkins-build.png"/>
+ <img alt="Jenkins Build Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/school_chale_hum/main/Jenkins-build.png"/>
 </p>
 <p>
  This pipeline is triggered on another branch named as build. Whenever a new commit is pushed, it checks
  <br/>
  if there are changes in the files other then few .md files and dependabot.yml file. If, changes are there it pushed the image.
  <br/>
- If image is pushed successfully, email is sent to notify and then another Jenkins Pipeline chew_and_cheer_build is called.
+ If image is pushed successfully, email is sent to notify and then another Jenkins Pipeline school_chale_hum_build is called.
 </p>
 <p>
  In this above picture you can see credentials right? you can add your github credentials and harbor credentials use harbor-credentials as id for harbor credentials.
@@ -3367,7 +3315,7 @@ sudo apt-get install jenkins
   Add a .env file to you project using following command (This step is no more required stage('Dependencies'))
  </li>
 </ul>
-<pre><code class="language-bash">    sudo vi  /var/lib/jenkins/workspace/chew_and_cheer/.env
+<pre><code class="language-bash">    sudo vi  /var/lib/jenkins/workspace/school_chale_hum/.env
 </code></pre>
 <pre><code>Your workspace name may be different.
 
@@ -5084,10 +5032,6 @@ Add all the env variables as required and mentioned in the Readme File.
  <a href="https://ubuntu.com/">
   <img alt="Ubuntu" src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"/>
  </a>
- <br/>
- <a href="https://graphql.org/">
-  <img alt="GraphQL" src="https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white"/>
- </a>
 </p>
 <h2>
  Environment Variables
@@ -5111,11 +5055,9 @@ Add all the env variables as required and mentioned in the Readme File.
  MAIL_JET_API_SECRET=
 </p>
 <p>
- MAIL_JET_EMAIL_ADDRESS=
+ AWS_ACCESS_KEY_ID=
 </p>
 <p>
- AWS_ACCESS_KEY_ID=
- <br/>
  AWS_SECRET_ACCESS_KEY=
 </p>
 <p>
@@ -5123,6 +5065,12 @@ Add all the env variables as required and mentioned in the Readme File.
 </p>
 <p>
  BUCKET_TYPE=
+</p>
+<p>
+ DOMAIN=
+</p>
+<p>
+ PROTOCOL=
 </p>
 <p>
  DATABASE_URL=
