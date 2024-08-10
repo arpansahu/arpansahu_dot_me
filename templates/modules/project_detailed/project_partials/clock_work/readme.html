@@ -64,85 +64,45 @@
  </li>
 </ol>
 <h2>
- WhatsApp Clone Functionalities
+ Email Scheduler
 </h2>
 <ol>
  <li>
-  <strong>
-   Messaging:
-  </strong>
+  Task Scheduling with Celery Beat: Implemented Celery Beat to schedule emails as reminders, ensuring timely delivery based on predefined schedules.
  </li>
  <li>
-  Send text messages and files.
+  Async Operations in Signals: Utilized async-io within Django signals to prevent conflicts with sync_to_async, ensuring smooth task execution without interference.
  </li>
  <li>
-  Download files via download links.
+  Task Completion Notification: Upon task completion, an automatic notification is sent to the user, keeping them informed in real-time.
  </li>
  <li>
-  View images and GIFs directly in the chat.
+  Progress Tracking: A progress bar is implemented to visually display the progress of both scheduled and non-scheduled emails, providing users with real-time status updates.
  </li>
  <li>
-  <strong>
-   Private Chat:
-  </strong>
+  Redis as a Message Broker: Redis is employed as the message broker, facilitating the efficient handling and distribution of tasks to Celery workers.
  </li>
  <li>
-  Chat privately with your contacts.
+  Email Task Workflow:
+  <br/>
+  •   Immediate Email Requests: When a user requests to send notes via email, the Django application sends a task to the Redis broker. This task is processed by Celery, with progress being saved in the CELERY_RESULT_BACKEND. Users can track progress via two methods:
+  <br/>
+  •   AJAX Calls: Users can continuously query the status, though this may increase server load.
+  <br/>
+  •   WebSockets and Channels: A WebSocket connection is established upon loading the webpage, allowing the server to push status updates directly to the frontend without repeated user requests. Redis is used in the channel layer for quick response and real-time progress updates.
  </li>
  <li>
-  Search your private contacts.
+  Scheduled Email Reminders: For scheduled email reminders, the Django view creates a cron task, which is assigned to Celery Beat. When the scheduled time arrives, the task is passed to the broker, and then to Celery for execution. Upon task completion, a notification is sent through channels to the frontend, informing the user of the task’s completion.
  </li>
  <li>
-  <strong>
-   Group Chat:
-  </strong>
- </li>
- <li>
-  Chat with friends or others in private groups.
- </li>
- <li>
-  Invite people to your private group.
- </li>
- <li>
-  Leave a group chat if desired.
- </li>
- <li>
-  Admins can delete their own group chats.
- </li>
- <li>
-  Remove members from your own group.
- </li>
- <li>
-  <strong>
-   Global Chat:
-  </strong>
- </li>
- <li>
-  Participate in a global chat room.
- </li>
- <li>
-  <strong>
-   Profile Management:
-  </strong>
- </li>
- <li>
-  Set profile photos.
- </li>
- <li>
-  Set group chat photos.
- </li>
- <li>
-  <strong>
-   Message Display:
-  </strong>
- </li>
- <li>
-  View the last 30 messages.
- </li>
- <li>
-  See user online/offline status.
+  Admin Notifications: Admins can broadcast notifications to all users through Django channels. These notifications can be scheduled via cron and Celery Beat, and when the time arrives, the task is processed and sent to users connected to the channels, ensuring real-time updates.
  </li>
 </ol>
+<p>
+ <a href="https://github.com/arpansahu/clock_work/blob/master/explanation.png?raw=true">
+  alt text
+ </a>
+</p>
 <p>
  -Deployed on AWS / Now in My Own Home Ubuntu Server LTS 22.0 / Hostinger VPS Server
 </p>
@@ -219,6 +179,163 @@
 </h2>
 <p>
  Channels preserve the synchronous behavior of Django and add a layer of asynchronous protocols allowing users to write the views that are entirely synchronous, asynchronous, or a mixture of both. Channels basically allow the application to support “long-running connections”. It replaces Django’s default WSGI with its ASGI.
+</p>
+<h2>
+ What is Django Signals?
+</h2>
+<p>
+ Django includes a “signal dispatcher” which helps decoupled applications get notified when actions occur elsewhere in the framework. In a nutshell, signals allow certain senders to notify a set of receivers that some action has taken place.
+</p>
+<h2>
+ What is Celery ?
+</h2>
+<p>
+ Celery is an asynchronous task queue/job queue based on distributed message passing. It is focused on real-time operation but supports scheduling as well.
+</p>
+<p>
+ Why is this useful?
+</p>
+<ol>
+ <li>
+  Think of all the times you have had to run a certain task in the future. Perhaps you needed to access an API every hour. Or maybe you needed to send a batch of emails at the end of the day. Large or small, Celery makes scheduling such periodic tasks easy.
+ </li>
+ <li>
+  You never want end users to have to wait unnecessarily for pages to load or actions to complete. If a long process is part of your application’s workflow, you can use Celery to execute that process in the background, as resources become available, so that your application can continue to respond to client requests. This keeps the task out of the application’s context.
+ </li>
+</ol>
+<p>
+ Working:
+ <br/>
+ 1. Celery requires message broker to store messages received from task generators or producers. For reading information of messages in task
+ <br/>
+ serialization is required which can be in json/pickle/yaml/msgpack it can be in compressed form as zlib, bzip2 or a cryptographic message.
+ <br/>
+ 2. A celery system consists of multiple workers and brokers, giving way to high availability and horizontal scaling.
+ <br/>
+ 3. When a celery worker is started using command
+ <code>
+  celery -A [clock_work(project name)].celery worker -l info
+ </code>
+ , a supervisor is started.
+ <br/>
+ 4. Which spawns child processes or threads and deals with all the bookkeeping stuff. The child processes or threads execute the actual task.
+ <br/>
+ This child process are also known as execution pool. By default, no of child process worker can spawn is equal to the no of CPU cores.
+ <br/>
+ 5. The size of execution pool determines the number of tasks your celery worker can process
+ <br/>
+ 1. Worker ----- Pool ----- Concurrency
+ <br/>
+ 2. When you start a celery worker, you specify the pool, concurrency, autoscale etc. in the command
+ <br/>
+ 3. Pool - Decides who will actually perform the task -thread, child process, worker itself or else.
+ <br/>
+ 4. Concurrency: will decide the size of pool
+ <br/>
+ 5. autoscale: to dynamically resize the pool based on load. The autoscaler adds more pool processes when there is work
+ <br/>
+ to do, and starts removing processes when the workload is low.
+ <br/>
+ 6.
+ <code>
+  celery -A &lt;project&gt;.celery worker --pool=preform --concurrency=5 --autoscale=10 3 -l info
+ </code>
+ <br/>
+ this command states to start a worker with 5 child processes which can be auto-scaled upto 10 and can be decreased upto 3.
+ <br/>
+ 6. Type of Pools:
+ <br/>
+ 1. prefork (multiprocessing) (default):
+ <br/>
+ 1. Use this when CPU bound task
+ <br/>
+ 2. By passes GIL (Global Interpreter Lock)
+ <br/>
+ 3. The number of available cores limits the number of concurrent processes.
+ <br/>
+ 4. That's why Celery defaults concurrency to no of CPU cores available.
+ <br/>
+ 5. Command:
+ <code>
+  celery A -&lt;project&gt;.celery worker -l info
+ </code>
+ <br/>
+ 2. solo (Neither threaded nor process-based)
+ <br/>
+ 1. Celery don't support windows, so you can use this pool of running celery on Windows
+ <br/>
+ 2. It doesn't create pool as it runs solo.
+ <br/>
+ 3. Contradicts the principle that the worker itself does not process any tasks
+ <br/>
+ 4. The solo pool runs inside the worker process.
+ <br/>
+ 5. This makes the solo worker fast, But it also blocks the worker while it executes tasks.
+ <br/>
+ 6. In this concurrency doesn't make any sense.
+ <br/>
+ 7. Command
+ <code>
+  celery A -&lt;project&gt;.celery worker --pool=solo -l info
+ </code>
+ <br/>
+ 3. threads (multi threading)
+ <br/>
+ 1. due to GIL in CPython, it restricts to single thread so can't achieve real multithreading
+ <br/>
+ 2. Not much official support
+ <br/>
+ 3. Uses threading module of python
+ <br/>
+ 4. Command
+ <code>
+  celery A -&lt;project&gt;.celery worker --pool=threads -l info
+ </code>
+ <br/>
+ 4. gevent/eventlet (Green Threads)
+ <br/>
+ 1. Uses Green thread which are user level threads so can be manipulated at code level
+ <br/>
+ 2. This can be used to get a thousand of HTTP get request to fetch from external REST APIs.
+ <br/>
+ 3. The bottleneck is waiting for I/O operation to finish and not CPU.
+ <br/>
+ 4. There are implementation differences between the eventlet and gevent packages
+ <br/>
+ 5. Command
+ <code>
+  celery A -&lt;project&gt;.celery worker --pool=[gevent/eventlet] worker -l info
+ </code>
+ <br/>
+ 5. by default
+ <code>
+  celery A -&lt;project&gt;.celery worker -l info
+ </code>
+ uses pool-prefork and concurrency -no of cores
+ <br/>
+ 6. Difference between greenlets and threads -
+ <br/>
+ 1. Python's threading library makes use of the system's native OS to schedule threads. This general-purpose scheduler is not always very efficient.
+ <br/>
+ 2. It makes use of Python's global interpreter lock to make sure shared data structures are accessed by only one thread at a time to avoid race conditions.
+ <br/>
+ CPython Interpreter, GIL, OS Greenlets emulate multi-threaded environments without relying on any native operating system capabilities.
+ <br/>
+ Greenlets are managed in application space and not in kernel space. In greenlets, no scheduler pre-emptively switching between your threads
+ <br/>
+ at any given moment.
+ <br/>
+ 3. Instead, your greenlets voluntarily or explicitly give up control to one another at specified points in your code.
+ <br/>
+ 4. Thus more scalable and efficient. Less RAM required.
+</p>
+<h2>
+ What is Redis ?
+</h2>
+<p>
+ Redis is an in-memory data structure project implementing a distributed, in-memory key-value database with optional durability.
+ <br/>
+ The most common Redis use cases are session cache, full-page cache, queues, leaderboards and counting, publish-subscribe, and much more. in this case, we will use Redis as a message broker.
 </p>
 <h2>
  Tech Stack
@@ -299,12 +416,16 @@
  <a href="https://websocket.org/">
   <img alt="Web Sockets" src="https://img.shields.io/badge/WEBSOCKETS-1C47CB?style=for-the-badge&logo=socketdotio&logoColor=white"/>
  </a>
+ <br/>
+ <a href="https://docs.celeryq.dev/en/stable/">
+  <img alt="Celery" src="https://img.shields.io/badge/CELERY-37814A?style=for-the-badge&logo=celery&logoColor=white"/>
+ </a>
 </p>
 <h2>
  Demo
 </h2>
 <p>
- Available at: https://great-chat.arpansahu.me
+ Available at: https://clock-work.arpansahu.me
 </p>
 <p>
  admin login details:--
@@ -364,6 +485,76 @@
 </p>
 <pre><code class="language-bash">  sudo systemctl status redis
 </code></pre>
+<hr/>
+<p>
+ Use these CELERY settings
+</p>
+<pre><code>CELERY_BROKER_URL = config(&quot;REDISCLOUD_URL&quot;)
+# CELERY_RESULT_BACKEND = &#x27;django-db&#x27;
+CELERY_ACCEPT_CONTENT = [&#x27;application/json&#x27;]
+CELERY_TASK_SERIALIZER = &#x27;json&#x27;
+CELERY_RESULT_SERIALIZER = &#x27;json&#x27;
+CELERY_TIMEZONE = &#x27;Asia/Kolkata&#x27;
+</code></pre>
+<p>
+ CELERY_RESULT_BACKEND have been commented, because we have used
+ <code>
+  task.apply_async()
+ </code>
+ instead of
+ <code>
+  task.delay()
+ </code>
+ <br/>
+ with websockets for sending notification, django-db as a backend is synchronous
+ <br/>
+ and thus gives error, Hence we have to use redis or other resources which primarily
+ <br/>
+ supports asynchronous work flow.
+</p>
+<p>
+ and we are explicitly passing backend=redis_url  while creating Celery app so it overrides CELERY_RESULT_BACKEND in settings.py
+</p>
+<hr/>
+<p>
+ Creating Async App - create a file named celery.py in project directory.
+</p>
+<pre><code>import os
+
+from celery import Celery
+from celery.schedules import crontab
+from decouple import config
+
+# set the default Django settings module for the &#x27;celery&#x27; program.
+os.environ.setdefault(&#x27;DJANGO_SETTINGS_MODULE&#x27;, &#x27;clock_work.settings&#x27;)
+
+redis_url = config(&quot;REDISCLOUD_URL&quot;)
+
+app = Celery(&#x27;clock_work&#x27;, broker=redis_url, backend=redis_url, include=[&#x27;tasks.tasks&#x27;])
+
+# Using a string here means the worker doesn&#x27;t have to serialize
+# the configuration object to child processes.
+# - namespace=&#x27;CELERY&#x27; means all celery-related configuration keys
+#   should have a `CELERY_` prefix.
+app.config_from_object(&#x27;django.conf:settings&#x27;, namespace=&#x27;CELERY&#x27;)
+
+# Celery Beat Settings
+app.conf.beat_schedule = {
+    &#x27;send-mail-every-day-at-8&#x27;: {
+        &#x27;task&#x27;: &#x27;send_email_app.tasks.send_mail_func&#x27;,
+        &#x27;schedule&#x27;: crontab(hour=0, minute=38),
+        # &#x27;args&#x27; : (2,)
+    }
+}
+# Load task modules from all registered Django app configs.
+app.autodiscover_tasks()
+
+
+@app.task(bind=True)
+def debug_task(self):
+    print(&#x27;Request: {0!r}&#x27;.format(self.request))
+
+</code></pre>
 <p>
  Run Server
 </p>
@@ -371,7 +562,7 @@
 
   or 
 
-  daphne -b 0.0.0.0 -p 8002 great_chat.asgi:application
+  daphne -b 0.0.0.0 -p 8012 clock_work.asgi:application
 </code></pre>
 <p>
  Use these CACHE settings
@@ -427,16 +618,16 @@ else:
             &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/great_chat/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/clock_work/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;great_chat.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;clock_work.storage_backends.StaticStorage&#x27;
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/great_chat/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/clock_work/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;great_chat.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;clock_work.storage_backends.PublicMediaStorage&#x27;
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/great_chat/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;great_chat.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/clock_work/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;clock_work.storage_backends.PrivateMediaStorage&#x27;
 
     elif BUCKET_TYPE == &#x27;BLACKBLAZE&#x27;:
 
@@ -459,16 +650,16 @@ else:
             &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/great_chat/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/clock_work/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;great_chat.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;clock_work.storage_backends.StaticStorage&#x27;
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/great_chat/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/clock_work/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;great_chat.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;clock_work.storage_backends.PublicMediaStorage&#x27;
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/great_chat/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;great_chat.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/clock_work/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;clock_work.storage_backends.PrivateMediaStorage&#x27;
 
     elif BUCKET_TYPE == &#x27;MINIO&#x27;:
         AWS_ACCESS_KEY_ID = config(&#x27;AWS_ACCESS_KEY_ID&#x27;)
@@ -487,18 +678,18 @@ else:
         }
 
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/great_chat/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/clock_work/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;great_chat.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;clock_work.storage_backends.StaticStorage&#x27;
 
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/great_chat/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/clock_work/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;great_chat.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;clock_work.storage_backends.PublicMediaStorage&#x27;
 
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/great_chat/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;great_chat.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/clock_work/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;clock_work.storage_backends.PrivateMediaStorage&#x27;
 
 
 
@@ -551,15 +742,6 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, &quot;static&quot;), ]
  </li>
 </ol>
 <pre><code class="language-bash">python manage.py test_channels
-</code></pre>
-<ol>
- <li>
-  Sync Media to S3
-  <br/>
-  In case if you are using production database and debug mode is on. all the media send in the chats will be stored to local media folder which might not get synced to s3 bucket and when you run in production those media will be missing.
- </li>
-</ol>
-<pre><code class="language-bash">python manage.py sync_media_to_s3
 </code></pre>
 <h2>
  Readme Manager
@@ -1591,33 +1773,32 @@ include_files = {
 
 WORKDIR /app
 
-# Copy the requirements file and install dependencies
 COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
 
-# Copy the rest of the application code
 COPY . .
 
-# Expose the application port
-EXPOSE 8002
+RUN pip3 install -r requirements.txt
 
-# Run collectstatic and daphne in a single command
+EXPOSE 8012
 
-CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; daphne -b 0.0.0.0 -p 8002 great_chat.asgi:application&quot;
+CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; daphne clock_work.asgi:application -b 0.0.0.0 --port 8012 &amp; celery -A clock_work.celery worker -l info &amp; celery -A clock_work beat -l INFO&quot;
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
 </p>
-<pre><code class="language-bash">services:
+<pre><code class="language-bash">version: &#x27;3&#x27;
+
+services:
   web:
-    image: harbor.arpansahu.me/library/great_chat:latest
+    build: .
     env_file: ./.env
-    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; daphne -b 0.0.0.0 -p 8002 great_chat.asgi:application&quot;
-    container_name: great_chat
+    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; daphne clock_work.asgi:application -b 0.0.0.0 --port 8012 &amp; celery -A clock_work.celery worker -l info &amp; celery -A clock_work beat -l INFO&quot;
+    image: clock_work
+    container_name: clock_work
     volumes:
-      - .:/great_chat
+      - .:/clock_work
     ports:
-      - &quot;8002:8002&quot;
+      - &quot;8012:8012&quot;
     restart: unless-stopped
 </code></pre>
 <h3>
@@ -2060,92 +2241,92 @@ then generate token from host server by running the following command
 <pre><code class="language-yaml">  apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: great-chat-app
+  name: clock-work-app
   labels:
-    app: great-chat
+    app: clock-work
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: great-chat
+      app: clock-work
   template:
     metadata:
       labels:
-        app: great-chat
+        app: clock-work
     spec:
       imagePullSecrets:
         - name: harbor-registry-secret
       containers:
-        - image: harbor.arpansahu.me/library/great_chat:latest
-          name: great-chat
+        - image: harbor.arpansahu.me/library/clock_work:latest
+          name: clock-work
           env:
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: great-chat-secret
+                  name: clock-work-secret
                   key: SECRET_KEY
             - name: DEBUG
               valueFrom:
                 secretKeyRef:
-                  name: great-chat-secret
+                  name: clock-work-secret
                   key: DEBUG
             - name: ALLOWED_HOSTS
               valueFrom:
                 secretKeyRef:
-                  name: great-chat-secret
+                  name: clock-work-secret
                   key: ALLOWED_HOSTS
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
-                  name: great-chat-secret
+                  name: clock-work-secret
                   key: AWS_ACCESS_KEY_ID
             - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: great-chat-secret
+                  name: clock-work-secret
                   key: AWS_SECRET_ACCESS_KEY
             - name: AWS_STORAGE_BUCKET_NAME
               valueFrom:
                 secretKeyRef:
-                  name: great-chat-secret
+                  name: clock-work-secret
                   key: AWS_STORAGE_BUCKET_NAME
             - name: BUCKET_TYPE
               valueFrom:
                 secretKeyRef:
-                  name: great-chat-secret
+                  name: clock-work-secret
                   key: BUCKET_TYPE
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: great-chat-secret
+                  name: clock-work-secret
                   key: DATABASE_URL
             - name: REDISCLOUD_URL
               valueFrom:
                 secretKeyRef:
-                  name: great-chat-secret
+                  name: clock-work-secret
                   key: REDISCLOUD_URL
             - name: MAIL_JET_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: great-chat-secret
+                  name: clock-work-secret
                   key: MAIL_JET_API_KEY
             - name: MAIL_JET_API_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: great-chat-secret
+                  name: clock-work-secret
                   key: MAIL_JET_API_SECRET
             - name: DOMAIN
               valueFrom:
                 secretKeyRef:
-                  name: great-chat-secret
+                  name: clock-work-secret
                   key: DOMAIN
             - name: PROTOCOL
               valueFrom:
                 secretKeyRef:
-                  name: great-chat-secret
+                  name: clock-work-secret
                   key: PROTOCOL
           ports:
-            - containerPort: 8002
+            - containerPort: 8012
               name: daphne
 </code></pre>
 <ol>
@@ -2156,15 +2337,15 @@ spec:
 <pre><code class="language-yaml">  apiVersion: v1
 kind: Service
 metadata:
-  name: great-chat-service
+  name: clock-work-service
 spec:
   selector:
-    app: great-chat
+    app: clock-work
   ports:
     - protocol: TCP
-      port: 8002
-      targetPort: 8002
-      nodePort: 32002
+      port: 8012
+      targetPort: 8012
+      nodePort: 32012
   type: NodePort
 </code></pre>
 <ol>
@@ -2672,14 +2853,14 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    great-chat.arpansahu.me;
+    server_name    clock-work.arpansahu.me;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
         }
 
     location / {
-         proxy_pass              http://{ip_of_home_server}:8002;
+         proxy_pass              http://{ip_of_home_server}:8012;
          proxy_set_header        Host $host;
          proxy_set_header        X-Forwarded-Proto $scheme;
 
@@ -2831,8 +3012,8 @@ sudo apt-get install jenkins
   </p>
  </li>
 </ul>
-<pre><code class="language-bash">    touch /etc/nginx/sites-available/great-chat
-    vi /etc/nginx/sites-available/great-chat
+<pre><code class="language-bash">    touch /etc/nginx/sites-available/clock-work
+    vi /etc/nginx/sites-available/clock-work
 </code></pre>
 <ol>
  <li>
@@ -2849,7 +3030,7 @@ sudo apt-get install jenkins
 </ol>
 <pre><code class="language-bash">        server {
             listen 80;
-            server_name great-chat.arpansahu.me;
+            server_name clock-work.arpansahu.me;
 
             # Force HTTPS redirects
             if ($scheme = http) {
@@ -2857,7 +3038,7 @@ sudo apt-get install jenkins
             }
 
             location / {
-                proxy_pass http://0.0.0.0:8002;
+                proxy_pass http://0.0.0.0:8012;
                 proxy_set_header Host $host;
                 proxy_set_header X-Forwarded-Proto $scheme;
 
@@ -2881,7 +3062,7 @@ sudo apt-get install jenkins
 </ol>
 <pre><code class="language-bash">        server {
             listen 80;
-            server_name great-chat.arpansahu.me;
+            server_name clock-work.arpansahu.me;
 
             # Force HTTPS redirects
             if ($scheme = http) {
@@ -2889,7 +3070,7 @@ sudo apt-get install jenkins
             }
 
             location / {
-                proxy_pass http://&lt;CLUSTER_IP_ADDRESS&gt;:32002;
+                proxy_pass http://&lt;CLUSTER_IP_ADDRESS&gt;:32012;
                 proxy_set_header Host $host;
                 proxy_set_header X-Forwarded-Proto $scheme;
 
@@ -2911,7 +3092,7 @@ sudo apt-get install jenkins
   Enable the new configuration: Create a symbolic link from this file to the sites-enabled directory.
  </li>
 </ol>
-<pre><code class="language-bash">      sudo ln -s /etc/nginx/sites-available/great-chat /etc/nginx/sites-enabled/
+<pre><code class="language-bash">      sudo ln -s /etc/nginx/sites-available/clock-work /etc/nginx/sites-enabled/
 </code></pre>
 <ol>
  <li>
@@ -2942,10 +3123,10 @@ sudo apt-get install jenkins
     }
     environment {
         REGISTRY = &quot;harbor.arpansahu.me&quot;
-        REPOSITORY = &quot;library/great_chat&quot;
+        REPOSITORY = &quot;library/clock_work&quot;
         IMAGE_TAG = &quot;${env.BUILD_ID}&quot;
         COMMIT_FILE = &quot;${env.WORKSPACE}/last_commit.txt&quot;
-        ENV_PROJECT_NAME = &quot;great_chat&quot;
+        ENV_PROJECT_NAME = &quot;clock_work&quot;
     }
     stages {
         stage(&#x27;Checkout&#x27;) {
@@ -3088,8 +3269,8 @@ sudo apt-get install jenkins
                     ]
                 }&#x27;&quot;&quot;&quot;
 
-                // Trigger great_chat job only if the build is stable
-                build job: &#x27;great_chat&#x27;, parameters: [booleanParam(name: &#x27;DEPLOY&#x27;, value: true)], wait: false
+                // Trigger clock_work job only if the build is stable
+                build job: &#x27;clock_work&#x27;, parameters: [booleanParam(name: &#x27;DEPLOY&#x27;, value: true)], wait: false
             }
         }
         failure {
@@ -3137,13 +3318,13 @@ sudo apt-get install jenkins
     }
     environment {
         REGISTRY = &quot;harbor.arpansahu.me&quot;
-        REPOSITORY = &quot;library/great_chat&quot;
+        REPOSITORY = &quot;library/clock_work&quot;
         IMAGE_TAG = &quot;latest&quot;  // or use a specific tag if needed
         KUBECONFIG = &quot;${env.WORKSPACE}/kubeconfig&quot;  // Set the KUBECONFIG environment variable
-        NGINX_CONF = &quot;/etc/nginx/sites-available/great-chat&quot;
-        ENV_PROJECT_NAME = &quot;great_chat&quot;
-        DOCKER_PORT = &quot;8002&quot;
-        PROJECT_NAME_WITH_DASH = &quot;great-chat&quot;
+        NGINX_CONF = &quot;/etc/nginx/sites-available/clock-work&quot;
+        ENV_PROJECT_NAME = &quot;clock_work&quot;
+        DOCKER_PORT = &quot;8012&quot;
+        PROJECT_NAME_WITH_DASH = &quot;clock-work&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3420,10 +3601,10 @@ sudo apt-get install jenkins
  </li>
 </ul>
 <p>
- Make sure to use Pipeline project and name it whatever you want I have named it as per great_chat
+ Make sure to use Pipeline project and name it whatever you want I have named it as per clock_work
 </p>
 <p>
- <img alt="Jenkins Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/great_chat/main/Jenkins-deploy.png"/>
+ <img alt="Jenkins Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/clock_work/main/Jenkins-deploy.png"/>
 </p>
 <ul>
  <li>
@@ -3434,14 +3615,14 @@ sudo apt-get install jenkins
  Make sure to use Pipeline project and name it whatever you want I have named it as {project_name}_build
 </p>
 <p>
- <img alt="Jenkins Build Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/great_chat/main/Jenkins-build.png"/>
+ <img alt="Jenkins Build Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/clock_work/main/Jenkins-build.png"/>
 </p>
 <p>
  This pipeline is triggered on another branch named as build. Whenever a new commit is pushed, it checks
  <br/>
  if there are changes in the files other then few .md files and dependabot.yml file. If, changes are there it pushed the image.
  <br/>
- If image is pushed successfully, email is sent to notify and then another Jenkins Pipeline great_chat_build is called.
+ If image is pushed successfully, email is sent to notify and then another Jenkins Pipeline clock_work_build is called.
 </p>
 <p>
  In this above picture you can see credentials right? you can add your github credentials and harbor credentials use harbor-credentials as id for harbor credentials.
@@ -3456,7 +3637,7 @@ sudo apt-get install jenkins
   Add a .env file to you project using following command (This step is no more required stage('Dependencies'))
  </li>
 </ul>
-<pre><code class="language-bash">    sudo vi  /var/lib/jenkins/workspace/great_chat/.env
+<pre><code class="language-bash">    sudo vi  /var/lib/jenkins/workspace/clock_work/.env
 </code></pre>
 <pre><code>Your workspace name may be different.
 
@@ -5187,6 +5368,10 @@ Add all the env variables as required and mentioned in the Readme File.
  <a href="https://websocket.org/">
   <img alt="Web Sockets" src="https://img.shields.io/badge/WEBSOCKETS-1C47CB?style=for-the-badge&logo=socketdotio&logoColor=white"/>
  </a>
+ <br/>
+ <a href="https://docs.celeryq.dev/en/stable/">
+  <img alt="Celery" src="https://img.shields.io/badge/CELERY-37814A?style=for-the-badge&logo=celery&logoColor=white"/>
+ </a>
 </p>
 <h2>
  Environment Variables
@@ -5209,6 +5394,24 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  MAIL_JET_API_SECRET=
 </p>
+<h1>
+ bucket
+</h1>
+<h1>
+ AWS_ACCESS_KEY_ID=
+</h1>
+<h1>
+ AWS_SECRET_ACCESS_KEY=
+</h1>
+<h1>
+ AWS_STORAGE_BUCKET_NAME=
+</h1>
+<h1>
+ BUCKET_TYPE=
+</h1>
+<h1>
+ MINIO
+</h1>
 <p>
  AWS_ACCESS_KEY_ID=
 </p>
