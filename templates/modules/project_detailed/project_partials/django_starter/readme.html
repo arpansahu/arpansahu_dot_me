@@ -4799,7 +4799,7 @@ RECEIVER_EMAIL=your_receiver_email@example.com
  </li>
 </ol>
 <pre><code class="language-sh">0 */5 * * * /bin/bash /root/arpansahu-one-scripts/setup_and_run.sh &gt;&gt; /root/logs/website_up_time.log 2&gt;&amp;1
-0 0 * * * /usr/bin/docker system prune -af --volumes &gt; /root/logs/docker_prune.log 2&gt;&amp;1 &amp;&amp; /root/arpansahu-one-scripts/docker_cleanup_mail.sh
+0 0 * * * export MAILJET_API_KEY=&quot;MAILJET_API_KEY&quot; &amp;&amp; export MAILJET_SECRET_KEY=&quot;MAILJET_SECRET_KEY&quot; &amp;&amp; export SENDER_EMAIL=&quot;SENDER_EMAIL&quot; &amp;&amp; export RECEIVER_EMAIL=&quot;RECEIVER_EMAIL&quot; &amp;&amp; /usr/bin/docker system prune -af --volumes &gt; /root/logs/docker_prune.log 2&gt;&amp;1 &amp;&amp; /root/arpansahu-one-scripts/docker_cleanup_mail.sh
 </code></pre>
 <h1>
  Integrating Jenkins
