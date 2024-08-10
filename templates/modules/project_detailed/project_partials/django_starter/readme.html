@@ -1,8 +1,8 @@
 <h1>
- Numerical | Django Simple Numeric Calculator Web App
+ django_starter | Django Project CRUD using AJAX, DJANGO FORMS, GRAPHQL and DJANGO REST/GRAPHQL APIs
 </h1>
 <p>
- This is a simple django portfolio project
+ This is a simple django CRUD project
 </p>
 <h2>
  Project Features
@@ -57,29 +57,12 @@
   Continuous integration and deployment included using Jenkins.
  </li>
 </ol>
-<h2>
- Implemented Simple Numeric Calculator
-</h2>
-<ol>
- <li>
-  Used JQuery for making html Dynamic
- </li>
- <li>
-  Built Beautiful UI
- </li>
- <li>
-  Used SoftUI
- </li>
- <li>
-  Used Bootstrap
- </li>
- <li>
-  Build Calculator Operations +, -, *, / as well as brackets are evaluated
- </li>
- <li>
-  It will give error if brackets are not balanced or if we send empty equation.
- </li>
-</ol>
+<h1>
+ Starter Project
+</h1>
+<p>
+ Can be cloned and used as a base project for any django project
+</p>
 <p>
  -Deployed on AWS / Now in My Own Home Ubuntu Server LTS 22.0 / Hostinger VPS Server
 </p>
@@ -213,7 +196,14 @@
  Demo
 </h2>
 <p>
- Available at: https://arpansahu.me
+ Available at: https://django-starter.arpansahu.me
+</p>
+<p>
+ admin login details:--
+ <br/>
+ username: arpansahu
+ <br/>
+ password: showmecode
 </p>
 <h2>
  License
@@ -273,7 +263,7 @@
 
   or 
 
-  gunicorn --bind 0.0.0.0:8003 numerical.wsgi
+  gunicorn --bind 0.0.0.0:8016 django_starter.wsgi
 </code></pre>
 <p>
  Use these CACHE settings
@@ -310,16 +300,16 @@
             &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/numerical/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/django_starter/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;numerical.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;django_starter.storage_backends.StaticStorage&#x27;
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/numerical/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/django_starter/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;numerical.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;django_starter.storage_backends.PublicMediaStorage&#x27;
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/numerical/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;numerical.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/django_starter/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;django_starter.storage_backends.PrivateMediaStorage&#x27;
 
     elif BUCKET_TYPE == &#x27;BLACKBLAZE&#x27;:
 
@@ -342,16 +332,16 @@
             &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/numerical/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/django_starter/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;numerical.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;django_starter.storage_backends.StaticStorage&#x27;
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/numerical/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/django_starter/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;numerical.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;django_starter.storage_backends.PublicMediaStorage&#x27;
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/numerical/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;numerical.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/django_starter/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;django_starter.storage_backends.PrivateMediaStorage&#x27;
 
     elif BUCKET_TYPE == &#x27;MINIO&#x27;:
         AWS_ACCESS_KEY_ID = config(&#x27;AWS_ACCESS_KEY_ID&#x27;)
@@ -370,18 +360,18 @@
         }
 
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/numerical/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/django_starter/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;numerical.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;django_starter.storage_backends.StaticStorage&#x27;
 
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/numerical/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/django_starter/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;numerical.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;django_starter.storage_backends.PublicMediaStorage&#x27;
 
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/numerical/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;numerical.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/django_starter/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;django_starter.storage_backends.PrivateMediaStorage&#x27;
 
 
 
@@ -408,6 +398,15 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, &quot;static&quot;), ]
 <h2>
  Custom Django Management Commands
 </h2>
+<ol>
+ <li>
+  Test DB
+  <br/>
+  Django management command designed to test the basic functionality of the database. It performs a series of CRUD (Create, Read, Update, Delete) operations to ensure the database is working correctly.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py test_db
+</code></pre>
 <ol>
  <li>
   Test Cache
@@ -1453,9 +1452,9 @@ COPY . .
 
 RUN pip3 install -r requirements.txt
 
-EXPOSE 8003
+EXPOSE 8016
 
-CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; gunicorn --bind 0.0.0.0:8003 numerical.wsgi&quot;
+CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; gunicorn --bind 0.0.0.0:8016 django_starter.wsgi&quot;
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
@@ -1466,13 +1465,13 @@ services:
   web:
     build: .
     env_file: ./.env
-    command: bash -c &quot;python manage.py runserver 0.0.0.0:8003&quot;
-    image: numerical
-    container_name: numerical
+    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8016 django_starter.wsgi&quot;
+    image: django_starter
+    container_name: django_starter
     volumes:
-      - .:/numerical
+      - .:/django_starter
     ports:
-      - &quot;8003:8003&quot;
+      - &quot;8016:8016&quot;
     restart: unless-stopped
 </code></pre>
 <h3>
@@ -1915,82 +1914,92 @@ then generate token from host server by running the following command
 <pre><code class="language-yaml">  apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: numerical-app
+  name: django-starter-app
   labels:
-    app: numerical
+    app: django-starter
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: numerical
+      app: django-starter
   template:
     metadata:
       labels:
-        app: numerical
+        app: django-starter
     spec:
       imagePullSecrets:
         - name: harbor-registry-secret
       containers:
-        - image: harbor.arpansahu.me/library/numerical:latest
-          name: numerical
+        - image: harbor.arpansahu.me/library/django_starter:latest
+          name: django-starter
           env:
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: numerical-secret
+                  name: django-starter-secret
                   key: SECRET_KEY
             - name: DEBUG
               valueFrom:
                 secretKeyRef:
-                  name: numerical-secret
+                  name: django-starter-secret
                   key: DEBUG
             - name: ALLOWED_HOSTS
               valueFrom:
                 secretKeyRef:
-                  name: numerical-secret
+                  name: django-starter-secret
                   key: ALLOWED_HOSTS
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
-                  name: numerical-secret
+                  name: django-starter-secret
                   key: AWS_ACCESS_KEY_ID
             - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: numerical-secret
+                  name: django-starter-secret
                   key: AWS_SECRET_ACCESS_KEY
             - name: AWS_STORAGE_BUCKET_NAME
               valueFrom:
                 secretKeyRef:
-                  name: numerical-secret
+                  name: django-starter-secret
                   key: AWS_STORAGE_BUCKET_NAME
             - name: BUCKET_TYPE
               valueFrom:
                 secretKeyRef:
-                  name: numerical-secret
+                  name: django-starter-secret
                   key: BUCKET_TYPE
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: django-starter-secret
+                  key: DATABASE_URL
             - name: REDISCLOUD_URL
               valueFrom:
                 secretKeyRef:
-                  name: numerical-secret
+                  name: django-starter-secret
                   key: REDISCLOUD_URL
             - name: MAIL_JET_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: numerical-secret
+                  name: django-starter-secret
                   key: MAIL_JET_API_KEY
             - name: MAIL_JET_API_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: numerical-secret
+                  name: django-starter-secret
                   key: MAIL_JET_API_SECRET
-            - name: MAIL_JET_EMAIL_ADDRESS
+            - name: DOMAIN
               valueFrom:
                 secretKeyRef:
-                  name: numerical-secret
-                  key: MAIL_JET_EMAIL_ADDRESS
+                  name: django-starter-secret
+                  key: DOMAIN
+            - name: PROTOCOL
+              valueFrom:
+                secretKeyRef:
+                  name: django-starter-secret
+                  key: PROTOCOL
           ports:
-            - containerPort: 8003
+            - containerPort: 8016
               name: gunicorn
 </code></pre>
 <ol>
@@ -2001,15 +2010,15 @@ spec:
 <pre><code class="language-yaml">  apiVersion: v1
 kind: Service
 metadata:
-  name: numerical-service
+  name: django-starter-service
 spec:
   selector:
-    app: numerical
+    app: django-starter
   ports:
     - protocol: TCP
-      port: 8003
-      targetPort: 8003
-      nodePort: 32003
+      port: 8016
+      targetPort: 8016
+      nodePort: 32016
   type: NodePort
 </code></pre>
 <ol>
@@ -2517,14 +2526,14 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    arpansahu.me;
+    server_name    django-starter.arpansahu.me;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
         }
 
     location / {
-         proxy_pass              http://{ip_of_home_server}:8003;
+         proxy_pass              http://{ip_of_home_server}:8016;
          proxy_set_header        Host $host;
          proxy_set_header        X-Forwarded-Proto $scheme;
 
@@ -2676,8 +2685,8 @@ sudo apt-get install jenkins
   </p>
  </li>
 </ul>
-<pre><code class="language-bash">    touch /etc/nginx/sites-available/numerical
-    vi /etc/nginx/sites-available/numerical
+<pre><code class="language-bash">    touch /etc/nginx/sites-available/django_starter
+    vi /etc/nginx/sites-available/django_starter
 </code></pre>
 <ol>
  <li>
@@ -2694,7 +2703,7 @@ sudo apt-get install jenkins
 </ol>
 <pre><code class="language-bash">        server {
             listen 80;
-            server_name arpansahu.me;
+            server_name django-starter.arpansahu.me;
 
             # Force HTTPS redirects
             if ($scheme = http) {
@@ -2702,7 +2711,7 @@ sudo apt-get install jenkins
             }
 
             location / {
-                proxy_pass http://0.0.0.0:8003;
+                proxy_pass http://0.0.0.0:8016;
                 proxy_set_header Host $host;
                 proxy_set_header X-Forwarded-Proto $scheme;
 
@@ -2726,7 +2735,7 @@ sudo apt-get install jenkins
 </ol>
 <pre><code class="language-bash">        server {
             listen 80;
-            server_name arpansahu.me;
+            server_name django-starter.arpansahu.me;
 
             # Force HTTPS redirects
             if ($scheme = http) {
@@ -2734,7 +2743,7 @@ sudo apt-get install jenkins
             }
 
             location / {
-                proxy_pass http://&lt;CLUSTER_IP_ADDRESS&gt;:32002;
+                proxy_pass http://&lt;CLUSTER_IP_ADDRESS&gt;:32016;
                 proxy_set_header Host $host;
                 proxy_set_header X-Forwarded-Proto $scheme;
 
@@ -2756,7 +2765,7 @@ sudo apt-get install jenkins
   Enable the new configuration: Create a symbolic link from this file to the sites-enabled directory.
  </li>
 </ol>
-<pre><code class="language-bash">      sudo ln -s /etc/nginx/sites-available/numerical /etc/nginx/sites-enabled/
+<pre><code class="language-bash">      sudo ln -s /etc/nginx/sites-available/django_starter /etc/nginx/sites-enabled/
 </code></pre>
 <ol>
  <li>
@@ -2787,10 +2796,10 @@ sudo apt-get install jenkins
     }
     environment {
         REGISTRY = &quot;harbor.arpansahu.me&quot;
-        REPOSITORY = &quot;library/numerical&quot;
+        REPOSITORY = &quot;library/django_starter&quot;
         IMAGE_TAG = &quot;${env.BUILD_ID}&quot;
         COMMIT_FILE = &quot;${env.WORKSPACE}/last_commit.txt&quot;
-        ENV_PROJECT_NAME = &quot;numerical&quot;
+        ENV_PROJECT_NAME = &quot;django_starter&quot;
     }
     stages {
         stage(&#x27;Checkout&#x27;) {
@@ -2933,8 +2942,8 @@ sudo apt-get install jenkins
                     ]
                 }&#x27;&quot;&quot;&quot;
 
-                // Trigger numerical job only if the build is stable
-                build job: &#x27;numerical&#x27;, parameters: [booleanParam(name: &#x27;DEPLOY&#x27;, value: true)], wait: false
+                // Trigger django_starter job only if the build is stable
+                build job: &#x27;django_starter&#x27;, parameters: [booleanParam(name: &#x27;DEPLOY&#x27;, value: true)], wait: false
             }
         }
         failure {
@@ -2982,13 +2991,13 @@ sudo apt-get install jenkins
     }
     environment {
         REGISTRY = &quot;harbor.arpansahu.me&quot;
-        REPOSITORY = &quot;library/numerical&quot;
+        REPOSITORY = &quot;library/django_starter&quot;
         IMAGE_TAG = &quot;latest&quot;  // or use a specific tag if needed
         KUBECONFIG = &quot;${env.WORKSPACE}/kubeconfig&quot;  // Set the KUBECONFIG environment variable
-        NGINX_CONF = &quot;/etc/nginx/sites-available/numerical&quot;
-        ENV_PROJECT_NAME = &quot;numerical&quot;
-        DOCKER_PORT = &quot;8003&quot;
-        PROJECT_NAME_WITH_DASH = &quot;numerical&quot;
+        NGINX_CONF = &quot;/etc/nginx/sites-available/django-starter&quot;
+        ENV_PROJECT_NAME = &quot;django_starter&quot;
+        DOCKER_PORT = &quot;8016&quot;
+        PROJECT_NAME_WITH_DASH = &quot;django-starter&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3039,18 +3048,24 @@ sudo apt-get install jenkins
                         // Copy the .env file to the workspace
                         sh &quot;sudo cp /root/projectenvs/${ENV_PROJECT_NAME}/.env ${env.WORKSPACE}/&quot;
 
+                        // Ensure the correct image tag is used in the docker-compose.yml
                         sh &#x27;&#x27;&#x27;
                         sed -i &quot;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|&quot; docker-compose.yml
                         &#x27;&#x27;&#x27;
+                        // Deploy using Docker Compose
                         sh &#x27;docker-compose down&#x27;
                         sh &#x27;docker-compose up -d&#x27;
+
+                        // Wait for a few seconds to let the app start
                         sleep 10
 
+                        // Verify the container is running
                         def containerRunning = sh(script: &quot;docker ps -q -f name=${ENV_PROJECT_NAME}&quot;, returnStdout: true).trim()
                         if (!containerRunning) {
                             error &quot;Container ${ENV_PROJECT_NAME} is not running&quot;
                         } else {
                             echo &quot;Container ${ENV_PROJECT_NAME} is running&quot;
+                            // Execute curl and scale down Kubernetes deployment if curl is successful
                             sh &quot;&quot;&quot;
                                 # Fetch HTTP status code
                                 HTTP_STATUS=\$(curl -s -o /dev/null -w &quot;%{http_code}&quot; http://0.0.0.0:${DOCKER_PORT})
@@ -3182,7 +3197,6 @@ sudo apt-get install jenkins
     post {
         success {
             script {
-                // Retrieve the latest commit message
                 if (currentBuild.description == &#x27;DEPLOYMENT_EXECUTED&#x27;) {
                     sh &quot;&quot;&quot;curl -s \
                     -X POST \
@@ -3209,7 +3223,7 @@ sudo apt-get install jenkins
                         ]
                     }&#x27;&quot;&quot;&quot;
                 }
-                // Trigger the common_readme job on success when not Automatic Update
+                // Trigger the common_readme job on success when last commit is not Automatic Update from common_readme
                 def commitMessage = sh(script: &quot;git log -1 --pretty=%B&quot;, returnStdout: true).trim()
                 if (!commitMessage.contains(&quot;Automatic Update&quot;)) {
                     def expandedProjectUrl = &quot;https://github.com/arpansahu/${ENV_PROJECT_NAME}&quot;
@@ -3219,7 +3233,7 @@ sudo apt-get install jenkins
                     ], wait: false
                 } else {
                     echo &quot;Skipping common_readme job trigger due to commit message: ${commitMessage}&quot;
-                }
+                }            
             }
         }
         failure {
@@ -3260,10 +3274,10 @@ sudo apt-get install jenkins
  </li>
 </ul>
 <p>
- Make sure to use Pipeline project and name it whatever you want I have named it as per numerical
+ Make sure to use Pipeline project and name it whatever you want I have named it as per django_starter
 </p>
 <p>
- <img alt="Jenkins Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/numerical/main/Jenkins-deploy.png"/>
+ <img alt="Jenkins Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/django_starter/main/Jenkins-deploy.png"/>
 </p>
 <ul>
  <li>
@@ -3274,14 +3288,14 @@ sudo apt-get install jenkins
  Make sure to use Pipeline project and name it whatever you want I have named it as {project_name}_build
 </p>
 <p>
- <img alt="Jenkins Build Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/numerical/main/Jenkins-build.png"/>
+ <img alt="Jenkins Build Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/django_starter/main/Jenkins-build.png"/>
 </p>
 <p>
  This pipeline is triggered on another branch named as build. Whenever a new commit is pushed, it checks
  <br/>
  if there are changes in the files other then few .md files and dependabot.yml file. If, changes are there it pushed the image.
  <br/>
- If image is pushed successfully, email is sent to notify and then another Jenkins Pipeline numerical_build is called.
+ If image is pushed successfully, email is sent to notify and then another Jenkins Pipeline django_starter_build is called.
 </p>
 <p>
  In this above picture you can see credentials right? you can add your github credentials and harbor credentials use harbor-credentials as id for harbor credentials.
@@ -3296,7 +3310,7 @@ sudo apt-get install jenkins
   Add a .env file to you project using following command (This step is no more required stage('Dependencies'))
  </li>
 </ul>
-<pre><code class="language-bash">    sudo vi  /var/lib/jenkins/workspace/numerical/.env
+<pre><code class="language-bash">    sudo vi  /var/lib/jenkins/workspace/django_starter/.env
 </code></pre>
 <pre><code>Your workspace name may be different.
 
@@ -5040,7 +5054,7 @@ Add all the env variables as required and mentioned in the Readme File.
  MAIL_JET_API_SECRET=
 </p>
 <p>
- MAIL_JET_EMAIL_ADDRESS=
+ MY_EMAIL_ADDRESS=
 </p>
 <p>
  AWS_ACCESS_KEY_ID=
@@ -5053,6 +5067,15 @@ Add all the env variables as required and mentioned in the Readme File.
 </p>
 <p>
  BUCKET_TYPE=
+</p>
+<p>
+ DOMAIN=
+</p>
+<p>
+ PROTOCOL=
+</p>
+<p>
+ DATABASE_URL=
 </p>
 <p>
  REDISCLOUD_URL=
