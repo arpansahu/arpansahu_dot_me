@@ -490,7 +490,7 @@
  Use these CELERY settings
 </p>
 <pre><code>CELERY_BROKER_URL = config(&quot;REDISCLOUD_URL&quot;)
-# CELERY_RESULT_BACKEND = &#x27;django-db&#x27;
+CELERY_RESULT_BACKEND = config(&quot;REDISCLOUD_URL&quot;)
 CELERY_ACCEPT_CONTENT = [&#x27;application/json&#x27;]
 CELERY_TASK_SERIALIZER = &#x27;json&#x27;
 CELERY_RESULT_SERIALIZER = &#x27;json&#x27;
