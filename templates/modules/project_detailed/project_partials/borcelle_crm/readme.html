@@ -1,8 +1,8 @@
 <h1>
- arpansahu.me | Django Portfolio Project
+ Borcelle CRM
 </h1>
 <p>
- This is a simple django portfolio project
+ This WhatsApp clone project provides a comprehensive chat application with various advanced features. Below are the main components and functionalities of the project.
 </p>
 <h2>
  Project Features
@@ -34,6 +34,12 @@
  </li>
  <li>
   <strong>
+   Autocomplete JS Library:
+  </strong>
+  Implemented for enhanced user experience.
+ </li>
+ <li>
+  <strong>
    MailJet Integration:
   </strong>
   Used for email services.
@@ -58,48 +64,70 @@
  </li>
 </ol>
 <h2>
- WhatsApp Clone Functionalities
+ Implemented CRM
 </h2>
 <ol>
  <li>
-  <strong>
-   Portfolio:
-  </strong>
+  User Registration and Contact Management: Users can register and manage their contacts individually, with all contacts being private to each user. This includes full CRUD (Create, Read, Update, Delete) functionality for managing contacts.
  </li>
  <li>
-  Show Casing Important Information
+  Messaging and Email Integration: Users can message their contacts directly through the portal. These messages are sent to the contacts’ email addresses, ensuring seamless communication.
  </li>
  <li>
-  Technologies | Education | Career
+  Message History Tracking: Users can track the history of messages sent to their contacts, providing a clear record of all interactions.
  </li>
  <li>
-  <strong>
-   Display all Projects:
-  </strong>
+  Email Verification: Before a user can log in and access their contacts, they must verify their email address, adding a layer of security to the system.
  </li>
  <li>
-  Showcase all projects together in short information
+  Celery and Redis Integration for Note Taking and Emailing:
+  <ol>
+   <li>
+    Implemented Celery and Redis to manage the process of taking notes and sending them via email.
+   </li>
+   <li>
+    Initially used Gmail with SMTP for sending emails, but due to Heroku’s restrictions on SMTP activities, MailJet was adopted for production.
+   </li>
+   <li>
+    Users can see the progress of the task on the frontend, with a progress bar implemented using WebSockets and Channels.
+   </li>
+  </ol>
  </li>
  <li>
-  In detail description of each project
+  Task Scheduling with Celery Beat: Integrated Celery Beat to schedule emails as reminders, ensuring timely delivery based on predefined schedules.
  </li>
  <li>
-  <strong>
-   Resume Download:
-  </strong>
+  Async Operations in Signals: Utilized asyncio within Django signals to prevent conflicts with sync_to_async, ensuring smooth task execution without interference.
  </li>
  <li>
-  Resume download feature.
+  Task Completion Notification: Upon task completion, an automatic notification is sent to the CRM manager, keeping them informed in real-time.
  </li>
  <li>
-  <strong>
-   Contact Page:
-  </strong>
+  Progress Tracking: Implemented a progress bar to visually display the progress of both scheduled and non-scheduled emails, providing users with real-time status updates.
  </li>
  <li>
-  Contact Via Email Page.
+  Redis as a Message Broker: Redis is employed as the message broker, facilitating the efficient handling and distribution of tasks to Celery workers.
+ </li>
+ <li>
+  Email Task Workflow:
+  <ol>
+   <li>
+    Immediate Email Requests: When a user requests to send notes via email, the Django application sends a task to the Redis broker. This task  is processed by Celery, with progress being saved in the CELERY_RESULT_BACKEND. Users can track progress through WebSockets and Channels, allowing the server to push status updates directly to the frontend without repeated user requests.
+   </li>
+   <li>
+    Scheduled Email Reminders: For scheduled email reminders, the Django view creates a cron task, which is assigned to Celery Beat. When the scheduled time arrives, the task is passed to the broker, and then to Celery for execution. Upon task completion, a notification is sent through channels to the frontend, informing the user of the task’s completion.
+   </li>
+  </ol>
+ </li>
+ <li>
+  Admin Notifications: Admins can broadcast notifications to all users through Django channels. These notifications can be scheduled via cron and Celery Beat, and when the time arrives, the task is processed and sent to users connected to the channels, ensuring real-time updates.
  </li>
 </ol>
+<p>
+ <a href="https://github.com/arpansahu/borcelle_crm/blob/master/explanation.png?raw=true">
+  alt text
+ </a>
+</p>
 <p>
  -Deployed on AWS / Now in My Own Home Ubuntu Server LTS 22.0 / Hostinger VPS Server
 </p>
@@ -160,6 +188,196 @@
  The most common Redis use cases are session cache, full-page cache, queues, leader boards and counting, publish-subscribe, and much more. in this case, we will use Redis as a message broker.
 </p>
 <h2>
+ What is Ajax?
+</h2>
+<p>
+ Ajax is a set of web development techniques that uses various web technologies on the client-side to create asynchronous web applications. With Ajax, web applications can send and retrieve data from a server asynchronously without interfering with the display and behavior of the existing page.
+</p>
+<h2>
+ What is Web Sockets ?
+</h2>
+<p>
+ WebSocket is bidirectional, a full-duplex protocol that is used in the same scenario of client-server communication, unlike HTTP it starts from ws:// or wss://. It is a stateful protocol, which means the connection between client and server will keep alive until it is terminated by either party (client or server). After closing the connection by either of the client and server, the connection is terminated from both ends.
+</p>
+<h2>
+ What is Channels?
+</h2>
+<p>
+ Channels preserve the synchronous behavior of Django and add a layer of asynchronous protocols allowing users to write the views that are entirely synchronous, asynchronous, or a mixture of both. Channels basically allow the application to support “long-running connections”. It replaces Django’s default WSGI with its ASGI.
+</p>
+<h2>
+ What is Django Signals?
+</h2>
+<p>
+ Django includes a “signal dispatcher” which helps decoupled applications get notified when actions occur elsewhere in the framework. In a nutshell, signals allow certain senders to notify a set of receivers that some action has taken place.
+</p>
+<h2>
+ What is Celery ?
+</h2>
+<p>
+ Celery is an asynchronous task queue/job queue based on distributed message passing. It is focused on real-time operation but supports scheduling as well.
+</p>
+<p>
+ Why is this useful?
+</p>
+<ol>
+ <li>
+  Think of all the times you have had to run a certain task in the future. Perhaps you needed to access an API every hour. Or maybe you needed to send a batch of emails at the end of the day. Large or small, Celery makes scheduling such periodic tasks easy.
+ </li>
+ <li>
+  You never want end users to have to wait unnecessarily for pages to load or actions to complete. If a long process is part of your application’s workflow, you can use Celery to execute that process in the background, as resources become available, so that your application can continue to respond to client requests. This keeps the task out of the application’s context.
+ </li>
+</ol>
+<p>
+ Working:
+ <br/>
+ 1. Celery requires message broker to store messages received from task generators or producers. For reading information of messages in task
+ <br/>
+ serialization is required which can be in json/pickle/yaml/msgpack it can be in compressed form as zlib, bzip2 or a cryptographic message.
+ <br/>
+ 2. A celery system consists of multiple workers and brokers, giving way to high availability and horizontal scaling.
+ <br/>
+ 3. When a celery worker is started using command
+ <code>
+  celery -A [borcelle_crm(project name)].celery worker -l info
+ </code>
+ , a supervisor is started.
+ <br/>
+ 4. Which spawns child processes or threads and deals with all the bookkeeping stuff. The child processes or threads execute the actual task.
+ <br/>
+ This child process are also known as execution pool. By default, no of child process worker can spawn is equal to the no of CPU cores.
+ <br/>
+ 5. The size of execution pool determines the number of tasks your celery worker can process
+ <br/>
+ 1. Worker ----- Pool ----- Concurrency
+ <br/>
+ 2. When you start a celery worker, you specify the pool, concurrency, autoscale etc. in the command
+ <br/>
+ 3. Pool - Decides who will actually perform the task -thread, child process, worker itself or else.
+ <br/>
+ 4. Concurrency: will decide the size of pool
+ <br/>
+ 5. autoscale: to dynamically resize the pool based on load. The autoscaler adds more pool processes when there is work
+ <br/>
+ to do, and starts removing processes when the workload is low.
+ <br/>
+ 6.
+ <code>
+  celery -A &lt;project&gt;.celery worker --pool=preform --concurrency=5 --autoscale=10 3 -l info
+ </code>
+ <br/>
+ this command states to start a worker with 5 child processes which can be auto-scaled upto 10 and can be decreased upto 3.
+ <br/>
+ 6. Type of Pools:
+ <br/>
+ 1. prefork (multiprocessing) (default):
+ <br/>
+ 1. Use this when CPU bound task
+ <br/>
+ 2. By passes GIL (Global Interpreter Lock)
+ <br/>
+ 3. The number of available cores limits the number of concurrent processes.
+ <br/>
+ 4. That's why Celery defaults concurrency to no of CPU cores available.
+ <br/>
+ 5. Command:
+ <code>
+  celery A -&lt;project&gt;.celery worker -l info
+ </code>
+ <br/>
+ 2. solo (Neither threaded nor process-based)
+ <br/>
+ 1. Celery don't support windows, so you can use this pool of running celery on Windows
+ <br/>
+ 2. It doesn't create pool as it runs solo.
+ <br/>
+ 3. Contradicts the principle that the worker itself does not process any tasks
+ <br/>
+ 4. The solo pool runs inside the worker process.
+ <br/>
+ 5. This makes the solo worker fast, But it also blocks the worker while it executes tasks.
+ <br/>
+ 6. In this concurrency doesn't make any sense.
+ <br/>
+ 7. Command
+ <code>
+  celery A -&lt;project&gt;.celery worker --pool=solo -l info
+ </code>
+ <br/>
+ 3. threads (multi threading)
+ <br/>
+ 1. due to GIL in CPython, it restricts to single thread so can't achieve real multithreading
+ <br/>
+ 2. Not much official support
+ <br/>
+ 3. Uses threading module of python
+ <br/>
+ 4. Command
+ <code>
+  celery A -&lt;project&gt;.celery worker --pool=threads -l info
+ </code>
+ <br/>
+ 4. gevent/eventlet (Green Threads)
+ <br/>
+ 1. Uses Green thread which are user level threads so can be manipulated at code level
+ <br/>
+ 2. This can be used to get a thousand of HTTP get request to fetch from external REST APIs.
+ <br/>
+ 3. The bottleneck is waiting for I/O operation to finish and not CPU.
+ <br/>
+ 4. There are implementation differences between the eventlet and gevent packages
+ <br/>
+ 5. Command
+ <code>
+  celery A -&lt;project&gt;.celery worker --pool=[gevent/eventlet] worker -l info
+ </code>
+ <br/>
+ 5. by default
+ <code>
+  celery A -&lt;project&gt;.celery worker -l info
+ </code>
+ uses pool-prefork and concurrency -no of cores
+ <br/>
+ 6. Difference between greenlets and threads -
+ <br/>
+ 1. Python's threading library makes use of the system's native OS to schedule threads. This general-purpose scheduler is not always very efficient.
+ <br/>
+ 2. It makes use of Python's global interpreter lock to make sure shared data structures are accessed by only one thread at a time to avoid race conditions.
+ <br/>
+ CPython Interpreter, GIL, OS Greenlets emulate multi-threaded environments without relying on any native operating system capabilities.
+ <br/>
+ Greenlets are managed in application space and not in kernel space. In greenlets, no scheduler pre-emptively switching between your threads
+ <br/>
+ at any given moment.
+ <br/>
+ 3. Instead, your greenlets voluntarily or explicitly give up control to one another at specified points in your code.
+ <br/>
+ 4. Thus more scalable and efficient. Less RAM required.
+</p>
+<h2>
+ What is Redis ?
+</h2>
+<p>
+ Redis is an in-memory data structure project implementing a distributed, in-memory key-value database with optional durability.
+ <br/>
+ The most common Redis use cases are session cache, full-page cache, queues, leaderboards and counting, publish-subscribe, and much more. in this case, we will use Redis as a message broker.
+</p>
+<h2>
+ What is RabbitMQ ?
+</h2>
+<p>
+ RabbitMQ is an open-source message broker that facilitates communication between different parts of a system by transmitting messages between producers and consumers. It implements the Advanced Message Queuing Protocol (AMQP), which is a standard protocol for messaging.
+</p>
+<p>
+ In a typical scenario, producers send messages to a queue managed by RabbitMQ, and consumers receive those messages from the queue. This setup allows for asynchronous communication, meaning that producers and consumers don't need to interact with each other directly or even be online at the same time. RabbitMQ ensures that messages are reliably stored and delivered, which is crucial for maintaining data integrity in distributed systems.
+</p>
+<p>
+ RabbitMQ supports a variety of messaging patterns, including point-to-point messaging, publish/subscribe, and complex routing with exchanges that can direct messages to different queues based on rules. It is widely used for task queuing, where tasks are distributed across multiple workers, and for decoupling microservices, enabling them to communicate effectively without being tightly coupled.
+</p>
+<p>
+ Its lightweight, flexible, and scalable nature makes RabbitMQ a popular choice for building robust, fault-tolerant systems, particularly in cloud environments where scalable message queuing is essential for maintaining system performance and reliability.
+</p>
+<h2>
  Tech Stack
 </h2>
 <p>
@@ -203,8 +421,9 @@
   <img alt="Docker" src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"/>
  </a>
  <br/>
- <img alt="Harbor" src="https://img.shields.io/badge/HARBOR-TEXT?style=for-the-badge&logo=harbor&logoColor=white&color=blue"/>
- (https://goharbor.io/)
+ <a href="https://goharbor.io/">
+  <img alt="Harbor" src="https://img.shields.io/badge/HARBOR-TEXT?style=for-the-badge&logo=harbor&logoColor=white&color=blue"/>
+ </a>
  <br/>
  <a href="https://kubernetes.io/">
   <img alt="Kubernetes" src="https://img.shields.io/badge/kubernetes-326ce5.svg?&style=for-the-badge&logo=kubernetes&logoColor=white"/>
@@ -218,8 +437,9 @@
   <img alt="Nginx" src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white"/>
  </a>
  <br/>
- <img alt="MINIIO" src="https://img.shields.io/badge/MINIO-TEXT?style=for-the-badge&logo=minio&logoColor=white&color=%23C72E49"/>
- (https://min.io/)
+ <a href="https://min.io/">
+  <img alt="MINIIO" src="https://img.shields.io/badge/MINIO-TEXT?style=for-the-badge&logo=minio&logoColor=white&color=%23C72E49"/>
+ </a>
  <br/>
  <a href="https://ubuntu.com/">
   <img alt="Ubuntu" src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"/>
@@ -228,12 +448,35 @@
  <a href="https://mailjet.com/">
   <img alt="Mail Jet" src="https://img.shields.io/badge/MAILJET-9933CC?style=for-the-badge&logo=minutemailer&logoColor=white"/>
  </a>
+ <br/>
+ <a href="https://channels.readthedocs.io">
+  <img alt="Django Channels" src="https://img.shields.io/badge/CHANNELS-092E20?style=for-the-badge&logo=channel4&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://websocket.org/">
+  <img alt="Web Sockets" src="https://img.shields.io/badge/WEBSOCKETS-1C47CB?style=for-the-badge&logo=socketdotio&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://docs.celeryq.dev/en/stable/">
+  <img alt="Celery" src="https://img.shields.io/badge/CELERY-37814A?style=for-the-badge&logo=celery&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://www.rabbitmq.com/">
+  <img alt="RabbitMQ" src="https://img.shields.io/badge/Rabbitmq-FF6600?style=for-the-badge&logo=rabbitmq&logoColor=white"/>
+ </a>
 </p>
 <h2>
  Demo
 </h2>
 <p>
- Available at: https://arpansahu.me
+ Available at: https://borcelle-crm.arpansahu.me
+</p>
+<p>
+ admin login details:--
+ <br/>
+ username: admin@arpansahu.me
+ <br/>
+ password: showmecode
 </p>
 <h2>
  License
@@ -286,6 +529,76 @@
 </p>
 <pre><code class="language-bash">  sudo systemctl status redis
 </code></pre>
+<hr/>
+<p>
+ Use these CELERY settings
+</p>
+<pre><code>CELERY_BROKER_URL = config(&quot;RABBITMQ_URL&quot;)
+CELERY_RESULT_BACKEND = config(&quot;REDISCLOUD_URL&quot;)
+CELERY_ACCEPT_CONTENT = [&#x27;application/json&#x27;]
+CELERY_TASK_SERIALIZER = &#x27;json&#x27;
+CELERY_RESULT_SERIALIZER = &#x27;json&#x27;
+CELERY_TIMEZONE = &#x27;Asia/Kolkata&#x27;
+</code></pre>
+<p>
+ CELERY_RESULT_BACKEND have been commented, because we have used
+ <code>
+  task.apply_async()
+ </code>
+ instead of
+ <code>
+  task.delay()
+ </code>
+ <br/>
+ with websockets for sending notification, django-db as a backend is synchronous
+ <br/>
+ and thus gives error, Hence we have to use redis or other resources which primarily
+ <br/>
+ supports asynchronous work flow.
+</p>
+<p>
+ and we are explicitly passing backend=redis_url  while creating Celery app so it overrides CELERY_RESULT_BACKEND in settings.py
+</p>
+<hr/>
+<p>
+ Creating Async App - create a file named celery.py in project directory.
+</p>
+<pre><code>import os
+
+from celery import Celery
+from celery.schedules import crontab
+from decouple import config
+
+# set the default Django settings module for the &#x27;celery&#x27; program.
+os.environ.setdefault(&#x27;DJANGO_SETTINGS_MODULE&#x27;, &#x27;borcelle_crm.settings&#x27;)
+
+redis_url = config(&quot;REDISCLOUD_URL&quot;)
+
+app = Celery(&#x27;borcelle_crm&#x27;, broker=redis_url, backend=redis_url, include=[&#x27;tasks.tasks&#x27;])
+
+# Using a string here means the worker doesn&#x27;t have to serialize
+# the configuration object to child processes.
+# - namespace=&#x27;CELERY&#x27; means all celery-related configuration keys
+#   should have a `CELERY_` prefix.
+app.config_from_object(&#x27;django.conf:settings&#x27;, namespace=&#x27;CELERY&#x27;)
+
+# Celery Beat Settings
+app.conf.beat_schedule = {
+    &#x27;send-mail-every-day-at-8&#x27;: {
+        &#x27;task&#x27;: &#x27;send_email_app.tasks.send_mail_func&#x27;,
+        &#x27;schedule&#x27;: crontab(hour=0, minute=38),
+        # &#x27;args&#x27; : (2,)
+    }
+}
+# Load task modules from all registered Django app configs.
+app.autodiscover_tasks()
+
+
+@app.task(bind=True)
+def debug_task(self):
+    print(&#x27;Request: {0!r}&#x27;.format(self.request))
+
+</code></pre>
 <p>
  Run Server
 </p>
@@ -293,7 +606,7 @@
 
   or 
 
-  gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi
+  daphne -b 0.0.0.0 -p 8014 borcelle_crm.asgi:application
 </code></pre>
 <p>
  Use these CACHE settings
@@ -307,6 +620,25 @@
         }
     }
 }
+</code></pre>
+<p>
+ Use these Channels Settings
+</p>
+<pre><code class="language-python">if not DEBUG:
+    CHANNEL_LAYERS = {
+        &#x27;default&#x27;: {
+            &quot;BACKEND&quot;: &quot;channels.layers.InMemoryChannelLayer&quot;,
+        }
+    }
+else:
+    CHANNEL_LAYERS = {
+        &quot;default&quot;: {
+            &quot;BACKEND&quot;: &quot;channels_redis.core.RedisChannelLayer&quot;,
+            &quot;CONFIG&quot;: {
+                &quot;hosts&quot;: [(config(&#x27;REDISCLOUD_URL&#x27;))],
+            },
+        },
+    }
 </code></pre>
 <p>
  Change settings.py static files and media files settings | Now I have added support for BlackBlaze Static Storage also which also based on AWS S3 protocols
@@ -330,16 +662,16 @@
             &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/arpansahu_dot_me/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/borcelle_crm/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;arpansahu_dot_me.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;borcelle_crm.storage_backends.StaticStorage&#x27;
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/arpansahu_dot_me/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/borcelle_crm/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;borcelle_crm.storage_backends.PublicMediaStorage&#x27;
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/arpansahu_dot_me/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/borcelle_crm/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;borcelle_crm.storage_backends.PrivateMediaStorage&#x27;
 
     elif BUCKET_TYPE == &#x27;BLACKBLAZE&#x27;:
 
@@ -362,16 +694,16 @@
             &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/arpansahu_dot_me/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/borcelle_crm/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;arpansahu_dot_me.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;borcelle_crm.storage_backends.StaticStorage&#x27;
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/arpansahu_dot_me/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/borcelle_crm/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;borcelle_crm.storage_backends.PublicMediaStorage&#x27;
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/arpansahu_dot_me/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/borcelle_crm/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;borcelle_crm.storage_backends.PrivateMediaStorage&#x27;
 
     elif BUCKET_TYPE == &#x27;MINIO&#x27;:
         AWS_ACCESS_KEY_ID = config(&#x27;AWS_ACCESS_KEY_ID&#x27;)
@@ -390,18 +722,18 @@
         }
 
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/arpansahu_dot_me/static&#x27;
+        AWS_STATIC_LOCATION = &#x27;portfolio/borcelle_crm/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;arpansahu_dot_me.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = &#x27;borcelle_crm.storage_backends.StaticStorage&#x27;
 
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/arpansahu_dot_me/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/borcelle_crm/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = &#x27;borcelle_crm.storage_backends.PublicMediaStorage&#x27;
 
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/arpansahu_dot_me/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;arpansahu_dot_me.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/borcelle_crm/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;borcelle_crm.storage_backends.PrivateMediaStorage&#x27;
 
 
 
@@ -448,12 +780,12 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, &quot;static&quot;), ]
 </code></pre>
 <ol>
  <li>
-  Sync Media to S3
+  Test Channels
   <br/>
-  In case if you are using production database and debug mode is on. all the media send in the chats will be stored to local media folder which might not get synced to s3 bucket and when you run in production those media will be missing.
+  Django management command designed to test the functionality of Django Channels, ensuring that it is properly configured and operational.
  </li>
 </ol>
-<pre><code class="language-bash">python manage.py sync_media_to_s3
+<pre><code class="language-bash">python manage.py test_channels
 </code></pre>
 <h2>
  Readme Manager
@@ -1486,15 +1818,13 @@ include_files = {
 
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
-
 COPY . .
 
 RUN pip3 install -r requirements.txt
 
-EXPOSE 8000
+EXPOSE 8014
 
-CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi&quot;
+CMD &quot;python manage.py collectstatic --noinput &amp;&amp; daphne borcelle_crm.asgi:application -b 0.0.0.0 --port 8014 &amp; celery -A borcelle_crm.celery worker -l info &amp; celery -A borcelle_crm beat -l INFO&quot;
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
@@ -1505,13 +1835,13 @@ services:
   web:
     build: .
     env_file: ./.env
-    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi&quot;
-    image: arpansahu_dot_me
-    container_name: arpansahu_dot_me
+    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; daphne borcelle_crm.asgi:application -b 0.0.0.0 --port 8014 &amp; celery -A borcelle_crm.celery worker -l info &amp; celery -A borcelle_crm beat -l INFO&quot;
+    image: borcelle_crm
+    container_name: borcelle_crm
     volumes:
-      - .:/arpansahu_dot_me
+      - .:/borcelle_crm
     ports:
-      - &quot;8000:8000&quot;
+      - &quot;8014:8014&quot;
     restart: unless-stopped
 </code></pre>
 <h3>
@@ -1954,93 +2284,98 @@ then generate token from host server by running the following command
 <pre><code class="language-yaml">  apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: arpansahu-dot-me-app
+  name: borcelle-crm-app
   labels:
-    app: arpansahu-dot-me
+    app: borcelle-crm
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: arpansahu-dot-me
+      app: borcelle-crm
   template:
     metadata:
       labels:
-        app: arpansahu-dot-me
+        app: borcelle-crm
     spec:
       imagePullSecrets:
         - name: harbor-registry-secret
       containers:
-        - image: harbor.arpansahu.me/library/arpansahu_dot_me:latest
-          name: arpansahu-dot-me
+        - image: harbor.arpansahu.me/library/borcelle_crm:latest
+          name: borcelle-crm
           env:
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: borcelle-crm-secret
                   key: SECRET_KEY
             - name: DEBUG
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: borcelle-crm-secret
                   key: DEBUG
             - name: ALLOWED_HOSTS
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: borcelle-crm-secret
                   key: ALLOWED_HOSTS
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: borcelle-crm-secret
                   key: AWS_ACCESS_KEY_ID
             - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: borcelle-crm-secret
                   key: AWS_SECRET_ACCESS_KEY
             - name: AWS_STORAGE_BUCKET_NAME
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: borcelle-crm-secret
                   key: AWS_STORAGE_BUCKET_NAME
             - name: BUCKET_TYPE
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: borcelle-crm-secret
                   key: BUCKET_TYPE
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: borcelle-crm-secret
                   key: DATABASE_URL
             - name: REDISCLOUD_URL
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: borcelle-crm-secret
                   key: REDISCLOUD_URL
+            - name: RABBITMQ_URL
+              valueFrom:
+                secretKeyRef:
+                  name: borcelle-crm-secret
+                  key: RABBITMQ_URL
             - name: MAIL_JET_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: borcelle-crm-secret
                   key: MAIL_JET_API_KEY
             - name: MAIL_JET_API_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
+                  name: borcelle-crm-secret
                   key: MAIL_JET_API_SECRET
-            - name: MAIL_JET_EMAIL_ADDRESS
+            - name: DOMAIN
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: MAIL_JET_EMAIL_ADDRESS
-            - name: MY_EMAIL_ADDRESS
+                  name: borcelle-crm-secret
+                  key: DOMAIN
+            - name: PROTOCOL
               valueFrom:
                 secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: MY_EMAIL_ADDRESS
+                  name: borcelle-crm-secret
+                  key: PROTOCOL
           ports:
-            - containerPort: 8000
-              name: gunicorn
+            - containerPort: 8014
+              name: daphne
 </code></pre>
 <ol>
  <li>
@@ -2050,15 +2385,15 @@ spec:
 <pre><code class="language-yaml">  apiVersion: v1
 kind: Service
 metadata:
-  name: arpansahu-dot-me-service
+  name: borcelle-crm-service
 spec:
   selector:
-    app: arpansahu-dot-me
+    app: borcelle-crm
   ports:
     - protocol: TCP
-      port: 8000
-      targetPort: 8000
-      nodePort: 32000
+      port: 8014
+      targetPort: 8014
+      nodePort: 32014
   type: NodePort
 </code></pre>
 <ol>
@@ -2566,14 +2901,14 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    arpansahu.me;
+    server_name    borcelle-crm.arpansahu.me;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
         }
 
     location / {
-         proxy_pass              http://{ip_of_home_server}:8000;
+         proxy_pass              http://{ip_of_home_server}:8014;
          proxy_set_header        Host $host;
          proxy_set_header        X-Forwarded-Proto $scheme;
 
@@ -2725,8 +3060,8 @@ sudo apt-get install jenkins
   </p>
  </li>
 </ul>
-<pre><code class="language-bash">    touch /etc/nginx/sites-available/arpansahu-dot-me
-    vi /etc/nginx/sites-available/arpansahu-dot-me
+<pre><code class="language-bash">    touch /etc/nginx/sites-available/borcelle-crm
+    vi /etc/nginx/sites-available/borcelle-crm
 </code></pre>
 <ol>
  <li>
@@ -2743,7 +3078,7 @@ sudo apt-get install jenkins
 </ol>
 <pre><code class="language-bash">        server {
             listen 80;
-            server_name arpansahu.me;
+            server_name borcelle-crm.arpansahu.me;
 
             # Force HTTPS redirects
             if ($scheme = http) {
@@ -2751,7 +3086,7 @@ sudo apt-get install jenkins
             }
 
             location / {
-                proxy_pass http://0.0.0.0:8000;
+                proxy_pass http://0.0.0.0:8014;
                 proxy_set_header Host $host;
                 proxy_set_header X-Forwarded-Proto $scheme;
 
@@ -2775,7 +3110,7 @@ sudo apt-get install jenkins
 </ol>
 <pre><code class="language-bash">        server {
             listen 80;
-            server_name arpansahu.me;
+            server_name borcelle-crm.arpansahu.me;
 
             # Force HTTPS redirects
             if ($scheme = http) {
@@ -2783,7 +3118,7 @@ sudo apt-get install jenkins
             }
 
             location / {
-                proxy_pass http://&lt;CLUSTER_IP_ADDRESS&gt;:32002;
+                proxy_pass http://&lt;CLUSTER_IP_ADDRESS&gt;:32014;
                 proxy_set_header Host $host;
                 proxy_set_header X-Forwarded-Proto $scheme;
 
@@ -2805,7 +3140,7 @@ sudo apt-get install jenkins
   Enable the new configuration: Create a symbolic link from this file to the sites-enabled directory.
  </li>
 </ol>
-<pre><code class="language-bash">      sudo ln -s /etc/nginx/sites-available/arpansahu-dot-me /etc/nginx/sites-enabled/
+<pre><code class="language-bash">      sudo ln -s /etc/nginx/sites-available/borcelle-crm /etc/nginx/sites-enabled/
 </code></pre>
 <ol>
  <li>
@@ -2836,10 +3171,10 @@ sudo apt-get install jenkins
     }
     environment {
         REGISTRY = &quot;harbor.arpansahu.me&quot;
-        REPOSITORY = &quot;library/arpansahu_dot_me&quot;
+        REPOSITORY = &quot;library/borcelle_crm&quot;
         IMAGE_TAG = &quot;${env.BUILD_ID}&quot;
         COMMIT_FILE = &quot;${env.WORKSPACE}/last_commit.txt&quot;
-        ENV_PROJECT_NAME = &quot;arpansahu_dot_me&quot;
+        ENV_PROJECT_NAME = &quot;borcelle_crm&quot;
     }
     stages {
         stage(&#x27;Checkout&#x27;) {
@@ -2982,8 +3317,8 @@ sudo apt-get install jenkins
                     ]
                 }&#x27;&quot;&quot;&quot;
 
-                // Trigger arpansahu_dot_me job only if the build is stable
-                build job: &#x27;arpansahu_dot_me&#x27;, parameters: [booleanParam(name: &#x27;DEPLOY&#x27;, value: true)], wait: false
+                // Trigger borcelle_crm job only if the build is stable
+                build job: &#x27;borcelle_crm&#x27;, parameters: [booleanParam(name: &#x27;DEPLOY&#x27;, value: true)], wait: false
             }
         }
         failure {
@@ -3031,13 +3366,13 @@ sudo apt-get install jenkins
     }
     environment {
         REGISTRY = &quot;harbor.arpansahu.me&quot;
-        REPOSITORY = &quot;library/arpansahu_dot_me&quot;
+        REPOSITORY = &quot;library/borcelle_crm&quot;
         IMAGE_TAG = &quot;latest&quot;  // or use a specific tag if needed
         KUBECONFIG = &quot;${env.WORKSPACE}/kubeconfig&quot;  // Set the KUBECONFIG environment variable
-        NGINX_CONF = &quot;/etc/nginx/sites-available/arpansahu&quot;
-        ENV_PROJECT_NAME = &quot;arpansahu_dot_me&quot;
-        DOCKER_PORT = &quot;8000&quot;
-        PROJECT_NAME_WITH_DASH = &quot;arpansahu-dot-me&quot;
+        NGINX_CONF = &quot;/etc/nginx/sites-available/borcelle-crm&quot;
+        ENV_PROJECT_NAME = &quot;borcelle_crm&quot;
+        DOCKER_PORT = &quot;8014&quot;
+        PROJECT_NAME_WITH_DASH = &quot;borcelle-crm&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3088,18 +3423,24 @@ sudo apt-get install jenkins
                         // Copy the .env file to the workspace
                         sh &quot;sudo cp /root/projectenvs/${ENV_PROJECT_NAME}/.env ${env.WORKSPACE}/&quot;
 
+                        // Ensure the correct image tag is used in the docker-compose.yml
                         sh &#x27;&#x27;&#x27;
                         sed -i &quot;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|&quot; docker-compose.yml
                         &#x27;&#x27;&#x27;
+                        // Deploy using Docker Compose
                         sh &#x27;docker-compose down&#x27;
                         sh &#x27;docker-compose up -d&#x27;
+
+                        // Wait for a few seconds to let the app start
                         sleep 10
 
+                        // Verify the container is running
                         def containerRunning = sh(script: &quot;docker ps -q -f name=${ENV_PROJECT_NAME}&quot;, returnStdout: true).trim()
                         if (!containerRunning) {
                             error &quot;Container ${ENV_PROJECT_NAME} is not running&quot;
                         } else {
                             echo &quot;Container ${ENV_PROJECT_NAME} is running&quot;
+                            // Execute curl and scale down Kubernetes deployment if curl is successful
                             sh &quot;&quot;&quot;
                                 # Fetch HTTP status code
                                 HTTP_STATUS=\$(curl -s -o /dev/null -w &quot;%{http_code}&quot; http://0.0.0.0:${DOCKER_PORT})
@@ -3227,31 +3568,10 @@ sudo apt-get install jenkins
                 }
             }
         }
-        stage(&#x27;MergeIntoBuild&#x27;) {
-            when {
-                expression {
-                    // Check if the last commit includes only HTML files
-                    def changes = sh(script: &#x27;git diff-tree --no-commit-id --name-only -r HEAD&#x27;, returnStdout: true).trim().split(&quot;\n&quot;)
-                    return changes.every { it.endsWith(&#x27;.html&#x27;) }
-                }
-            }
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: &#x27;a8543f6d-1f32-4a4c-bb31-d7fffe78828e&#x27;, usernameVariable: &#x27;GIT_USERNAME&#x27;, passwordVariable: &#x27;GIT_PASSWORD&#x27;)]) {
-                        sh &#x27;chmod +x merge_main_into_build_branch.sh&#x27;
-                        sh &quot;&quot;&quot;
-                        echo &quot;Running merge_main_into_build_branch.sh &quot;
-                        ./merge_main_into_build_branch.sh
-                        &quot;&quot;&quot;
-                    }
-                }
-            }
-        }
     }
     post {
         success {
             script {
-                // Retrieve the latest commit message
                 if (currentBuild.description == &#x27;DEPLOYMENT_EXECUTED&#x27;) {
                     sh &quot;&quot;&quot;curl -s \
                     -X POST \
@@ -3329,10 +3649,10 @@ sudo apt-get install jenkins
  </li>
 </ul>
 <p>
- Make sure to use Pipeline project and name it whatever you want I have named it as per arpansahu_dot_me
+ Make sure to use Pipeline project and name it whatever you want I have named it as per borcelle_crm
 </p>
 <p>
- <img alt="Jenkins Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/arpansahu_dot_me/main/Jenkins-deploy.png"/>
+ <img alt="Jenkins Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/borcelle_crm/main/Jenkins-deploy.png"/>
 </p>
 <ul>
  <li>
@@ -3340,17 +3660,17 @@ sudo apt-get install jenkins
  </li>
 </ul>
 <p>
- Make sure to use Pipeline project and name it whatever you want I have named it as {project_name}_build
+ Make sure to use Pipeline project and name it whatever you want I have named it as borcelle_crm_build
 </p>
 <p>
- <img alt="Jenkins Build Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/arpansahu_dot_me/main/Jenkins-build.png"/>
+ <img alt="Jenkins Build Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/borcelle_crm/main/Jenkins-build.png"/>
 </p>
 <p>
  This pipeline is triggered on another branch named as build. Whenever a new commit is pushed, it checks
  <br/>
  if there are changes in the files other then few .md files and dependabot.yml file. If, changes are there it pushed the image.
  <br/>
- If image is pushed successfully, email is sent to notify and then another Jenkins Pipeline arpansahu_dot_me_build is called.
+ If image is pushed successfully, email is sent to notify and then another Jenkins Pipeline borcelle_crm_build is called.
 </p>
 <p>
  In this above picture you can see credentials right? you can add your github credentials and harbor credentials use harbor-credentials as id for harbor credentials.
@@ -3365,7 +3685,7 @@ sudo apt-get install jenkins
   Add a .env file to you project using following command (This step is no more required stage('Dependencies'))
  </li>
 </ul>
-<pre><code class="language-bash">    sudo vi  /var/lib/jenkins/workspace/arpansahu_dot_me/.env
+<pre><code class="language-bash">    sudo vi  /var/lib/jenkins/workspace/borcelle_crm/.env
 </code></pre>
 <pre><code>Your workspace name may be different.
 
@@ -4772,6 +5092,250 @@ pgadmin4
 <pre><code class="language-bash">  mc alias set myminio https://arpansahu.me api_key api_secret --api S3v4
   mc ls
 </code></pre>
+<h2>
+ RabbitMQ Server
+</h2>
+<p>
+ RabbitMQ is a reliable and mature messaging and streaming broker, which is easy to deploy on cloud environments, on-premises, and on your local machine. It is currently used by millions worldwide.
+</p>
+<h3>
+ Installing RabbitMQ and Setting Up Authentication
+</h3>
+<ol>
+ <li>
+  <p>
+   Step 1: Update the System and Install the RabbitMQ
+  </p>
+ </li>
+ <li>
+  <p>
+   <strong>
+    Update your package list:
+   </strong>
+  </p>
+ </li>
+</ol>
+<pre><code class="language-sh">        sudo apt-get update
+        sudo apt-get upgrade -y
+</code></pre>
+<ol>
+ <li>
+  <p>
+   <strong>
+    Install Erlang:
+   </strong>
+  </p>
+  <p>
+   RabbitMQ requires Erlang, which can be installed from the Ubuntu repositories:
+  </p>
+ </li>
+</ol>
+<pre><code class="language-sh">        sudo apt-get install -y erlang-nox
+</code></pre>
+<ol>
+ <li>
+  <p>
+   <strong>
+    Install RabbitMQ:
+   </strong>
+  </p>
+  <p>
+   Add the official RabbitMQ repository and install the RabbitMQ server:
+  </p>
+ </li>
+</ol>
+<pre><code class="language-sh">        echo &quot;deb https://dl.bintray.com/rabbitmq/debian $(lsb_release -cs) main&quot; | sudo tee /etc/apt/sources.list.d/bintray.rabbitmq.list
+        wget -O- https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc | sudo apt-key add -
+        sudo apt-get update
+        sudo apt-get install -y rabbitmq-server
+</code></pre>
+<ol>
+ <li>
+  <p>
+   Step 2: Enable RabbitMQ Management Plugin
+  </p>
+ </li>
+ <li>
+  <p>
+   <strong>
+    Open the Redis configuration file:
+   </strong>
+  </p>
+  <p>
+   To manage RabbitMQ via a web UI, enable the management plugin:
+  </p>
+ </li>
+</ol>
+<pre><code class="language-sh">        sudo rabbitmq-plugins enable rabbitmq_management
+</code></pre>
+<pre><code>  The web UI will be available at `http://&lt;your_server_ip&gt;:15672/`.
+</code></pre>
+<ol>
+ <li>
+  Step 3: Configure RabbitMQ
+ </li>
+</ol>
+<p>
+ By default, RabbitMQ listens on localhost. Update the configuration to allow external access:
+</p>
+<ol>
+ <li>
+  <strong>
+   Connect to Redis using the CLI:
+  </strong>
+ </li>
+</ol>
+<pre><code class="language-sh">      redis-cli
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   Authenticate with your password:
+  </strong>
+ </li>
+</ol>
+<pre><code class="language-sh">      AUTH your_secure_password
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   Check the connection:
+  </strong>
+ </li>
+</ol>
+<pre><code class="language-sh">      PING
+</code></pre>
+<pre><code>  You should receive a response:
+</code></pre>
+<pre><code>      PONG
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   Verify the binding to 0.0.0.0:
+  </strong>
+ </li>
+</ol>
+<pre><code class="language-sh">        sudo netstat -tulnp | grep redis
+</code></pre>
+<pre><code>  You should see Redis listening on `0.0.0.0:6379`.
+</code></pre>
+<ol>
+ <li>
+  <p>
+   Step 4: Connecting to Redis
+  </p>
+ </li>
+ <li>
+  <p>
+   <strong>
+    Open the RabbitMQ configuration file:
+   </strong>
+  </p>
+ </li>
+</ol>
+<pre><code class="language-sh">        sudo nano /etc/rabbitmq/rabbitmq.conf
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   Add the following configuration:
+  </strong>
+ </li>
+</ol>
+<pre><code class="language-ini">        listeners.tcp.default = 5672
+        management.listener.port = 15672
+        management.listener.ip = 0.0.0.0
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   Open the firewall for RabbitMQ ports:
+  </strong>
+ </li>
+</ol>
+<pre><code class="language-bash">        sudo ufw allow 5672/tcp
+        sudo ufw allow 15672/tcp
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   Restart RabbitMQ to apply the changes:
+  </strong>
+ </li>
+</ol>
+<pre><code>        sudo systemctl restart rabbitmq-server
+</code></pre>
+<h3>
+ Configuring Nginx as Reverse proxy
+</h3>
+<ol>
+ <li>
+  Edit Nginx Configuration
+ </li>
+</ol>
+<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/services
+</code></pre>
+<pre><code>if /etc/nginx/sites-available/services does not exists
+
+    1. Create a new configuration file: Create a new file in the Nginx configuration directory. The location of this directory varies depending on your  operating system and Nginx installation, but it’s usually found at /etc/nginx/sites-available/.
+</code></pre>
+<pre><code class="language-bash">            touch /etc/nginx/sites-available/services
+            vi /etc/nginx/sites-available/services
+</code></pre>
+<ol>
+ <li>
+  Add this server configuration
+ </li>
+</ol>
+<pre><code class="language-bash">    server {
+        listen         80;
+        server_name    rabbitmq-admin.arpansahu.me;
+        # force https-redirects
+        if ($scheme = http) {
+            return 301 https://$server_name$request_uri;
+            }
+
+        location / {
+            proxy_pass              http://0.0.0.0:15672;
+            proxy_set_header        Host $host;
+            proxy_set_header    X-Forwarded-Proto $scheme;
+        }
+
+        listen 443 ssl; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+    }
+</code></pre>
+<ol>
+ <li>
+  Test the Nginx Configuration
+ </li>
+</ol>
+<pre><code class="language-bash">    sudo nginx -t
+</code></pre>
+<ol>
+ <li>
+  Reload Nginx to apply the new configuration
+ </li>
+</ol>
+<pre><code class="language-bash">    sudo systemctl reload nginx
+</code></pre>
+<p>
+ I have not enabled the whole RabbitMQ with SSL because it will make it slow.
+ <br/>
+ RabbitMQ server can be accessed
+</p>
+<pre><code class="language-bash">curl -u admin:&#x27;password_required&#x27; -X GET http://arpansahu.me:15672/api/queues
+</code></pre>
+<p>
+ RabbitMQ Admin Panel can be accessed at:
+</p>
+<p>
+ https://rabbitmq-admin.arpansahu.me
+</p>
 <h1>
  Website Uptime Monitor
 </h1>
@@ -5061,8 +5625,9 @@ Add all the env variables as required and mentioned in the Readme File.
   <img alt="Docker" src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"/>
  </a>
  <br/>
- <img alt="Harbor" src="https://img.shields.io/badge/HARBOR-TEXT?style=for-the-badge&logo=harbor&logoColor=white&color=blue"/>
- (https://goharbor.io/)
+ <a href="https://goharbor.io/">
+  <img alt="Harbor" src="https://img.shields.io/badge/HARBOR-TEXT?style=for-the-badge&logo=harbor&logoColor=white&color=blue"/>
+ </a>
  <br/>
  <a href="https://kubernetes.io/">
   <img alt="Kubernetes" src="https://img.shields.io/badge/kubernetes-326ce5.svg?&style=for-the-badge&logo=kubernetes&logoColor=white"/>
@@ -5076,8 +5641,9 @@ Add all the env variables as required and mentioned in the Readme File.
   <img alt="Nginx" src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white"/>
  </a>
  <br/>
- <img alt="MINIIO" src="https://img.shields.io/badge/MINIO-TEXT?style=for-the-badge&logo=minio&logoColor=white&color=%23C72E49"/>
- (https://min.io/)
+ <a href="https://min.io/">
+  <img alt="MINIIO" src="https://img.shields.io/badge/MINIO-TEXT?style=for-the-badge&logo=minio&logoColor=white&color=%23C72E49"/>
+ </a>
  <br/>
  <a href="https://ubuntu.com/">
   <img alt="Ubuntu" src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"/>
@@ -5086,15 +5652,28 @@ Add all the env variables as required and mentioned in the Readme File.
  <a href="https://mailjet.com/">
   <img alt="Mail Jet" src="https://img.shields.io/badge/MAILJET-9933CC?style=for-the-badge&logo=minutemailer&logoColor=white"/>
  </a>
+ <br/>
+ <a href="https://channels.readthedocs.io">
+  <img alt="Django Channels" src="https://img.shields.io/badge/CHANNELS-092E20?style=for-the-badge&logo=channel4&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://websocket.org/">
+  <img alt="Web Sockets" src="https://img.shields.io/badge/WEBSOCKETS-1C47CB?style=for-the-badge&logo=socketdotio&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://docs.celeryq.dev/en/stable/">
+  <img alt="Celery" src="https://img.shields.io/badge/CELERY-37814A?style=for-the-badge&logo=celery&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://www.rabbitmq.com/">
+  <img alt="RabbitMQ" src="https://img.shields.io/badge/Rabbitmq-FF6600?style=for-the-badge&logo=rabbitmq&logoColor=white"/>
+ </a>
 </p>
 <h2>
  Environment Variables
 </h2>
 <p>
  To run this project, you will need to add the following environment variables to your .env file
-</p>
-<p>
- MY_EMAIL_ADDRESS=
 </p>
 <p>
  SECRET_KEY=
@@ -5127,13 +5706,22 @@ Add all the env variables as required and mentioned in the Readme File.
  BUCKET_TYPE=
 </p>
 <p>
+ DOMAIN=
+</p>
+<p>
+ PROTOCOL=
+</p>
+<p>
  DATABASE_URL=
 </p>
 <p>
  REDISCLOUD_URL=
 </p>
+<p>
+ RABBITMQ_URL=
+</p>
 <h1>
- deploy_kube.sh requirements
+ deploy_kube.sh requiurements
 </h1>
 <p>
  HARBOR_USERNAME=
