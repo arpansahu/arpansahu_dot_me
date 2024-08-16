@@ -15,21 +15,33 @@ from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-MY_EMAIL_ADDRESS = config('MY_EMAIL_ADDRESS')
-MAIL_JET_EMAIL_ADDRESS = config('MAIL_JET_EMAIL_ADDRESS')
 
-REDISCLOUD_URL = config('REDISCLOUD_URL')
-AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# ============================ENV VARIABLES=====================================
 SECRET_KEY = config('SECRET_KEY')
-DEBUG = int(config('DEBUG'))
-ALLOWED_HOSTS = [config('ALLOWED_HOSTS')]
+DEBUG = config('DEBUG', cast=bool, default=False)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(' ')
+
+DOMAIN = config('DOMAIN')
+PROTOCOL = config('PROTOCOL')
+
+AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
+AWS_STORAGE_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME
+BUCKET_TYPE = config('BUCKET_TYPE')
+
+DATABASE_URL = config('DATABASE_URL')
+REDIS_CLOUD_URL = config('REDIS_CLOUD_URL')
+RABBIT_MQ_URL = config("RABBIT_MQ_URL")
+
+MAIL_JET_API_KEY = config('MAIL_JET_API_KEY')
+MAIL_JET_API_SECRET = config('MAIL_JET_API_SECRET')
+MAIL_JET_EMAIL_ADDRESS = config('MAIL_JET_EMAIL_ADDRESS')
+MY_EMAIL_ADDRESS = config('MY_EMAIL_ADDRESS')
+# ===============================================================================
 
 # Application definition
 
@@ -100,7 +112,7 @@ import dj_database_url
 
 # DATABASES['default'] =  dj_database_url.config()
 # updated
-DATABASES = {'default': dj_database_url.config(default=config('DATABASE_URL'))}
+DATABASES = {'default': dj_database_url.config(default=DATABASE_URL)}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -134,13 +146,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 if not DEBUG:
-    BUCKET_TYPE = config('BUCKET_TYPE')
+    BUCKET_TYPE = BUCKET_TYPE
 
     if BUCKET_TYPE == 'AWS':
 
-        AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-        AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-        AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+        AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
+        AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
+        AWS_STORAGE_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME
         AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
         AWS_DEFAULT_ACL = 'public-read'
         AWS_S3_OBJECT_PARAMETERS = {
@@ -165,9 +177,9 @@ if not DEBUG:
 
     elif BUCKET_TYPE == 'BLACKBLAZE':
 
-        AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-        AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-        AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+        AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
+        AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
+        AWS_STORAGE_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME
         AWS_S3_REGION_NAME = 'us-east-005'
 
         AWS_S3_ENDPOINT = f's3.{AWS_S3_REGION_NAME}.backblazeb2.com'
@@ -196,9 +208,9 @@ if not DEBUG:
         PRIVATE_FILE_STORAGE = 'arpansahu_dot_me.storage_backends.PrivateMediaStorage'
 
     elif BUCKET_TYPE == 'MINIO':
-        AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-        AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-        AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+        AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
+        AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
+        AWS_STORAGE_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME
         AWS_S3_REGION_NAME = 'us-east-1'  # MinIO doesn't require this, but boto3 does
         AWS_S3_ENDPOINT_URL = 'https://minio.arpansahu.me'
         AWS_DEFAULT_ACL = 'public-read'
@@ -252,10 +264,6 @@ LOGOUT_URL = 'logout'
 
 LOGIN_REDIRECT_URL = "/"
 
-
-MAIL_JET_API_KEY = config('MAIL_JET_API_KEY')
-MAIL_JET_API_SECRET = config('MAIL_JET_API_SECRET')
-
 OTP_EXPIRY_TIME = 60
 
 # HTTP_X_FORWARDED_PROTO
@@ -280,7 +288,7 @@ else:
         "default": {
             "BACKEND": "channels_redis.core.RedisChannelLayer",
             "CONFIG": {
-                "hosts": [(config('REDISCLOUD_URL'))],
+                "hosts": [(REDIS_CLOUD_URL)],
             },
         },
     }
