@@ -290,13 +290,9 @@
  Change settings.py static files and media files settings | Now I have added support for BlackBlaze Static Storage also which also based on AWS S3 protocols
 </p>
 <pre><code class="language-python">if not DEBUG:
-    BUCKET_TYPE = config(&#x27;BUCKET_TYPE&#x27;)
+    BUCKET_TYPE = BUCKET_TYPE
 
     if BUCKET_TYPE == &#x27;AWS&#x27;:
-
-        AWS_ACCESS_KEY_ID = config(&#x27;AWS_ACCESS_KEY_ID&#x27;)
-        AWS_SECRET_ACCESS_KEY = config(&#x27;AWS_SECRET_ACCESS_KEY&#x27;)
-        AWS_STORAGE_BUCKET_NAME = config(&#x27;AWS_STORAGE_BUCKET_NAME&#x27;)
         AWS_S3_CUSTOM_DOMAIN = f&#x27;{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com&#x27;
         AWS_DEFAULT_ACL = &#x27;public-read&#x27;
         AWS_S3_OBJECT_PARAMETERS = {
@@ -308,22 +304,18 @@
             &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/django_starter/static&#x27;
+        AWS_STATIC_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;django_starter.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.StaticStorage&#x27;
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/django_starter/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;django_starter.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.PublicMediaStorage&#x27;
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/django_starter/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;django_starter.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/private&#x27;
+        PRIVATE_FILE_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.PrivateMediaStorage&#x27;
 
     elif BUCKET_TYPE == &#x27;BLACKBLAZE&#x27;:
-
-        AWS_ACCESS_KEY_ID = config(&#x27;AWS_ACCESS_KEY_ID&#x27;)
-        AWS_SECRET_ACCESS_KEY = config(&#x27;AWS_SECRET_ACCESS_KEY&#x27;)
-        AWS_STORAGE_BUCKET_NAME = config(&#x27;AWS_STORAGE_BUCKET_NAME&#x27;)
         AWS_S3_REGION_NAME = &#x27;us-east-005&#x27;
 
         AWS_S3_ENDPOINT = f&#x27;s3.{AWS_S3_REGION_NAME}.backblazeb2.com&#x27;
@@ -340,21 +332,18 @@
             &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
         }
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/django_starter/static&#x27;
+        AWS_STATIC_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;django_starter.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.StaticStorage&#x27;
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/django_starter/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;django_starter.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.PublicMediaStorage&#x27;
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/django_starter/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;django_starter.storage_backends.PrivateMediaStorage&#x27;
+        PRIVATE_MEDIA_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/private&#x27;
+        PRIVATE_FILE_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.PrivateMediaStorage&#x27;
 
     elif BUCKET_TYPE == &#x27;MINIO&#x27;:
-        AWS_ACCESS_KEY_ID = config(&#x27;AWS_ACCESS_KEY_ID&#x27;)
-        AWS_SECRET_ACCESS_KEY = config(&#x27;AWS_SECRET_ACCESS_KEY&#x27;)
-        AWS_STORAGE_BUCKET_NAME = config(&#x27;AWS_STORAGE_BUCKET_NAME&#x27;)
         AWS_S3_REGION_NAME = &#x27;us-east-1&#x27;  # MinIO doesn&#x27;t require this, but boto3 does
         AWS_S3_ENDPOINT_URL = &#x27;https://minio.arpansahu.me&#x27;
         AWS_DEFAULT_ACL = &#x27;public-read&#x27;
@@ -368,21 +357,18 @@
         }
 
         # s3 static settings
-        AWS_STATIC_LOCATION = &#x27;portfolio/django_starter/static&#x27;
+        AWS_STATIC_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/static&#x27;
         STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = &#x27;django_starter.storage_backends.StaticStorage&#x27;
+        STATICFILES_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.StaticStorage&#x27;
 
         # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = &#x27;portfolio/django_starter/media&#x27;
+        AWS_PUBLIC_MEDIA_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/media&#x27;
         MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = &#x27;django_starter.storage_backends.PublicMediaStorage&#x27;
+        DEFAULT_FILE_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.PublicMediaStorage&#x27;
 
         # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/django_starter/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;django_starter.storage_backends.PrivateMediaStorage&#x27;
-
-
-
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/borcelle_crm/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;borcelle_crm.storage_backends.PrivateMediaStorage&#x27;
 else:
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/3.2/howto/static-files/
