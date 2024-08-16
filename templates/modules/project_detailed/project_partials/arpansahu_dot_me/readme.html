@@ -298,8 +298,7 @@
 <p>
  Use these CACHE settings
 </p>
-<pre><code class="language-python">#Caching
-if not DEBUG:
+<pre><code class="language-python">if not DEBUG:
     CHANNEL_LAYERS = {
         &#x27;default&#x27;: {
             &quot;BACKEND&quot;: &quot;channels.layers.InMemoryChannelLayer&quot;,
