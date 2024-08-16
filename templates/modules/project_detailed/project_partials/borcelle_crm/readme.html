@@ -533,8 +533,8 @@
 <p>
  Use these CELERY settings
 </p>
-<pre><code>CELERY_BROKER_URL = config(&quot;RABBITMQ_URL&quot;)
-CELERY_RESULT_BACKEND = config(&quot;REDISCLOUD_URL&quot;)
+<pre><code>CELERY_BROKER_URL = config(&quot;RABBIT_MQ_URL&quot;)
+CELERY_RESULT_BACKEND = config(&quot;REDIS_CLOUD_URL&quot;)
 CELERY_ACCEPT_CONTENT = [&#x27;application/json&#x27;]
 CELERY_TASK_SERIALIZER = &#x27;json&#x27;
 CELERY_RESULT_SERIALIZER = &#x27;json&#x27;
@@ -572,7 +572,7 @@ from decouple import config
 # set the default Django settings module for the &#x27;celery&#x27; program.
 os.environ.setdefault(&#x27;DJANGO_SETTINGS_MODULE&#x27;, &#x27;borcelle_crm.settings&#x27;)
 
-redis_url = config(&quot;REDISCLOUD_URL&quot;)
+redis_url = config(&quot;REDIS_CLOUD_URL&quot;)
 
 app = Celery(&#x27;borcelle_crm&#x27;, broker=redis_url, backend=redis_url, include=[&#x27;tasks.tasks&#x27;])
 
@@ -614,7 +614,7 @@ def debug_task(self):
 <pre><code class="language-python">CACHES = {
     &#x27;default&#x27;: {
         &#x27;BACKEND&#x27;: &#x27;django_redis.cache.RedisCache&#x27;,
-        &#x27;LOCATION&#x27;: config(&#x27;REDISCLOUD_URL&#x27;),
+        &#x27;LOCATION&#x27;: config(&#x27;REDIS_CLOUD_URL&#x27;),
         &#x27;OPTIONS&#x27;: {
             &#x27;CLIENT_CLASS&#x27;: &#x27;django_redis.client.DefaultClient&#x27;,
         }
@@ -635,7 +635,7 @@ else:
         &quot;default&quot;: {
             &quot;BACKEND&quot;: &quot;channels_redis.core.RedisChannelLayer&quot;,
             &quot;CONFIG&quot;: {
-                &quot;hosts&quot;: [(config(&#x27;REDISCLOUD_URL&#x27;))],
+                &quot;hosts&quot;: [(config(&#x27;REDIS_CLOUD_URL&#x27;))],
             },
         },
     }
@@ -2343,16 +2343,16 @@ spec:
                 secretKeyRef:
                   name: borcelle-crm-secret
                   key: DATABASE_URL
-            - name: REDISCLOUD_URL
+            - name: REDIS_CLOUD_URL
               valueFrom:
                 secretKeyRef:
                   name: borcelle-crm-secret
-                  key: REDISCLOUD_URL
-            - name: RABBITMQ_URL
+                  key: REDIS_CLOUD_URL
+            - name: RABBIT_MQ_URL
               valueFrom:
                 secretKeyRef:
                   name: borcelle-crm-secret
-                  key: RABBITMQ_URL
+                  key: RABBIT_MQ_URL
             - name: MAIL_JET_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -5715,10 +5715,10 @@ Add all the env variables as required and mentioned in the Readme File.
  DATABASE_URL=
 </p>
 <p>
- REDISCLOUD_URL=
+ REDIS_CLOUD_URL=
 </p>
 <p>
- RABBITMQ_URL=
+ RABBIT_MQ_URL=
 </p>
 <h1>
  deploy_kube.sh requiurements
