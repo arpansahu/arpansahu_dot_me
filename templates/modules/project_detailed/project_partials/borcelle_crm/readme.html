@@ -611,15 +611,23 @@ def debug_task(self):
 <p>
  Use these CACHE settings
 </p>
-<pre><code class="language-python">CACHES = {
-    &#x27;default&#x27;: {
-        &#x27;BACKEND&#x27;: &#x27;django_redis.cache.RedisCache&#x27;,
-        &#x27;LOCATION&#x27;: config(&#x27;REDIS_CLOUD_URL&#x27;),
-        &#x27;OPTIONS&#x27;: {
-            &#x27;CLIENT_CLASS&#x27;: &#x27;django_redis.client.DefaultClient&#x27;,
+<pre><code class="language-python">#Caching
+if not DEBUG:
+    CHANNEL_LAYERS = {
+        &#x27;default&#x27;: {
+            &quot;BACKEND&quot;: &quot;channels.layers.InMemoryChannelLayer&quot;,
         }
     }
-}
+else:
+    CHANNEL_LAYERS = {
+        &quot;default&quot;: {
+            &quot;BACKEND&quot;: &quot;channels_redis.core.RedisChannelLayer&quot;,
+            &quot;CONFIG&quot;: {
+                &quot;hosts&quot;: [(REDIS_CLOUD_URL)],
+            },
+        },
+    }
+
 </code></pre>
 <p>
  Use these Channels Settings
