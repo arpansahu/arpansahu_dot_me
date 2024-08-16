@@ -612,21 +612,23 @@ def debug_task(self):
  Use these CACHE settings
 </p>
 <pre><code class="language-python">if not DEBUG:
-    CHANNEL_LAYERS = {
+    CACHES = {
         &#x27;default&#x27;: {
-            &quot;BACKEND&quot;: &quot;channels.layers.InMemoryChannelLayer&quot;,
+            &#x27;BACKEND&#x27;: &#x27;django_redis.cache.RedisCache&#x27;,
+            &#x27;LOCATION&#x27;: REDIS_CLOUD_URL,
+            &#x27;OPTIONS&#x27;: {
+                &#x27;CLIENT_CLASS&#x27;: &#x27;django_redis.client.DefaultClient&#x27;,
+            },
+            &#x27;KEY_PREFIX&#x27;: PROJECT_NAME
         }
     }
 else:
-    CHANNEL_LAYERS = {
-        &quot;default&quot;: {
-            &quot;BACKEND&quot;: &quot;channels_redis.core.RedisChannelLayer&quot;,
-            &quot;CONFIG&quot;: {
-                &quot;hosts&quot;: [(REDIS_CLOUD_URL)],
-            },
-        },
+    CACHES = {
+        &#x27;default&#x27;: {
+            &#x27;BACKEND&#x27;: &#x27;django.core.cache.backends.locmem.LocMemCache&#x27;,
+            &#x27;LOCATION&#x27;: &#x27;unique-snowflake&#x27;,
+        }
     }
-
 </code></pre>
 <p>
  Use these Channels Settings
@@ -642,7 +644,7 @@ else:
         &quot;default&quot;: {
             &quot;BACKEND&quot;: &quot;channels_redis.core.RedisChannelLayer&quot;,
             &quot;CONFIG&quot;: {
-                &quot;hosts&quot;: [(config(&#x27;REDIS_CLOUD_URL&#x27;))],
+                &quot;hosts&quot;: [(REDIS_CLOUD_URL)],
             },
         },
     }
