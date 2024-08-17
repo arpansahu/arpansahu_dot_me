@@ -88,7 +88,9 @@ pipeline {
                         curl -u arpansahu:Kesar302@jenkins https://jenkins.arpansahu.me/job/arpansahu_dot_me_build/lastBuild/api/json
                     """, returnStdout: true).trim()
 
-                    echo "buildInfoJson : ${buildInfoJson}"
+                    // Log the raw JSON response for debugging
+                    echo "Raw JSON response: ${buildInfoJson}"
+                    
                     // Parse the JSON response
                     def jsonResponse = readJSON(text: buildInfoJson)
 
