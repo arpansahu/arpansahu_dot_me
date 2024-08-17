@@ -3373,6 +3373,7 @@ sudo apt-get install jenkins
         ENV_PROJECT_NAME = &quot;borcelle_crm&quot;
         DOCKER_PORT = &quot;8014&quot;
         PROJECT_NAME_WITH_DASH = &quot;borcelle-crm&quot;
+        SERVER_NAME= &quot;borcelle-crm.arpansahu.me&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3411,38 +3412,33 @@ sudo apt-get install jenkins
 
                         sh &quot;&quot;&quot;
                         sudo tee ${NGINX_CONF} &gt; /dev/null &lt;&lt;EOF
-                        test content
+                        server {
+                            listen 80;
+                            server_name ${SERVER_NAME};
+
+                            if (\$scheme = http) {
+                                return 301 https://\$server_name\$request_uri;
+                            }
+
+                            location / {
+                                proxy_pass http://0.0.0.0:${DOCKER_PORT};
+                                proxy_set_header Host \$host;
+                                proxy_set_header X-Forwarded-Proto \$scheme;
+
+                                proxy_http_version 1.1;
+                                proxy_set_header Upgrade \$http_upgrade;
+                                proxy_set_header Connection &quot;upgrade&quot;;
+                            }
+
+                            listen 443 ssl; # managed by Certbot
+                            ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
+                            ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+                            include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+                            ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+                        }
                         EOF
                         &quot;&quot;&quot;
 
-                        // sh &quot;&quot;&quot;
-                        // sudo tee ${NGINX_CONF} &gt; /dev/null &lt;&lt;EOF
-                        // server {
-                        //     listen 80;
-                        //     server_name ${SERVER_NAME};
-
-                        //     if (\$scheme = http) {
-                        //         return 301 https://\$server_name\$request_uri;
-                        //     }
-
-                        //     location / {
-                        //         proxy_pass http://0.0.0.0:${DOCKER_PORT};
-                        //         proxy_set_header Host \$host;
-                        //         proxy_set_header X-Forwarded-Proto \$scheme;
-
-                        //         proxy_http_version 1.1;
-                        //         proxy_set_header Upgrade \$http_upgrade;
-                        //         proxy_set_header Connection &quot;upgrade&quot;;
-                        //     }
-
-                        //     listen 443 ssl; # managed by Certbot
-                        //     ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-                        //     ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
-                        //     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-                        //     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-                        // }
-                        // EOF
-                        // &quot;&quot;&quot;
                         echo &quot;Nginx configuration file created.&quot;
                     } else {
                         echo &quot;Nginx configuration file already exists.&quot;
