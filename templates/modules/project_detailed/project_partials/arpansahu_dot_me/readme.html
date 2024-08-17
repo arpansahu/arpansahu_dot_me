@@ -3016,7 +3016,7 @@ sudo apt-get install jenkins
 <pre><code class="language-bash">pipeline {
     agent { label &#x27;local&#x27; }
     parameters {
-        booleanParam(name: &#x27;DEPLOY&#x27;, defaultValue: true, description: &#x27;Skip the Check for Changes stage&#x27;)
+        booleanParam(name: &#x27;DEPLOY&#x27;, defaultValue: false, description: &#x27;Skip the Check for Changes stage&#x27;)
         choice(name: &#x27;DEPLOY_TYPE&#x27;, choices: [&#x27;kubernetes&#x27;, &#x27;docker&#x27;], description: &#x27;Select deployment type&#x27;)
     }
     environment {
@@ -3093,7 +3093,7 @@ sudo apt-get install jenkins
                     echo &quot;Retrieve image tag from ${BUILD_PROJECT_NAME}&quot;
 
                     // Construct the API URL for the latest build
-                    def api_url = &quot;https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastBuild/api/json&quot;
+                    def api_url = &quot;https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastSuccessfulBuild/api/json&quot;
 
                     // Log the API URL for debugging purposes
                     echo &quot;Hitting API URL: ${api_url}&quot;
@@ -3103,16 +3103,17 @@ sudo apt-get install jenkins
                         curl -u arpansahu:Kesar302@jenkins https://jenkins.arpansahu.me/job/arpansahu_dot_me_build/lastBuild/api/json
                     &quot;&quot;&quot;, returnStdout: true).trim()
 
-                    echo &quot;buildInfoJson : ${buildInfoJson}&quot;
-                    // Parse the JSON response
-                    def jsonResponse = readJSON(text: buildInfoJson)
+                    // Log the raw JSON response for debugging
+                    echo &quot;Raw JSON response: ${buildInfoJson}&quot;
 
-                    // Extract the image tag from the JSON response
-                    def imageTag = jsonResponse.actions.find { it.name == &#x27;BUILD_ID&#x27; }?.value
-                    echo &quot;Retrieved image tag: ${imageTag}&quot;
+                    def imageTag = sh(script: &quot;&quot;&quot;
+                        echo &#x27;${buildInfoJson}&#x27; | grep -oP &#x27;&quot;number&quot;:\\s*\\K\\d+&#x27; | head -n 1
+                    &quot;&quot;&quot;, returnStdout: true).trim()
+
+                    echo &quot;Retrieved image tag (build number): ${imageTag}&quot;
 
                     // Replace the placeholder in the deployment YAML
-                    // sh &quot;sed -i &#x27;s|latest|${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
+                    sh &quot;sed -i &#x27;s|:latest|:${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
                 }
             }
         }
@@ -3183,11 +3184,11 @@ sudo apt-get install jenkins
                             &quot;&quot;&quot;
 
                             // Delete the existing service and deployment
-                            sh &quot;&quot;&quot;
-                            kubectl delete service ${PROJECT_NAME_WITH_DASH}-service || true
-                            kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 || true
-                            kubectl delete deployment ${PROJECT_NAME_WITH_DASH}-app || true
-                            &quot;&quot;&quot;
+                            // sh &quot;&quot;&quot;
+                            // kubectl delete service ${PROJECT_NAME_WITH_DASH}-service || true
+                            // kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 || true
+                            // kubectl delete deployment ${PROJECT_NAME_WITH_DASH}-app || true
+                            // &quot;&quot;&quot;
 
                             // Deploy to Kubernetes
                             sh &quot;&quot;&quot;
@@ -3283,6 +3284,31 @@ sudo apt-get install jenkins
                         ./merge_main_into_build_branch.sh
                         &quot;&quot;&quot;
                     }
+                }
+            }
+        }
+        stage(&#x27;Reset Deployment yaml&#x27;) {
+            when {
+                expression { params.DEPLOY &amp;&amp; params.DEPLOY_TYPE == &#x27;kubernetes&#x27; }
+            }
+            steps {
+                script {
+                    echo &#x27;Performing actions for Kubernetes deployment&#x27;
+                    // Your custom logic for Kubernetes deployment here
+
+                    // Revert deployment.yaml to its original state by resetting to latest
+                    sh &quot;&quot;&quot;
+                        sed -i &#x27;s|:${imageTag}|:latest|g&#x27; ${WORKSPACE}/deployment.yaml
+                    &quot;&quot;&quot;
+
+                    echo &quot;Reverted deployment.yaml&quot;
+
+                    // Verify the replacement by checking if &#x27;latest&#x27; is present in the file
+                    def checkLatest = sh(script: &quot;&quot;&quot;
+                        grep -q &#x27;:latest&#x27; ${WORKSPACE}/deployment.yaml &amp;&amp; echo &#x27;Replacement successful&#x27; || echo &#x27;Replacement failed&#x27;
+                    &quot;&quot;&quot;, returnStdout: true).trim()
+
+                    echo &quot;Check image tag: ${checkLatest}&quot;
                 }
             }
         }
