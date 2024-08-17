@@ -3297,9 +3297,7 @@ sudo apt-get install jenkins
                     // Your custom logic for Kubernetes deployment here
 
                     // Revert deployment.yaml to its original state by resetting to latest
-                    sh &quot;&quot;&quot;
-                        sed -i &#x27;s|:${imageTag}|:latest|g&#x27; ${WORKSPACE}/deployment.yaml
-                    &quot;&quot;&quot;
+                    git restore deployment.yaml
 
                     echo &quot;Reverted deployment.yaml&quot;
 
