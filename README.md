@@ -2567,6 +2567,7 @@ pipeline {
         ENV_PROJECT_NAME = "arpansahu_dot_me"
         DOCKER_PORT = "8000"
         PROJECT_NAME_WITH_DASH = "arpansahu-dot-me"
+        SERVER_NAME= "arpansahu.me"
     }
     stages {
         stage('Initialize') {
@@ -2594,15 +2595,29 @@ pipeline {
                 }
             }
         }
-        stage('Extract Port from Dockerfile') {
+        stage('Check & Create Nginx Configuration') {
             steps {
                 script {
-                    env.EXPOSED_PORT = sh(script: "grep '^EXPOSE' Dockerfile | awk '{print \$2}'", returnStdout: true).trim()
-                    if (!env.EXPOSED_PORT) {
-                        error "No EXPOSE directive found in Dockerfile"
+                    // Check if the Nginx configuration file exists
+                    def configExists = sh(script: "test -f ${NGINX_CONF} && echo 'exists' || echo 'not exists'", returnStdout: true).trim()
+
+                    if (configExists == 'not exists') {
+                        echo "Nginx configuration file does not exist. Creating it now..."
+
+                        // Create or overwrite the NGINX_CONF file with the content of nginx.conf using sudo tee
+                        sh "sudo cat nginx.conf | sudo tee ${NGINX_CONF} > /dev/null"
+
+                        // Replace placeholders in the configuration file
+                        sh "sudo sed -i 's|SERVER_NAME|${SERVER_NAME}|g' ${NGINX_CONF}"
+                        sh "sudo sed -i 's|DOCKER_PORT|${DOCKER_PORT}|g' ${NGINX_CONF}"
+
+                        echo "Nginx configuration file created."
                     } else {
-                        echo "Exposed port found in Dockerfile: ${env.EXPOSED_PORT}"
+                        echo "Nginx configuration file already exists."
                     }
+
+                    // Ensure Nginx is aware of the new configuration
+                    sh "sudo ln -sf ${NGINX_CONF} /etc/nginx/sites-enabled/"
                 }
             }
         }
