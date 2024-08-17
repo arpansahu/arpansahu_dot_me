@@ -282,7 +282,18 @@ pipeline {
                     // Your custom logic for Kubernetes deployment here
 
                     // Revert deployment.yaml to its original state by resetting to latest
-                    sh "sed -i 's|:${imageTag}|:latest|g' ${WORKSPACE}/deployment.yaml"
+                    sh """
+                        sed -i 's|:${imageTag}|:latest|g' ${WORKSPACE}/deployment.yaml
+                    """
+
+                    echo "Reverted deployment.yaml"
+
+                    // Verify the replacement by checking if 'latest' is present in the file
+                    def checkLatest = sh(script: """
+                        grep -q ':latest' ${WORKSPACE}/deployment.yaml && echo 'Replacement successful' || echo 'Replacement failed'
+                    """, returnStdout: true).trim()
+
+                    echo "Check image tag: ${checkLatest}"
                 }
             }
 
