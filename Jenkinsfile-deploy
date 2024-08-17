@@ -92,12 +92,14 @@ pipeline {
                     // Parse the JSON response
                     def jsonResponse = readJSON(text: buildInfoJson)
 
+                    echo "jsonResponse : ${jsonResponse}"
+
                     // Extract the image tag from the JSON response
                     def imageTag = jsonResponse.actions.find { it.name == 'BUILD_ID' }?.value
                     echo "Retrieved image tag: ${imageTag}"
 
                     // Replace the placeholder in the deployment YAML
-                    // sh "sed -i 's|latest|${imageTag}|g' ${WORKSPACE}/deployment.yaml"
+                    // sh "sed -i 's|:latest|:${imageTag}|g' ${WORKSPACE}/deployment.yaml"
                 }
             }
         }
