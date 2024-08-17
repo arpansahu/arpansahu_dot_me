@@ -3016,7 +3016,7 @@ sudo apt-get install jenkins
 <pre><code class="language-bash">pipeline {
     agent { label &#x27;local&#x27; }
     parameters {
-        booleanParam(name: &#x27;DEPLOY&#x27;, defaultValue: false, description: &#x27;Skip the Check for Changes stage&#x27;)
+        booleanParam(name: &#x27;DEPLOY&#x27;, defaultValue: true, description: &#x27;Skip the Check for Changes stage&#x27;)
         choice(name: &#x27;DEPLOY_TYPE&#x27;, choices: [&#x27;kubernetes&#x27;, &#x27;docker&#x27;], description: &#x27;Select deployment type&#x27;)
     }
     environment {
@@ -3092,35 +3092,27 @@ sudo apt-get install jenkins
                 script {
                     echo &quot;Retrieve image tag from ${BUILD_PROJECT_NAME}&quot;
 
-                    withCredentials([usernamePassword(credentialsId: &#x27;jenkins_cred&#x27;, passwordVariable: &#x27;JENKINS_PASSWORD&#x27;, usernameVariable: &#x27;JENKINS_USERNAME&#x27;)]) {
-                        // Construct the API URL for the latest build
-                        def api_url = &quot;https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastBuild/api/json&quot;
+                    // Construct the API URL for the latest build
+                    def api_url = &quot;https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastBuild/api/json&quot;
 
-                        // Log the API URL for debugging purposes
-                        echo &quot;Hitting API URL: ${api_url}&quot;
+                    // Log the API URL for debugging purposes
+                    echo &quot;Hitting API URL: ${api_url}&quot;
 
-                        // Execute the curl command to retrieve the JSON response
-                        def buildInfoJson = sh(script: &quot;&quot;&quot;
-                            curl -s -u ${JENKINS_USERNAME}:${JENKINS_PASSWORD} ${api_url}
-                        &quot;&quot;&quot;, returnStdout: true).trim()
+                    // Execute the curl command to retrieve the JSON response
+                    def buildInfoJson = sh(script: &quot;&quot;&quot;
+                        curl -u arpansahu:Kesar302@jenkins https://jenkins.arpansahu.me/job/arpansahu_dot_me_build/lastBuild/api/json
+                    &quot;&quot;&quot;, returnStdout: true).trim()
 
-                        // Parse the JSON response
-                        def jsonResponse = readJSON(text: buildInfoJson)
+                    echo &quot;buildInfoJson : ${buildInfoJson}&quot;
+                    // Parse the JSON response
+                    def jsonResponse = readJSON(text: buildInfoJson)
 
-                        // Extract the image tag from the JSON response
-                        def imageTag = jsonResponse.actions.find { it.name == &#x27;BUILD_ID&#x27; }?.value
-                        echo &quot;Retrieved image tag: ${imageTag}&quot;
-
-                        // Replace the placeholder in the deployment YAML
-                        sh &quot;sed -i &#x27;s|__IMAGE_TAG__|${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
-                    }
-
-                    def jsonResponse = readJSON(text: buildInfo.content)
+                    // Extract the image tag from the JSON response
                     def imageTag = jsonResponse.actions.find { it.name == &#x27;BUILD_ID&#x27; }?.value
                     echo &quot;Retrieved image tag: ${imageTag}&quot;
 
                     // Replace the placeholder in the deployment YAML
-                    sh &quot;sed -i &#x27;s|__IMAGE_TAG__|${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
+                    // sh &quot;sed -i &#x27;s|latest|${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
                 }
             }
         }
