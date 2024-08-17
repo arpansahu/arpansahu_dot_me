@@ -2637,6 +2637,7 @@ pipeline {
 
                     def buildInfo = httpRequest(
                         url: api_url,
+                        authentication: 'jenkins_cred',
                         httpMode: 'GET',
                         validResponseCodes: '200'
                     )
