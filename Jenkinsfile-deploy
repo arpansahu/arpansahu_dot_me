@@ -76,17 +76,29 @@ pipeline {
             steps {
                 script {
                     echo "Retrieve image tag from ${BUILD_PROJECT_NAME}"
-                    
-                    def api_url = "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastBuild/api/json"
 
-                    sh "echo hitting api url is : ${api_url}"
+                    withCredentials([usernamePassword(credentialsId: 'jenkins_cred', passwordVariable: 'JENKINS_PASSWORD', usernameVariable: 'JENKINS_USERNAME')]) {
+                        // Construct the API URL for the latest build
+                        def api_url = "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastBuild/api/json"
 
-                    def buildInfo = httpRequest(
-                        url: api_url,
-                        authentication: 'jenkins_cred',
-                        httpMode: 'GET',
-                        validResponseCodes: '200'
-                    )
+                        // Log the API URL for debugging purposes
+                        echo "Hitting API URL: ${api_url}"
+
+                        // Execute the curl command to retrieve the JSON response
+                        def buildInfoJson = sh(script: """
+                            curl -s -u ${JENKINS_USERNAME}:${JENKINS_PASSWORD} ${api_url}
+                        """, returnStdout: true).trim()
+
+                        // Parse the JSON response
+                        def jsonResponse = readJSON(text: buildInfoJson)
+
+                        // Extract the image tag from the JSON response
+                        def imageTag = jsonResponse.actions.find { it.name == 'BUILD_ID' }?.value
+                        echo "Retrieved image tag: ${imageTag}"
+
+                        // Replace the placeholder in the deployment YAML
+                        sh "sed -i 's|__IMAGE_TAG__|${imageTag}|g' ${WORKSPACE}/deployment.yaml"
+                    }
 
                     def jsonResponse = readJSON(text: buildInfo.content)
                     def imageTag = jsonResponse.actions.find { it.name == 'BUILD_ID' }?.value
