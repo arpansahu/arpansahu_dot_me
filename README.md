@@ -2630,7 +2630,11 @@ pipeline {
             steps {
                 script {
                     echo "Retrieve image tag from ${BUILD_PROJECT_NAME}"
+                    
+                    def api_url = "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastBuild/api/json"
 
+                    sh "echo hitting api url is : ${api_url}"
+                    
                     def buildInfo = httpRequest(
                         url: "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastBuild/api/json",
                         authentication: 'jenkins-credentials-id',
