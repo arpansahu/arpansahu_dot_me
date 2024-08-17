@@ -76,6 +76,7 @@ pipeline {
             }
             steps {
                 script {
+                    echo "Retrieve image tag from ${BUILD_PROJECT_NAME}"
 
                     def buildInfo = httpRequest(
                         url: "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/${BUILD_NUMBER}/api/json",
