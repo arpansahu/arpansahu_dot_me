@@ -3408,8 +3408,6 @@ sudo apt-get install jenkins
 
                     if (configExists == &#x27;not exists&#x27;) {
                         echo &quot;Nginx configuration file does not exist. Creating it now...&quot;
-                        sh &quot;sudo touch ${NGINX_CONF}&quot;
-                        sh &quot;test -f ${NGINX_CONF} &amp;&amp; echo &#x27;exists&#x27; || echo &#x27;not exists&#x27;&quot;
 
                         sh &quot;&quot;&quot;
                         sudo tee ${NGINX_CONF} &gt; /dev/null &lt;&lt;EOF
