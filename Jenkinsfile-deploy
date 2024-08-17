@@ -91,13 +91,11 @@ pipeline {
                     // Log the raw JSON response for debugging
                     echo "Raw JSON response: ${buildInfoJson}"
                     
-                    // Parse the JSON response
-                    def jsonResponse = readJSON(text: buildInfoJson)
-                    echo "Successfully parsed JSON response."
+                    def imageTag = sh(script: """
+                        echo '${buildInfoJson}' | grep -oP '"number":\\s*\\K\\d+'
+                    """, returnStdout: true).trim()
 
-                    // Extract the image tag from the JSON response
-                    def imageTag = jsonResponse.actions.find { it.name == 'BUILD_ID' }?.value
-                    echo "Retrieved image tag: ${imageTag}"
+                    echo "Retrieved image tag (build number): ${imageTag}"
 
                     // Replace the placeholder in the deployment YAML
                     // sh "sed -i 's|:latest|:${imageTag}|g' ${WORKSPACE}/deployment.yaml"
