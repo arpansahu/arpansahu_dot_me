@@ -92,7 +92,7 @@ pipeline {
                     echo "Raw JSON response: ${buildInfoJson}"
                     
                     def imageTag = sh(script: """
-                        echo '${buildInfoJson}' | grep -oP '"number":\\s*\\K\\d+'
+                        echo '${buildInfoJson}' | grep -oP '"number":\\s*\\K\\d+' | head -n 1
                     """, returnStdout: true).trim()
 
                     echo "Retrieved image tag (build number): ${imageTag}"
