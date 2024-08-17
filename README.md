@@ -2570,7 +2570,6 @@ pipeline {
         SERVER_NAME= "arpansahu.me"
         BUILD_PROJECT_NAME = "arpansahu_dot_me_build"
         JENKINS_DOMAIN = "jenkins.arpansahu.me"
-        BUILD_NUMBER = "latest"
     }
     stages {
         stage('Initialize') {
@@ -2630,9 +2629,10 @@ pipeline {
             }
             steps {
                 script {
+                    echo "Retrieve image tag from ${BUILD_PROJECT_NAME}"
 
                     def buildInfo = httpRequest(
-                        url: "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/${BUILD_NUMBER}/api/json",
+                        url: "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastBuild/api/json",
                         authentication: 'jenkins-credentials-id',
                         httpMode: 'GET',
                         validResponseCodes: '200'
