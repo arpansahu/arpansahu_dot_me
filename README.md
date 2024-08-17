@@ -2555,7 +2555,7 @@ pipeline {
 pipeline {
     agent { label 'local' }
     parameters {
-        booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Skip the Check for Changes stage')
+        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Skip the Check for Changes stage')
         choice(name: 'DEPLOY_TYPE', choices: ['kubernetes', 'docker'], description: 'Select deployment type')
     }
     environment {
@@ -2632,7 +2632,7 @@ pipeline {
                     echo "Retrieve image tag from ${BUILD_PROJECT_NAME}"
 
                     // Construct the API URL for the latest build
-                    def api_url = "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastBuild/api/json"
+                    def api_url = "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastSuccessfulBuild/api/json"
 
                     // Log the API URL for debugging purposes
                     echo "Hitting API URL: ${api_url}"
@@ -2642,16 +2642,17 @@ pipeline {
                         curl -u arpansahu:Kesar302@jenkins https://jenkins.arpansahu.me/job/arpansahu_dot_me_build/lastBuild/api/json
                     """, returnStdout: true).trim()
 
-                    echo "buildInfoJson : ${buildInfoJson}"
-                    // Parse the JSON response
-                    def jsonResponse = readJSON(text: buildInfoJson)
+                    // Log the raw JSON response for debugging
+                    echo "Raw JSON response: ${buildInfoJson}"
+                    
+                    def imageTag = sh(script: """
+                        echo '${buildInfoJson}' | grep -oP '"number":\\s*\\K\\d+' | head -n 1
+                    """, returnStdout: true).trim()
 
-                    // Extract the image tag from the JSON response
-                    def imageTag = jsonResponse.actions.find { it.name == 'BUILD_ID' }?.value
-                    echo "Retrieved image tag: ${imageTag}"
+                    echo "Retrieved image tag (build number): ${imageTag}"
 
                     // Replace the placeholder in the deployment YAML
-                    // sh "sed -i 's|latest|${imageTag}|g' ${WORKSPACE}/deployment.yaml"
+                    sh "sed -i 's|:latest|:${imageTag}|g' ${WORKSPACE}/deployment.yaml"
                 }
             }
         }
@@ -2722,11 +2723,11 @@ pipeline {
                             """
 
                             // Delete the existing service and deployment
-                            sh """
-                            kubectl delete service ${PROJECT_NAME_WITH_DASH}-service || true
-                            kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 || true
-                            kubectl delete deployment ${PROJECT_NAME_WITH_DASH}-app || true
-                            """
+                            // sh """
+                            // kubectl delete service ${PROJECT_NAME_WITH_DASH}-service || true
+                            // kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 || true
+                            // kubectl delete deployment ${PROJECT_NAME_WITH_DASH}-app || true
+                            // """
 
                             // Deploy to Kubernetes
                             sh """
@@ -2822,6 +2823,31 @@ pipeline {
                         ./merge_main_into_build_branch.sh
                         """
                     }
+                }
+            }
+        }
+        stage('Reset Deployment yaml') {
+            when {
+                expression { params.DEPLOY && params.DEPLOY_TYPE == 'kubernetes' }
+            }
+            steps {
+                script {
+                    echo 'Performing actions for Kubernetes deployment'
+                    // Your custom logic for Kubernetes deployment here
+
+                    // Revert deployment.yaml to its original state by resetting to latest
+                    sh """
+                        sed -i 's|:${imageTag}|:latest|g' ${WORKSPACE}/deployment.yaml
+                    """
+
+                    echo "Reverted deployment.yaml"
+
+                    // Verify the replacement by checking if 'latest' is present in the file
+                    def checkLatest = sh(script: """
+                        grep -q ':latest' ${WORKSPACE}/deployment.yaml && echo 'Replacement successful' || echo 'Replacement failed'
+                    """, returnStdout: true).trim()
+
+                    echo "Check image tag: ${checkLatest}"
                 }
             }
         }
