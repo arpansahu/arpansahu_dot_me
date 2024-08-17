@@ -2555,7 +2555,7 @@ pipeline {
 pipeline {
     agent { label 'local' }
     parameters {
-        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Skip the Check for Changes stage')
+        booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Skip the Check for Changes stage')
         choice(name: 'DEPLOY_TYPE', choices: ['kubernetes', 'docker'], description: 'Select deployment type')
     }
     environment {
@@ -2631,35 +2631,27 @@ pipeline {
                 script {
                     echo "Retrieve image tag from ${BUILD_PROJECT_NAME}"
 
-                    withCredentials([usernamePassword(credentialsId: 'jenkins_cred', passwordVariable: 'JENKINS_PASSWORD', usernameVariable: 'JENKINS_USERNAME')]) {
-                        // Construct the API URL for the latest build
-                        def api_url = "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastBuild/api/json"
+                    // Construct the API URL for the latest build
+                    def api_url = "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastBuild/api/json"
 
-                        // Log the API URL for debugging purposes
-                        echo "Hitting API URL: ${api_url}"
+                    // Log the API URL for debugging purposes
+                    echo "Hitting API URL: ${api_url}"
+                    
+                    // Execute the curl command to retrieve the JSON response
+                    def buildInfoJson = sh(script: """
+                        curl -u arpansahu:Kesar302@jenkins https://jenkins.arpansahu.me/job/arpansahu_dot_me_build/lastBuild/api/json
+                    """, returnStdout: true).trim()
 
-                        // Execute the curl command to retrieve the JSON response
-                        def buildInfoJson = sh(script: """
-                            curl -s -u ${JENKINS_USERNAME}:${JENKINS_PASSWORD} ${api_url}
-                        """, returnStdout: true).trim()
+                    echo "buildInfoJson : ${buildInfoJson}"
+                    // Parse the JSON response
+                    def jsonResponse = readJSON(text: buildInfoJson)
 
-                        // Parse the JSON response
-                        def jsonResponse = readJSON(text: buildInfoJson)
-
-                        // Extract the image tag from the JSON response
-                        def imageTag = jsonResponse.actions.find { it.name == 'BUILD_ID' }?.value
-                        echo "Retrieved image tag: ${imageTag}"
-
-                        // Replace the placeholder in the deployment YAML
-                        sh "sed -i 's|__IMAGE_TAG__|${imageTag}|g' ${WORKSPACE}/deployment.yaml"
-                    }
-
-                    def jsonResponse = readJSON(text: buildInfo.content)
+                    // Extract the image tag from the JSON response
                     def imageTag = jsonResponse.actions.find { it.name == 'BUILD_ID' }?.value
                     echo "Retrieved image tag: ${imageTag}"
 
                     // Replace the placeholder in the deployment YAML
-                    sh "sed -i 's|__IMAGE_TAG__|${imageTag}|g' ${WORKSPACE}/deployment.yaml"
+                    // sh "sed -i 's|latest|${imageTag}|g' ${WORKSPACE}/deployment.yaml"
                 }
             }
         }
