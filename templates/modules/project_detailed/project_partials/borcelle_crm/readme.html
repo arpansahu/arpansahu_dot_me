@@ -3427,18 +3427,6 @@ sudo apt-get install jenkins
                 }
             }
         }
-        stage(&#x27;Extract Port from Dockerfile&#x27;) {
-            steps {
-                script {
-                    env.EXPOSED_PORT = sh(script: &quot;grep &#x27;^EXPOSE&#x27; Dockerfile | awk &#x27;{print \$2}&#x27;&quot;, returnStdout: true).trim()
-                    if (!env.EXPOSED_PORT) {
-                        error &quot;No EXPOSE directive found in Dockerfile&quot;
-                    } else {
-                        echo &quot;Exposed port found in Dockerfile: ${env.EXPOSED_PORT}&quot;
-                    }
-                }
-            }
-        }
         stage(&#x27;Deploy&#x27;) {
             when {
                 expression { params.DEPLOY }
