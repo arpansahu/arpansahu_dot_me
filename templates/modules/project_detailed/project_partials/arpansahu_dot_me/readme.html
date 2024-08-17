@@ -3287,29 +3287,6 @@ sudo apt-get install jenkins
                 }
             }
         }
-        stage(&#x27;Reset Deployment yaml&#x27;) {
-            when {
-                expression { params.DEPLOY &amp;&amp; params.DEPLOY_TYPE == &#x27;kubernetes&#x27; }
-            }
-            steps {
-                script {
-                    echo &#x27;Performing actions for Kubernetes deployment&#x27;
-                    // Your custom logic for Kubernetes deployment here
-
-                    // Revert deployment.yaml to its original state by resetting to latest
-                    // git restore deployment.yaml
-
-                    echo &quot;Reverted deployment.yaml&quot;
-
-                    // Verify the replacement by checking if &#x27;latest&#x27; is present in the file
-                    def checkLatest = sh(script: &quot;&quot;&quot;
-                        grep -q &#x27;:latest&#x27; ${WORKSPACE}/deployment.yaml &amp;&amp; echo &#x27;Replacement successful&#x27; || echo &#x27;Replacement failed&#x27;
-                    &quot;&quot;&quot;, returnStdout: true).trim()
-
-                    echo &quot;Check image tag: ${checkLatest}&quot;
-                }
-            }
-        }
     }
     post {
         success {
