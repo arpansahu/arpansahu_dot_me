@@ -3076,12 +3076,12 @@ sudo apt-get install jenkins
                         sh &quot;sudo sed -i &#x27;s|DOCKER_PORT|${DOCKER_PORT}|g&#x27; ${NGINX_CONF}&quot;
 
                         echo &quot;Nginx configuration file created.&quot;
+
+                        // Ensure Nginx is aware of the new configuration
+                        sh &quot;sudo ln -sf ${NGINX_CONF} /etc/nginx/sites-enabled/&quot;
                     } else {
                         echo &quot;Nginx configuration file already exists.&quot;
-                    }
-
-                    // Ensure Nginx is aware of the new configuration
-                    sh &quot;sudo ln -sf ${NGINX_CONF} /etc/nginx/sites-enabled/&quot;
+                    }                    
                 }
             }
         }
