@@ -3031,7 +3031,6 @@ sudo apt-get install jenkins
         SERVER_NAME= &quot;arpansahu.me&quot;
         BUILD_PROJECT_NAME = &quot;arpansahu_dot_me_build&quot;
         JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
-        BUILD_NUMBER = &quot;latest&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3091,9 +3090,10 @@ sudo apt-get install jenkins
             }
             steps {
                 script {
+                    echo &quot;Retrieve image tag from ${BUILD_PROJECT_NAME}&quot;
 
                     def buildInfo = httpRequest(
-                        url: &quot;https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/${BUILD_NUMBER}/api/json&quot;,
+                        url: &quot;https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastBuild/api/json&quot;,
                         authentication: &#x27;jenkins-credentials-id&#x27;,
                         httpMode: &#x27;GET&#x27;,
                         validResponseCodes: &#x27;200&#x27;
