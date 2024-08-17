@@ -272,12 +272,12 @@ pipeline {
                 }
             }
         }
-    }
-    post {
-        always {
-            script {
-                if (params.DEPLOY && params.DEPLOY_TYPE == 'kubernetes') {
-
+        stage('Reset Deployment yaml') {
+            when {
+                expression { params.DEPLOY && params.DEPLOY_TYPE == 'kubernetes' }
+            }
+            steps {
+                script {
                     echo 'Performing actions for Kubernetes deployment'
                     // Your custom logic for Kubernetes deployment here
 
@@ -296,8 +296,9 @@ pipeline {
                     echo "Check image tag: ${checkLatest}"
                 }
             }
-
         }
+    }
+    post {
         success {
             script {
                 // Retrieve the latest commit message
