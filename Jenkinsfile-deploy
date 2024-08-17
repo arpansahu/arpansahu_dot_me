@@ -93,8 +93,7 @@ pipeline {
                     
                     // Parse the JSON response
                     def jsonResponse = readJSON(text: buildInfoJson)
-
-                    echo "jsonResponse : ${jsonResponse}"
+                    echo "Successfully parsed JSON response."
 
                     // Extract the image tag from the JSON response
                     def imageTag = jsonResponse.actions.find { it.name == 'BUILD_ID' }?.value
