@@ -282,7 +282,7 @@ pipeline {
                     // Your custom logic for Kubernetes deployment here
 
                     // Revert deployment.yaml to its original state by resetting to latest
-                    git restore deployment.yaml
+                    // git restore deployment.yaml
 
                     echo "Reverted deployment.yaml"
 
