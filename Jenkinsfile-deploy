@@ -78,7 +78,7 @@ pipeline {
                     echo "Retrieve image tag from ${BUILD_PROJECT_NAME}"
 
                     // Construct the API URL for the latest build
-                    def api_url = "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastBuild/api/json"
+                    def api_url = "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastSuccessfulBuild/api/json"
 
                     // Log the API URL for debugging purposes
                     echo "Hitting API URL: ${api_url}"
@@ -98,7 +98,7 @@ pipeline {
                     echo "Retrieved image tag (build number): ${imageTag}"
 
                     // Replace the placeholder in the deployment YAML
-                    // sh "sed -i 's|:latest|:${imageTag}|g' ${WORKSPACE}/deployment.yaml"
+                    sh "sed -i 's|:latest|:${imageTag}|g' ${WORKSPACE}/deployment.yaml"
                 }
             }
         }
@@ -169,11 +169,11 @@ pipeline {
                             """
 
                             // Delete the existing service and deployment
-                            sh """
-                            kubectl delete service ${PROJECT_NAME_WITH_DASH}-service || true
-                            kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 || true
-                            kubectl delete deployment ${PROJECT_NAME_WITH_DASH}-app || true
-                            """
+                            // sh """
+                            // kubectl delete service ${PROJECT_NAME_WITH_DASH}-service || true
+                            // kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 || true
+                            // kubectl delete deployment ${PROJECT_NAME_WITH_DASH}-app || true
+                            // """
 
                             // Deploy to Kubernetes
                             sh """
@@ -274,6 +274,19 @@ pipeline {
         }
     }
     post {
+        always {
+            script {
+                if (params.DEPLOY && params.DEPLOY_TYPE == 'kubernetes') {
+
+                    echo 'Performing actions for Kubernetes deployment'
+                    // Your custom logic for Kubernetes deployment here
+
+                    // Revert deployment.yaml to its original state by resetting to latest
+                    sh "sed -i 's|:${imageTag}|:latest|g' ${WORKSPACE}/deployment.yaml"
+                }
+            }
+
+        }
         success {
             script {
                 // Retrieve the latest commit message
