@@ -3410,12 +3410,12 @@ sudo apt-get install jenkins
                     if (configExists == &#x27;not exists&#x27;) {
                         echo &quot;Nginx configuration file does not exist. Creating it now...&quot;
 
-                        // Create or overwrite the NGINX_CONF file with the content of nginx.conf
-                        sh &quot;sudo cat nginx.conf &gt; ${NGINX_CONF}&quot;
+                        // Create or overwrite the NGINX_CONF file with the content of nginx.conf using sudo tee
+                        sh &quot;sudo cat nginx.conf | sudo tee ${NGINX_CONF} &gt; /dev/null&quot;
 
                         // Replace placeholders in the configuration file
-                        sh &quot;sudo sed -i &#x27;s|\\${SERVER_NAME}|${SERVER_NAME}|g&#x27; ${NGINX_CONF}&quot;
-                        sh &quot;sudo sed -i &#x27;s|\\${DOCKER_PORT}|${DOCKER_PORT}|g&#x27; ${NGINX_CONF}&quot;
+                        sh &quot;sudo sed -i &#x27;s|SERVER_NAME|${SERVER_NAME}|g&#x27; ${NGINX_CONF}&quot;
+                        sh &quot;sudo sed -i &#x27;s|DOCKER_PORT|${DOCKER_PORT}|g&#x27; ${NGINX_CONF}&quot;
 
                         echo &quot;Nginx configuration file created.&quot;
                     } else {
