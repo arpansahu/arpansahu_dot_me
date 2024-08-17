@@ -2826,29 +2826,6 @@ pipeline {
                 }
             }
         }
-        stage('Reset Deployment yaml') {
-            when {
-                expression { params.DEPLOY && params.DEPLOY_TYPE == 'kubernetes' }
-            }
-            steps {
-                script {
-                    echo 'Performing actions for Kubernetes deployment'
-                    // Your custom logic for Kubernetes deployment here
-
-                    // Revert deployment.yaml to its original state by resetting to latest
-                    // git restore deployment.yaml
-
-                    echo "Reverted deployment.yaml"
-
-                    // Verify the replacement by checking if 'latest' is present in the file
-                    def checkLatest = sh(script: """
-                        grep -q ':latest' ${WORKSPACE}/deployment.yaml && echo 'Replacement successful' || echo 'Replacement failed'
-                    """, returnStdout: true).trim()
-
-                    echo "Check image tag: ${checkLatest}"
-                }
-            }
-        }
     }
     post {
         success {
