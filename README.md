@@ -1497,72 +1497,9 @@ spec:
       containers:
         - image: harbor.arpansahu.me/library/arpansahu_dot_me:latest
           name: arpansahu-dot-me
-          env:
-            - name: SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: SECRET_KEY
-            - name: DEBUG
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: DEBUG
-            - name: ALLOWED_HOSTS
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: ALLOWED_HOSTS
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: AWS_ACCESS_KEY_ID
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: AWS_SECRET_ACCESS_KEY
-            - name: AWS_STORAGE_BUCKET_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: AWS_STORAGE_BUCKET_NAME
-            - name: BUCKET_TYPE
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: BUCKET_TYPE
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: DATABASE_URL
-            - name: REDIS_CLOUD_URL
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: REDIS_CLOUD_URL
-            - name: MAIL_JET_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: MAIL_JET_API_KEY
-            - name: MAIL_JET_API_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: MAIL_JET_API_SECRET
-            - name: MAIL_JET_EMAIL_ADDRESS
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: MAIL_JET_EMAIL_ADDRESS
-            - name: MY_EMAIL_ADDRESS
-              valueFrom:
-                secretKeyRef:
-                  name: arpansahu-dot-me-secret
-                  key: MY_EMAIL_ADDRESS
+          envFrom:
+            - secretRef:
+                name: arpansahu-dot-me-secret
           ports:
             - containerPort: 8000
               name: gunicorn
