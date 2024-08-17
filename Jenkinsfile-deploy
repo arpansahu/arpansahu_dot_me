@@ -72,11 +72,11 @@ pipeline {
         }
         stage('Retrieve Image Tag from Another Job') {
             when {
-                expression { params.DEPLOY  }
+                expression { params.DEPLOY && params.DEPLOY_TYPE == 'kubernetes' }
             }
             steps {
                 script {
-                    
+
                     def buildInfo = httpRequest(
                         url: "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/${BUILD_NUMBER}/api/json",
                         authentication: 'jenkins-credentials-id',
