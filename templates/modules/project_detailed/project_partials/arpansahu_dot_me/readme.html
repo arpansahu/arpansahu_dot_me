@@ -3029,6 +3029,9 @@ sudo apt-get install jenkins
         DOCKER_PORT = &quot;8000&quot;
         PROJECT_NAME_WITH_DASH = &quot;arpansahu-dot-me&quot;
         SERVER_NAME= &quot;arpansahu.me&quot;
+        BUILD_PROJECT_NAME = &quot;arpansahu_dot_me_build&quot;
+        JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
+        BUILD_NUMBER = &quot;latest&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3079,6 +3082,29 @@ sudo apt-get install jenkins
 
                     // Ensure Nginx is aware of the new configuration
                     sh &quot;sudo ln -sf ${NGINX_CONF} /etc/nginx/sites-enabled/&quot;
+                }
+            }
+        }
+        stage(&#x27;Retrieve Image Tag from Another Job&#x27;) {
+            when {
+                expression { params.DEPLOY  }
+            }
+            steps {
+                script {
+
+                    def buildInfo = httpRequest(
+                        url: &quot;https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/${BUILD_NUMBER}/api/json&quot;,
+                        authentication: &#x27;jenkins-credentials-id&#x27;,
+                        httpMode: &#x27;GET&#x27;,
+                        validResponseCodes: &#x27;200&#x27;
+                    )
+
+                    def jsonResponse = readJSON(text: buildInfo.content)
+                    def imageTag = jsonResponse.actions.find { it.name == &#x27;BUILD_ID&#x27; }?.value
+                    echo &quot;Retrieved image tag: ${imageTag}&quot;
+
+                    // Replace the placeholder in the deployment YAML
+                    sh &quot;sed -i &#x27;s|__IMAGE_TAG__|${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
                 }
             }
         }
