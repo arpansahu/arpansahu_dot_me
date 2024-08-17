@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'local' }
     parameters {
-        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Skip the Check for Changes stage')
+        booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Skip the Check for Changes stage')
         choice(name: 'DEPLOY_TYPE', choices: ['kubernetes', 'docker'], description: 'Select deployment type')
     }
     environment {
@@ -88,6 +88,7 @@ pipeline {
                         curl -u arpansahu:Kesar302@jenkins https://jenkins.arpansahu.me/job/arpansahu_dot_me_build/lastBuild/api/json
                     """, returnStdout: true).trim()
 
+                    echo "buildInfoJson : ${buildInfoJson}"
                     // Parse the JSON response
                     def jsonResponse = readJSON(text: buildInfoJson)
 
