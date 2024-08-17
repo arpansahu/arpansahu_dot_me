@@ -3097,8 +3097,7 @@ sudo apt-get install jenkins
                     sh &quot;echo hitting api url is : ${api_url}&quot;
 
                     def buildInfo = httpRequest(
-                        url: &quot;https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastBuild/api/json&quot;,
-                        authentication: &#x27;jenkins-credentials-id&#x27;,
+                        url: api_url,
                         httpMode: &#x27;GET&#x27;,
                         validResponseCodes: &#x27;200&#x27;
                     )
