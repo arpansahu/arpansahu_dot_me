@@ -3098,6 +3098,7 @@ sudo apt-get install jenkins
 
                     def buildInfo = httpRequest(
                         url: api_url,
+                        authentication: &#x27;jenkins_cred&#x27;,
                         httpMode: &#x27;GET&#x27;,
                         validResponseCodes: &#x27;200&#x27;
                     )
