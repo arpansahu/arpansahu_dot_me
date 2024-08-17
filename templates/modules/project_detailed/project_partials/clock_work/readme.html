@@ -997,6 +997,7 @@ include_files = {
 
     #kubernetes
     &quot;KIND CONFIG MD&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/kubernetes/yaml_md_files/kind-config.md&quot;,
+    &quot;KUBELET CONFIG MD&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/kubernetes/yaml_md_files/kubelet-config.md&quot;,
     &quot;DASHBOARD ADMIN USER MD&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/kubernetes/yaml_md_files/dashboard-adminuser.md&quot;,
     &quot;DASHBOARD ADMIN USER ROLE BIND MD&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/kubernetes/yaml_md_files/dashboard-adminuser-rolebinding.md&quot;,
     &quot;DASHBOARD SERVICE&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/kubernetes/yaml_md_files/dashbord-service.md&quot;,
@@ -1859,6 +1860,32 @@ services:
         hostPort: 7800
       - containerPort: 443
         hostPort: 7801
+      extraMounts:
+      - hostPath: /etc/kubernetes/kubelet-config.yaml
+        containerPath: /var/lib/kubelet/config.yaml
+</code></pre>
+<ol>
+ <li>
+  Create a kubelet configuration file for Kind:
+ </li>
+</ol>
+<pre><code class="language-bash">        touch kubelet-config.yaml
+        vi kubelet-config.yaml
+</code></pre>
+<pre><code>paste the below code into the file
+</code></pre>
+<pre><code class="language-yaml">    kind: Cluster
+    apiVersion: kind.x-k8s.io/v1alpha4
+    nodes:
+    - role: control-plane
+      extraPortMappings:
+      - containerPort: 80
+        hostPort: 7800
+      - containerPort: 443
+        hostPort: 7801
+      extraMounts:
+      - hostPath: /etc/kubernetes/kubelet-config.yaml
+        containerPath: /var/lib/kubelet/config.yaml
 </code></pre>
 <ol>
  <li>
