@@ -3028,6 +3028,7 @@ sudo apt-get install jenkins
         ENV_PROJECT_NAME = &quot;arpansahu_dot_me&quot;
         DOCKER_PORT = &quot;8000&quot;
         PROJECT_NAME_WITH_DASH = &quot;arpansahu-dot-me&quot;
+        SERVER_NAME= &quot;arpansahu.me&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3055,15 +3056,29 @@ sudo apt-get install jenkins
                 }
             }
         }
-        stage(&#x27;Extract Port from Dockerfile&#x27;) {
+        stage(&#x27;Check &amp; Create Nginx Configuration&#x27;) {
             steps {
                 script {
-                    env.EXPOSED_PORT = sh(script: &quot;grep &#x27;^EXPOSE&#x27; Dockerfile | awk &#x27;{print \$2}&#x27;&quot;, returnStdout: true).trim()
-                    if (!env.EXPOSED_PORT) {
-                        error &quot;No EXPOSE directive found in Dockerfile&quot;
+                    // Check if the Nginx configuration file exists
+                    def configExists = sh(script: &quot;test -f ${NGINX_CONF} &amp;&amp; echo &#x27;exists&#x27; || echo &#x27;not exists&#x27;&quot;, returnStdout: true).trim()
+
+                    if (configExists == &#x27;not exists&#x27;) {
+                        echo &quot;Nginx configuration file does not exist. Creating it now...&quot;
+
+                        // Create or overwrite the NGINX_CONF file with the content of nginx.conf using sudo tee
+                        sh &quot;sudo cat nginx.conf | sudo tee ${NGINX_CONF} &gt; /dev/null&quot;
+
+                        // Replace placeholders in the configuration file
+                        sh &quot;sudo sed -i &#x27;s|SERVER_NAME|${SERVER_NAME}|g&#x27; ${NGINX_CONF}&quot;
+                        sh &quot;sudo sed -i &#x27;s|DOCKER_PORT|${DOCKER_PORT}|g&#x27; ${NGINX_CONF}&quot;
+
+                        echo &quot;Nginx configuration file created.&quot;
                     } else {
-                        echo &quot;Exposed port found in Dockerfile: ${env.EXPOSED_PORT}&quot;
+                        echo &quot;Nginx configuration file already exists.&quot;
                     }
+
+                    // Ensure Nginx is aware of the new configuration
+                    sh &quot;sudo ln -sf ${NGINX_CONF} /etc/nginx/sites-enabled/&quot;
                 }
             }
         }
