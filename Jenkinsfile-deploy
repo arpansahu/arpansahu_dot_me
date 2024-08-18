@@ -275,9 +275,9 @@ pipeline {
                         sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} deploys \$VERSION new -e production
                     """
                 }
-                }
             }
         }
+        
         stage('MergeIntoBuild') {
             when {
                 expression {
