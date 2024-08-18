@@ -2330,6 +2330,8 @@ spec:
           ports:
             - containerPort: 8014
               name: daphne
+          command: [&quot;/bin/sh&quot;, &quot;-c&quot;]
+          args: [&quot;python manage.py collectstatic --noinput &amp;&amp; daphne borcelle_crm.asgi:application -b 0.0.0.0 --port 8014 &amp; celery -A borcelle_crm.celery worker -l info &amp; celery -A borcelle_crm beat -l INFO; while true; do sleep 1000; done&quot;]
 </code></pre>
 <ol>
  <li>
@@ -3399,7 +3401,7 @@ sudo apt-get install jenkins
 
                     // Execute the curl command to retrieve the JSON response
                     def buildInfoJson = sh(script: &quot;&quot;&quot;
-                        curl -u arpansahu:Kesar302@jenkins https://jenkins.arpansahu.me/job/arpansahu_dot_me_build/lastBuild/api/json
+                        curl -u arpansahu:Kesar302@jenkins ${api_url}
                     &quot;&quot;&quot;, returnStdout: true).trim()
 
                     // Log the raw JSON response for debugging
