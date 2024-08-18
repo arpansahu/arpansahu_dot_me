@@ -2995,6 +2995,8 @@ sudo apt-get install jenkins
         SERVER_NAME= &quot;arpansahu.me&quot;
         BUILD_PROJECT_NAME = &quot;arpansahu_dot_me_build&quot;
         JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
+        SENTRY_ORG=&quot;arpansahu&quot;
+        SENTRY_PROJECT=&quot;arpansahu_dot_me&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3231,6 +3233,30 @@ sudo apt-get install jenkins
                 }
             }
         }
+        stage(&#x27;Sentry release&#x27;) {
+            when {
+                expression { return params.DEPLOY_TYPE }
+            }
+            steps {
+                script {
+                    echo &quot;Sentry Release ...&quot;
+
+                    sh &quot;&quot;&quot;
+                        # Get the current git commit hash
+                        VERSION=\$(git rev-parse HEAD)
+
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} new \$VERSION
+
+                        # Associate commits with the release
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} set-commits --auto \$VERSION
+
+                        # Deploy the release (optional step for marking the release as deployed)
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} deploys \$VERSION new -e production
+                    &quot;&quot;&quot;
+                }
+            }
+        }
+
         stage(&#x27;MergeIntoBuild&#x27;) {
             when {
                 expression {
