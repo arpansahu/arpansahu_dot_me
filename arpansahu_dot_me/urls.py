@@ -26,6 +26,9 @@ from .views import (
     ResumeDownloadView
 )
 
+def trigger_error(request):
+    division_by_zero = 1 / 0
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,4 +40,5 @@ urlpatterns = [
     path('resume/', ResumeView.as_view(), name='resume'),
     path('get-otp', GetOTPView.as_view(), name='get-otp'),
     path('download/resume/', ResumeDownloadView.as_view(), name='resume_download'),
+    path('sentry-debug/', trigger_error),
 ]
