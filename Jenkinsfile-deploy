@@ -16,8 +16,8 @@ pipeline {
         SERVER_NAME= "arpansahu.me"
         BUILD_PROJECT_NAME = "arpansahu_dot_me_build"
         JENKINS_DOMAIN = "jenkins.arpansahu.me"
-        SENTRY_ORG=arpansahu
-        SENTRY_PROJECT=arpansahu_dot_me
+        SENTRY_ORG="arpansahu"
+        SENTRY_PROJECT="arpansahu_dot_me"
     }
     stages {
         stage('Initialize') {
