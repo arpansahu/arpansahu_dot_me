@@ -2535,6 +2535,8 @@ pipeline {
         SERVER_NAME= "arpansahu.me"
         BUILD_PROJECT_NAME = "arpansahu_dot_me_build"
         JENKINS_DOMAIN = "jenkins.arpansahu.me"
+        SENTRY_ORG="arpansahu"
+        SENTRY_PROJECT="arpansahu_dot_me"
     }
     stages {
         stage('Initialize') {
@@ -2771,6 +2773,30 @@ pipeline {
                 }
             }
         }
+        stage('Sentry release') {
+            when {
+                expression { return params.DEPLOY_TYPE }
+            }
+            steps {
+                script {
+                    echo "Sentry Release ..."
+
+                    sh """
+                        # Get the current git commit hash
+                        VERSION=\$(git rev-parse HEAD)
+
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} new \$VERSION
+
+                        # Associate commits with the release
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} set-commits --auto \$VERSION
+
+                        # Deploy the release (optional step for marking the release as deployed)
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} deploys \$VERSION new -e production
+                    """
+                }
+            }
+        }
+        
         stage('MergeIntoBuild') {
             when {
                 expression {
