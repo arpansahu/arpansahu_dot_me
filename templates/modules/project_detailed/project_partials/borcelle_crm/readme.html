@@ -2330,8 +2330,6 @@ spec:
           ports:
             - containerPort: 8014
               name: daphne
-          command: [&quot;/bin/sh&quot;, &quot;-c&quot;]
-          args: [&quot;python manage.py collectstatic --noinput &amp;&amp; daphne borcelle_crm.asgi:application -b 0.0.0.0 --port 8014 &amp; celery -A borcelle_crm.celery worker -l info &amp; celery -A borcelle_crm beat -l INFO; while true; do sleep 1000; done&quot;]
 </code></pre>
 <ol>
  <li>
