@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 from decouple import config
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +39,9 @@ MAIL_JET_API_KEY = config('MAIL_JET_API_KEY')
 MAIL_JET_API_SECRET = config('MAIL_JET_API_SECRET')
 MAIL_JET_EMAIL_ADDRESS = config('MAIL_JET_EMAIL_ADDRESS')
 MY_EMAIL_ADDRESS = config('MY_EMAIL_ADDRESS')
+
+SENTRY_ENVIRONMENT = config('SENTRY_ENVIRONMENT')  # production Or "staging", "development", etc.
+SENTRY_ENVIRONMENT
 
 PROJECT_NAME = 'arpansahu_dot_me'
 # ===============================================================================
@@ -280,6 +285,22 @@ else:
         }
     }
 
+# Get the current git commit hash
+def get_git_commit_hash():
+    try:
+        return subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('utf-8').strip()
+    except Exception:
+        return None
+
+sentry_sdk.init(
+    dsn="https://331f4612eb24264aada28947f75526c3@o4507787065163776.ingest.us.sentry.io/4507797138571264",
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,  # Adjust this according to your needs
+    send_default_pii=True,  # To capture personal identifiable information (optional)
+    release=get_git_commit_hash(),  # Set the release to the current git commit hash
+    environment=SENTRY_ENVIRONMENT,  # Or "staging", "development", etc.
+)
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -288,26 +309,38 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
         },
+        'sentry': {
+            'level': 'ERROR',  # Change this to WARNING or INFO if needed
+            'class': 'sentry_sdk.integrations.logging.EventHandler',
+            'formatter': 'verbose',
+        },
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
+            'handlers': ['console', 'sentry'],
             'level': 'INFO',
+            'propagate': False,
         },
         'django.request': {
-            'handlers': ['console'],
-            'level': 'INFO',
+            'handlers': ['console', 'sentry'],
+            'level': 'ERROR',  # Only log errors to Sentry
             'propagate': False,
         },
         'django.db.backends': {
-            'handlers': ['console'],
-            'level': 'INFO',
+            'handlers': ['console', 'sentry'],
+            'level': 'ERROR',  # Only log errors to Sentry
             'propagate': False,
         },
-        'django.core.management.commands.collectstatic': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': True,
+        'django.security': {
+            'handlers': ['console', 'sentry'],
+            'level': 'WARNING',  # You can set this to INFO or DEBUG as needed
+            'propagate': False,
+        },
+        # You can add more loggers here if needed
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
         },
     },
 }
