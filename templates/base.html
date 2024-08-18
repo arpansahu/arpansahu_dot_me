@@ -38,10 +38,18 @@
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Sentry SDK for JavaScript -->
+    <script src="https://browser.sentry-cdn.com/7.0.0/bundle.min.js" integrity="sha384-xyz" crossorigin="anonymous"></script>
+    <script src="https://browser.sentry-cdn.com/7.0.0/replay.min.js" integrity="sha384-xyz" crossorigin="anonymous"></script>
+
     <script>
-        if (window.location.protocol === "http:" && window.location.host === 'arpansahu.me'){
-            window.open("https://www.arpansahu.me","_self")
-        }
+        Sentry.init({
+            dsn: "{{ sentry_dsn }}",  // Replace with your Sentry DSN
+            integrations: [new Sentry.Replay()],
+            tracesSampleRate: 1.0,  // Adjust according to your needs
+            replaysSessionSampleRate: 0.1,  // 10% of sessions
+            replaysOnErrorSampleRate: 1.0,  // 100% of sessions with an error
+        });
     </script>
 </head>
 
