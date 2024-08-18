@@ -2775,7 +2775,7 @@ pipeline {
         }
         stage('Sentry release') {
             when {
-                expression { return params.DEPLOY_TYPE }
+                expression { params.DEPLOY }
             }
             steps {
                 script {
@@ -2848,6 +2848,9 @@ pipeline {
                         ]
                     }'"""
                 }
+
+                
+
                 // Trigger the common_readme job on success when last commit is not Automatic Update from common_readme
                 def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
                 if (!commitMessage.contains("Automatic Update")) {
