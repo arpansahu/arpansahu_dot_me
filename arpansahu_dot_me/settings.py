@@ -299,6 +299,8 @@ sentry_sdk.init(
     send_default_pii=True,  # To capture personal identifiable information (optional)
     release=get_git_commit_hash(),  # Set the release to the current git commit hash
     environment=SENTRY_ENVIRONMENT,  # Or "staging", "development", etc.
+    replays_session_sample_rate=0.1,  # 10% of sessions will be captured
+    replays_on_error_sample_rate=1.0,  # Capture 100% of sessions where an error occurs
 )
 
 LOGGING = {
