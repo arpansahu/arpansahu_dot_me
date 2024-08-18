@@ -29,6 +29,9 @@ from .views import (
 def trigger_error(request):
     division_by_zero = 1 / 0
 
+def large_resource(request):
+   time.sleep(4)
+   return HttpResponse("Done!")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,5 +43,8 @@ urlpatterns = [
     path('resume/', ResumeView.as_view(), name='resume'),
     path('get-otp', GetOTPView.as_view(), name='get-otp'),
     path('download/resume/', ResumeDownloadView.as_view(), name='resume_download'),
+
+    #sentry test view 
     path('sentry-debug/', trigger_error),
+    path('large_resource/', large_resource)
 ]

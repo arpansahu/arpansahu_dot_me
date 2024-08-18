@@ -14,6 +14,8 @@ from pathlib import Path
 from decouple import config
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
+import django
+from django.db.models.signals import pre_init
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -294,13 +296,23 @@ def get_git_commit_hash():
 
 sentry_sdk.init(
     dsn="https://331f4612eb24264aada28947f75526c3@o4507787065163776.ingest.us.sentry.io/4507797138571264",
-    integrations=[DjangoIntegration()],
+    integrations=[
+            DjangoIntegration(
+                transaction_style='url',
+                middleware_spans=True,
+                signals_spans=True,
+                signals_denylist=[
+                    django.db.models.signals.pre_init,
+                    django.db.models.signals.post_init,
+                ],
+                cache_spans=False,
+            ),
+        ],
     traces_sample_rate=1.0,  # Adjust this according to your needs
     send_default_pii=True,  # To capture personal identifiable information (optional)
     release=get_git_commit_hash(),  # Set the release to the current git commit hash
     environment=SENTRY_ENVIRONMENT,  # Or "staging", "development", etc.
-    replays_session_sample_rate=0.1,  # 10% of sessions will be captured
-    replays_on_error_sample_rate=1.0,  # Capture 100% of sessions where an error occurs
+    profiles_sample_rate=1.0,
 )
 
 LOGGING = {
