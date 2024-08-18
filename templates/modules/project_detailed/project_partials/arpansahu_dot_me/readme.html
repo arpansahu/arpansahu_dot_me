@@ -3235,7 +3235,7 @@ sudo apt-get install jenkins
         }
         stage(&#x27;Sentry release&#x27;) {
             when {
-                expression { return params.DEPLOY_TYPE }
+                expression { params.DEPLOY }
             }
             steps {
                 script {
@@ -3308,6 +3308,9 @@ sudo apt-get install jenkins
                         ]
                     }&#x27;&quot;&quot;&quot;
                 }
+
+
+
                 // Trigger the common_readme job on success when last commit is not Automatic Update from common_readme
                 def commitMessage = sh(script: &quot;git log -1 --pretty=%B&quot;, returnStdout: true).trim()
                 if (!commitMessage.contains(&quot;Automatic Update&quot;)) {
