@@ -2590,7 +2590,7 @@ pipeline {
                 }
             }
         }
-        stage('Retrieve Image Tag from Another Job') {
+        stage('Retrieve Image Tag from Build Job') {
             when {
                 expression { params.DEPLOY && params.DEPLOY_TYPE == 'kubernetes' }
             }
@@ -2796,7 +2796,6 @@ pipeline {
                 }
             }
         }
-        
         stage('MergeIntoBuild') {
             when {
                 expression {
