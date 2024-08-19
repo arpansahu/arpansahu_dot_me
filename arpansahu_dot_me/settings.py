@@ -151,8 +151,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 if not DEBUG:
-    BUCKET_TYPE = BUCKET_TYPE
-
     if BUCKET_TYPE == 'AWS':
         AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
         AWS_DEFAULT_ACL = 'public-read'
