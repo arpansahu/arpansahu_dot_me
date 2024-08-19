@@ -3050,16 +3050,6 @@ sudo apt-get install jenkins
                 }
             }
         }
-        stage(&#x27;Test Credentials&#x27;) {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: &#x27;fc364086-fb8b-4528-bc7f-1ef3f42b71c7&#x27;, usernameVariable: &#x27;JENKINS_USER&#x27;, passwordVariable: &#x27;JENKINS_PASS&#x27;)]) {
-                        echo &quot;Inside withCredentials block&quot;
-                        echo &quot;Username: ${JENKINS_USER}&quot;
-                    }
-                }
-            }
-        }
         stage(&#x27;Retrieve Image Tag from Build Job&#x27;) {
             when {
                 expression { params.DEPLOY &amp;&amp; params.DEPLOY_TYPE == &#x27;kubernetes&#x27; }
