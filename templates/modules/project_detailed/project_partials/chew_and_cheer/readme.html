@@ -334,15 +334,22 @@
 <p>
  Use these CACHE settings
 </p>
-<pre><code class="language-python">CACHES = {
-    &#x27;default&#x27;: {
-        &#x27;BACKEND&#x27;: &#x27;django_redis.cache.RedisCache&#x27;,
-        &#x27;LOCATION&#x27;: config(&#x27;REDISCLOUD_URL&#x27;),
-        &#x27;OPTIONS&#x27;: {
-            &#x27;CLIENT_CLASS&#x27;: &#x27;django_redis.client.DefaultClient&#x27;,
+<pre><code class="language-python">
+if not DEBUG:
+    CHANNEL_LAYERS = {
+        &#x27;default&#x27;: {
+            &quot;BACKEND&quot;: &quot;channels.layers.InMemoryChannelLayer&quot;,
         }
     }
-}
+else:
+    CHANNEL_LAYERS = {
+        &quot;default&quot;: {
+            &quot;BACKEND&quot;: &quot;channels_redis.core.RedisChannelLayer&quot;,
+            &quot;CONFIG&quot;: {
+                &quot;hosts&quot;: [(REDIS_CLOUD_URL)],
+            },
+        },
+    }
 </code></pre>
 <p>
  Change settings.py static files and media files settings | Now I have added support for BlackBlaze Static Storage also which also based on AWS S3 protocols
@@ -2010,67 +2017,9 @@ spec:
       containers:
         - image: harbor.arpansahu.me/library/chew_and_cheer:latest
           name: chew-and-cheer
-          env:
-            - name: SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: chew-and-cheer-secret
-                  key: SECRET_KEY
-            - name: DEBUG
-              valueFrom:
-                secretKeyRef:
-                  name: chew-and-cheer-secret
-                  key: DEBUG
-            - name: ALLOWED_HOSTS
-              valueFrom:
-                secretKeyRef:
-                  name: chew-and-cheer-secret
-                  key: ALLOWED_HOSTS
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: chew-and-cheer-secret
-                  key: AWS_ACCESS_KEY_ID
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: chew-and-cheer-secret
-                  key: AWS_SECRET_ACCESS_KEY
-            - name: AWS_STORAGE_BUCKET_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: chew-and-cheer-secret
-                  key: AWS_STORAGE_BUCKET_NAME
-            - name: BUCKET_TYPE
-              valueFrom:
-                secretKeyRef:
-                  name: chew-and-cheer-secret
-                  key: BUCKET_TYPE
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: chew-and-cheer-secret
-                  key: DATABASE_URL
-            - name: REDISCLOUD_URL
-              valueFrom:
-                secretKeyRef:
-                  name: chew-and-cheer-secret
-                  key: REDISCLOUD_URL
-            - name: MAIL_JET_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: chew-and-cheer-secret
-                  key: MAIL_JET_API_KEY
-            - name: MAIL_JET_API_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: chew-and-cheer-secret
-                  key: MAIL_JET_API_SECRET
-            - name: MAIL_JET_EMAIL_ADDRESS
-              valueFrom:
-                secretKeyRef:
-                  name: chew-and-cheer-secret
-                  key: MAIL_JET_EMAIL_ADDRESS
+          envFrom:
+            - secretRef:
+                name: arpansahu-dot-me-secret
           ports:
             - containerPort: 8001
               name: gunicorn
@@ -5148,7 +5097,16 @@ Add all the env variables as required and mentioned in the Readme File.
  DATABASE_URL=
 </p>
 <p>
- REDISCLOUD_URL=
+ REDIS_CLOUD_URL=
+</p>
+<h1>
+ SENTRY
+</h1>
+<p>
+ SENTRY_ENVIRONMENT=
+</p>
+<p>
+ SENTRY_DSH_URL=
 </p>
 <h1>
  deploy_kube.sh requirements
