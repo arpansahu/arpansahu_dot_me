@@ -2980,7 +2980,7 @@ sudo apt-get install jenkins
 <pre><code class="language-bash">pipeline {
     agent { label &#x27;local&#x27; }
     parameters {
-        booleanParam(name: &#x27;DEPLOY&#x27;, defaultValue: false, description: &#x27;Skip the Check for Changes stage&#x27;)
+        booleanParam(name: &#x27;DEPLOY&#x27;, defaultValue: true, description: &#x27;Skip the Check for Changes stage&#x27;)
         choice(name: &#x27;DEPLOY_TYPE&#x27;, choices: [&#x27;kubernetes&#x27;, &#x27;docker&#x27;], description: &#x27;Select deployment type&#x27;)
     }
     environment {
@@ -3066,9 +3066,7 @@ sudo apt-get install jenkins
 
                     withCredentials([usernamePassword(credentialsId: &#x27;jenkins_cred&#x27;, usernameVariable: &#x27;JENKINS_USER&#x27;, passwordVariable: &#x27;JENKINS_PASS&#x27;)]) {
                         // Execute the curl command to retrieve the JSON response
-                        def buildInfoJson = sh(script: &quot;&quot;&quot;
-                            curl -u ${JENKINS_USER}:${JENKINS_PASS} ${api_url}
-                        &quot;&quot;&quot;, returnStdout: true).trim()
+                        def buildInfoJson = sh(script: &quot;curl -u ${JENKINS_USER}:${JENKINS_PASS} ${api_url}&quot;, returnStdout: true).trim()
 
                         // Log the raw JSON response for debugging
                         echo &quot;Raw JSON response: ${buildInfoJson}&quot;
@@ -3316,10 +3314,10 @@ sudo apt-get install jenkins
                 def commitMessage = sh(script: &quot;git log -1 --pretty=%B&quot;, returnStdout: true).trim()
                 if (!commitMessage.contains(&quot;Automatic Update&quot;)) {
                     def expandedProjectUrl = &quot;https://github.com/arpansahu/${ENV_PROJECT_NAME}&quot;
-                    build job: &#x27;common_readme&#x27;, parameters: [
-                        string(name: &#x27;project_git_url&#x27;, value: expandedProjectUrl),
-                        string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)
-                    ], wait: false
+                    // build job: &#x27;common_readme&#x27;, parameters: [
+                    //     string(name: &#x27;project_git_url&#x27;, value: expandedProjectUrl),
+                    //     string(name: &#x27;environment&#x27;, value: &#x27;prod&#x27;)
+                    // ], wait: false
                 } else {
                     echo &quot;Skipping common_readme job trigger due to commit message: ${commitMessage}&quot;
                 }
