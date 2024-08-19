@@ -2520,7 +2520,7 @@ pipeline {
 pipeline {
     agent { label 'local' }
     parameters {
-        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Skip the Check for Changes stage')
+        booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Skip the Check for Changes stage')
         choice(name: 'DEPLOY_TYPE', choices: ['kubernetes', 'docker'], description: 'Select deployment type')
     }
     environment {
@@ -2606,9 +2606,7 @@ pipeline {
                     
                     withCredentials([usernamePassword(credentialsId: 'jenkins_cred', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_PASS')]) {
                         // Execute the curl command to retrieve the JSON response
-                        def buildInfoJson = sh(script: """
-                            curl -u ${JENKINS_USER}:${JENKINS_PASS} ${api_url}
-                        """, returnStdout: true).trim()
+                        def buildInfoJson = sh(script: "curl -u ${JENKINS_USER}:${JENKINS_PASS} ${api_url}", returnStdout: true).trim()
 
                         // Log the raw JSON response for debugging
                         echo "Raw JSON response: ${buildInfoJson}"
@@ -2856,10 +2854,10 @@ pipeline {
                 def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
                 if (!commitMessage.contains("Automatic Update")) {
                     def expandedProjectUrl = "https://github.com/arpansahu/${ENV_PROJECT_NAME}"
-                    build job: 'common_readme', parameters: [
-                        string(name: 'project_git_url', value: expandedProjectUrl),
-                        string(name: 'environment', value: 'prod')
-                    ], wait: false
+                    // build job: 'common_readme', parameters: [
+                    //     string(name: 'project_git_url', value: expandedProjectUrl),
+                    //     string(name: 'environment', value: 'prod')
+                    // ], wait: false
                 } else {
                     echo "Skipping common_readme job trigger due to commit message: ${commitMessage}"
                 }
