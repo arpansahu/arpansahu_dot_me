@@ -2640,7 +2640,8 @@ pipeline {
                         '''
                         sh 'docker-compose down'
                         sh 'docker-compose up -d'
-                        sleep 10
+
+                        sleep 60
 
                         def containerRunning = sh(script: "docker ps -q -f name=${ENV_PROJECT_NAME}", returnStdout: true).trim()
                         if (!containerRunning) {
@@ -2649,7 +2650,7 @@ pipeline {
                             echo "Container ${ENV_PROJECT_NAME} is running"
                             sh """
                                 # Fetch HTTP status code
-                                HTTP_STATUS=\$(curl -s -o /dev/null -w "%{http_code}" http://0.0.0.0:${DOCKER_PORT})
+                                HTTP_STATUS=\$(curl -s -o /dev/null -w "%{http_code}" -L http://0.0.0.0:${DOCKER_PORT})
                                 echo "HTTP Status: \$HTTP_STATUS"
                                 
                                 # Update Nginx configuration if status code is 200 (OK)
