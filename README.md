@@ -2604,22 +2604,24 @@ pipeline {
                     // Log the API URL for debugging purposes
                     echo "Hitting API URL: ${api_url}"
                     
-                    // Execute the curl command to retrieve the JSON response
-                    def buildInfoJson = sh(script: """
-                        curl -u arpansahu:Kesar302@jenkins https://jenkins.arpansahu.me/job/arpansahu_dot_me_build/lastBuild/api/json
-                    """, returnStdout: true).trim()
+                    withCredentials([usernamePassword(credentialsId: 'jenkins_cred', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_PASS')]) {
+                        // Execute the curl command to retrieve the JSON response
+                        def buildInfoJson = sh(script: """
+                            curl -u ${JENKINS_USER}:${JENKINS_PASS} ${api_url}
+                        """, returnStdout: true).trim()
 
-                    // Log the raw JSON response for debugging
-                    echo "Raw JSON response: ${buildInfoJson}"
-                    
-                    def imageTag = sh(script: """
-                        echo '${buildInfoJson}' | grep -oP '"number":\\s*\\K\\d+' | head -n 1
-                    """, returnStdout: true).trim()
+                        // Log the raw JSON response for debugging
+                        echo "Raw JSON response: ${buildInfoJson}"
 
-                    echo "Retrieved image tag (build number): ${imageTag}"
+                        def imageTag = sh(script: """
+                            echo '${buildInfoJson}' | grep -oP '"number":\\s*\\K\\d+' | head -n 1
+                        """, returnStdout: true).trim()
 
-                    // Replace the placeholder in the deployment YAML
-                    sh "sed -i 's|:latest|:${imageTag}|g' ${WORKSPACE}/deployment.yaml"
+                        echo "Retrieved image tag (build number): ${imageTag}"
+
+                        // Replace the placeholder in the deployment YAML
+                        sh "sed -i 's|:latest|:${imageTag}|g' ${WORKSPACE}/deployment.yaml"
+                    }
                 }
             }
         }
