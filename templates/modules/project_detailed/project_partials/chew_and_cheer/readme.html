@@ -3141,13 +3141,14 @@ sudo apt-get install jenkins
                         } else {
                             echo &quot;Container ${ENV_PROJECT_NAME} is running&quot;
                             // Execute curl and scale down Kubernetes deployment if curl is successful
+
                             sh &quot;&quot;&quot;
                                 # Fetch HTTP status code
                                 HTTP_STATUS=\$(curl -s -o /dev/null -w &quot;%{http_code}&quot; http://0.0.0.0:${DOCKER_PORT})
                                 echo &quot;HTTP Status: \$HTTP_STATUS&quot;
 
-                                # Update Nginx configuration if status code is 200 (OK)
-                                if [ &quot;\$HTTP_STATUS&quot; -eq 200 ]; then
+                                # Update Nginx configuration if status code is 200 (OK) or 302 (Redirect)
+                                if [ &quot;\$HTTP_STATUS&quot; -eq 200 ] || [ &quot;\$HTTP_STATUS&quot; -eq 302 ]; then
                                     sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${DOCKER_PORT};|&#x27; ${NGINX_CONF}
                                     sudo nginx -s reload
                                     echo &#x27;Nginx configuration updated and reloaded successfully.&#x27;
