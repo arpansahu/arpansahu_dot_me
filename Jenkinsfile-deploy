@@ -97,7 +97,6 @@ pipeline {
                     
                     withCredentials([usernamePassword(credentialsId: 'fc364086-fb8b-4528-bc7f-1ef3f42b71c7', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_PASS')]) {
                         // Execute the curl command to retrieve the JSON response
-                        echo "inside with cred"
                         echo "usernameVariable: ${JENKINS_USER}, passwordVariable: ${JENKINS_PASS}"
                         def buildInfoJson = sh(script: "curl -u ${JENKINS_USER}:${JENKINS_PASS} ${api_url}", returnStdout: true).trim()
 
