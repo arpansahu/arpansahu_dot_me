@@ -95,7 +95,7 @@ pipeline {
                     // Log the API URL for debugging purposes
                     echo "Hitting API URL: ${api_url}"
                     
-                    withCredentials([usernamePassword(credentialsId: 'jenkins_cred', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_PASS')]) {
+                    withCredentials([usernamePassword(credentialsId: 'fc364086-fb8b-4528-bc7f-1ef3f42b71c7', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_PASS')]) {
                         // Execute the curl command to retrieve the JSON response
                         echo "inside with cred"
                         echo "usernameVariable: ${JENKINS_USER}, passwordVariable: ${JENKINS_PASS}"
