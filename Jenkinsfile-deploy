@@ -71,6 +71,16 @@ pipeline {
                 }
             }
         }
+        stage('Test Credentials') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'jenkins_cred', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_PASS')]) {
+                        echo "Inside withCredentials block"
+                        echo "Username: ${JENKINS_USER}"
+                    }
+                }
+            }
+        }
         stage('Retrieve Image Tag from Build Job') {
             when {
                 expression { params.DEPLOY && params.DEPLOY_TYPE == 'kubernetes' }
