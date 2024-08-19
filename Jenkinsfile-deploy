@@ -74,7 +74,7 @@ pipeline {
         stage('Test Credentials') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'jenkins_cred', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_PASS')]) {
+                    withCredentials([usernamePassword(credentialsId: 'a8543f6d-1f32-4a4c-bb31-d7fffe78828e', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_PASS')]) {
                         echo "Inside withCredentials block"
                         echo "Username: ${JENKINS_USER}"
                     }
