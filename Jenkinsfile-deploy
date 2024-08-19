@@ -121,7 +121,8 @@ pipeline {
                         '''
                         sh 'docker-compose down'
                         sh 'docker-compose up -d'
-                        sleep 10
+                        
+                        sleep 60
 
                         def containerRunning = sh(script: "docker ps -q -f name=${ENV_PROJECT_NAME}", returnStdout: true).trim()
                         if (!containerRunning) {
