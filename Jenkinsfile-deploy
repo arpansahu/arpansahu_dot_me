@@ -76,33 +76,32 @@ pipeline {
                 expression { params.DEPLOY && params.DEPLOY_TYPE == 'kubernetes' }
             }
             steps {
-                    script {
-                        echo "Retrieve image tag from ${BUILD_PROJECT_NAME}"
+                script {
+                    echo "Retrieve image tag from ${BUILD_PROJECT_NAME}"
 
-                        // Construct the API URL for the latest build
-                        def api_url = "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastSuccessfulBuild/api/json"
+                    // Construct the API URL for the latest build
+                    def api_url = "https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastSuccessfulBuild/api/json"
 
-                        // Log the API URL for debugging purposes
-                        echo "Hitting API URL: ${api_url}"
-                        
-                        withCredentials([usernamePassword(credentialsId: 'jenkins_cred', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_PASS')]) {
-                            // Execute the curl command to retrieve the JSON response
-                            def buildInfoJson = sh(script: """
-                                curl -u ${JENKINS_USER}:${JENKINS_PASS} ${api_url}
-                            """, returnStdout: true).trim()
+                    // Log the API URL for debugging purposes
+                    echo "Hitting API URL: ${api_url}"
+                    
+                    withCredentials([usernamePassword(credentialsId: 'jenkins_cred', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_PASS')]) {
+                        // Execute the curl command to retrieve the JSON response
+                        def buildInfoJson = sh(script: """
+                            curl -u ${JENKINS_USER}:${JENKINS_PASS} ${api_url}
+                        """, returnStdout: true).trim()
 
-                            // Log the raw JSON response for debugging
-                            echo "Raw JSON response: ${buildInfoJson}"
+                        // Log the raw JSON response for debugging
+                        echo "Raw JSON response: ${buildInfoJson}"
 
-                            def imageTag = sh(script: """
-                                echo '${buildInfoJson}' | grep -oP '"number":\\s*\\K\\d+' | head -n 1
-                            """, returnStdout: true).trim()
+                        def imageTag = sh(script: """
+                            echo '${buildInfoJson}' | grep -oP '"number":\\s*\\K\\d+' | head -n 1
+                        """, returnStdout: true).trim()
 
-                            echo "Retrieved image tag (build number): ${imageTag}"
+                        echo "Retrieved image tag (build number): ${imageTag}"
 
-                            // Replace the placeholder in the deployment YAML
-                            sh "sed -i 's|:latest|:${imageTag}|g' ${WORKSPACE}/deployment.yaml"
-                        }
+                        // Replace the placeholder in the deployment YAML
+                        sh "sed -i 's|:latest|:${imageTag}|g' ${WORKSPACE}/deployment.yaml"
                     }
                 }
             }
