@@ -2019,7 +2019,7 @@ spec:
           name: chew-and-cheer
           envFrom:
             - secretRef:
-                name: arpansahu-dot-me-secret
+                name: chew-and-cheer-secret
           ports:
             - containerPort: 8001
               name: gunicorn
@@ -3021,10 +3021,10 @@ sudo apt-get install jenkins
         DOCKER_PORT = &quot;8001&quot;
         PROJECT_NAME_WITH_DASH = &quot;chew-and-cheer&quot;
         SERVER_NAME= &quot;chew-and-cheer.arpansahu.me&quot;
-        BUILD_PROJECT_NAME = &quot;arpansahu_dot_me_build&quot;
+        BUILD_PROJECT_NAME = &quot;chew_and_cheer_build&quot;
         JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
         SENTRY_ORG=&quot;arpansahu&quot;
-        SENTRY_PROJECT=&quot;arpansahu_dot_me&quot;
+        SENTRY_PROJECT=&quot;chew_and_cheer&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
