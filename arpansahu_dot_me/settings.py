@@ -43,7 +43,7 @@ MAIL_JET_EMAIL_ADDRESS = config('MAIL_JET_EMAIL_ADDRESS')
 MY_EMAIL_ADDRESS = config('MY_EMAIL_ADDRESS')
 
 SENTRY_ENVIRONMENT = config('SENTRY_ENVIRONMENT')  # production Or "staging", "development", etc.
-SENTRY_ENVIRONMENT
+SENTRY_DSH_URL = config('SENTRY_DSH_URL')
 
 PROJECT_NAME = 'arpansahu_dot_me'
 # ===============================================================================
@@ -295,7 +295,7 @@ def get_git_commit_hash():
         return None
 
 sentry_sdk.init(
-    dsn="https://331f4612eb24264aada28947f75526c3@o4507787065163776.ingest.us.sentry.io/4507797138571264",
+    dsn=SENTRY_DSH_URL,
     integrations=[
             DjangoIntegration(
                 transaction_style='url',
