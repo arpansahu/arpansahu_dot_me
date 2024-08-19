@@ -2520,7 +2520,7 @@ pipeline {
 pipeline {
     agent { label 'local' }
     parameters {
-        booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Skip the Check for Changes stage')
+        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Skip the Check for Changes stage')
         choice(name: 'DEPLOY_TYPE', choices: ['kubernetes', 'docker'], description: 'Select deployment type')
     }
     environment {
@@ -2590,6 +2590,16 @@ pipeline {
                 }
             }
         }
+        stage('Test Credentials') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'fc364086-fb8b-4528-bc7f-1ef3f42b71c7', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_PASS')]) {
+                        echo "Inside withCredentials block"
+                        echo "Username: ${JENKINS_USER}"
+                    }
+                }
+            }
+        }
         stage('Retrieve Image Tag from Build Job') {
             when {
                 expression { params.DEPLOY && params.DEPLOY_TYPE == 'kubernetes' }
@@ -2604,8 +2614,9 @@ pipeline {
                     // Log the API URL for debugging purposes
                     echo "Hitting API URL: ${api_url}"
                     
-                    withCredentials([usernamePassword(credentialsId: 'jenkins_cred', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_PASS')]) {
+                    withCredentials([usernamePassword(credentialsId: 'fc364086-fb8b-4528-bc7f-1ef3f42b71c7', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_PASS')]) {
                         // Execute the curl command to retrieve the JSON response
+                        echo "usernameVariable: ${JENKINS_USER}, passwordVariable: ${JENKINS_PASS}"
                         def buildInfoJson = sh(script: "curl -u ${JENKINS_USER}:${JENKINS_PASS} ${api_url}", returnStdout: true).trim()
 
                         // Log the raw JSON response for debugging
@@ -2854,10 +2865,10 @@ pipeline {
                 def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
                 if (!commitMessage.contains("Automatic Update")) {
                     def expandedProjectUrl = "https://github.com/arpansahu/${ENV_PROJECT_NAME}"
-                    // build job: 'common_readme', parameters: [
-                    //     string(name: 'project_git_url', value: expandedProjectUrl),
-                    //     string(name: 'environment', value: 'prod')
-                    // ], wait: false
+                    build job: 'common_readme', parameters: [
+                        string(name: 'project_git_url', value: expandedProjectUrl),
+                        string(name: 'environment', value: 'prod')
+                    ], wait: false
                 } else {
                     echo "Skipping common_readme job trigger due to commit message: ${commitMessage}"
                 }
