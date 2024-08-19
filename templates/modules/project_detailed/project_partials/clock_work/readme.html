@@ -2271,72 +2271,9 @@ spec:
       containers:
         - image: harbor.arpansahu.me/library/clock_work:latest
           name: clock-work
-          env:
-            - name: SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: clock-work-secret
-                  key: SECRET_KEY
-            - name: DEBUG
-              valueFrom:
-                secretKeyRef:
-                  name: clock-work-secret
-                  key: DEBUG
-            - name: ALLOWED_HOSTS
-              valueFrom:
-                secretKeyRef:
-                  name: clock-work-secret
-                  key: ALLOWED_HOSTS
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: clock-work-secret
-                  key: AWS_ACCESS_KEY_ID
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: clock-work-secret
-                  key: AWS_SECRET_ACCESS_KEY
-            - name: AWS_STORAGE_BUCKET_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: clock-work-secret
-                  key: AWS_STORAGE_BUCKET_NAME
-            - name: BUCKET_TYPE
-              valueFrom:
-                secretKeyRef:
-                  name: clock-work-secret
-                  key: BUCKET_TYPE
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: clock-work-secret
-                  key: DATABASE_URL
-            - name: REDIS_CLOUD_URL
-              valueFrom:
-                secretKeyRef:
-                  name: clock-work-secret
-                  key: REDIS_CLOUD_URL
-            - name: MAIL_JET_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: clock-work-secret
-                  key: MAIL_JET_API_KEY
-            - name: MAIL_JET_API_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: clock-work-secret
-                  key: MAIL_JET_API_SECRET
-            - name: DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: clock-work-secret
-                  key: DOMAIN
-            - name: PROTOCOL
-              valueFrom:
-                secretKeyRef:
-                  name: clock-work-secret
-                  key: PROTOCOL
+          envFrom:
+            - secretRef:
+                name: clock-work-secret
           ports:
             - containerPort: 8012
               name: daphne
@@ -3337,6 +3274,10 @@ sudo apt-get install jenkins
         ENV_PROJECT_NAME = &quot;clock_work&quot;
         DOCKER_PORT = &quot;8012&quot;
         PROJECT_NAME_WITH_DASH = &quot;clock-work&quot;
+        BUILD_PROJECT_NAME = &quot;arpansahu_dot_me_build&quot;
+        JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
+        SENTRY_ORG=&quot;arpansahu&quot;
+        SENTRY_PROJECT=&quot;arpansahu_dot_me&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3364,14 +3305,62 @@ sudo apt-get install jenkins
                 }
             }
         }
-        stage(&#x27;Extract Port from Dockerfile&#x27;) {
+        stage(&#x27;Check &amp; Create Nginx Configuration&#x27;) {
             steps {
                 script {
-                    env.EXPOSED_PORT = sh(script: &quot;grep &#x27;^EXPOSE&#x27; Dockerfile | awk &#x27;{print \$2}&#x27;&quot;, returnStdout: true).trim()
-                    if (!env.EXPOSED_PORT) {
-                        error &quot;No EXPOSE directive found in Dockerfile&quot;
+                    // Check if the Nginx configuration file exists
+                    def configExists = sh(script: &quot;test -f ${NGINX_CONF} &amp;&amp; echo &#x27;exists&#x27; || echo &#x27;not exists&#x27;&quot;, returnStdout: true).trim()
+
+                    if (configExists == &#x27;not exists&#x27;) {
+                        echo &quot;Nginx configuration file does not exist. Creating it now...&quot;
+
+                        // Create or overwrite the NGINX_CONF file with the content of nginx.conf using sudo tee
+                        sh &quot;sudo cat nginx.conf | sudo tee ${NGINX_CONF} &gt; /dev/null&quot;
+
+                        // Replace placeholders in the configuration file
+                        sh &quot;sudo sed -i &#x27;s|SERVER_NAME|${SERVER_NAME}|g&#x27; ${NGINX_CONF}&quot;
+                        sh &quot;sudo sed -i &#x27;s|DOCKER_PORT|${DOCKER_PORT}|g&#x27; ${NGINX_CONF}&quot;
+
+                        echo &quot;Nginx configuration file created.&quot;
+
+                        // Ensure Nginx is aware of the new configuration
+                        sh &quot;sudo ln -sf ${NGINX_CONF} /etc/nginx/sites-enabled/&quot;
                     } else {
-                        echo &quot;Exposed port found in Dockerfile: ${env.EXPOSED_PORT}&quot;
+                        echo &quot;Nginx configuration file already exists.&quot;
+                    }                    
+                }
+            }
+        }
+        stage(&#x27;Retrieve Image Tag from Build Job&#x27;) {
+            when {
+                expression { params.DEPLOY &amp;&amp; params.DEPLOY_TYPE == &#x27;kubernetes&#x27; }
+            }
+            steps {
+                script {
+                    echo &quot;Retrieve image tag from ${BUILD_PROJECT_NAME}&quot;
+
+                    // Construct the API URL for the latest build
+                    def api_url = &quot;https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastSuccessfulBuild/api/json&quot;
+
+                    // Log the API URL for debugging purposes
+                    echo &quot;Hitting API URL: ${api_url}&quot;
+
+                    withCredentials([usernamePassword(credentialsId: &#x27;fc364086-fb8b-4528-bc7f-1ef3f42b71c7&#x27;, usernameVariable: &#x27;JENKINS_USER&#x27;, passwordVariable: &#x27;JENKINS_PASS&#x27;)]) {
+                        // Execute the curl command to retrieve the JSON response
+                        echo &quot;usernameVariable: ${JENKINS_USER}, passwordVariable: ${JENKINS_PASS}&quot;
+                        def buildInfoJson = sh(script: &quot;curl -u ${JENKINS_USER}:${JENKINS_PASS} ${api_url}&quot;, returnStdout: true).trim()
+
+                        // Log the raw JSON response for debugging
+                        echo &quot;Raw JSON response: ${buildInfoJson}&quot;
+
+                        def imageTag = sh(script: &quot;&quot;&quot;
+                            echo &#x27;${buildInfoJson}&#x27; | grep -oP &#x27;&quot;number&quot;:\\s*\\K\\d+&#x27; | head -n 1
+                        &quot;&quot;&quot;, returnStdout: true).trim()
+
+                        echo &quot;Retrieved image tag (build number): ${imageTag}&quot;
+
+                        // Replace the placeholder in the deployment YAML
+                        sh &quot;sed -i &#x27;s|:latest|:${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
                     }
                 }
             }
@@ -3529,6 +3518,29 @@ sudo apt-get install jenkins
                         }
                     }
                     currentBuild.description = &#x27;DEPLOYMENT_EXECUTED&#x27;
+                }
+            }
+        }
+        stage(&#x27;Sentry release&#x27;) {
+            when {
+                expression { params.DEPLOY }
+            }
+            steps {
+                script {
+                    echo &quot;Sentry Release ...&quot;
+
+                    sh &quot;&quot;&quot;
+                        # Get the current git commit hash
+                        VERSION=\$(git rev-parse HEAD)
+
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} new \$VERSION
+
+                        # Associate commits with the release
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} set-commits --auto \$VERSION
+
+                        # Deploy the release (optional step for marking the release as deployed)
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} deploys \$VERSION new -e production
+                    &quot;&quot;&quot;
                 }
             }
         }
