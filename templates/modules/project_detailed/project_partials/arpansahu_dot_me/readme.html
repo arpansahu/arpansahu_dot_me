@@ -3064,22 +3064,24 @@ sudo apt-get install jenkins
                     // Log the API URL for debugging purposes
                     echo &quot;Hitting API URL: ${api_url}&quot;
 
-                    // Execute the curl command to retrieve the JSON response
-                    def buildInfoJson = sh(script: &quot;&quot;&quot;
-                        curl -u arpansahu:Kesar302@jenkins https://jenkins.arpansahu.me/job/arpansahu_dot_me_build/lastBuild/api/json
-                    &quot;&quot;&quot;, returnStdout: true).trim()
+                    withCredentials([usernamePassword(credentialsId: &#x27;jenkins_cred&#x27;, usernameVariable: &#x27;JENKINS_USER&#x27;, passwordVariable: &#x27;JENKINS_PASS&#x27;)]) {
+                        // Execute the curl command to retrieve the JSON response
+                        def buildInfoJson = sh(script: &quot;&quot;&quot;
+                            curl -u ${JENKINS_USER}:${JENKINS_PASS} ${api_url}
+                        &quot;&quot;&quot;, returnStdout: true).trim()
 
-                    // Log the raw JSON response for debugging
-                    echo &quot;Raw JSON response: ${buildInfoJson}&quot;
+                        // Log the raw JSON response for debugging
+                        echo &quot;Raw JSON response: ${buildInfoJson}&quot;
 
-                    def imageTag = sh(script: &quot;&quot;&quot;
-                        echo &#x27;${buildInfoJson}&#x27; | grep -oP &#x27;&quot;number&quot;:\\s*\\K\\d+&#x27; | head -n 1
-                    &quot;&quot;&quot;, returnStdout: true).trim()
+                        def imageTag = sh(script: &quot;&quot;&quot;
+                            echo &#x27;${buildInfoJson}&#x27; | grep -oP &#x27;&quot;number&quot;:\\s*\\K\\d+&#x27; | head -n 1
+                        &quot;&quot;&quot;, returnStdout: true).trim()
 
-                    echo &quot;Retrieved image tag (build number): ${imageTag}&quot;
+                        echo &quot;Retrieved image tag (build number): ${imageTag}&quot;
 
-                    // Replace the placeholder in the deployment YAML
-                    sh &quot;sed -i &#x27;s|:latest|:${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
+                        // Replace the placeholder in the deployment YAML
+                        sh &quot;sed -i &#x27;s|:latest|:${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
+                    }
                 }
             }
         }
