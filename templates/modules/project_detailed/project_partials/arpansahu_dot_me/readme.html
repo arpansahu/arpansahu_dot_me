@@ -3100,7 +3100,8 @@ sudo apt-get install jenkins
                         &#x27;&#x27;&#x27;
                         sh &#x27;docker-compose down&#x27;
                         sh &#x27;docker-compose up -d&#x27;
-                        sleep 10
+
+                        sleep 60
 
                         def containerRunning = sh(script: &quot;docker ps -q -f name=${ENV_PROJECT_NAME}&quot;, returnStdout: true).trim()
                         if (!containerRunning) {
@@ -3109,7 +3110,7 @@ sudo apt-get install jenkins
                             echo &quot;Container ${ENV_PROJECT_NAME} is running&quot;
                             sh &quot;&quot;&quot;
                                 # Fetch HTTP status code
-                                HTTP_STATUS=\$(curl -s -o /dev/null -w &quot;%{http_code}&quot; http://0.0.0.0:${DOCKER_PORT})
+                                HTTP_STATUS=\$(curl -s -o /dev/null -w &quot;%{http_code}&quot; -L http://0.0.0.0:${DOCKER_PORT})
                                 echo &quot;HTTP Status: \$HTTP_STATUS&quot;
 
                                 # Update Nginx configuration if status code is 200 (OK)
