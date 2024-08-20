@@ -3009,7 +3009,7 @@ sudo apt-get install jenkins
         }
         stage(&#x27;Retrieve Image Tag from Build Job&#x27;) {
             when {
-                expression { params.DEPLOY &amp;&amp; params.DEPLOY_TYPE == &#x27;kubernetes&#x27; }
+                expression { params.DEPLOY}
             }
             steps {
                 script {
