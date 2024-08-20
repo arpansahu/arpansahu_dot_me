@@ -1776,13 +1776,15 @@ CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; daphne clo
 
 services:
   web:
-    build: .
+    build:  # This section will be used when running locally
+      context: .
+      dockerfile: Dockerfile
+    image: harbor.arpansahu.me/library/clock_work:latest
     env_file: ./.env
     command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; daphne clock_work.asgi:application -b 0.0.0.0 --port 8012 &amp; celery -A clock_work.celery worker -l info &amp; celery -A clock_work beat -l INFO&quot;
-    image: clock_work
     container_name: clock_work
     volumes:
-      - .:/clock_work
+      - .:/app
     ports:
       - &quot;8012:8012&quot;
     restart: unless-stopped
@@ -3382,6 +3384,7 @@ sudo apt-get install jenkins
                         &#x27;&#x27;&#x27;
                         // Deploy using Docker Compose
                         sh &#x27;docker-compose down&#x27;
+                        sh &#x27;docker-compose pull&#x27;
                         sh &#x27;docker-compose up -d&#x27;
 
                         // Wait for a few seconds to let the app start
