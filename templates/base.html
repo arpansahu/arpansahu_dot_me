@@ -13,30 +13,29 @@
     <!-- favicon -->
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
     <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
-    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/all.min.css">
+    <link href="{% static 'css/core-ui.css' %}" rel="stylesheet" type="text/css" />
     <!-- css -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'css/style.min.css' %}" rel="stylesheet" type="text/css" />
 
 
     <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link href="{% static 'css/google-font.css' %}" rel="stylesheet" type="text/css" />
     <!-- Nucleo Icons -->
     <link href="{% static 'assets/css/nucleo-icons.css' %}" rel="stylesheet" />
     <link href="{% static 'assets/css/nucleo-svg.css' %}" rel="stylesheet" />
     <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <script src="{% static 'js/fontawesome/all.js' %}"></script>
     <link href="{% static 'assets/css/nucleo-svg.css' %}" rel="stylesheet" />
     <!-- CSS Files -->
-{#    <link id="pagestyle" href="{% static 'assets/css/soft-ui-dashboard.css' %}" rel="stylesheet" />#}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css"/>
+    <link href="{% static 'css/prism-min.css' %}" rel="stylesheet" />
+
     <!-- colors -->
     <link href="{% static 'css/colors/default.css' %}" rel="stylesheet" type="text/css" id="color-opt" />
     <link href="{% static 'css/read_more.css' %}" rel="stylesheet" type="text/css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/prism.min.js"></script>
-
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'js/prism-min.js' %}"></script>
+    <script src="{% static 'js/sweetalert2.js' %}"></script>
 
     <!-- Sentry SDK for JavaScript -->
     <script src="https://js.sentry-cdn.com/331f4612eb24264aada28947f75526c3.min.js" crossorigin="anonymous"></script>
