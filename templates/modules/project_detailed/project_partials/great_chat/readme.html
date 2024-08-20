@@ -379,7 +379,7 @@
 <pre><code class="language-python">CACHES = {
     &#x27;default&#x27;: {
         &#x27;BACKEND&#x27;: &#x27;django_redis.cache.RedisCache&#x27;,
-        &#x27;LOCATION&#x27;: config(&#x27;REDISCLOUD_URL&#x27;),
+        &#x27;LOCATION&#x27;: config(&#x27;REDIS_CLOUD_URL&#x27;),
         &#x27;OPTIONS&#x27;: {
             &#x27;CLIENT_CLASS&#x27;: &#x27;django_redis.client.DefaultClient&#x27;,
         }
@@ -400,7 +400,7 @@ else:
         &quot;default&quot;: {
             &quot;BACKEND&quot;: &quot;channels_redis.core.RedisChannelLayer&quot;,
             &quot;CONFIG&quot;: {
-                &quot;hosts&quot;: [(config(&#x27;REDISCLOUD_URL&#x27;))],
+                &quot;hosts&quot;: [(config(&#x27;REDIS_CLOUD_URL&#x27;))],
             },
         },
     }
@@ -1575,7 +1575,7 @@ include_files = {
 <p>
  <img alt="Add Retention Rule S" class="d-block w-100" src="https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/harbor/retention_rule_schedule.png"/>
 </p>
-<pre><code class="language-bash">FROM python:3.10.7-slim
+<pre><code class="language-bash">FROM python:3.10.7
 
 WORKDIR /app
 
@@ -1595,12 +1595,15 @@ CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; daphne -b 
 </p>
 <pre><code class="language-bash">services:
   web:
-    image: harbor.arpansahu.me/library/great_chat:latest
+    build:  # This section will be used when running locally
+      context: .
+      dockerfile: Dockerfile
+    image: harbor.arpansahu.me/library/great_chat:latest  # This will be used when the image is not built locally
     env_file: ./.env
     command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; daphne -b 0.0.0.0 -p 8002 great_chat.asgi:application&quot;
     container_name: great_chat
     volumes:
-      - .:/great_chat
+      - .:/app  # Ensure this matches the WORKDIR in your Dockerfile
     ports:
       - &quot;8002:8002&quot;
     restart: unless-stopped
@@ -2089,72 +2092,9 @@ spec:
       containers:
         - image: harbor.arpansahu.me/library/great_chat:latest
           name: great-chat
-          env:
-            - name: SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: SECRET_KEY
-            - name: DEBUG
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: DEBUG
-            - name: ALLOWED_HOSTS
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: ALLOWED_HOSTS
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: AWS_ACCESS_KEY_ID
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: AWS_SECRET_ACCESS_KEY
-            - name: AWS_STORAGE_BUCKET_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: AWS_STORAGE_BUCKET_NAME
-            - name: BUCKET_TYPE
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: BUCKET_TYPE
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: DATABASE_URL
-            - name: REDISCLOUD_URL
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: REDISCLOUD_URL
-            - name: MAIL_JET_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: MAIL_JET_API_KEY
-            - name: MAIL_JET_API_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: MAIL_JET_API_SECRET
-            - name: DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: DOMAIN
-            - name: PROTOCOL
-              valueFrom:
-                secretKeyRef:
-                  name: great-chat-secret
-                  key: PROTOCOL
+          envFrom:
+            - secretRef:
+                name: great-chat-secret
           ports:
             - containerPort: 8002
               name: daphne
@@ -3155,6 +3095,11 @@ sudo apt-get install jenkins
         ENV_PROJECT_NAME = &quot;great_chat&quot;
         DOCKER_PORT = &quot;8002&quot;
         PROJECT_NAME_WITH_DASH = &quot;great-chat&quot;
+        SERVER_NAME= &quot;great-chat.arpansahu.me&quot;
+        BUILD_PROJECT_NAME = &quot;great_chat_build&quot;
+        JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
+        SENTRY_ORG=&quot;arpansahu&quot;
+        SENTRY_PROJECT=&quot;great_chat&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3182,14 +3127,62 @@ sudo apt-get install jenkins
                 }
             }
         }
-        stage(&#x27;Extract Port from Dockerfile&#x27;) {
+        stage(&#x27;Check &amp; Create Nginx Configuration&#x27;) {
             steps {
                 script {
-                    env.EXPOSED_PORT = sh(script: &quot;grep &#x27;^EXPOSE&#x27; Dockerfile | awk &#x27;{print \$2}&#x27;&quot;, returnStdout: true).trim()
-                    if (!env.EXPOSED_PORT) {
-                        error &quot;No EXPOSE directive found in Dockerfile&quot;
+                    // Check if the Nginx configuration file exists
+                    def configExists = sh(script: &quot;test -f ${NGINX_CONF} &amp;&amp; echo &#x27;exists&#x27; || echo &#x27;not exists&#x27;&quot;, returnStdout: true).trim()
+
+                    if (configExists == &#x27;not exists&#x27;) {
+                        echo &quot;Nginx configuration file does not exist. Creating it now...&quot;
+
+                        // Create or overwrite the NGINX_CONF file with the content of nginx.conf using sudo tee
+                        sh &quot;sudo cat nginx.conf | sudo tee ${NGINX_CONF} &gt; /dev/null&quot;
+
+                        // Replace placeholders in the configuration file
+                        sh &quot;sudo sed -i &#x27;s|SERVER_NAME|${SERVER_NAME}|g&#x27; ${NGINX_CONF}&quot;
+                        sh &quot;sudo sed -i &#x27;s|DOCKER_PORT|${DOCKER_PORT}|g&#x27; ${NGINX_CONF}&quot;
+
+                        echo &quot;Nginx configuration file created.&quot;
+
+                        // Ensure Nginx is aware of the new configuration
+                        sh &quot;sudo ln -sf ${NGINX_CONF} /etc/nginx/sites-enabled/&quot;
                     } else {
-                        echo &quot;Exposed port found in Dockerfile: ${env.EXPOSED_PORT}&quot;
+                        echo &quot;Nginx configuration file already exists.&quot;
+                    }                    
+                }
+            }
+        }
+        stage(&#x27;Retrieve Image Tag from Build Job&#x27;) {
+            when {
+                expression { params.DEPLOY &amp;&amp; params.DEPLOY_TYPE == &#x27;kubernetes&#x27; }
+            }
+            steps {
+                script {
+                    echo &quot;Retrieve image tag from ${BUILD_PROJECT_NAME}&quot;
+
+                    // Construct the API URL for the latest build
+                    def api_url = &quot;https://${JENKINS_DOMAIN}/job/${BUILD_PROJECT_NAME}/lastSuccessfulBuild/api/json&quot;
+
+                    // Log the API URL for debugging purposes
+                    echo &quot;Hitting API URL: ${api_url}&quot;
+
+                    withCredentials([usernamePassword(credentialsId: &#x27;fc364086-fb8b-4528-bc7f-1ef3f42b71c7&#x27;, usernameVariable: &#x27;JENKINS_USER&#x27;, passwordVariable: &#x27;JENKINS_PASS&#x27;)]) {
+                        // Execute the curl command to retrieve the JSON response
+                        echo &quot;usernameVariable: ${JENKINS_USER}, passwordVariable: ${JENKINS_PASS}&quot;
+                        def buildInfoJson = sh(script: &quot;curl -u ${JENKINS_USER}:${JENKINS_PASS} ${api_url}&quot;, returnStdout: true).trim()
+
+                        // Log the raw JSON response for debugging
+                        echo &quot;Raw JSON response: ${buildInfoJson}&quot;
+
+                        def imageTag = sh(script: &quot;&quot;&quot;
+                            echo &#x27;${buildInfoJson}&#x27; | grep -oP &#x27;&quot;number&quot;:\\s*\\K\\d+&#x27; | head -n 1
+                        &quot;&quot;&quot;, returnStdout: true).trim()
+
+                        echo &quot;Retrieved image tag (build number): ${imageTag}&quot;
+
+                        // Replace the placeholder in the deployment YAML
+                        sh &quot;sed -i &#x27;s|:latest|:${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
                     }
                 }
             }
@@ -3211,6 +3204,7 @@ sudo apt-get install jenkins
                         &#x27;&#x27;&#x27;
                         // Deploy using Docker Compose
                         sh &#x27;docker-compose down&#x27;
+                        sh &#x27;docker-compose pull&#x27;
                         sh &#x27;docker-compose up -d&#x27;
 
                         // Wait for a few seconds to let the app start
@@ -3225,7 +3219,7 @@ sudo apt-get install jenkins
                             // Execute curl and scale down Kubernetes deployment if curl is successful
                             sh &quot;&quot;&quot;
                                 # Fetch HTTP status code
-                                HTTP_STATUS=\$(curl -s -o /dev/null -w &quot;%{http_code}&quot; http://0.0.0.0:${DOCKER_PORT})
+                                HTTP_STATUS=\$(curl -s -o /dev/null -w &quot;%{http_code}&quot; -L http://0.0.0.0:${DOCKER_PORT})
                                 echo &quot;HTTP Status: \$HTTP_STATUS&quot;
 
                                 # Update Nginx configuration if status code is 200 (OK)
@@ -3347,6 +3341,29 @@ sudo apt-get install jenkins
                         }
                     }
                     currentBuild.description = &#x27;DEPLOYMENT_EXECUTED&#x27;
+                }
+            }
+        }
+        stage(&#x27;Sentry release&#x27;) {
+            when {
+                expression { params.DEPLOY }
+            }
+            steps {
+                script {
+                    echo &quot;Sentry Release ...&quot;
+
+                    sh &quot;&quot;&quot;
+                        # Get the current git commit hash
+                        VERSION=\$(git rev-parse HEAD)
+
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} new \$VERSION
+
+                        # Associate commits with the release
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} set-commits --auto \$VERSION
+
+                        # Deploy the release (optional step for marking the release as deployed)
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} deploys \$VERSION new -e production
+                    &quot;&quot;&quot;
                 }
             }
         }
@@ -5242,7 +5259,7 @@ Add all the env variables as required and mentioned in the Readme File.
  DATABASE_URL=
 </p>
 <p>
- REDISCLOUD_URL=
+ REDIS_CLOUD_URL=
 </p>
 <h1>
  deploy_kube.sh requirements
