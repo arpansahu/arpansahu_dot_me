@@ -1494,13 +1494,15 @@ CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; gunicorn -
 
 services:
   web:
-    build: .
+    build:  # This section will be used when running locally
+      context: .
+      dockerfile: Dockerfile
+    image: harbor.arpansahu.me/library/arpansahu_dot_me:latest
     env_file: ./.env
     command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi&quot;
-    image: arpansahu_dot_me
     container_name: arpansahu_dot_me
     volumes:
-      - .:/arpansahu_dot_me
+      - .:/app
     ports:
       - &quot;8000:8000&quot;
     restart: unless-stopped
@@ -3099,6 +3101,7 @@ sudo apt-get install jenkins
                         sed -i &quot;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|&quot; docker-compose.yml
                         &#x27;&#x27;&#x27;
                         sh &#x27;docker-compose down&#x27;
+                        sh &#x27;docker-compose pull&#x27;
                         sh &#x27;docker-compose up -d&#x27;
 
                         sleep 60
