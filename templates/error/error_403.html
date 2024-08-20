@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+{% block content %}
+
+<section class="section bg-light" id="error">
+  <div class="container">
+      <div class="row">
+          <div class="col-12">
+              <div class="card bg-white" style="background: url('{% static "images/personal/error-bg.png" %}'); background-repeat: no-repeat; background-size: 20%; background-position: right bottom;">
+                  <div class="card-body">
+                      <div class="row">
+                          <div class="col-md-8 mx-auto text-center">
+                              <h1 class="fs-1 fw-bold text-danger mb-3">Error 403</h1>
+                              <p class="text-gray-700 fs-18 fs-lg mb-4">
+                                  Oops! Something went wrong. <br> 
+                                  Access Denied - If the problem persist, please access support.
+                              </p>
+                              <a href="/" class="btn btn-primary btn-lg">Go Back to Home</a>
+                          </div><!-- end col -->
+                      </div><!-- end row -->
+                  </div><!--end card-body-->
+              </div><!--end card-->
+          </div><!-- end col -->
+      </div><!-- end row -->
+  </div><!-- end container -->
+</section>
+
+{% endblock %}
