@@ -3335,7 +3335,7 @@ sudo apt-get install jenkins
         }
         stage(&#x27;Retrieve Image Tag from Build Job&#x27;) {
             when {
-                expression { params.DEPLOY &amp;&amp; params.DEPLOY_TYPE == &#x27;kubernetes&#x27; }
+                expression { params.DEPLOY}
             }
             steps {
                 script {
@@ -3361,8 +3361,23 @@ sudo apt-get install jenkins
 
                         echo &quot;Retrieved image tag (build number): ${imageTag}&quot;
 
-                        // Replace the placeholder in the deployment YAML
-                        sh &quot;sed -i &#x27;s|:latest|:${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
+
+                        // Check if REGISTRY, REPOSITORY, and imageTag are all defined and not empty
+                        if (REGISTRY &amp;&amp; REPOSITORY &amp;&amp; imageTag) {
+                            if (params.DEPLOY_TYPE == &#x27;kubernetes&#x27;) {
+                                // Replace the placeholder in the deployment YAML
+                                sh &quot;sed -i &#x27;s|:latest|:${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
+                            }   
+
+                            if (params.DEPLOY_TYPE == &#x27;docker&#x27;) {
+                                // Ensure the correct image tag is used in the docker-compose.yml
+                                sh &quot;&quot;&quot;
+                                sed -i &#x27;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${imageTag}|&#x27; docker-compose.yml
+                                &quot;&quot;&quot;
+                            }
+                        } else {
+                            echo &quot;One or more required variables (REGISTRY, REPOSITORY, imageTag) are not defined or empty. Skipping docker-compose.yml update.&quot;
+                        }
                     }
                 }
             }
@@ -3378,17 +3393,13 @@ sudo apt-get install jenkins
                         // Copy the .env file to the workspace
                         sh &quot;sudo cp /root/projectenvs/${ENV_PROJECT_NAME}/.env ${env.WORKSPACE}/&quot;
 
-                        // Ensure the correct image tag is used in the docker-compose.yml
-                        sh &#x27;&#x27;&#x27;
-                        sed -i &quot;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|&quot; docker-compose.yml
-                        &#x27;&#x27;&#x27;
                         // Deploy using Docker Compose
                         sh &#x27;docker-compose down&#x27;
                         sh &#x27;docker-compose pull&#x27;
                         sh &#x27;docker-compose up -d&#x27;
 
                         // Wait for a few seconds to let the app start
-                        sleep 10
+                        sleep 60
 
                         // Verify the container is running
                         def containerRunning = sh(script: &quot;docker ps -q -f name=${ENV_PROJECT_NAME}&quot;, returnStdout: true).trim()
