@@ -1038,13 +1038,15 @@ version: '3'
 
 services:
   web:
-    build: .
+    build:  # This section will be used when running locally
+      context: .
+      dockerfile: Dockerfile
+    image: harbor.arpansahu.me/library/arpansahu_dot_me:latest
     env_file: ./.env
     command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi"
-    image: arpansahu_dot_me
     container_name: arpansahu_dot_me
     volumes:
-      - .:/arpansahu_dot_me
+      - .:/app
     ports:
       - "8000:8000"
     restart: unless-stopped
@@ -2639,6 +2641,7 @@ pipeline {
                         sed -i "s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|" docker-compose.yml
                         '''
                         sh 'docker-compose down'
+                        sh 'docker-compose pull'
                         sh 'docker-compose up -d'
 
                         sleep 60
