@@ -3039,9 +3039,9 @@ sudo apt-get install jenkins
                         sh &quot;sed -i &#x27;s|:latest|:${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
 
                         // Ensure the correct image tag is used in the docker-compose.yml
-                        sh &#x27;&#x27;&#x27;
-                        sed -i &quot;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${imageTag}|&quot; docker-compose.yml
-                        &#x27;&#x27;&#x27;
+                        sh &quot;&quot;&quot;
+                        sed -i &#x27;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${imageTag}|&#x27; docker-compose.yml
+                        &quot;&quot;&quot;
                     }
                 }
             }
