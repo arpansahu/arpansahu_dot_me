@@ -3073,7 +3073,7 @@ sudo apt-get install jenkins
                         sh &#x27;docker-compose up -d&#x27;
 
                         // Wait for a few seconds to let the app start
-                        sleep 10
+                        sleep 60
 
                         // Verify the container is running
                         def containerRunning = sh(script: &quot;docker ps -q -f name=${ENV_PROJECT_NAME}&quot;, returnStdout: true).trim()
