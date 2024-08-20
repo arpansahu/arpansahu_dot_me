@@ -2594,7 +2594,7 @@ pipeline {
         }
         stage('Retrieve Image Tag from Build Job') {
             when {
-                expression { params.DEPLOY && params.DEPLOY_TYPE == 'kubernetes' }
+                expression { params.DEPLOY}
             }
             steps {
                 script {
@@ -2620,8 +2620,23 @@ pipeline {
 
                         echo "Retrieved image tag (build number): ${imageTag}"
 
-                        // Replace the placeholder in the deployment YAML
-                        sh "sed -i 's|:latest|:${imageTag}|g' ${WORKSPACE}/deployment.yaml"
+
+                        // Check if REGISTRY, REPOSITORY, and imageTag are all defined and not empty
+                        if (REGISTRY && REPOSITORY && imageTag) {
+                            if (params.DEPLOY_TYPE == 'kubernetes') {
+                                // Replace the placeholder in the deployment YAML
+                                sh "sed -i 's|:latest|:${imageTag}|g' ${WORKSPACE}/deployment.yaml"
+                            }   
+                            
+                            if (params.DEPLOY_TYPE == 'docker') {
+                                // Ensure the correct image tag is used in the docker-compose.yml
+                                sh """
+                                sed -i 's|image: .*|image: ${REGISTRY}/${REPOSITORY}:${imageTag}|' docker-compose.yml
+                                """
+                            }
+                        } else {
+                            echo "One or more required variables (REGISTRY, REPOSITORY, imageTag) are not defined or empty. Skipping docker-compose.yml update."
+                        }
                     }
                 }
             }
@@ -2637,9 +2652,6 @@ pipeline {
                         // Copy the .env file to the workspace
                         sh "sudo cp /root/projectenvs/${ENV_PROJECT_NAME}/.env ${env.WORKSPACE}/"
 
-                        sh '''
-                        sed -i "s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|" docker-compose.yml
-                        '''
                         sh 'docker-compose down'
                         sh 'docker-compose pull'
                         sh 'docker-compose up -d'
