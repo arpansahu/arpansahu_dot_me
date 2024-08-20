@@ -1457,7 +1457,7 @@ services:
     command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8016 django_starter.wsgi&quot;
     container_name: django_starter
     volumes:
-      - .:/django_starter
+      - .:/app
     ports:
       - &quot;8016:8016&quot;
     restart: unless-stopped
