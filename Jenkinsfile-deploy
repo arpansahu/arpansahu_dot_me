@@ -120,6 +120,7 @@ pipeline {
                         sed -i "s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|" docker-compose.yml
                         '''
                         sh 'docker-compose down'
+                        sh 'docker-compose pull'
                         sh 'docker-compose up -d'
 
                         sleep 60
