@@ -42,6 +42,9 @@ MAIL_JET_API_SECRET = config('MAIL_JET_API_SECRET')
 MAIL_JET_EMAIL_ADDRESS = config('MAIL_JET_EMAIL_ADDRESS')
 MY_EMAIL_ADDRESS = config('MY_EMAIL_ADDRESS')
 
+DOMAIN = config('DOMAIN')
+PROTOCOL = config('PROTOCOL')
+
 SENTRY_ENVIRONMENT = config('SENTRY_ENVIRONMENT')  # production Or "staging", "development", etc.
 SENTRY_DSH_URL = config('SENTRY_DSH_URL')
 
