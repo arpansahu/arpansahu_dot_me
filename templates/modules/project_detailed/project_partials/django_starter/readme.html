@@ -1449,10 +1449,12 @@ CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; gunicorn -
 
 services:
   web:
-    build: .
+    build:  # This section will be used when running locally
+      context: .
+      dockerfile: Dockerfile
+    image: harbor.arpansahu.me/library/django_starter:latest
     env_file: ./.env
     command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8016 django_starter.wsgi&quot;
-    image: django_starter
     container_name: django_starter
     volumes:
       - .:/django_starter
@@ -3035,6 +3037,11 @@ sudo apt-get install jenkins
 
                         // Replace the placeholder in the deployment YAML
                         sh &quot;sed -i &#x27;s|:latest|:${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
+
+                        // Ensure the correct image tag is used in the docker-compose.yml
+                        sh &#x27;&#x27;&#x27;
+                        sed -i &quot;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${imageTag}|&quot; docker-compose.yml
+                        &#x27;&#x27;&#x27;
                     }
                 }
             }
@@ -3050,12 +3057,9 @@ sudo apt-get install jenkins
                         // Copy the .env file to the workspace
                         sh &quot;sudo cp /root/projectenvs/${ENV_PROJECT_NAME}/.env ${env.WORKSPACE}/&quot;
 
-                        // Ensure the correct image tag is used in the docker-compose.yml
-                        sh &#x27;&#x27;&#x27;
-                        sed -i &quot;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|&quot; docker-compose.yml
-                        &#x27;&#x27;&#x27;
                         // Deploy using Docker Compose
                         sh &#x27;docker-compose down&#x27;
+                        sh &#x27;docker-compose pull&#x27;
                         sh &#x27;docker-compose up -d&#x27;
 
                         // Wait for a few seconds to let the app start
