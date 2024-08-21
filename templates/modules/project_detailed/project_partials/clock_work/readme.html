@@ -1761,13 +1761,26 @@ include_files = {
 
 WORKDIR /app
 
+# Copy only requirements.txt first to leverage Docker cache
+COPY requirements.txt .
+
+# Install dependencies
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Install supervisord
+RUN apt-get update &amp;&amp; apt-get install -y supervisor
+
+# Copy the rest of the application
 COPY . .
 
-RUN pip3 install -r requirements.txt
+# Copy supervisord configuration file
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-EXPOSE 8012
+# Expose necessary ports
+EXPOSE 8012 8051
 
-CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; daphne clock_work.asgi:application -b 0.0.0.0 --port 8012 &amp; celery -A clock_work.celery worker -l info &amp; celery -A clock_work beat -l INFO&quot;
+# Start supervisord to manage the processes
+CMD [&quot;supervisord&quot;, &quot;-c&quot;, &quot;/etc/supervisor/conf.d/supervisord.conf&quot;]
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
@@ -1781,12 +1794,12 @@ services:
       dockerfile: Dockerfile
     image: harbor.arpansahu.me/library/clock_work:latest
     env_file: ./.env
-    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; daphne clock_work.asgi:application -b 0.0.0.0 --port 8012 &amp; celery -A clock_work.celery worker -l info &amp; celery -A clock_work beat -l INFO&quot;
     container_name: clock_work
     volumes:
       - .:/app
     ports:
       - &quot;8012:8012&quot;
+      - &quot;8051:8051&quot;
     restart: unless-stopped
 </code></pre>
 <h3>
