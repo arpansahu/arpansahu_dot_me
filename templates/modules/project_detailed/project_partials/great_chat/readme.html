@@ -389,21 +389,14 @@
 <p>
  Use these Channels Settings
 </p>
-<pre><code class="language-python">if not DEBUG:
-    CHANNEL_LAYERS = {
-        &#x27;default&#x27;: {
-            &quot;BACKEND&quot;: &quot;channels.layers.InMemoryChannelLayer&quot;,
-        }
-    }
-else:
-    CHANNEL_LAYERS = {
-        &quot;default&quot;: {
-            &quot;BACKEND&quot;: &quot;channels_redis.core.RedisChannelLayer&quot;,
-            &quot;CONFIG&quot;: {
-                &quot;hosts&quot;: [(config(&#x27;REDIS_CLOUD_URL&#x27;))],
-            },
+<pre><code class="language-python">CHANNEL_LAYERS = {
+    &quot;default&quot;: {
+        &quot;BACKEND&quot;: &quot;channels_redis.core.RedisChannelLayer&quot;,
+        &quot;CONFIG&quot;: {
+            &quot;hosts&quot;: [(config(&#x27;REDIS_CLOUD_URL&#x27;))],
         },
-    }
+    },
+}
 </code></pre>
 <p>
  Change settings.py static files and media files settings | Now I have added support for BlackBlaze Static Storage also which also based on AWS S3 protocols
