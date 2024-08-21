@@ -1002,7 +1002,7 @@ After adding rule schedule it as per requirement as below
 ![Add Retention Rule S](https://github.com/arpansahu/common_readme/blob/main/AWS%20Deployment/harbor/retention_rule_schedule.png)
 
 ```bash
-FROM python:3.10.7-slim
+FROM python:3.12.5
 
 WORKDIR /app
 
