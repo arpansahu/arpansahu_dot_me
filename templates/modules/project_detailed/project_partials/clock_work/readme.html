@@ -2292,6 +2292,8 @@ spec:
           ports:
             - containerPort: 8012
               name: daphne
+            - containerPort: 8051
+              name: celery-flower
 </code></pre>
 <ol>
  <li>
@@ -2310,6 +2312,10 @@ spec:
       port: 8012
       targetPort: 8012
       nodePort: 32012
+    - protocol: TCP
+      port: 8051
+      targetPort: 8051
+      nodePort: 32051
   type: NodePort
 </code></pre>
 <ol>
