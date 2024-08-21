@@ -44,25 +44,9 @@ Run Server
   gunicorn --bind 0.0.0.0:[PROJECT_DOCKER_PORT] [JENKINS PROJECT NAME].wsgi
 ```
 
-Use these CACHE settings
+[CACHE]
 
-```python
-if not DEBUG:
-    CHANNEL_LAYERS = {
-        'default': {
-            "BACKEND": "channels.layers.InMemoryChannelLayer",
-        }
-    }
-else:
-    CHANNEL_LAYERS = {
-        "default": {
-            "BACKEND": "channels_redis.core.RedisChannelLayer",
-            "CONFIG": {
-                "hosts": [(REDIS_CLOUD_URL)],
-            },
-        },
-    }
-```
+[SENTRY]
 
 [STATIC_FILES]
 
