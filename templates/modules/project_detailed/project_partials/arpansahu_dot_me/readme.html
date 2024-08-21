@@ -296,24 +296,11 @@
   gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi
 </code></pre>
 <p>
- Use these CACHE settings
+ [CACHE]
 </p>
-<pre><code class="language-python">if not DEBUG:
-    CHANNEL_LAYERS = {
-        &#x27;default&#x27;: {
-            &quot;BACKEND&quot;: &quot;channels.layers.InMemoryChannelLayer&quot;,
-        }
-    }
-else:
-    CHANNEL_LAYERS = {
-        &quot;default&quot;: {
-            &quot;BACKEND&quot;: &quot;channels_redis.core.RedisChannelLayer&quot;,
-            &quot;CONFIG&quot;: {
-                &quot;hosts&quot;: [(REDIS_CLOUD_URL)],
-            },
-        },
-    }
-</code></pre>
+<p>
+ [SENTRY]
+</p>
 <p>
  Change settings.py static files and media files settings | Now I have added support for BlackBlaze Static Storage also which also based on AWS S3 protocols
 </p>
