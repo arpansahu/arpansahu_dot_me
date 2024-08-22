@@ -3416,8 +3416,10 @@ sudo apt-get install jenkins
         IMAGE_TAG = &quot;latest&quot;  // or use a specific tag if needed
         KUBECONFIG = &quot;${env.WORKSPACE}/kubeconfig&quot;  // Set the KUBECONFIG environment variable
         NGINX_CONF = &quot;/etc/nginx/sites-available/clock-work&quot;
+        NGINX_CONF_FLOWER = &quot;/etc/nginx/sites-available/flower-clock-work&quot;
         ENV_PROJECT_NAME = &quot;clock_work&quot;
         DOCKER_PORT = &quot;8012&quot;
+        FLOWER_PORT = &quot;8051&quot;
         PROJECT_NAME_WITH_DASH = &quot;clock-work&quot;
         BUILD_PROJECT_NAME = &quot;clock_work_build&quot;
         JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
@@ -3634,6 +3636,7 @@ sudo apt-get install jenkins
 
                                     echo &quot;Updating Nginx configuration at ${NGINX_CONF}...&quot;
                                     sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF}
+                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${FLOWER_PORT};|&#x27; ${NGINX_CONF_FLOWER}
 
                                     if [ \$? -ne 0 ]; then
                                         echo &quot;Failed to update Nginx configuration&quot;
