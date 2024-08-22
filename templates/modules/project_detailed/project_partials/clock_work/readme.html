@@ -3561,6 +3561,7 @@ sudo apt-get install jenkins
                                 # Update Nginx configuration if status code is 200 (OK)
                                 if [ &quot;\$HTTP_STATUS&quot; -eq 200 ]; then
                                     sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${DOCKER_PORT};|&#x27; ${NGINX_CONF}
+                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${FLOWER_PORT};|&#x27; ${NGINX_CONF}
                                     sudo nginx -s reload
                                     echo &#x27;Nginx configuration updated and reloaded successfully.&#x27;
                                 else
@@ -3622,6 +3623,9 @@ sudo apt-get install jenkins
                             def nodePort = sh(script: &quot;kubectl get service ${PROJECT_NAME_WITH_DASH}-service -o=jsonpath=&#x27;{.spec.ports[0].nodePort}&#x27;&quot;, returnStdout: true).trim()
                             echo &quot;Service NodePort: ${nodePort}&quot;
 
+                            def nodePortFlower = sh(script: &quot;kubectl get service ${PROJECT_NAME_WITH_DASH}-service -o=jsonpath=&#x27;{.spec.ports[1].nodePort}&#x27;&quot;, returnStdout: true).trim()
+                            echo &quot;Service NodePortFlower: ${nodePortFlower}&quot;
+
                             // Get cluster IP address
                             def clusterIP = sh(script: &quot;kubectl get nodes -o=jsonpath=&#x27;{.items[0].status.addresses[0].address}&#x27;&quot;, returnStdout: true).trim()
                             echo &quot;Cluster IP: ${clusterIP}&quot;
@@ -3636,7 +3640,7 @@ sudo apt-get install jenkins
 
                                     echo &quot;Updating Nginx configuration at ${NGINX_CONF}...&quot;
                                     sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF}
-                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${FLOWER_PORT};|&#x27; ${NGINX_CONF_FLOWER}
+                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePortFlower};|&#x27; ${NGINX_CONF_FLOWER}
 
                                     if [ \$? -ne 0 ]; then
                                         echo &quot;Failed to update Nginx configuration&quot;
