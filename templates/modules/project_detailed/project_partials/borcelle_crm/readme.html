@@ -531,6 +531,38 @@
 </code></pre>
 <hr/>
 <p>
+ Use this code to create asgi.py
+</p>
+<pre><code class="language-python">import os
+
+from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.security.websocket import AllowedHostsOriginValidator
+from django.core.asgi import get_asgi_application
+from notifications_app.routing import websocket_urlpatterns
+from celery_progress.websockets import routing
+os.environ.setdefault(&quot;DJANGO_SETTINGS_MODULE&quot;, &quot;borcelle_crm.settings&quot;)
+# Initialize Django ASGI application early to ensure the AppRegistry
+# is populated before importing code that may import ORM models.
+django_asgi_app = get_asgi_application()
+
+application = ProtocolTypeRouter(
+    {
+        &quot;http&quot;: django_asgi_app,
+        &quot;websocket&quot;: AllowedHostsOriginValidator(
+            AuthMiddlewareStack(URLRouter(       
+                routing.urlpatterns + websocket_urlpatterns
+            ))
+        ),
+    }
+)
+</code></pre>
+<p>
+ There should be no separate routing.py file in the main project directory just have all the routings in asgi itself.
+</p>
+<hr/>
+<hr/>
+<p>
  Use these CELERY settings
 </p>
 <pre><code>CELERY_BROKER_URL = config(&quot;RABBIT_MQ_URL&quot;)
@@ -611,43 +643,120 @@ def debug_task(self):
 <p>
  Use these CACHE settings
 </p>
-<pre><code class="language-python">if not DEBUG:
-    CACHES = {
-        &#x27;default&#x27;: {
-            &#x27;BACKEND&#x27;: &#x27;django_redis.cache.RedisCache&#x27;,
-            &#x27;LOCATION&#x27;: REDIS_CLOUD_URL,
-            &#x27;OPTIONS&#x27;: {
-                &#x27;CLIENT_CLASS&#x27;: &#x27;django_redis.client.DefaultClient&#x27;,
-            },
-            &#x27;KEY_PREFIX&#x27;: PROJECT_NAME
-        }
+<pre><code class="language-python">
+CACHES = {
+    &#x27;default&#x27;: {
+        &#x27;BACKEND&#x27;: &#x27;django_redis.cache.RedisCache&#x27;,
+        &#x27;LOCATION&#x27;: REDIS_CLOUD_URL,
+        &#x27;OPTIONS&#x27;: {
+            &#x27;CLIENT_CLASS&#x27;: &#x27;django_redis.client.DefaultClient&#x27;,
+        },
+        &#x27;KEY_PREFIX&#x27;: PROJECT_NAME
     }
-else:
-    CACHES = {
-        &#x27;default&#x27;: {
-            &#x27;BACKEND&#x27;: &#x27;django.core.cache.backends.locmem.LocMemCache&#x27;,
-            &#x27;LOCATION&#x27;: &#x27;unique-snowflake&#x27;,
-        }
-    }
+}
+
 </code></pre>
 <p>
  Use these Channels Settings
 </p>
-<pre><code class="language-python">if not DEBUG:
+<pre><code class="language-python">try:
+    import channels
+except ImportError:
+    pass
+else:
+    INSTALLED_APPS.insert(0, &#x27;channels&#x27;)
+    INSTALLED_APPS.append(&#x27;celery_progress.websockets&#x27;)
+
+    ASGI_APPLICATION = &#x27;borcelle_crm.routing.application&#x27;
+
     CHANNEL_LAYERS = {
         &#x27;default&#x27;: {
-            &quot;BACKEND&quot;: &quot;channels.layers.InMemoryChannelLayer&quot;,
-        }
-    }
-else:
-    CHANNEL_LAYERS = {
-        &quot;default&quot;: {
-            &quot;BACKEND&quot;: &quot;channels_redis.core.RedisChannelLayer&quot;,
-            &quot;CONFIG&quot;: {
-                &quot;hosts&quot;: [(REDIS_CLOUD_URL)],
+            # This example is assuming you use redis, in which case `channels_redis` is another dependency.
+            &#x27;BACKEND&#x27;: &#x27;channels_redis.core.RedisChannelLayer&#x27;,
+            &#x27;CONFIG&#x27;: {
+                &quot;hosts&quot;: [config(&quot;REDIS_CLOUD_URL&quot;) ],
             },
         },
     }
+</code></pre>
+<p>
+ Use these Sentry Settings for Logging
+</p>
+<pre><code class="language-python">def get_git_commit_hash():
+    try:
+        return subprocess.check_output([&#x27;git&#x27;, &#x27;rev-parse&#x27;, &#x27;HEAD&#x27;]).decode(&#x27;utf-8&#x27;).strip()
+    except Exception:
+        return None
+
+sentry_sdk.init(
+    dsn=SENTRY_DSH_URL,
+    integrations=[
+            DjangoIntegration(
+                transaction_style=&#x27;url&#x27;,
+                middleware_spans=True,
+                signals_spans=True,
+                signals_denylist=[
+                    django.db.models.signals.pre_init,
+                    django.db.models.signals.post_init,
+                ],
+                cache_spans=False,
+            ),
+        ],
+    traces_sample_rate=1.0,  # Adjust this according to your needs
+    send_default_pii=True,  # To capture personal identifiable information (optional)
+    release=get_git_commit_hash(),  # Set the release to the current git commit hash
+    environment=SENTRY_ENVIRONMENT,  # Or &quot;staging&quot;, &quot;development&quot;, etc.
+    profiles_sample_rate=1.0,
+)
+
+LOGGING = {
+    &#x27;version&#x27;: 1,
+    &#x27;disable_existing_loggers&#x27;: False,
+    &#x27;handlers&#x27;: {
+        &#x27;console&#x27;: {
+            &#x27;level&#x27;: &#x27;DEBUG&#x27;,
+            &#x27;class&#x27;: &#x27;logging.StreamHandler&#x27;,
+        },
+        &#x27;sentry&#x27;: {
+            &#x27;level&#x27;: &#x27;ERROR&#x27;,  # Change this to WARNING or INFO if needed
+            &#x27;class&#x27;: &#x27;sentry_sdk.integrations.logging.EventHandler&#x27;,
+            &#x27;formatter&#x27;: &#x27;verbose&#x27;,
+        },
+    },
+    &#x27;loggers&#x27;: {
+        &#x27;django&#x27;: {
+            &#x27;handlers&#x27;: [&#x27;console&#x27;, &#x27;sentry&#x27;],
+            &#x27;level&#x27;: &#x27;INFO&#x27;,
+            &#x27;propagate&#x27;: False,
+        },
+        &#x27;django.request&#x27;: {
+            &#x27;handlers&#x27;: [&#x27;console&#x27;, &#x27;sentry&#x27;],
+            &#x27;level&#x27;: &#x27;ERROR&#x27;,  # Only log errors to Sentry
+            &#x27;propagate&#x27;: False,
+        },
+        &#x27;django.db.backends&#x27;: {
+            &#x27;handlers&#x27;: [&#x27;console&#x27;, &#x27;sentry&#x27;],
+            &#x27;level&#x27;: &#x27;ERROR&#x27;,  # Only log errors to Sentry
+            &#x27;propagate&#x27;: False,
+        },
+        &#x27;django.security&#x27;: {
+            &#x27;handlers&#x27;: [&#x27;console&#x27;, &#x27;sentry&#x27;],
+            &#x27;level&#x27;: &#x27;WARNING&#x27;,  # You can set this to INFO or DEBUG as needed
+            &#x27;propagate&#x27;: False,
+        },
+        # You can add more loggers here if needed
+    },
+    &#x27;formatters&#x27;: {
+        &#x27;verbose&#x27;: {
+            &#x27;format&#x27;: &#x27;%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s&#x27;
+        },
+    },
+}
+</code></pre>
+<p>
+ Also for setting up relays include Loader Script in base.html
+</p>
+<pre><code class="language-html">&lt;script src=&quot;https://js.sentry-cdn.com/{random_unique_code_get_from_sentry_ui}.min.js&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
 </code></pre>
 <p>
  Change settings.py static files and media files settings | Now I have added support for BlackBlaze Static Storage also which also based on AWS S3 protocols
@@ -1043,6 +1152,9 @@ include_files = {
     &quot;README of Readme Manager&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/Readme%20manager/readme_manager.md&quot;,
     &quot;AWS DEPLOYMENT INTRODUCTION&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/Introduction/aws_desployment_introduction.md&quot;,
     &quot;STATIC_FILES&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/Introduction/static_files_settings.md&quot;,
+    &quot;SENTRY&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/Introduction/sentry.md&quot;,
+    &quot;CHANNELS&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/Introduction/channels.md&quot;,
+    &quot;CACHE&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/Introduction/cache.md&quot;,
     &quot;README of Harbor&quot; : &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/harbor/harbor.md&quot;,
     &quot;HARBOR DOCKER COMPOSE&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/AWS%20Deployment/harbor/docker-compose.md&quot;,
     &quot;INCLUDE FILES&quot;: &quot;https://raw.githubusercontent.com/arpansahu/common_readme/main/include_files.py&quot;,
@@ -3330,6 +3442,11 @@ sudo apt-get install jenkins
         SERVER_NAME= &quot;borcelle-crm.arpansahu.me&quot;
         BUILD_PROJECT_NAME = &quot;borcelle_crm_build&quot;
         JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
+        SERVER_NAME= &quot;borcelle-crm.arpansahu.me&quot;
+        BUILD_PROJECT_NAME = &quot;borcelle_crm_build&quot;
+        JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
+        SENTRY_ORG=&quot;arpansahu&quot;
+        SENTRY_PROJECT=&quot;borcelle_crm&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3383,9 +3500,9 @@ sudo apt-get install jenkins
                 }
             }
         }
-        stage(&#x27;Retrieve Image Tag from Another Job&#x27;) {
+        stage(&#x27;Retrieve Image Tag from Build Job&#x27;) {
             when {
-                expression { params.DEPLOY &amp;&amp; params.DEPLOY_TYPE == &#x27;kubernetes&#x27; }
+                expression { params.DEPLOY}
             }
             steps {
                 script {
@@ -3397,22 +3514,38 @@ sudo apt-get install jenkins
                     // Log the API URL for debugging purposes
                     echo &quot;Hitting API URL: ${api_url}&quot;
 
-                    // Execute the curl command to retrieve the JSON response
-                    def buildInfoJson = sh(script: &quot;&quot;&quot;
-                        curl -u arpansahu:Kesar302@jenkins ${api_url}
-                    &quot;&quot;&quot;, returnStdout: true).trim()
+                    withCredentials([usernamePassword(credentialsId: &#x27;fc364086-fb8b-4528-bc7f-1ef3f42b71c7&#x27;, usernameVariable: &#x27;JENKINS_USER&#x27;, passwordVariable: &#x27;JENKINS_PASS&#x27;)]) {
+                        // Execute the curl command to retrieve the JSON response
+                        echo &quot;usernameVariable: ${JENKINS_USER}, passwordVariable: ${JENKINS_PASS}&quot;
+                        def buildInfoJson = sh(script: &quot;curl -u ${JENKINS_USER}:${JENKINS_PASS} ${api_url}&quot;, returnStdout: true).trim()
 
-                    // Log the raw JSON response for debugging
-                    echo &quot;Raw JSON response: ${buildInfoJson}&quot;
+                        // Log the raw JSON response for debugging
+                        echo &quot;Raw JSON response: ${buildInfoJson}&quot;
 
-                    def imageTag = sh(script: &quot;&quot;&quot;
-                        echo &#x27;${buildInfoJson}&#x27; | grep -oP &#x27;&quot;number&quot;:\\s*\\K\\d+&#x27; | head -n 1
-                    &quot;&quot;&quot;, returnStdout: true).trim()
+                        def imageTag = sh(script: &quot;&quot;&quot;
+                            echo &#x27;${buildInfoJson}&#x27; | grep -oP &#x27;&quot;number&quot;:\\s*\\K\\d+&#x27; | head -n 1
+                        &quot;&quot;&quot;, returnStdout: true).trim()
 
-                    echo &quot;Retrieved image tag (build number): ${imageTag}&quot;
+                        echo &quot;Retrieved image tag (build number): ${imageTag}&quot;
 
-                    // Replace the placeholder in the deployment YAML
-                    sh &quot;sed -i &#x27;s|:latest|:${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
+
+                        // Check if REGISTRY, REPOSITORY, and imageTag are all defined and not empty
+                        if (REGISTRY &amp;&amp; REPOSITORY &amp;&amp; imageTag) {
+                            if (params.DEPLOY_TYPE == &#x27;kubernetes&#x27;) {
+                                // Replace the placeholder in the deployment YAML
+                                sh &quot;sed -i &#x27;s|:latest|:${imageTag}|g&#x27; ${WORKSPACE}/deployment.yaml&quot;
+                            }   
+
+                            if (params.DEPLOY_TYPE == &#x27;docker&#x27;) {
+                                // Ensure the correct image tag is used in the docker-compose.yml
+                                sh &quot;&quot;&quot;
+                                sed -i &#x27;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${imageTag}|&#x27; docker-compose.yml
+                                &quot;&quot;&quot;
+                            }
+                        } else {
+                            echo &quot;One or more required variables (REGISTRY, REPOSITORY, imageTag) are not defined or empty. Skipping docker-compose.yml update.&quot;
+                        }
+                    }
                 }
             }
         }
@@ -3427,16 +3560,13 @@ sudo apt-get install jenkins
                         // Copy the .env file to the workspace
                         sh &quot;sudo cp /root/projectenvs/${ENV_PROJECT_NAME}/.env ${env.WORKSPACE}/&quot;
 
-                        // Ensure the correct image tag is used in the docker-compose.yml
-                        sh &#x27;&#x27;&#x27;
-                        sed -i &quot;s|image: .*|image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}|&quot; docker-compose.yml
-                        &#x27;&#x27;&#x27;
                         // Deploy using Docker Compose
                         sh &#x27;docker-compose down&#x27;
-                        sh &#x27;docker-compose up -d&#x27;
+                        sh &#x27;docker-compose pull&#x27;
+                        sh &#x27;docker-compose up -d&#x27;s
 
                         // Wait for a few seconds to let the app start
-                        sleep 10
+                        sleep 60
 
                         // Verify the container is running
                         def containerRunning = sh(script: &quot;docker ps -q -f name=${ENV_PROJECT_NAME}&quot;, returnStdout: true).trim()
@@ -5724,6 +5854,15 @@ Add all the env variables as required and mentioned in the Readme File.
 </p>
 <p>
  RABBIT_MQ_URL=
+</p>
+<h1>
+ SENTRY
+</h1>
+<p>
+ SENTRY_ENVIRONMENT=
+</p>
+<p>
+ SENTRY_DSH_URL=
 </p>
 <h1>
  deploy_kube.sh requiurements
