@@ -1587,6 +1587,7 @@ spec:
           ports:
             - containerPort: 8000
               name: gunicorn
+  revisionHistoryLimit: 0
 ```
 
 3. Create a service.yaml file and fill it with the below contents.
