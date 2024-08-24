@@ -508,26 +508,6 @@ CELERY_TIMEZONE = &#x27;Asia/Kolkata&#x27;
 CELERY_TASK_DEFAULT_QUEUE = &#x27;clock_work_queue&#x27;
 </code></pre>
 <p>
- CELERY_RESULT_BACKEND have been commented, because we have used
- <code>
-  task.apply_async()
- </code>
- instead of
- <code>
-  task.delay()
- </code>
- <br/>
- with websockets for sending notification, django-db as a backend is synchronous
- <br/>
- and thus gives error, Hence we have to use redis or other resources which primarily
- <br/>
- supports asynchronous work flow.
-</p>
-<p>
- and we are explicitly passing backend=redis_url  while creating Celery app so it overrides CELERY_RESULT_BACKEND in settings.py
-</p>
-<hr/>
-<p>
  Creating Async App - create a file named celery.py in project directory.
 </p>
 <pre><code>import os
@@ -539,9 +519,7 @@ from decouple import config
 # set the default Django settings module for the &#x27;celery&#x27; program.
 os.environ.setdefault(&#x27;DJANGO_SETTINGS_MODULE&#x27;, &#x27;clock_work.settings&#x27;)
 
-redis_url = config(&quot;REDIS_CLOUD_URL&quot;)
-
-app = Celery(&#x27;clock_work&#x27;, broker=redis_url, backend=redis_url, include=[&#x27;tasks.tasks&#x27;])
+app = Celery(&#x27;clock_work&#x27;, include=[&#x27;tasks.tasks&#x27;])
 
 # Using a string here means the worker doesn&#x27;t have to serialize
 # the configuration object to child processes.
