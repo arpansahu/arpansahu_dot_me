@@ -505,6 +505,7 @@ CELERY_ACCEPT_CONTENT = [&#x27;application/json&#x27;]
 CELERY_TASK_SERIALIZER = &#x27;json&#x27;
 CELERY_RESULT_SERIALIZER = &#x27;json&#x27;
 CELERY_TIMEZONE = &#x27;Asia/Kolkata&#x27;
+CELERY_TASK_DEFAULT_QUEUE = &#x27;clock_work_queue&#x27;
 </code></pre>
 <p>
  CELERY_RESULT_BACKEND have been commented, because we have used
@@ -573,38 +574,6 @@ def debug_task(self):
   or 
 
   daphne -b 0.0.0.0 -p 8012 clock_work.asgi:application
-</code></pre>
-<p>
- Use these CACHE settings
-</p>
-<pre><code class="language-python">CACHES = {
-    &#x27;default&#x27;: {
-        &#x27;BACKEND&#x27;: &#x27;django_redis.cache.RedisCache&#x27;,
-        &#x27;LOCATION&#x27;: config(&#x27;REDIS_CLOUD_URL&#x27;),
-        &#x27;OPTIONS&#x27;: {
-            &#x27;CLIENT_CLASS&#x27;: &#x27;django_redis.client.DefaultClient&#x27;,
-        }
-    }
-}
-</code></pre>
-<p>
- Use these Channels Settings
-</p>
-<pre><code class="language-python">if not DEBUG:
-    CHANNEL_LAYERS = {
-        &#x27;default&#x27;: {
-            &quot;BACKEND&quot;: &quot;channels.layers.InMemoryChannelLayer&quot;,
-        }
-    }
-else:
-    CHANNEL_LAYERS = {
-        &quot;default&quot;: {
-            &quot;BACKEND&quot;: &quot;channels_redis.core.RedisChannelLayer&quot;,
-            &quot;CONFIG&quot;: {
-                &quot;hosts&quot;: [(config(&#x27;REDIS_CLOUD_URL&#x27;))],
-            },
-        },
-    }
 </code></pre>
 <p>
  Use these CACHE settings
