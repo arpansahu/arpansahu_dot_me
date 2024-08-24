@@ -1904,7 +1904,7 @@ COPY . .
 EXPOSE 8012 8051
 
 # Start supervisord to manage the processes
-CMD [&quot;supervisord&quot;, &quot;-c&quot;, &quot;/etc/supervisor/conf.d/supervisord.conf&quot;]
+CMD [&quot;supervisord&quot;, &quot;-c&quot;, &quot;supervisord.conf&quot;]
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
