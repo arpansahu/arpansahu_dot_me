@@ -128,6 +128,14 @@
   alt text
  </a>
 </p>
+<h2>
+ Flower
+</h2>
+<ol>
+ <li>
+  Flower admin panel integrated to observe celery workers
+ </li>
+</ol>
 <p>
  -Deployed on AWS / Now in My Own Home Ubuntu Server LTS 22.0 / Hostinger VPS Server
 </p>
@@ -449,6 +457,10 @@
   <img alt="Mail Jet" src="https://img.shields.io/badge/MAILJET-9933CC?style=for-the-badge&logo=minutemailer&logoColor=white"/>
  </a>
  <br/>
+ <a href="https://sentry.io">
+  <img alt="Sentry Badge" src="https://img.shields.io/badge/Sentry-362D59?logo=sentry&logoColor=fff&style=for-the-badge"/>
+ </a>
+ <br/>
  <a href="https://channels.readthedocs.io">
   <img alt="Django Channels" src="https://img.shields.io/badge/CHANNELS-092E20?style=for-the-badge&logo=channel4&logoColor=white"/>
  </a>
@@ -460,10 +472,6 @@
  <a href="https://docs.celeryq.dev/en/stable/">
   <img alt="Celery" src="https://img.shields.io/badge/CELERY-37814A?style=for-the-badge&logo=celery&logoColor=white"/>
  </a>
- <br/>
- <a href="https://www.rabbitmq.com/">
-  <img alt="RabbitMQ" src="https://img.shields.io/badge/Rabbitmq-FF6600?style=for-the-badge&logo=rabbitmq&logoColor=white"/>
- </a>
 </p>
 <h2>
  Demo
@@ -472,11 +480,9 @@
  Available at: https://borcelle-crm.arpansahu.me
 </p>
 <p>
- admin login details:--
+ Flower Panel Available at: https://flower-borcelle-crm.arpansahu.me
  <br/>
- username: admin@arpansahu.me
- <br/>
- password: showmecode
+ Login credentials required
 </p>
 <h2>
  License
@@ -529,69 +535,34 @@
 </p>
 <pre><code class="language-bash">  sudo systemctl status redis
 </code></pre>
-<hr/>
 <p>
- Use this code to create asgi.py
+ Installing RabbitMQ On Local (For ubuntu) for other Os Please refer to their website https://redis.io/
 </p>
-<pre><code class="language-python">import os
-
-from channels.auth import AuthMiddlewareStack
-from channels.routing import ProtocolTypeRouter, URLRouter
-from channels.security.websocket import AllowedHostsOriginValidator
-from django.core.asgi import get_asgi_application
-from notifications_app.routing import websocket_urlpatterns
-from celery_progress.websockets import routing
-os.environ.setdefault(&quot;DJANGO_SETTINGS_MODULE&quot;, &quot;borcelle_crm.settings&quot;)
-# Initialize Django ASGI application early to ensure the AppRegistry
-# is populated before importing code that may import ORM models.
-django_asgi_app = get_asgi_application()
-
-application = ProtocolTypeRouter(
-    {
-        &quot;http&quot;: django_asgi_app,
-        &quot;websocket&quot;: AllowedHostsOriginValidator(
-            AuthMiddlewareStack(URLRouter(       
-                routing.urlpatterns + websocket_urlpatterns
-            ))
-        ),
-    }
-)
+<pre><code class="language-bash">  sudo apt-get update
+  sudo apt-get install curl gnupg apt-transport-https
+  curl -fsSL https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/rabbitmq-archive-keyring.gpg
+  echo &quot;deb [signed-by=/usr/share/keyrings/rabbitmq-archive-keyring.gpg] https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ $(lsb_release -cs) main&quot; | sudo tee /etc/apt/sources.list.d/rabbitmq.list
+  sudo apt-get update
+  sudo apt-get install rabbitmq-server
+  sudo systemctl enable rabbitmq-server
+  sudo systemctl start rabbitmq-server
 </code></pre>
 <p>
- There should be no separate routing.py file in the main project directory just have all the routings in asgi itself.
+ to check if its running or not
 </p>
-<hr/>
-<hr/>
+<pre><code class="language-bash">  sudo systemctl status rabbitmq-server
+</code></pre>
 <p>
  Use these CELERY settings
 </p>
-<pre><code>CELERY_BROKER_URL = config(&quot;RABBIT_MQ_URL&quot;)
-CELERY_RESULT_BACKEND = config(&quot;REDIS_CLOUD_URL&quot;)
+<pre><code>CELERY_BROKER_URL = REDIS_CLOUD_URL
+CELERY_RESULT_BACKEND = RABBIT_MQ_URL
 CELERY_ACCEPT_CONTENT = [&#x27;application/json&#x27;]
 CELERY_TASK_SERIALIZER = &#x27;json&#x27;
 CELERY_RESULT_SERIALIZER = &#x27;json&#x27;
 CELERY_TIMEZONE = &#x27;Asia/Kolkata&#x27;
+CELERY_TASK_DEFAULT_QUEUE = &#x27;borcelle_crm_queue&#x27;
 </code></pre>
-<p>
- CELERY_RESULT_BACKEND have been commented, because we have used
- <code>
-  task.apply_async()
- </code>
- instead of
- <code>
-  task.delay()
- </code>
- <br/>
- with websockets for sending notification, django-db as a backend is synchronous
- <br/>
- and thus gives error, Hence we have to use redis or other resources which primarily
- <br/>
- supports asynchronous work flow.
-</p>
-<p>
- and we are explicitly passing backend=redis_url  while creating Celery app so it overrides CELERY_RESULT_BACKEND in settings.py
-</p>
-<hr/>
 <p>
  Creating Async App - create a file named celery.py in project directory.
 </p>
@@ -604,9 +575,7 @@ from decouple import config
 # set the default Django settings module for the &#x27;celery&#x27; program.
 os.environ.setdefault(&#x27;DJANGO_SETTINGS_MODULE&#x27;, &#x27;borcelle_crm.settings&#x27;)
 
-redis_url = config(&quot;REDIS_CLOUD_URL&quot;)
-
-app = Celery(&#x27;borcelle_crm&#x27;, broker=redis_url, backend=redis_url, include=[&#x27;tasks.tasks&#x27;])
+app = Celery(&#x27;borcelle_crm&#x27;)
 
 # Using a string here means the worker doesn&#x27;t have to serialize
 # the configuration object to child processes.
@@ -624,12 +593,6 @@ app.conf.beat_schedule = {
 }
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
-
-
-@app.task(bind=True)
-def debug_task(self):
-    print(&#x27;Request: {0!r}&#x27;.format(self.request))
-
 </code></pre>
 <p>
  Run Server
@@ -638,7 +601,7 @@ def debug_task(self):
 
   or 
 
-  daphne -b 0.0.0.0 -p 8014 borcelle_crm.asgi:application
+  uvicorn --host 0.0.0.0 -port 8014 borcelle_crm.asgi:application
 </code></pre>
 <p>
  Use these CACHE settings
@@ -1926,13 +1889,25 @@ include_files = {
 
 WORKDIR /app
 
+# Copy only requirements.txt first to leverage Docker cache
+COPY requirements.txt .
+
+# Install dependencies
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Install supervisord
+RUN apt-get update &amp;&amp; apt-get install -y supervisor
+
+# Copy the rest of the application
 COPY . .
 
-RUN pip3 install -r requirements.txt
+# Copy supervisord configuration file
 
-EXPOSE 8014
+# Expose necessary ports
+EXPOSE 8014 8052
 
-CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; daphne borcelle_crm.asgi:application -b 0.0.0.0 --port 8014 &amp; celery -A borcelle_crm.celery worker -l info &amp; celery -A borcelle_crm beat -l INFO&quot;
+# Start supervisord to manage the processes
+CMD [&quot;supervisord&quot;, &quot;-c&quot;, &quot;supervisord.conf&quot;]
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
@@ -1941,15 +1916,17 @@ CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; daphne bor
 
 services:
   web:
-    build: .
+    build:  # This section will be used when running locally
+      context: .
+      dockerfile: Dockerfile
+    image: harbor.arpansahu.me/library/borcelle_crm:latest
     env_file: ./.env
-    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; daphne borcelle_crm.asgi:application -b 0.0.0.0 --port 8014 &amp; celery -A borcelle_crm.celery worker -l info &amp; celery -A borcelle_crm beat -l INFO&quot;
-    image: borcelle_crm
     container_name: borcelle_crm
     volumes:
-      - .:/borcelle_crm
+      - .:/app
     ports:
       - &quot;8014:8014&quot;
+      - &quot;8052:8052&quot;
     restart: unless-stopped
 </code></pre>
 <h3>
@@ -2441,7 +2418,10 @@ spec:
                 name: borcelle-crm-secret
           ports:
             - containerPort: 8014
-              name: daphne
+              name: uvicorn
+            - containerPort: 8052
+              name: celery-flower
+  revisionHistoryLimit: 0
 </code></pre>
 <ol>
  <li>
@@ -2456,11 +2436,18 @@ spec:
   selector:
     app: borcelle-crm
   ports:
-    - protocol: TCP
+    - name: uvicorn
+      protocol: TCP
       port: 8014
       targetPort: 8014
       nodePort: 32014
+    - name: celery-flower
+      protocol: TCP
+      port: 8052
+      targetPort: 8052
+      nodePort: 32052
   type: NodePort
+
 </code></pre>
 <ol>
  <li>
@@ -3436,13 +3423,11 @@ sudo apt-get install jenkins
         IMAGE_TAG = &quot;latest&quot;  // or use a specific tag if needed
         KUBECONFIG = &quot;${env.WORKSPACE}/kubeconfig&quot;  // Set the KUBECONFIG environment variable
         NGINX_CONF = &quot;/etc/nginx/sites-available/borcelle-crm&quot;
+        NGINX_CONF_FLOWER = &quot;/etc/nginx/sites-available/flower-borcelle-crm&quot;
         ENV_PROJECT_NAME = &quot;borcelle_crm&quot;
         DOCKER_PORT = &quot;8014&quot;
+        FLOWER_PORT = &quot;8052&quot;
         PROJECT_NAME_WITH_DASH = &quot;borcelle-crm&quot;
-        SERVER_NAME= &quot;borcelle-crm.arpansahu.me&quot;
-        BUILD_PROJECT_NAME = &quot;borcelle_crm_build&quot;
-        JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
-        SERVER_NAME= &quot;borcelle-crm.arpansahu.me&quot;
         BUILD_PROJECT_NAME = &quot;borcelle_crm_build&quot;
         JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
         SENTRY_ORG=&quot;arpansahu&quot;
@@ -3496,7 +3481,7 @@ sudo apt-get install jenkins
                         sh &quot;sudo ln -sf ${NGINX_CONF} /etc/nginx/sites-enabled/&quot;
                     } else {
                         echo &quot;Nginx configuration file already exists.&quot;
-                    }
+                    }                    
                 }
             }
         }
@@ -3563,7 +3548,7 @@ sudo apt-get install jenkins
                         // Deploy using Docker Compose
                         sh &#x27;docker-compose down&#x27;
                         sh &#x27;docker-compose pull&#x27;
-                        sh &#x27;docker-compose up -d&#x27;s
+                        sh &#x27;docker-compose up -d&#x27;
 
                         // Wait for a few seconds to let the app start
                         sleep 60
@@ -3583,6 +3568,7 @@ sudo apt-get install jenkins
                                 # Update Nginx configuration if status code is 200 (OK)
                                 if [ &quot;\$HTTP_STATUS&quot; -eq 200 ]; then
                                     sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${DOCKER_PORT};|&#x27; ${NGINX_CONF}
+                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${FLOWER_PORT};|&#x27; ${NGINX_CONF_FLOWER}
                                     sudo nginx -s reload
                                     echo &#x27;Nginx configuration updated and reloaded successfully.&#x27;
                                 else
@@ -3619,11 +3605,11 @@ sudo apt-get install jenkins
                             &quot;&quot;&quot;
 
                             // Delete the existing service and deployment
-                            // sh &quot;&quot;&quot;
-                            // kubectl delete service ${PROJECT_NAME_WITH_DASH}-service || true
-                            // kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 || true
-                            // kubectl delete deployment ${PROJECT_NAME_WITH_DASH}-app || true
-                            // &quot;&quot;&quot;
+                            sh &quot;&quot;&quot;
+                            kubectl delete service ${PROJECT_NAME_WITH_DASH}-service || true
+                            kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 || true
+                            kubectl delete deployment ${PROJECT_NAME_WITH_DASH}-app || true
+                            &quot;&quot;&quot;
 
                             // Deploy to Kubernetes
                             sh &quot;&quot;&quot;
@@ -3644,6 +3630,9 @@ sudo apt-get install jenkins
                             def nodePort = sh(script: &quot;kubectl get service ${PROJECT_NAME_WITH_DASH}-service -o=jsonpath=&#x27;{.spec.ports[0].nodePort}&#x27;&quot;, returnStdout: true).trim()
                             echo &quot;Service NodePort: ${nodePort}&quot;
 
+                            def nodePortFlower = sh(script: &quot;kubectl get service ${PROJECT_NAME_WITH_DASH}-service -o=jsonpath=&#x27;{.spec.ports[1].nodePort}&#x27;&quot;, returnStdout: true).trim()
+                            echo &quot;Service NodePortFlower: ${nodePortFlower}&quot;
+
                             // Get cluster IP address
                             def clusterIP = sh(script: &quot;kubectl get nodes -o=jsonpath=&#x27;{.items[0].status.addresses[0].address}&#x27;&quot;, returnStdout: true).trim()
                             echo &quot;Cluster IP: ${clusterIP}&quot;
@@ -3658,6 +3647,7 @@ sudo apt-get install jenkins
 
                                     echo &quot;Updating Nginx configuration at ${NGINX_CONF}...&quot;
                                     sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|&#x27; ${NGINX_CONF}
+                                    sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePortFlower};|&#x27; ${NGINX_CONF_FLOWER}
 
                                     if [ \$? -ne 0 ]; then
                                         echo &quot;Failed to update Nginx configuration&quot;
@@ -3702,11 +3692,33 @@ sudo apt-get install jenkins
                 }
             }
         }
+        stage(&#x27;Sentry release&#x27;) {
+            when {
+                expression { params.DEPLOY }
+            }
+            steps {
+                script {
+                    echo &quot;Sentry Release ...&quot;
+
+                    sh &quot;&quot;&quot;
+                        # Get the current git commit hash
+                        VERSION=\$(git rev-parse HEAD)
+
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} new \$VERSION
+
+                        # Associate commits with the release
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} set-commits --auto \$VERSION
+
+                        # Deploy the release (optional step for marking the release as deployed)
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} deploys \$VERSION new -e production
+                    &quot;&quot;&quot;
+                }
+            }
+        }
     }
     post {
         success {
             script {
-                // Retrieve the latest commit message
                 if (currentBuild.description == &#x27;DEPLOYMENT_EXECUTED&#x27;) {
                     sh &quot;&quot;&quot;curl -s \
                     -X POST \
@@ -5227,250 +5239,6 @@ pgadmin4
 <pre><code class="language-bash">  mc alias set myminio https://arpansahu.me api_key api_secret --api S3v4
   mc ls
 </code></pre>
-<h2>
- RabbitMQ Server
-</h2>
-<p>
- RabbitMQ is a reliable and mature messaging and streaming broker, which is easy to deploy on cloud environments, on-premises, and on your local machine. It is currently used by millions worldwide.
-</p>
-<h3>
- Installing RabbitMQ and Setting Up Authentication
-</h3>
-<ol>
- <li>
-  <p>
-   Step 1: Update the System and Install the RabbitMQ
-  </p>
- </li>
- <li>
-  <p>
-   <strong>
-    Update your package list:
-   </strong>
-  </p>
- </li>
-</ol>
-<pre><code class="language-sh">        sudo apt-get update
-        sudo apt-get upgrade -y
-</code></pre>
-<ol>
- <li>
-  <p>
-   <strong>
-    Install Erlang:
-   </strong>
-  </p>
-  <p>
-   RabbitMQ requires Erlang, which can be installed from the Ubuntu repositories:
-  </p>
- </li>
-</ol>
-<pre><code class="language-sh">        sudo apt-get install -y erlang-nox
-</code></pre>
-<ol>
- <li>
-  <p>
-   <strong>
-    Install RabbitMQ:
-   </strong>
-  </p>
-  <p>
-   Add the official RabbitMQ repository and install the RabbitMQ server:
-  </p>
- </li>
-</ol>
-<pre><code class="language-sh">        echo &quot;deb https://dl.bintray.com/rabbitmq/debian $(lsb_release -cs) main&quot; | sudo tee /etc/apt/sources.list.d/bintray.rabbitmq.list
-        wget -O- https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc | sudo apt-key add -
-        sudo apt-get update
-        sudo apt-get install -y rabbitmq-server
-</code></pre>
-<ol>
- <li>
-  <p>
-   Step 2: Enable RabbitMQ Management Plugin
-  </p>
- </li>
- <li>
-  <p>
-   <strong>
-    Open the Redis configuration file:
-   </strong>
-  </p>
-  <p>
-   To manage RabbitMQ via a web UI, enable the management plugin:
-  </p>
- </li>
-</ol>
-<pre><code class="language-sh">        sudo rabbitmq-plugins enable rabbitmq_management
-</code></pre>
-<pre><code>  The web UI will be available at `http://&lt;your_server_ip&gt;:15672/`.
-</code></pre>
-<ol>
- <li>
-  Step 3: Configure RabbitMQ
- </li>
-</ol>
-<p>
- By default, RabbitMQ listens on localhost. Update the configuration to allow external access:
-</p>
-<ol>
- <li>
-  <strong>
-   Connect to Redis using the CLI:
-  </strong>
- </li>
-</ol>
-<pre><code class="language-sh">      redis-cli
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Authenticate with your password:
-  </strong>
- </li>
-</ol>
-<pre><code class="language-sh">      AUTH your_secure_password
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Check the connection:
-  </strong>
- </li>
-</ol>
-<pre><code class="language-sh">      PING
-</code></pre>
-<pre><code>  You should receive a response:
-</code></pre>
-<pre><code>      PONG
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Verify the binding to 0.0.0.0:
-  </strong>
- </li>
-</ol>
-<pre><code class="language-sh">        sudo netstat -tulnp | grep redis
-</code></pre>
-<pre><code>  You should see Redis listening on `0.0.0.0:6379`.
-</code></pre>
-<ol>
- <li>
-  <p>
-   Step 4: Connecting to Redis
-  </p>
- </li>
- <li>
-  <p>
-   <strong>
-    Open the RabbitMQ configuration file:
-   </strong>
-  </p>
- </li>
-</ol>
-<pre><code class="language-sh">        sudo nano /etc/rabbitmq/rabbitmq.conf
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Add the following configuration:
-  </strong>
- </li>
-</ol>
-<pre><code class="language-ini">        listeners.tcp.default = 5672
-        management.listener.port = 15672
-        management.listener.ip = 0.0.0.0
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Open the firewall for RabbitMQ ports:
-  </strong>
- </li>
-</ol>
-<pre><code class="language-bash">        sudo ufw allow 5672/tcp
-        sudo ufw allow 15672/tcp
-</code></pre>
-<ol>
- <li>
-  <strong>
-   Restart RabbitMQ to apply the changes:
-  </strong>
- </li>
-</ol>
-<pre><code>        sudo systemctl restart rabbitmq-server
-</code></pre>
-<h3>
- Configuring Nginx as Reverse proxy
-</h3>
-<ol>
- <li>
-  Edit Nginx Configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo vi /etc/nginx/sites-available/services
-</code></pre>
-<pre><code>if /etc/nginx/sites-available/services does not exists
-
-    1. Create a new configuration file: Create a new file in the Nginx configuration directory. The location of this directory varies depending on your  operating system and Nginx installation, but it’s usually found at /etc/nginx/sites-available/.
-</code></pre>
-<pre><code class="language-bash">            touch /etc/nginx/sites-available/services
-            vi /etc/nginx/sites-available/services
-</code></pre>
-<ol>
- <li>
-  Add this server configuration
- </li>
-</ol>
-<pre><code class="language-bash">    server {
-        listen         80;
-        server_name    rabbitmq-admin.arpansahu.me;
-        # force https-redirects
-        if ($scheme = http) {
-            return 301 https://$server_name$request_uri;
-            }
-
-        location / {
-            proxy_pass              http://0.0.0.0:15672;
-            proxy_set_header        Host $host;
-            proxy_set_header    X-Forwarded-Proto $scheme;
-        }
-
-        listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
-        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-    }
-</code></pre>
-<ol>
- <li>
-  Test the Nginx Configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo nginx -t
-</code></pre>
-<ol>
- <li>
-  Reload Nginx to apply the new configuration
- </li>
-</ol>
-<pre><code class="language-bash">    sudo systemctl reload nginx
-</code></pre>
-<p>
- I have not enabled the whole RabbitMQ with SSL because it will make it slow.
- <br/>
- RabbitMQ server can be accessed
-</p>
-<pre><code class="language-bash">curl -u admin:&#x27;password_required&#x27; -X GET http://arpansahu.me:15672/api/queues
-</code></pre>
-<p>
- RabbitMQ Admin Panel can be accessed at:
-</p>
-<p>
- https://rabbitmq-admin.arpansahu.me
-</p>
 <h1>
  Website Uptime Monitor
 </h1>
@@ -5788,6 +5556,10 @@ Add all the env variables as required and mentioned in the Readme File.
   <img alt="Mail Jet" src="https://img.shields.io/badge/MAILJET-9933CC?style=for-the-badge&logo=minutemailer&logoColor=white"/>
  </a>
  <br/>
+ <a href="https://sentry.io">
+  <img alt="Sentry Badge" src="https://img.shields.io/badge/Sentry-362D59?logo=sentry&logoColor=fff&style=for-the-badge"/>
+ </a>
+ <br/>
  <a href="https://channels.readthedocs.io">
   <img alt="Django Channels" src="https://img.shields.io/badge/CHANNELS-092E20?style=for-the-badge&logo=channel4&logoColor=white"/>
  </a>
@@ -5798,10 +5570,6 @@ Add all the env variables as required and mentioned in the Readme File.
  <br/>
  <a href="https://docs.celeryq.dev/en/stable/">
   <img alt="Celery" src="https://img.shields.io/badge/CELERY-37814A?style=for-the-badge&logo=celery&logoColor=white"/>
- </a>
- <br/>
- <a href="https://www.rabbitmq.com/">
-  <img alt="RabbitMQ" src="https://img.shields.io/badge/Rabbitmq-FF6600?style=for-the-badge&logo=rabbitmq&logoColor=white"/>
  </a>
 </p>
 <h2>
