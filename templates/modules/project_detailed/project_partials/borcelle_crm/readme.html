@@ -3571,17 +3571,17 @@ sudo apt-get install jenkins
                                     sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://0.0.0.0:${FLOWER_PORT};|&#x27; ${NGINX_CONF_FLOWER}
                                     sudo nginx -s reload
                                     echo &#x27;Nginx configuration updated and reloaded successfully.&#x27;
+
+                                    # Scale down Kubernetes deployment if it exists and is running
+                                    replicas=\$(kubectl get deployment ${PROJECT_NAME_WITH_DASH}-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
+                                    if [ &quot;\$replicas&quot; != &quot;&quot; ] &amp;&amp; [ \$replicas -gt 0 ]; then
+                                        kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0
+                                        echo &#x27;Kubernetes deployment scaled down successfully.&#x27;
+                                    else
+                                        echo &#x27;No running Kubernetes deployment to scale down.&#x27;
+                                    fi
                                 else
                                     echo &#x27;Service not available. Nginx configuration not updated.&#x27;
-                                fi
-
-                                # Scale down Kubernetes deployment if it exists and is running
-                                replicas=\$(kubectl get deployment ${PROJECT_NAME_WITH_DASH}-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
-                                if [ &quot;\$replicas&quot; != &quot;&quot; ] &amp;&amp; [ \$replicas -gt 0 ]; then
-                                    kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0
-                                    echo &#x27;Kubernetes deployment scaled down successfully.&#x27;
-                                else
-                                    echo &#x27;No running Kubernetes deployment to scale down.&#x27;
                                 fi
                             &quot;&quot;&quot;
                         }
