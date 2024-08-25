@@ -3562,7 +3562,7 @@ sudo apt-get install jenkins
                             // Execute curl and scale down Kubernetes deployment if curl is successful
                             sh &quot;&quot;&quot;
                                 # Fetch HTTP status code
-                                HTTP_STATUS=\$(curl -s -o /dev/null -w &quot;%{http_code}&quot; http://0.0.0.0:${DOCKER_PORT})
+                                HTTP_STATUS=\$(curl -s -o /dev/null -w &quot;%{http_code}&quot; -L http://0.0.0.0:${DOCKER_PORT})
                                 echo &quot;HTTP Status: \$HTTP_STATUS&quot;
 
                                 # Update Nginx configuration if status code is 200 (OK)
