@@ -44,11 +44,9 @@ Run Server
   gunicorn --bind 0.0.0.0:[PROJECT_DOCKER_PORT] [JENKINS PROJECT NAME].wsgi
 ```
 
-[CACHE]
-
-[SENTRY]
-
 [STATIC_FILES]
+
+[CACHE]
 
 [SENTRY]
 
