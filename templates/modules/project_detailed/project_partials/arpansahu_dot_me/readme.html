@@ -499,6 +499,85 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, &quot;static&quot;), ]
 <p>
  and you are good to go
 </p>
+<p>
+ Use these Sentry Settings for Logging
+</p>
+<pre><code class="language-python">def get_git_commit_hash():
+    try:
+        return subprocess.check_output([&#x27;git&#x27;, &#x27;rev-parse&#x27;, &#x27;HEAD&#x27;]).decode(&#x27;utf-8&#x27;).strip()
+    except Exception:
+        return None
+
+sentry_sdk.init(
+    dsn=SENTRY_DSH_URL,
+    integrations=[
+            DjangoIntegration(
+                transaction_style=&#x27;url&#x27;,
+                middleware_spans=True,
+                signals_spans=True,
+                signals_denylist=[
+                    django.db.models.signals.pre_init,
+                    django.db.models.signals.post_init,
+                ],
+                cache_spans=False,
+            ),
+        ],
+    traces_sample_rate=1.0,  # Adjust this according to your needs
+    send_default_pii=True,  # To capture personal identifiable information (optional)
+    release=get_git_commit_hash(),  # Set the release to the current git commit hash
+    environment=SENTRY_ENVIRONMENT,  # Or &quot;staging&quot;, &quot;development&quot;, etc.
+    profiles_sample_rate=1.0,
+)
+
+LOGGING = {
+    &#x27;version&#x27;: 1,
+    &#x27;disable_existing_loggers&#x27;: False,
+    &#x27;handlers&#x27;: {
+        &#x27;console&#x27;: {
+            &#x27;level&#x27;: &#x27;DEBUG&#x27;,
+            &#x27;class&#x27;: &#x27;logging.StreamHandler&#x27;,
+        },
+        &#x27;sentry&#x27;: {
+            &#x27;level&#x27;: &#x27;ERROR&#x27;,  # Change this to WARNING or INFO if needed
+            &#x27;class&#x27;: &#x27;sentry_sdk.integrations.logging.EventHandler&#x27;,
+            &#x27;formatter&#x27;: &#x27;verbose&#x27;,
+        },
+    },
+    &#x27;loggers&#x27;: {
+        &#x27;django&#x27;: {
+            &#x27;handlers&#x27;: [&#x27;console&#x27;, &#x27;sentry&#x27;],
+            &#x27;level&#x27;: &#x27;INFO&#x27;,
+            &#x27;propagate&#x27;: False,
+        },
+        &#x27;django.request&#x27;: {
+            &#x27;handlers&#x27;: [&#x27;console&#x27;, &#x27;sentry&#x27;],
+            &#x27;level&#x27;: &#x27;ERROR&#x27;,  # Only log errors to Sentry
+            &#x27;propagate&#x27;: False,
+        },
+        &#x27;django.db.backends&#x27;: {
+            &#x27;handlers&#x27;: [&#x27;console&#x27;, &#x27;sentry&#x27;],
+            &#x27;level&#x27;: &#x27;ERROR&#x27;,  # Only log errors to Sentry
+            &#x27;propagate&#x27;: False,
+        },
+        &#x27;django.security&#x27;: {
+            &#x27;handlers&#x27;: [&#x27;console&#x27;, &#x27;sentry&#x27;],
+            &#x27;level&#x27;: &#x27;WARNING&#x27;,  # You can set this to INFO or DEBUG as needed
+            &#x27;propagate&#x27;: False,
+        },
+        # You can add more loggers here if needed
+    },
+    &#x27;formatters&#x27;: {
+        &#x27;verbose&#x27;: {
+            &#x27;format&#x27;: &#x27;%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s&#x27;
+        },
+    },
+}
+</code></pre>
+<p>
+ Also for setting up relays include Loader Script in base.html
+</p>
+<pre><code class="language-html">&lt;script src=&quot;https://js.sentry-cdn.com/{random_unique_code_get_from_sentry_ui}.min.js&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+</code></pre>
 <h2>
  Custom Django Management Commands
 </h2>
