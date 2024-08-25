@@ -50,6 +50,8 @@ Run Server
 
 [STATIC_FILES]
 
+[SENTRY]
+
 ## Custom Django Management Commands
 
 [DJANGO_COMMANDS]
