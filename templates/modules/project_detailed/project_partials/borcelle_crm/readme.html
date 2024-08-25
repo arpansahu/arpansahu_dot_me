@@ -604,6 +604,109 @@ app.autodiscover_tasks()
   uvicorn --host 0.0.0.0 -port 8014 borcelle_crm.asgi:application
 </code></pre>
 <p>
+ Change settings.py static files and media files settings | Now I have added support for BlackBlaze Static Storage also which also based on AWS S3 protocols
+</p>
+<pre><code class="language-python">if not DEBUG:
+    BUCKET_TYPE = BUCKET_TYPE
+
+    if BUCKET_TYPE == &#x27;AWS&#x27;:
+        AWS_S3_CUSTOM_DOMAIN = f&#x27;{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com&#x27;
+        AWS_DEFAULT_ACL = &#x27;public-read&#x27;
+        AWS_S3_OBJECT_PARAMETERS = {
+            &#x27;CacheControl&#x27;: &#x27;max-age=86400&#x27;
+        }
+        AWS_LOCATION = &#x27;static&#x27;
+        AWS_QUERYSTRING_AUTH = False
+        AWS_HEADERS = {
+            &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
+        }
+        # s3 static settings
+        AWS_STATIC_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/static&#x27;
+        STATIC_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STATIC_LOCATION}/&#x27;
+        STATICFILES_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.StaticStorage&#x27;
+        # s3 public media settings
+        AWS_PUBLIC_MEDIA_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/media&#x27;
+        MEDIA_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
+        DEFAULT_FILE_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.PublicMediaStorage&#x27;
+        # s3 private media settings
+        PRIVATE_MEDIA_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/private&#x27;
+        PRIVATE_FILE_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.PrivateMediaStorage&#x27;
+
+    elif BUCKET_TYPE == &#x27;BLACKBLAZE&#x27;:
+        AWS_S3_REGION_NAME = &#x27;us-east-005&#x27;
+
+        AWS_S3_ENDPOINT = f&#x27;s3.{AWS_S3_REGION_NAME}.backblazeb2.com&#x27;
+        AWS_S3_ENDPOINT_URL = f&#x27;https://{AWS_S3_ENDPOINT}&#x27;
+
+        AWS_DEFAULT_ACL = &#x27;public-read&#x27;
+        AWS_S3_OBJECT_PARAMETERS = {
+            &#x27;CacheControl&#x27;: &#x27;max-age=86400&#x27;,
+        }
+
+        AWS_LOCATION = &#x27;static&#x27;
+        AWS_QUERYSTRING_AUTH = False
+        AWS_HEADERS = {
+            &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
+        }
+        # s3 static settings
+        AWS_STATIC_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/static&#x27;
+        STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_STATIC_LOCATION}/&#x27;
+        STATICFILES_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.StaticStorage&#x27;
+        # s3 public media settings
+        AWS_PUBLIC_MEDIA_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/media&#x27;
+        MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
+        DEFAULT_FILE_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.PublicMediaStorage&#x27;
+        # s3 private media settings
+        PRIVATE_MEDIA_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/private&#x27;
+        PRIVATE_FILE_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.PrivateMediaStorage&#x27;
+
+    elif BUCKET_TYPE == &#x27;MINIO&#x27;:
+        AWS_S3_REGION_NAME = &#x27;us-east-1&#x27;  # MinIO doesn&#x27;t require this, but boto3 does
+        AWS_S3_ENDPOINT_URL = &#x27;https://minio.arpansahu.me&#x27;
+        AWS_DEFAULT_ACL = &#x27;public-read&#x27;
+        AWS_S3_OBJECT_PARAMETERS = {
+            &#x27;CacheControl&#x27;: &#x27;max-age=86400&#x27;,
+        }
+        AWS_LOCATION = &#x27;static&#x27;
+        AWS_QUERYSTRING_AUTH = False
+        AWS_HEADERS = {
+            &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
+        }
+
+        # s3 static settings
+        AWS_STATIC_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/static&#x27;
+        STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_STATIC_LOCATION}/&#x27;
+        STATICFILES_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.StaticStorage&#x27;
+
+        # s3 public media settings
+        AWS_PUBLIC_MEDIA_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/media&#x27;
+        MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
+        DEFAULT_FILE_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.PublicMediaStorage&#x27;
+
+        # s3 private media settings
+        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/borcelle_crm/private&#x27;
+        PRIVATE_FILE_STORAGE = &#x27;borcelle_crm.storage_backends.PrivateMediaStorage&#x27;
+else:
+    # Static files (CSS, JavaScript, Images)
+    # https://docs.djangoproject.com/en/3.2/howto/static-files/
+
+    STATIC_URL = &#x27;/static/&#x27;
+
+    STATIC_ROOT = os.path.join(BASE_DIR, &#x27;staticfiles&#x27;)
+    MEDIA_URL = &#x27;/media/&#x27;
+
+MEDIA_ROOT = os.path.join(BASE_DIR, &#x27;media&#x27;)
+STATICFILES_DIRS = [os.path.join(BASE_DIR, &quot;static&quot;), ]
+</code></pre>
+<p>
+ run below command
+</p>
+<pre><code class="language-bash">python manage.py collectstatic
+</code></pre>
+<p>
+ and you are good to go
+</p>
+<p>
  Use these CACHE settings
 </p>
 <pre><code class="language-python">
@@ -711,109 +814,6 @@ LOGGING = {
 </p>
 <pre><code class="language-html">&lt;script src=&quot;https://js.sentry-cdn.com/{random_unique_code_get_from_sentry_ui}.min.js&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
 </code></pre>
-<p>
- Change settings.py static files and media files settings | Now I have added support for BlackBlaze Static Storage also which also based on AWS S3 protocols
-</p>
-<pre><code class="language-python">if not DEBUG:
-    BUCKET_TYPE = BUCKET_TYPE
-
-    if BUCKET_TYPE == &#x27;AWS&#x27;:
-        AWS_S3_CUSTOM_DOMAIN = f&#x27;{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com&#x27;
-        AWS_DEFAULT_ACL = &#x27;public-read&#x27;
-        AWS_S3_OBJECT_PARAMETERS = {
-            &#x27;CacheControl&#x27;: &#x27;max-age=86400&#x27;
-        }
-        AWS_LOCATION = &#x27;static&#x27;
-        AWS_QUERYSTRING_AUTH = False
-        AWS_HEADERS = {
-            &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
-        }
-        # s3 static settings
-        AWS_STATIC_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/static&#x27;
-        STATIC_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.StaticStorage&#x27;
-        # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/media&#x27;
-        MEDIA_URL = f&#x27;https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.PublicMediaStorage&#x27;
-        # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/private&#x27;
-        PRIVATE_FILE_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.PrivateMediaStorage&#x27;
-
-    elif BUCKET_TYPE == &#x27;BLACKBLAZE&#x27;:
-        AWS_S3_REGION_NAME = &#x27;us-east-005&#x27;
-
-        AWS_S3_ENDPOINT = f&#x27;s3.{AWS_S3_REGION_NAME}.backblazeb2.com&#x27;
-        AWS_S3_ENDPOINT_URL = f&#x27;https://{AWS_S3_ENDPOINT}&#x27;
-
-        AWS_DEFAULT_ACL = &#x27;public-read&#x27;
-        AWS_S3_OBJECT_PARAMETERS = {
-            &#x27;CacheControl&#x27;: &#x27;max-age=86400&#x27;,
-        }
-
-        AWS_LOCATION = &#x27;static&#x27;
-        AWS_QUERYSTRING_AUTH = False
-        AWS_HEADERS = {
-            &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
-        }
-        # s3 static settings
-        AWS_STATIC_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/static&#x27;
-        STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.StaticStorage&#x27;
-        # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/media&#x27;
-        MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}.{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.PublicMediaStorage&#x27;
-        # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/private&#x27;
-        PRIVATE_FILE_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.PrivateMediaStorage&#x27;
-
-    elif BUCKET_TYPE == &#x27;MINIO&#x27;:
-        AWS_S3_REGION_NAME = &#x27;us-east-1&#x27;  # MinIO doesn&#x27;t require this, but boto3 does
-        AWS_S3_ENDPOINT_URL = &#x27;https://minio.arpansahu.me&#x27;
-        AWS_DEFAULT_ACL = &#x27;public-read&#x27;
-        AWS_S3_OBJECT_PARAMETERS = {
-            &#x27;CacheControl&#x27;: &#x27;max-age=86400&#x27;,
-        }
-        AWS_LOCATION = &#x27;static&#x27;
-        AWS_QUERYSTRING_AUTH = False
-        AWS_HEADERS = {
-            &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
-        }
-
-        # s3 static settings
-        AWS_STATIC_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/static&#x27;
-        STATIC_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_STATIC_LOCATION}/&#x27;
-        STATICFILES_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.StaticStorage&#x27;
-
-        # s3 public media settings
-        AWS_PUBLIC_MEDIA_LOCATION = f&#x27;portfolio/{PROJECT_NAME}/media&#x27;
-        MEDIA_URL = f&#x27;https://{AWS_STORAGE_BUCKET_NAME}/{AWS_PUBLIC_MEDIA_LOCATION}/&#x27;
-        DEFAULT_FILE_STORAGE = f&#x27;{PROJECT_NAME}.storage_backends.PublicMediaStorage&#x27;
-
-        # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = &#x27;portfolio/borcelle_crm/private&#x27;
-        PRIVATE_FILE_STORAGE = &#x27;borcelle_crm.storage_backends.PrivateMediaStorage&#x27;
-else:
-    # Static files (CSS, JavaScript, Images)
-    # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
-    STATIC_URL = &#x27;/static/&#x27;
-
-    STATIC_ROOT = os.path.join(BASE_DIR, &#x27;staticfiles&#x27;)
-    MEDIA_URL = &#x27;/media/&#x27;
-
-MEDIA_ROOT = os.path.join(BASE_DIR, &#x27;media&#x27;)
-STATICFILES_DIRS = [os.path.join(BASE_DIR, &quot;static&quot;), ]
-</code></pre>
-<p>
- run below command
-</p>
-<pre><code class="language-bash">python manage.py collectstatic
-</code></pre>
-<p>
- and you are good to go
-</p>
 <h2>
  Custom Django Management Commands
 </h2>
