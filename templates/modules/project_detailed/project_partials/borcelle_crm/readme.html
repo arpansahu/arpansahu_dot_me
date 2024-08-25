@@ -622,25 +622,15 @@ CACHES = {
 <p>
  Use these Channels Settings
 </p>
-<pre><code class="language-python">try:
-    import channels
-except ImportError:
-    pass
-else:
-    INSTALLED_APPS.insert(0, &#x27;channels&#x27;)
-    INSTALLED_APPS.append(&#x27;celery_progress.websockets&#x27;)
-
-    ASGI_APPLICATION = &#x27;borcelle_crm.routing.application&#x27;
-
-    CHANNEL_LAYERS = {
-        &#x27;default&#x27;: {
-            # This example is assuming you use redis, in which case `channels_redis` is another dependency.
-            &#x27;BACKEND&#x27;: &#x27;channels_redis.core.RedisChannelLayer&#x27;,
-            &#x27;CONFIG&#x27;: {
-                &quot;hosts&quot;: [config(&quot;REDIS_CLOUD_URL&quot;) ],
-            },
+<pre><code class="language-python">CHANNEL_LAYERS = {
+    &#x27;default&#x27;: {
+        # This example is assuming you use redis, in which case `channels_redis` is another dependency.
+        &#x27;BACKEND&#x27;: &#x27;channels_redis.core.RedisChannelLayer&#x27;,
+        &#x27;CONFIG&#x27;: {
+            &quot;hosts&quot;: [REDIS_CLOUD_URL],
         },
-    }
+    },
+}
 </code></pre>
 <p>
  Use these Sentry Settings for Logging
