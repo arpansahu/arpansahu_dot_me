@@ -553,35 +553,6 @@ def debug_task(self):
   uvicorn --host 0.0.0.0 --port 8012 clock_work.asgi:application
 </code></pre>
 <p>
- Use these CACHE settings
-</p>
-<pre><code class="language-python">
-CACHES = {
-    &#x27;default&#x27;: {
-        &#x27;BACKEND&#x27;: &#x27;django_redis.cache.RedisCache&#x27;,
-        &#x27;LOCATION&#x27;: REDIS_CLOUD_URL,
-        &#x27;OPTIONS&#x27;: {
-            &#x27;CLIENT_CLASS&#x27;: &#x27;django_redis.client.DefaultClient&#x27;,
-        },
-        &#x27;KEY_PREFIX&#x27;: PROJECT_NAME
-    }
-}
-
-</code></pre>
-<p>
- Use these Channels Settings
-</p>
-<pre><code class="language-python">CHANNEL_LAYERS = {
-    &#x27;default&#x27;: {
-        # This example is assuming you use redis, in which case `channels_redis` is another dependency.
-        &#x27;BACKEND&#x27;: &#x27;channels_redis.core.RedisChannelLayer&#x27;,
-        &#x27;CONFIG&#x27;: {
-            &quot;hosts&quot;: [REDIS_CLOUD_URL],
-        },
-    },
-}
-</code></pre>
-<p>
  Change settings.py static files and media files settings | Now I have added support for BlackBlaze Static Storage also which also based on AWS S3 protocols
 </p>
 <pre><code class="language-python">if not DEBUG:
@@ -684,6 +655,35 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, &quot;static&quot;), ]
 <p>
  and you are good to go
 </p>
+<p>
+ Use these CACHE settings
+</p>
+<pre><code class="language-python">
+CACHES = {
+    &#x27;default&#x27;: {
+        &#x27;BACKEND&#x27;: &#x27;django_redis.cache.RedisCache&#x27;,
+        &#x27;LOCATION&#x27;: REDIS_CLOUD_URL,
+        &#x27;OPTIONS&#x27;: {
+            &#x27;CLIENT_CLASS&#x27;: &#x27;django_redis.client.DefaultClient&#x27;,
+        },
+        &#x27;KEY_PREFIX&#x27;: PROJECT_NAME
+    }
+}
+
+</code></pre>
+<p>
+ Use these Channels Settings
+</p>
+<pre><code class="language-python">CHANNEL_LAYERS = {
+    &#x27;default&#x27;: {
+        # This example is assuming you use redis, in which case `channels_redis` is another dependency.
+        &#x27;BACKEND&#x27;: &#x27;channels_redis.core.RedisChannelLayer&#x27;,
+        &#x27;CONFIG&#x27;: {
+            &quot;hosts&quot;: [REDIS_CLOUD_URL],
+        },
+    },
+}
+</code></pre>
 <p>
  Use these Sentry Settings for Logging
 </p>
