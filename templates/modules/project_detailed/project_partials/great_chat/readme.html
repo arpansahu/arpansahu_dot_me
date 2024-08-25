@@ -292,6 +292,10 @@
   <img alt="Mail Jet" src="https://img.shields.io/badge/MAILJET-9933CC?style=for-the-badge&logo=minutemailer&logoColor=white"/>
  </a>
  <br/>
+ <a href="https://sentry.io">
+  <img alt="Sentry Badge" src="https://img.shields.io/badge/Sentry-362D59?logo=sentry&logoColor=fff&style=for-the-badge"/>
+ </a>
+ <br/>
  <a href="https://channels.readthedocs.io">
   <img alt="Django Channels" src="https://img.shields.io/badge/CHANNELS-092E20?style=for-the-badge&logo=channel4&logoColor=white"/>
  </a>
@@ -372,31 +376,6 @@
   or 
 
   daphne -b 0.0.0.0 -p 8002 great_chat.asgi:application
-</code></pre>
-<p>
- Use these CACHE settings
-</p>
-<pre><code class="language-python">CACHES = {
-    &#x27;default&#x27;: {
-        &#x27;BACKEND&#x27;: &#x27;django_redis.cache.RedisCache&#x27;,
-        &#x27;LOCATION&#x27;: config(&#x27;REDIS_CLOUD_URL&#x27;),
-        &#x27;OPTIONS&#x27;: {
-            &#x27;CLIENT_CLASS&#x27;: &#x27;django_redis.client.DefaultClient&#x27;,
-        }
-    }
-}
-</code></pre>
-<p>
- Use these Channels Settings
-</p>
-<pre><code class="language-python">CHANNEL_LAYERS = {
-    &quot;default&quot;: {
-        &quot;BACKEND&quot;: &quot;channels_redis.core.RedisChannelLayer&quot;,
-        &quot;CONFIG&quot;: {
-            &quot;hosts&quot;: [(config(&#x27;REDIS_CLOUD_URL&#x27;))],
-        },
-    },
-}
 </code></pre>
 <p>
  Change settings.py static files and media files settings | Now I have added support for BlackBlaze Static Storage also which also based on AWS S3 protocols
@@ -501,6 +480,114 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, &quot;static&quot;), ]
 <p>
  and you are good to go
 </p>
+<p>
+ Use these CACHE settings
+</p>
+<pre><code class="language-python">
+CACHES = {
+    &#x27;default&#x27;: {
+        &#x27;BACKEND&#x27;: &#x27;django_redis.cache.RedisCache&#x27;,
+        &#x27;LOCATION&#x27;: REDIS_CLOUD_URL,
+        &#x27;OPTIONS&#x27;: {
+            &#x27;CLIENT_CLASS&#x27;: &#x27;django_redis.client.DefaultClient&#x27;,
+        },
+        &#x27;KEY_PREFIX&#x27;: PROJECT_NAME
+    }
+}
+
+</code></pre>
+<p>
+ Use these Channels Settings
+</p>
+<pre><code class="language-python">CHANNEL_LAYERS = {
+    &#x27;default&#x27;: {
+        # This example is assuming you use redis, in which case `channels_redis` is another dependency.
+        &#x27;BACKEND&#x27;: &#x27;channels_redis.core.RedisChannelLayer&#x27;,
+        &#x27;CONFIG&#x27;: {
+            &quot;hosts&quot;: [REDIS_CLOUD_URL],
+        },
+    },
+}
+</code></pre>
+<p>
+ Use these Sentry Settings for Logging
+</p>
+<pre><code class="language-python">def get_git_commit_hash():
+    try:
+        return subprocess.check_output([&#x27;git&#x27;, &#x27;rev-parse&#x27;, &#x27;HEAD&#x27;]).decode(&#x27;utf-8&#x27;).strip()
+    except Exception:
+        return None
+
+sentry_sdk.init(
+    dsn=SENTRY_DSH_URL,
+    integrations=[
+            DjangoIntegration(
+                transaction_style=&#x27;url&#x27;,
+                middleware_spans=True,
+                signals_spans=True,
+                signals_denylist=[
+                    django.db.models.signals.pre_init,
+                    django.db.models.signals.post_init,
+                ],
+                cache_spans=False,
+            ),
+        ],
+    traces_sample_rate=1.0,  # Adjust this according to your needs
+    send_default_pii=True,  # To capture personal identifiable information (optional)
+    release=get_git_commit_hash(),  # Set the release to the current git commit hash
+    environment=SENTRY_ENVIRONMENT,  # Or &quot;staging&quot;, &quot;development&quot;, etc.
+    profiles_sample_rate=1.0,
+)
+
+LOGGING = {
+    &#x27;version&#x27;: 1,
+    &#x27;disable_existing_loggers&#x27;: False,
+    &#x27;handlers&#x27;: {
+        &#x27;console&#x27;: {
+            &#x27;level&#x27;: &#x27;DEBUG&#x27;,
+            &#x27;class&#x27;: &#x27;logging.StreamHandler&#x27;,
+        },
+        &#x27;sentry&#x27;: {
+            &#x27;level&#x27;: &#x27;ERROR&#x27;,  # Change this to WARNING or INFO if needed
+            &#x27;class&#x27;: &#x27;sentry_sdk.integrations.logging.EventHandler&#x27;,
+            &#x27;formatter&#x27;: &#x27;verbose&#x27;,
+        },
+    },
+    &#x27;loggers&#x27;: {
+        &#x27;django&#x27;: {
+            &#x27;handlers&#x27;: [&#x27;console&#x27;, &#x27;sentry&#x27;],
+            &#x27;level&#x27;: &#x27;INFO&#x27;,
+            &#x27;propagate&#x27;: False,
+        },
+        &#x27;django.request&#x27;: {
+            &#x27;handlers&#x27;: [&#x27;console&#x27;, &#x27;sentry&#x27;],
+            &#x27;level&#x27;: &#x27;ERROR&#x27;,  # Only log errors to Sentry
+            &#x27;propagate&#x27;: False,
+        },
+        &#x27;django.db.backends&#x27;: {
+            &#x27;handlers&#x27;: [&#x27;console&#x27;, &#x27;sentry&#x27;],
+            &#x27;level&#x27;: &#x27;ERROR&#x27;,  # Only log errors to Sentry
+            &#x27;propagate&#x27;: False,
+        },
+        &#x27;django.security&#x27;: {
+            &#x27;handlers&#x27;: [&#x27;console&#x27;, &#x27;sentry&#x27;],
+            &#x27;level&#x27;: &#x27;WARNING&#x27;,  # You can set this to INFO or DEBUG as needed
+            &#x27;propagate&#x27;: False,
+        },
+        # You can add more loggers here if needed
+    },
+    &#x27;formatters&#x27;: {
+        &#x27;verbose&#x27;: {
+            &#x27;format&#x27;: &#x27;%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s&#x27;
+        },
+    },
+}
+</code></pre>
+<p>
+ Also for setting up relays include Loader Script in base.html
+</p>
+<pre><code class="language-html">&lt;script src=&quot;https://js.sentry-cdn.com/{random_unique_code_get_from_sentry_ui}.min.js&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+</code></pre>
 <h2>
  Custom Django Management Commands
 </h2>
@@ -1584,7 +1671,7 @@ EXPOSE 8002
 
 # Run collectstatic and daphne in a single command
 
-CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; daphne -b 0.0.0.0 -p 8002 great_chat.asgi:application&quot;
+CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; uvicorn great_chat.asgi:application --host 0.0.0.0 --port 8002&quot;
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
@@ -1596,7 +1683,7 @@ CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; daphne -b 
       dockerfile: Dockerfile
     image: harbor.arpansahu.me/library/great_chat:latest  # This will be used when the image is not built locally
     env_file: ./.env
-    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; daphne -b 0.0.0.0 -p 8002 great_chat.asgi:application&quot;
+    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; uvicorn great_chat.asgi:application --host 0.0.0.0 --port 8002&quot;
     container_name: great_chat
     volumes:
       - .:/app  # Ensure this matches the WORKDIR in your Dockerfile
@@ -2094,6 +2181,7 @@ spec:
           ports:
             - containerPort: 8002
               name: daphne
+  revisionHistoryLimit: 0
 </code></pre>
 <ol>
  <li>
@@ -5213,6 +5301,10 @@ Add all the env variables as required and mentioned in the Readme File.
  <br/>
  <a href="https://mailjet.com/">
   <img alt="Mail Jet" src="https://img.shields.io/badge/MAILJET-9933CC?style=for-the-badge&logo=minutemailer&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://sentry.io">
+  <img alt="Sentry Badge" src="https://img.shields.io/badge/Sentry-362D59?logo=sentry&logoColor=fff&style=for-the-badge"/>
  </a>
  <br/>
  <a href="https://channels.readthedocs.io">
