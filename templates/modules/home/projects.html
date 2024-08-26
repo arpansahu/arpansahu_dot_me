@@ -57,11 +57,10 @@
                                 <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-12 text-uppercase">Jenkins</span>
                                 <div style="margin-top: 10px">
                                     <ul>
-                                        <li>Used Bootstrap for building UI and Django as Backend.</li>
-                                        <li>Used DropBox API for showing updated Resumes.</li>
-                                        <li>Used Javascript / Jquery for making templates Dynamic</li>
-                                        <li>Used SMTP to notify my whenever someone tries to message me on arpansahu.me</li>
-                                        <li>Deployed on Heroku</li>
+                                        <li>Developed a Django-based portfolio app featuring my profile, projects, a contact page with mailjet integration, and the ability to download my resume.</li>
+                                        <li>Integrated README-to-HTML conversion Github and allowed admin to upload resumes.</li>
+                                        <li>Deployed on Ubuntu VPS, containerized with Docker/Kubernetes, and enabled CI/CD pipelines for automated testing, building, and deployment.</li>
+                                        <li>Integrated Automatic Readme Generator Github</li>
                                     </ul>
                                 </div>
                                 <div id="container">
@@ -102,13 +101,9 @@
                                 <div style="margin-top: 10px">
                                     Notes Taking Django app along with Reminder Scheduler
                                     <ul style="margin-top: 10px;">
-                                        <li>User can take notes and email themselves.</li>
-                                        <li>User can send email to multiple emails in a single shot</li>
-                                        <li>Progress Bar is Visible to check out how many emails are being emailed for Notes </li>
-                                        <li>Admin Can Schedule Broadcast Notifications to Received by all Users</li>
-                                        <li>User Can Schedule Email Reminders also.</li>
-                                        <li>Users will be notified after the completion of Email Reminders</li>
-                                        <li>Deployed On Heroku </li>
+                                        <li>Django based Notes Email and Reminder App, Progress bar, where user can see how much task is remaining.</li>
+                                        <li>When Scheduled Reminders are successful, Users are notified and Admin can Schedule Broadcast Notifications for all Users.</li>
+                                        <li>Integrated Automatic Readme Generator Github</li>           
                                     </ul>
                                 </div>
 
@@ -150,14 +145,11 @@
                                 <div style="margin-top: 10px">
                                     Customer Relationship Manager Django app with Email Contact and sheduling facility. 
                                     <ul style="margin-top: 10px;">
-                                        <li>Admin can manage Contacts</li>
-                                        <li>Admin can send emails to Contacts</li>
-                                        <li>User can send email to multiple emails in a single shot</li>
-                                        <li>Progress Bar is Visible to check out how many emails are being emailed </li>
-                                        <li>Admin Can Schedule Broadcast Emails to Received by all Users</li>
-                                        <li>Admin Can Schedule Email also.</li>
-                                        <li>Admin will be notified after the completion of Email Reminders</li>
-                                        <li>Deployed On Heroku/Ubuntu VPS/AWS EC2 </li>
+                                        <li>Developed a Django-based Customer Relationship Manager (CRM) with email communication capabilities. </li>
+                                        <li>Implemented a progress bar for users to track task completion.</li>
+                                        <li>Admins receive notifications when scheduled messages are successfully delivered and can schedule broadcast notifications to all customers.</li>
+                                        <li>Deployed on Ubuntu VPS, containerized with Docker/Kubernetes. Enabled CI/CD pipelines for automated testing, building, and deployment.</li>
+                                        <li>Integrated Automatic Readme Generator Github</li>
                                     </ul>
                                 </div>
 
@@ -395,10 +387,10 @@
                                     {% include 'modules/project_detailed/project_partials/chew_and_cheer/technologies.html' %}
                                 <div style="margin-top: 10px">
                                     <ul>
-                                        <li>Implemented Complete Auth Using Django Default Auth Model</li>
-                                        <li>Implemented Crud Operations with Django Forms/Ajax/GraphQl</li>
-                                        <li>Build Rest API/ GraphQl API</li>
-                                        <li>Deployed on Heroku</li>
+                                        <li>Implemented a complete authentication system using Django's default auth model.</li>
+                                        <li>Developed CRUD operations for a restaurant menu with Django Forms, Ajax, and GraphQL.</li>
+                                        <li>Deployed on Ubuntu VPS, containerized with Docker/Kubernetes, and set up CI/CD pipelines for automated testing, building, and deployment.</li>
+                                        <li>Integrated Automatic Readme Generator Github</li>
                                     </ul>
                                 </div>
                                 <div id="container">
@@ -540,7 +532,7 @@
                                         <img src="{% static 'images/projects/school_chale_hum_project13.png' %}" alt="" class="thumb-md">
                                     </div>
                                     <div class="media-body ms-3 align-self-center">
-                                        <h5 class="text-dark fs-18 fw-medium m-0">School Chale Hum | Django Custom Reset View Implementation</h5>
+                                        <h5 class="text-dark fs-18 fw-medium m-0">School Chale Hum | Django School Management App</h5>
                                         <div style="align-self: end">
                                         <a class="btn btn-block btn-social btn-github" href="https://github.com/arpansahu/school_chale_hum" target="_blank">
                                             <span class="cib-github" style="margin-right: 10px"></span> Check Repo
@@ -551,23 +543,13 @@
                                         </div>
                                     </div><!--end media-body-->
                                 </div><!--end media-->
-                                    {% include 'modules/project_detailed/project_partials/clock_work/technologies.html' %}
+                                    {% include 'modules/project_detailed/project_partials/school_chale_hum/technologies.html' %}
                                 <div style="margin-top: 10px">
                                     <ul>
-                                        <li>Django app for managing students, their respective schools and books</li>
-                                        <li>Every student's progress with a particular book can be seen on the app</li>
-                                        <li>Built Django Command for extracting data from csv and storing it into database</li>
-                                        <li>Used Heroku Postgres</li>
-                                        <li>Used REDIS-CLOUD Sever, provided by heroku add-ons</li>
-                                        <li>Used AWS S3 bucket for static files</li>
-                                        <li>Build custom templates for a lot of functionalities, you juts have to place template with same name inside same location which would be used by all auth</li>
-                                        <li>
-                                            In built views of PasswordChangeDoneView, PasswordChangeView, PasswordResetCompleteView,
-                                            PasswordResetConfirmView, PasswordResetCompleteView.
-                                            Build Custom Templates for These Inbuilt Views
-                                        </li>
-                                        <li>Used Mail JET API in place of SMTP and used custom reset View to override default send_mail method</li>
-                                        <li>Deployed on Heroku</li>
+                                        <li>Developed a Django application for managing students, their schools, and associated books.</li>
+                                        <li>Implemented functionality to track and display each student's progress with specific books.</li>
+                                        <li>Engineered a custom Django command for extracting data from CSV files and populating the database.</li>
+                                        <li>Deployed on Ubuntu VPS, containerized with Docker/Kubernetes, and enabled CI/CD pipelines for automated testing, building, and deployment. Integrated Automatic Readme Generator Github</li>
                                     </ul>
                                 </div>
                                 <div id="container">
@@ -604,13 +586,14 @@
                                         </div>
                                     </div><!--end media-body-->
                                 </div><!--end media-->
-                                    {% include 'modules/project_detailed/project_partials/great_chat/technologies.html' %}
+                                    {% include 'modules/project_detailed/project_partials/arpansahu_dot_me/technologies.html' %}
                                 <div style="margin-top: 10px">
                                     <ul>
-                                        <li>Implemented Complete Auth Using Django Default Auth Model.</li>
-                                        <li>Implemented Chat App using Django Channels/Redis/Tortoise ORM</li>
-                                        <li>Deployed on Heroku</li>
-                                        <li>Containerized using Docker</li>
+                                        <li>Developed a real-time chat app using Django Channels, Redis, and PostgreSQL..</li>
+                                        <li>Implemented private, group, and global chats with features for creating, deleting, joining, and leaving groups.</li>
+                                        <li>Added online/offline notifications and profile management.</li>
+                                        <li>Deployed on Ubuntu VPS, containerized with Docker/Kubernetes, and enabled CI/CD pipelines for automated testing, building, and deployment.</li>         
+                                        <li>Integrated Automatic Readme Generator Github</li>
                                     </ul>
                                 </div>
                                 <div id="container">
@@ -647,13 +630,12 @@
                                         </div>
                                     </div><!--end media-body-->
                                 </div><!--end media-->
-                                    {% include 'modules/project_detailed/project_partials/arpansahu_dot_me/technologies.html' %}
+                                    {% include 'modules/project_detailed/project_partials/numerical/technologies.html' %}
                                 <div style="margin-top: 10px">
                                     <ul>
-                                        <li>Used SoftUI, Bootstrap</li>
-                                        <li>Used JQuery for making Pages Dynamic</li>
-                                        <li>Build Calculator Operations +, -, *, / as well as brackets are evaluated</li>
-                                        <li>Deployed on Heroku</li>
+                                        <li>Utilized SoftUI, Bootstrap, and jQuery to create dynamic and interactive pages.</li>
+                                        <li>Implemented calculator functionality supporting operations like addition, subtraction, multiplication, division, and bracket evaluation.</li>
+                                        <li>Integrated Automatic Readme Generator Github</li>
                                     </ul>
                                 </div>
                                 <div id="container">
@@ -693,13 +675,9 @@
                                     {% include 'modules/project_detailed/project_partials/clock_work/technologies.html' %}
                                 <div style="margin-top: 10px">
                                     <ul>
-                                        <li>Crud operations for Blogs for Admin</li>
-                                        <li>Used Material UI</li>
-                                        <li>Home page displays a list of existing blogs</li>
-                                        <li> Material UI</li>
-                                        <li>Integrated with REST API using axios at end point: <a href="https://react-backend-social.herokuapp.com/"><h6 style="text-decoration: underline;">click here</h6></a></li>
-                                        <li>Forget Password and Social Login Integrated</li>
-                                        <li>Deployed on Heroku</li>
+                                        <li>Django based Notes Email and Reminder App, Progress bar, where user can see how much task is remaining.</li>
+                                        <li>When Scheduled Reminders are successful, Users are notified and Admin can Schedule Broadcast Notifications for all Users.</li>
+                                        <a href="https://github.com/arpansahu/common_readme" ><li>Integrated Automatic Readme Generator Github</li></a>
                                     </ul>
                                 </div>
                                 <div id="container">
