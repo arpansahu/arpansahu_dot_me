@@ -5,7 +5,20 @@
 
 version: 2
 updates:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  # Check for updates to pip dependencies (Python)
+  - package-ecosystem: "pip"
+    directory: "/" # Location of your requirements.txt or pyproject.toml file
     schedule:
-      interval: "weekly"
+      interval: "weekly" # Check for updates weekly
+    # Optionally, you can specify an 'open-pull-requests-limit' to avoid having too many open PRs at once
+    open-pull-requests-limit: 10
+    # Optionally, you can exclude certain dependencies from being updated
+    ignore:
+      - dependency-name: "django" # Example of ignoring Django updates
+        versions: ["3.*"]
+
+  # Check for updates to GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/" # Location of your GitHub Actions workflows
+    schedule:
+      interval: "weekly" # Check for updates weekly
