@@ -3219,11 +3219,11 @@ sudo apt-get install jenkins
                             &quot;&quot;&quot;
 
                             // Delete the existing service and deployment
-                            sh &quot;&quot;&quot;
-                            kubectl delete service ${PROJECT_NAME_WITH_DASH}-service || true
-                            kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 || true
-                            kubectl delete deployment ${PROJECT_NAME_WITH_DASH}-app || true
-                            &quot;&quot;&quot;
+                            // sh &quot;&quot;&quot;
+                            // kubectl delete service ${PROJECT_NAME_WITH_DASH}-service || true
+                            // kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0 || true
+                            // kubectl delete deployment ${PROJECT_NAME_WITH_DASH}-app || true
+                            // &quot;&quot;&quot;
 
                             // Deploy to Kubernetes
                             sh &quot;&quot;&quot;
@@ -3299,6 +3299,29 @@ sudo apt-get install jenkins
                         }
                     }
                     currentBuild.description = &#x27;DEPLOYMENT_EXECUTED&#x27;
+                }
+            }
+        }
+        stage(&#x27;Sentry release&#x27;) {
+            when {
+                expression { params.DEPLOY }
+            }
+            steps {
+                script {
+                    echo &quot;Sentry Release ...&quot;
+
+                    sh &quot;&quot;&quot;
+                        # Get the current git commit hash
+                        VERSION=\$(git rev-parse HEAD)
+
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} new \$VERSION
+
+                        # Associate commits with the release
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} set-commits --auto \$VERSION
+
+                        # Deploy the release (optional step for marking the release as deployed)
+                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} deploys \$VERSION new -e production
+                    &quot;&quot;&quot;
                 }
             }
         }
