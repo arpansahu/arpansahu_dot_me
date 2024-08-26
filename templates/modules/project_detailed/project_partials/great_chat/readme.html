@@ -160,22 +160,28 @@
   Used Acme-dns server for automating renewal of wildcard certificates
  </li>
  <li>
-  Used docker to run inside a container since other projects are also running on the same server
+  Used docker/kubernetes to run inside a container since other projects are also running on the same server. Can be managed using Portainer and Kube Dashboard. Running at https://portainer.arpansahu.me and https://kube.arpansahu.me respectively.
  </li>
  <li>
-  Used Jenkins for CI/CD Integration Jenkins Server Running at: https://jenkins.arpansahu.me
+  Used Jenkins for CI/CD Integration Jenkins Server. Running at: https://jenkins.arpansahu.me
  </li>
  <li>
-  Used AWS Elastic Cache for redis which is not accessible outside AWS, Used Redis Server, hosted on Home Server itself as Redis on Home Server
+  Used Self Hosted Redis VPS for redis which is not accessible outside AWS, Used Redis Server, hosted on Home Server itself as Redis on Home Server
  </li>
  <li>
   Used PostgresSql Schema based Database, all projects are using single Postgresql.
  </li>
  <li>
-  PostgresSQL is also hosted on Home Server Itself.
+  PostgresSQL is also hosted on VPS Server Itself.
  </li>
  <li>
-  Using MINIIO as self hosted S3 Storage Server.
+  Using MiniIo as self hosted S3 Storage Server. Running at: https://minio.arpansahu.me
+ </li>
+ <li>
+  Using Harbor as Self Hosted Docker Registry. Running at: https://harbor.arpansahu.me
+ </li>
+ <li>
+  Using Sentry for logging and debugging. Running at: https://arpansahu.sentry.io
  </li>
 </ol>
 <h2>
@@ -528,19 +534,19 @@ sentry_sdk.init(
             DjangoIntegration(
                 transaction_style=&#x27;url&#x27;,
                 middleware_spans=True,
-                signals_spans=True,
-                signals_denylist=[
-                    django.db.models.signals.pre_init,
-                    django.db.models.signals.post_init,
-                ],
-                cache_spans=False,
+                # signals_spans=True,
+                # signals_denylist=[
+                #     django.db.models.signals.pre_init,
+                #     django.db.models.signals.post_init,
+                # ],
+                # cache_spans=False,
             ),
         ],
     traces_sample_rate=1.0,  # Adjust this according to your needs
     send_default_pii=True,  # To capture personal identifiable information (optional)
     release=get_git_commit_hash(),  # Set the release to the current git commit hash
     environment=SENTRY_ENVIRONMENT,  # Or &quot;staging&quot;, &quot;development&quot;, etc.
-    profiles_sample_rate=1.0,
+    # profiles_sample_rate=1.0,
 )
 
 LOGGING = {
