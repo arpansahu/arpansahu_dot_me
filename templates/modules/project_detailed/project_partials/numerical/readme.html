@@ -2040,10 +2040,11 @@ spec:
           name: numerical
           envFrom:
             - secretRef:
-                name: arpansahu-dot-me-secret
+                name: numerical-secret
           ports:
             - containerPort: 8003
               name: gunicorn
+  revisionHistoryLimit: 0
 </code></pre>
 <ol>
  <li>
@@ -3042,10 +3043,10 @@ sudo apt-get install jenkins
         DOCKER_PORT = &quot;8003&quot;
         PROJECT_NAME_WITH_DASH = &quot;numerical&quot;
         SERVER_NAME= &quot;numerical.arpansahu.me&quot;
-        BUILD_PROJECT_NAME = &quot;arpansahu_dot_me_build&quot;
+        BUILD_PROJECT_NAME = &quot;numerical_build&quot;
         JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
         SENTRY_ORG=&quot;arpansahu&quot;
-        SENTRY_PROJECT=&quot;arpansahu_dot_me&quot;
+        SENTRY_PROJECT=&quot;numerical&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3172,7 +3173,7 @@ sudo apt-get install jenkins
                             echo &quot;Container ${ENV_PROJECT_NAME} is running&quot;
                             sh &quot;&quot;&quot;
                                 # Fetch HTTP status code
-                                HTTP_STATUS=\$(curl -s -o /dev/null -w &quot;%{http_code}&quot; http://0.0.0.0:${DOCKER_PORT})
+                                HTTP_STATUS=\$(curl -s -o /dev/null -w &quot;%{http_code}&quot; -L http://0.0.0.0:${DOCKER_PORT})
                                 echo &quot;HTTP Status: \$HTTP_STATUS&quot;
 
                                 # Update Nginx configuration if status code is 200 (OK)
@@ -5177,7 +5178,16 @@ Add all the env variables as required and mentioned in the Readme File.
  BUCKET_TYPE=
 </p>
 <p>
+ DATABASE_URL=
+</p>
+<p>
  REDIS_CLOUD_URL=
+</p>
+<p>
+ DOMAIN=
+</p>
+<p>
+ PROTOCOL=
 </p>
 <h1>
  SENTRY
