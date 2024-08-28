@@ -2373,7 +2373,7 @@ stage('Dependencies') {
             }
 
             location / {
-                proxy_pass http://<CLUSTER_IP_ADDRESS>:32002;
+                proxy_pass http://<CLUSTER_IP_ADDRESS>:32000;
                 proxy_set_header Host $host;
                 proxy_set_header X-Forwarded-Proto $scheme;
 
