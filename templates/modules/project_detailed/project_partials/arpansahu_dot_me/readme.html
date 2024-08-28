@@ -2841,7 +2841,7 @@ sudo apt-get install jenkins
             }
 
             location / {
-                proxy_pass http://&lt;CLUSTER_IP_ADDRESS&gt;:32002;
+                proxy_pass http://&lt;CLUSTER_IP_ADDRESS&gt;:32000;
                 proxy_set_header Host $host;
                 proxy_set_header X-Forwarded-Proto $scheme;
 
