@@ -2140,6 +2140,7 @@ kind: Service
 metadata:
   name: third-eye-service
 spec:
+  externalTrafficPolicy: Local  # Preserves the client&#x27;s IP
   selector:
     app: third-eye
   ports:
