@@ -26,7 +26,9 @@ from .views import (
     ProjectsView,
     ResumeView,
     GetOTPView,
-    ResumeDownloadView
+    ResumeDownloadView,
+    PrivacyView,
+    TAndCView,
 )
 
 def trigger_error(request):
@@ -44,6 +46,8 @@ urlpatterns = [
     path('about/', AboutView.as_view(), name='about'),
     path('projects/', ProjectsView.as_view(), name='projects'),
     path('resume/', ResumeView.as_view(), name='resume'),
+    path('privacy/', PrivacyView.as_view(), name='privacy'),
+    path('t_and_c/', TAndCView.as_view(), name='t_and_c'),
     path('get-otp', GetOTPView.as_view(), name='get-otp'),
     path('download/resume/', ResumeDownloadView.as_view(), name='resume_download'),
 
