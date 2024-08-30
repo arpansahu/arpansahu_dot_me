@@ -104,6 +104,13 @@ class AboutView(View):
     def get(self, *args, **kwargs):
         return render(self.request, template_name='about.html', context={'about': 'active'})
 
+class PrivacyView(View):
+    def get(self, *args, **kwargs):
+        return render(self.request, template_name='privacy.html', )
+
+class TAndCView(View):
+    def get(self, *args, **kwargs):
+        return render(self.request, template_name='t_and_c.html', )
 
 class ProjectsView(View):
     def get(self, *args, **kwargs):
