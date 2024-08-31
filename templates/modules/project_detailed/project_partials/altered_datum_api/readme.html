@@ -1,9 +1,6 @@
 <h1>
- arpansahu.me | Django Portfolio Project
+ School Chale Hum | Django School Management App
 </h1>
-<p>
- This is a simple django portfolio project
-</p>
 <h2>
  Project Features
 </h2>
@@ -62,66 +59,22 @@
   </strong>
   Logging and Debugging Made Easy.
  </li>
- <li>
-  <strong>
-   Scikit Learn & Pandas:
-  </strong>
-  Training and using Machine Learning.
- </li>
 </ol>
-<h2>
- WhatsApp Clone Functionalities
-</h2>
+<h1>
+ Implemented API project for Altered Datum Project
+</h1>
 <ol>
  <li>
-  <strong>
-   Symptom Analysis and Disease Prediction::
-  </strong>
+  Implemented custom Auth Model and its Manager.
  </li>
  <li>
-  Users can input symptoms, and the application predicts the most probable disease using a trained Machine Learning model.
+  Developed custom error views with tailored templates.
  </li>
  <li>
-  The model is trained using the Naive Bayes algorithm on data collected from MIT, focusing on 53 symptoms.
+  Implemented CRUD operations for the Blog model using Django Rest Framework.
  </li>
  <li>
-  The trained model is pickled and utilized within Django views to make predictions.
- </li>
- <li>
-  <strong>
-   Medical Facility Locator:
-  </strong>
- </li>
- <li>
-  Integrated with Google Maps API to identify the user’s location.
- </li>
- <li>
-  Displays nearby hospital facilities based on the user’s location.
- </li>
- <li>
-  The hospital data is primarily sourced from Indian government databases, but users can add additional facilities as needed.
- </li>
- <li>
-  <strong>
-   Data Handling::
-  </strong>
- </li>
- <li>
-  Utilizes a dataset collected from the MIT website for training the Machine Learning model.
- </li>
- <li>
-  Hospitals and medical facility data are sourced from Indian government websites and stored in the project’s database.
- </li>
- <li>
-  <strong>
-   Web Interface:
-  </strong>
- </li>
- <li>
-  A simple web interface with three primary views, all function-based, allowing users to interact with the application easily.
- </li>
- <li>
-  Provides users with an intuitive interface to input symptoms, view predictions, and locate nearby medical facilities.
+  Developed API documentation using COREAPI (Swagger) for easy API exploration and interaction.
  </li>
 </ol>
 <p>
@@ -190,16 +143,10 @@
  The most common Redis use cases are session cache, full-page cache, queues, leader boards and counting, publish-subscribe, and much more. in this case, we will use Redis as a message broker.
 </p>
 <h2>
- What is Pandas ?
+ What is Django Rest Framework ?
 </h2>
 <p>
- Pandas is an open-source Python library that provides data structures and data analysis tools for handling and manipulating large datasets. It offers two primary data structures: Series (one-dimensional) and DataFrame (two-dimensional), which allow for efficient data storage and manipulation. Pandas is widely used for data cleaning, transformation, analysis, and visualization. It supports operations like filtering, grouping, merging, and aggregating data. The library integrates well with other Python libraries like NumPy and Matplotlib, making it a powerful tool for data scientists and analysts working with structured data.
-</p>
-<h2>
- What is Scikit Learn ?
-</h2>
-<p>
- Scikit-learn is an open-source Python library widely used for machine learning and data analysis. It provides simple and efficient tools for data mining and data modeling, covering tasks such as classification, regression, clustering, and dimensionality reduction. Scikit-learn is built on top of NumPy, SciPy, and Matplotlib, ensuring seamless integration with these libraries. It offers various algorithms for training models, including support vector machines, decision trees, random forests, and more. Additionally, it includes utilities for model selection, preprocessing, and validation, making it a comprehensive toolkit for building and evaluating machine learning models.
+ Django Rest Framework (DRF) is a powerful and flexible toolkit for building Web APIs in Django. It provides a robust framework for creating RESTful services with ease, allowing developers to serialize data, handle HTTP requests, and manage authentication and permissions. DRF simplifies the development of APIs by offering built-in views, serializers, and routers, making it easier to create CRUD operations, handle complex querysets, and integrate with frontend frameworks. Its modular design and extensive documentation make it a popular choice for developers looking to create scalable and maintainable APIs in Django projects.
 </p>
 <h2>
  Tech Stack
@@ -211,6 +158,10 @@
  <br/>
  <a href="https://www.djangoproject.com/">
   <img alt="Django" src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://www.django-rest-framework.org/">
+  <img alt="DjangoREST" src="https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray"/>
  </a>
  <br/>
  <a href="https://developer.mozilla.org/en-US/docs/Glossary/HTML5">
@@ -280,20 +231,29 @@
  <a href="https://sentry.io">
   <img alt="Sentry Badge" src="https://img.shields.io/badge/Sentry-362D59?logo=sentry&logoColor=fff&style=for-the-badge"/>
  </a>
- <br/>
- <a href="https://pandas.pydata.org/">
-  <img alt="Pandas" src="https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white"/>
- </a>
- <br/>
- <a href="https://scikit-learn.org/">
-  <img alt="scikit-learn" src="https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white"/>
- </a>
 </p>
 <h2>
  Demo
 </h2>
 <p>
- Available at: https://third-eye.arpansahu.me
+ Available at: https://altered-datum-api.arpansahu.me
+</p>
+<p>
+ admin login details:--
+ <br/>
+ username: admin@arpansahu.me
+ <br/>
+ password: showmecode
+</p>
+<p>
+ Note: We have React UI which is a part of this Project Available at: https://altere-datum.arpansahu.me\
+</p>
+<p>
+ admin login details:--
+ <br/>
+ username: admin@arpansahu.me
+ <br/>
+ password: showmecode
 </p>
 <h2>
  License
@@ -325,8 +285,7 @@
 <p>
  Run update_data Command
 </p>
-<pre><code>  python manage.py update_hospitals_data
-  python manage.py update_symptoms_data
+<pre><code>  python manage.py update_data
 </code></pre>
 <p>
  Creating Super User
@@ -354,7 +313,7 @@
 
   or 
 
-  gunicorn --bind 0.0.0.0:8008 third_eye.wsgi
+  gunicorn --bind 0.0.0.0:8004 altered_datum_api.wsgi
 </code></pre>
 <p>
  Change settings.py static files and media files settings | Now I have added support for BlackBlaze Static Storage also which also based on AWS S3 protocols
@@ -1614,9 +1573,9 @@ COPY . .
 
 RUN pip3 install -r requirements.txt
 
-EXPOSE 8008
+EXPOSE 8004
 
-CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; gunicorn --bind 0.0.0.0:8008 third_eye.wsgi&quot;
+CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; gunicorn --bind 0.0.0.0:8004 altered_datum_api.wsgi&quot;
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
@@ -1628,14 +1587,14 @@ services:
     build:  # This section will be used when running locally
       context: .
       dockerfile: Dockerfile
-    image: harbor.arpansahu.me/library/third_eye:latest
+    image: harbor.arpansahu.me/library/altered_datum_api:latest
     env_file: ./.env
-    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8008 third_eye.wsgi&quot;
-    container_name: third_eye
+    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8004 altered_datum_api.wsgi&quot;
+    container_name: altered_datum_api
     volumes:
       - .:/app
     ports:
-      - &quot;8008:8008&quot;
+      - &quot;8004:8004&quot;
     restart: unless-stopped
 </code></pre>
 <h3>
@@ -2104,31 +2063,30 @@ then generate token from host server by running the following command
 <pre><code class="language-yaml">  apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: third-eye-app
+  name: altered-datum-api-app
   labels:
-    app: third-eye
+    app: altered-datum-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: third-eye
+      app: altered-datum-api
   template:
     metadata:
       labels:
-        app: third-eye
+        app: altered-datum-api
     spec:
       imagePullSecrets:
         - name: harbor-registry-secret
       containers:
-        - image: harbor.arpansahu.me/library/third_eye:latest
-          name: third-eye
+        - image: harbor.arpansahu.me/library/altered_datum_api:latest
+          name: altered-datum-api
           envFrom:
             - secretRef:
-                name: third-eye-secret
+                name: altered-datum-api-secret
           ports:
-            - containerPort: 8008
+            - containerPort: 8001
               name: gunicorn
-  revisionHistoryLimit: 0
 </code></pre>
 <ol>
  <li>
@@ -2138,16 +2096,15 @@ spec:
 <pre><code class="language-yaml">  apiVersion: v1
 kind: Service
 metadata:
-  name: third-eye-service
+  name: altered-datum-api-service
 spec:
-  externalTrafficPolicy: Local  # Preserves the client&#x27;s IP
   selector:
-    app: third-eye
+    app: altered-datum-api
   ports:
     - protocol: TCP
-      port: 8008
-      targetPort: 8008
-      nodePort: 32008
+      port: 8004
+      targetPort: 8004
+      nodePort: 32004
   type: NodePort
 </code></pre>
 <ol>
@@ -2655,14 +2612,14 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    third-eye.arpansahu.me;
+    server_name    altered-datum-api.arpansahu.me;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
         }
 
     location / {
-         proxy_pass              http://{ip_of_home_server}:8008;
+         proxy_pass              http://{ip_of_home_server}:8004;
          proxy_set_header        Host $host;
          proxy_set_header        X-Forwarded-Proto $scheme;
 
@@ -2814,8 +2771,8 @@ sudo apt-get install jenkins
   </p>
  </li>
 </ul>
-<pre><code class="language-bash">    touch /etc/nginx/sites-available/third-eye
-    vi /etc/nginx/sites-available/third-eye
+<pre><code class="language-bash">    touch /etc/nginx/sites-available/altered-datum-api
+    vi /etc/nginx/sites-available/altered-datum-api
 </code></pre>
 <ol>
  <li>
@@ -2832,7 +2789,7 @@ sudo apt-get install jenkins
 </ol>
 <pre><code class="language-bash">        server {
             listen 80;
-            server_name third-eye.arpansahu.me;
+            server_name altered-datum-api.arpansahu.me;
 
             # Force HTTPS redirects
             if ($scheme = http) {
@@ -2840,7 +2797,7 @@ sudo apt-get install jenkins
             }
 
             location / {
-                proxy_pass http://0.0.0.0:8008;
+                proxy_pass http://0.0.0.0:8004;
                 proxy_set_header Host $host;
                 proxy_set_header X-Forwarded-Proto $scheme;
 
@@ -2864,7 +2821,7 @@ sudo apt-get install jenkins
 </ol>
 <pre><code class="language-bash">        server {
             listen 80;
-            server_name third-eye.arpansahu.me;
+            server_name altered-datum-api.arpansahu.me;
 
             # Force HTTPS redirects
             if ($scheme = http) {
@@ -2872,7 +2829,7 @@ sudo apt-get install jenkins
             }
 
             location / {
-                proxy_pass http://&lt;CLUSTER_IP_ADDRESS&gt;:32008;
+                proxy_pass http://&lt;CLUSTER_IP_ADDRESS&gt;:32004;
                 proxy_set_header Host $host;
                 proxy_set_header X-Forwarded-Proto $scheme;
 
@@ -2894,7 +2851,7 @@ sudo apt-get install jenkins
   Enable the new configuration: Create a symbolic link from this file to the sites-enabled directory.
  </li>
 </ol>
-<pre><code class="language-bash">      sudo ln -s /etc/nginx/sites-available/third-eye /etc/nginx/sites-enabled/
+<pre><code class="language-bash">      sudo ln -s /etc/nginx/sites-available/altered-datum-api /etc/nginx/sites-enabled/
 </code></pre>
 <ol>
  <li>
@@ -2925,10 +2882,10 @@ sudo apt-get install jenkins
     }
     environment {
         REGISTRY = &quot;harbor.arpansahu.me&quot;
-        REPOSITORY = &quot;library/third_eye&quot;
+        REPOSITORY = &quot;library/altered_datum_api&quot;
         IMAGE_TAG = &quot;${env.BUILD_ID}&quot;
         COMMIT_FILE = &quot;${env.WORKSPACE}/last_commit.txt&quot;
-        ENV_PROJECT_NAME = &quot;third_eye&quot;
+        ENV_PROJECT_NAME = &quot;altered_datum_api&quot;
     }
     stages {
         stage(&#x27;Checkout&#x27;) {
@@ -3071,8 +3028,8 @@ sudo apt-get install jenkins
                     ]
                 }&#x27;&quot;&quot;&quot;
 
-                // Trigger third_eye job only if the build is stable
-                build job: &#x27;third_eye&#x27;, parameters: [booleanParam(name: &#x27;DEPLOY&#x27;, value: true)], wait: false
+                // Trigger altered_datum_api job only if the build is stable
+                build job: &#x27;altered_datum_api&#x27;, parameters: [booleanParam(name: &#x27;DEPLOY&#x27;, value: true)], wait: false
             }
         }
         failure {
@@ -3120,18 +3077,18 @@ sudo apt-get install jenkins
     }
     environment {
         REGISTRY = &quot;harbor.arpansahu.me&quot;
-        REPOSITORY = &quot;library/third_eye&quot;
+        REPOSITORY = &quot;library/altered_datum_api&quot;
         IMAGE_TAG = &quot;latest&quot;  // or use a specific tag if needed
         KUBECONFIG = &quot;${env.WORKSPACE}/kubeconfig&quot;  // Set the KUBECONFIG environment variable
-        NGINX_CONF = &quot;/etc/nginx/sites-available/third-eye&quot;
-        ENV_PROJECT_NAME = &quot;third_eye&quot;
-        DOCKER_PORT = &quot;8008&quot;
-        PROJECT_NAME_WITH_DASH = &quot;third-eye&quot;
-        SERVER_NAME= &quot;third-eye.arpansahu.me&quot;
-        BUILD_PROJECT_NAME = &quot;third_eye_build&quot;
+        NGINX_CONF = &quot;/etc/nginx/sites-available/altered-datum-api&quot;
+        ENV_PROJECT_NAME = &quot;altered_datum_api&quot;
+        DOCKER_PORT = &quot;8004&quot;
+        PROJECT_NAME_WITH_DASH = &quot;altered-datum-api&quot;
+        SERVER_NAME= &quot;altered-datum-api.arpansahu.me&quot;
+        BUILD_PROJECT_NAME = &quot;altered_datum_api_build&quot;
         JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
         SENTRY_ORG=&quot;arpansahu&quot;
-        SENTRY_PROJECT=&quot;third_eye&quot;
+        SENTRY_PROJECT=&quot;altered_datum_api&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -3410,7 +3367,6 @@ sudo apt-get install jenkins
     post {
         success {
             script {
-                // Retrieve the latest commit message
                 if (currentBuild.description == &#x27;DEPLOYMENT_EXECUTED&#x27;) {
                     sh &quot;&quot;&quot;curl -s \
                     -X POST \
@@ -3437,9 +3393,6 @@ sudo apt-get install jenkins
                         ]
                     }&#x27;&quot;&quot;&quot;
                 }
-
-
-
                 // Trigger the common_readme job on success when last commit is not Automatic Update from common_readme
                 def commitMessage = sh(script: &quot;git log -1 --pretty=%B&quot;, returnStdout: true).trim()
                 if (!commitMessage.contains(&quot;Automatic Update&quot;)) {
@@ -3450,7 +3403,7 @@ sudo apt-get install jenkins
                     ], wait: false
                 } else {
                     echo &quot;Skipping common_readme job trigger due to commit message: ${commitMessage}&quot;
-                }
+                }            
             }
         }
         failure {
@@ -3491,10 +3444,10 @@ sudo apt-get install jenkins
  </li>
 </ul>
 <p>
- Make sure to use Pipeline project and name it whatever you want I have named it as per third_eye
+ Make sure to use Pipeline project and name it whatever you want I have named it as per altered_datum_api
 </p>
 <p>
- <img alt="Jenkins Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/third_eye/main/Jenkins-deploy.png"/>
+ <img alt="Jenkins Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/altered_datum_api/main/Jenkins-deploy.png"/>
 </p>
 <ul>
  <li>
@@ -3502,17 +3455,17 @@ sudo apt-get install jenkins
  </li>
 </ul>
 <p>
- Make sure to use Pipeline project and name it whatever you want I have named it as third_eye_build
+ Make sure to use Pipeline project and name it whatever you want I have named it as altered_datum_api_build
 </p>
 <p>
- <img alt="Jenkins Build Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/third_eye/main/Jenkins-build.png"/>
+ <img alt="Jenkins Build Pipeline Configuration" src="https://arpansahu@github.com/arpansahu/altered_datum_api/main/Jenkins-build.png"/>
 </p>
 <p>
  This pipeline is triggered on another branch named as build. Whenever a new commit is pushed, it checks
  <br/>
  if there are changes in the files other then few .md files and dependabot.yml file. If, changes are there it pushed the image.
  <br/>
- If image is pushed successfully, email is sent to notify and then another Jenkins Pipeline third_eye_build is called.
+ If image is pushed successfully, email is sent to notify and then another Jenkins Pipeline altered_datum_api_build is called.
 </p>
 <p>
  In this above picture you can see credentials right? you can add your github credentials and harbor credentials use harbor-credentials as id for harbor credentials.
@@ -3527,7 +3480,7 @@ sudo apt-get install jenkins
   Add a .env file to you project using following command (This step is no more required stage('Dependencies'))
  </li>
 </ul>
-<pre><code class="language-bash">    sudo vi  /var/lib/jenkins/workspace/third_eye/.env
+<pre><code class="language-bash">    sudo vi  /var/lib/jenkins/workspace/altered_datum_api/.env
 </code></pre>
 <pre><code>Your workspace name may be different.
 
@@ -5191,6 +5144,10 @@ Add all the env variables as required and mentioned in the Readme File.
   <img alt="Django" src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white"/>
  </a>
  <br/>
+ <a href="https://www.django-rest-framework.org/">
+  <img alt="DjangoREST" src="https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray"/>
+ </a>
+ <br/>
  <a href="https://developer.mozilla.org/en-US/docs/Glossary/HTML5">
   <img alt="HTML5" src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white"/>
  </a>
@@ -5258,14 +5215,6 @@ Add all the env variables as required and mentioned in the Readme File.
  <a href="https://sentry.io">
   <img alt="Sentry Badge" src="https://img.shields.io/badge/Sentry-362D59?logo=sentry&logoColor=fff&style=for-the-badge"/>
  </a>
- <br/>
- <a href="https://pandas.pydata.org/">
-  <img alt="Pandas" src="https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white"/>
- </a>
- <br/>
- <a href="https://scikit-learn.org/">
-  <img alt="scikit-learn" src="https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white"/>
- </a>
 </p>
 <h2>
  Environment Variables
@@ -5283,9 +5232,17 @@ Add all the env variables as required and mentioned in the Readme File.
  ALLOWED_HOSTS=
 </p>
 <p>
- AWS_ACCESS_KEY_ID=
+ MAIL_JET_API_KEY=
 </p>
 <p>
+ MAIL_JET_API_SECRET=
+</p>
+<p>
+ MAIL_JET_EMAIL_ADDRESS=
+</p>
+<p>
+ AWS_ACCESS_KEY_ID=
+ <br/>
  AWS_SECRET_ACCESS_KEY=
 </p>
 <p>
