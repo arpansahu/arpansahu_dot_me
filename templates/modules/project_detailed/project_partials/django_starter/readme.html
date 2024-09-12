@@ -1443,13 +1443,25 @@ include_files = {
 
 WORKDIR /app
 
+# Copy only requirements.txt first to leverage Docker cache
+COPY requirements.txt .
+
+# Install dependencies
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Install supervisord
+RUN apt-get update &amp;&amp; apt-get install -y supervisor
+
+# Copy the rest of the application
 COPY . .
 
-RUN pip3 install -r requirements.txt
+# Copy supervisord configuration file
 
-EXPOSE 8016
+# Expose necessary ports
+EXPOSE 8016 8054
 
-CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; gunicorn --bind 0.0.0.0:8016 django_starter.wsgi&quot;
+# Start supervisord to manage the processes
+CMD [&quot;supervisord&quot;, &quot;-c&quot;, &quot;supervisord.conf&quot;]
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
@@ -1463,12 +1475,12 @@ services:
       dockerfile: Dockerfile
     image: harbor.arpansahu.me/library/django_starter:latest
     env_file: ./.env
-    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8016 django_starter.wsgi&quot;
     container_name: django_starter
     volumes:
       - .:/app
     ports:
       - &quot;8016:8016&quot;
+      - &quot;8054:8054&quot;
     restart: unless-stopped
 </code></pre>
 <h3>
