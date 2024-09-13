@@ -2959,7 +2959,7 @@ using command
 </code></pre>
 <pre><code>   * Add the following lines to the file
 </code></pre>
-<pre><code class="language-bash">         0 */12 * * * certbot renew --manual --test-cert --preferred-challenges dns --manual-auth-hook &#x27;acme-dns-client&#x27;
+<pre><code class="language-bash">         0 */12 * * * certbot renew --manual --preferred-challenges dns --manual-auth-hook &#x27;acme-dns-client
 </code></pre>
 <p>
  After all these steps your Nginx configuration file located at /etc/nginx/sites-available/arpansahu will be looking similar to this
