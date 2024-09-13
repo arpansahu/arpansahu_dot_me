@@ -1918,12 +1918,14 @@ RUN apt-get update &amp;&amp; apt-get install -y supervisor
 COPY . .
 
 # Copy supervisord configuration file
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Expose necessary ports
-EXPOSE 8014 8052
+EXPOSE 8016 8054
 
 # Start supervisord to manage the processes
-CMD [&quot;supervisord&quot;, &quot;-c&quot;, &quot;supervisord.conf&quot;]
+CMD python manage.py collectstatic --noinput &amp;&amp; supervisord -c /etc/supervisor/conf.d/supervisord.conf
+
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
