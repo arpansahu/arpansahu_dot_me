@@ -3641,9 +3641,14 @@ sudo apt-get install jenkins
                             sleep 60
 
                             // Check deployment status
+                            // sh &quot;&quot;&quot;
+                            // kubectl rollout status deployment/${PROJECT_NAME_WITH_DASH}-app
+                            // &quot;&quot;&quot;
+
                             sh &quot;&quot;&quot;
-                            kubectl rollout status deployment/${PROJECT_NAME_WITH_DASH}-app
+                                kubectl describe deployment/${PROJECT_NAME_WITH_DASH}-app
                             &quot;&quot;&quot;
+
 
                             // Verify service and get NodePort
                             def nodePort = sh(script: &quot;kubectl get service ${PROJECT_NAME_WITH_DASH}-service -o=jsonpath=&#x27;{.spec.ports[0].nodePort}&#x27;&quot;, returnStdout: true).trim()
