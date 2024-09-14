@@ -3384,6 +3384,7 @@ sudo apt-get install jenkins
         FLOWER_PORT = &quot;8051&quot;
         PROJECT_NAME_WITH_DASH = &quot;clock-work&quot;
         SERVER_NAME= &quot;clock-work.arpansahu.me&quot;
+        FLOWER_SERVER_NAME = &quot;flower-clock-work.arpansahu.me&quot;
         BUILD_PROJECT_NAME = &quot;clock_work_build&quot;
         JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
         SENTRY_ORG=&quot;arpansahu&quot;
@@ -3435,6 +3436,32 @@ sudo apt-get install jenkins
 
                         // Ensure Nginx is aware of the new configuration
                         sh &quot;sudo ln -sf ${NGINX_CONF} /etc/nginx/sites-enabled/&quot;
+                    } else {
+                        echo &quot;Nginx configuration file already exists.&quot;
+                    }                    
+                }
+            }
+        }
+        stage(&#x27;Check &amp; Create Flower Nginx Configuration&#x27;) {
+            steps {
+                script {
+                    // Check if the Nginx configuration file exists
+                    def configExists = sh(script: &quot;test -f ${NGINX_CONF_FLOWER} &amp;&amp; echo &#x27;exists&#x27; || echo &#x27;not exists&#x27;&quot;, returnStdout: true).trim()
+
+                    if (configExists == &#x27;not exists&#x27;) {
+                        echo &quot;Nginx configuration file does not exist. Creating it now...&quot;
+
+                        // Create or overwrite the NGINX_CONF file with the content of nginx.conf using sudo tee
+                        sh &quot;sudo cat nginx.conf | sudo tee ${NGINX_CONF_FLOWER} &gt; /dev/null&quot;
+
+                        // Replace placeholders in the configuration file
+                        sh &quot;sudo sed -i &#x27;s|SERVER_NAME|${FLOWER_SERVER_NAME}|g&#x27; ${NGINX_CONF_FLOWER}&quot;
+                        sh &quot;sudo sed -i &#x27;s|DOCKER_PORT|${FLOWER_PORT}|g&#x27; ${NGINX_CONF_FLOWER}&quot;
+
+                        echo &quot;Nginx configuration file created.&quot;
+
+                        // Ensure Nginx is aware of the new configuration
+                        sh &quot;sudo ln -sf ${NGINX_CONF_FLOWER} /etc/nginx/sites-enabled/&quot;
                     } else {
                         echo &quot;Nginx configuration file already exists.&quot;
                     }                    
