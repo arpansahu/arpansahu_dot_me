@@ -3230,9 +3230,13 @@ sudo apt-get install jenkins
                             // Wait for a few seconds to let the app start
                             sleep 60
 
-                            // Check deployment status
+                            // // Check deployment status
+                            // sh &quot;&quot;&quot;
+                            // kubectl rollout status deployment/${PROJECT_NAME_WITH_DASH}-app
+                            // &quot;&quot;&quot;
+
                             sh &quot;&quot;&quot;
-                            kubectl rollout status deployment/${PROJECT_NAME_WITH_DASH}-app
+                                kubectl describe deployment/${PROJECT_NAME_WITH_DASH}-app
                             &quot;&quot;&quot;
 
                             // Verify service and get NodePort
