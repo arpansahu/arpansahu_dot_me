@@ -2039,7 +2039,8 @@ A Record    @   0.227.49.244 (public IP of ec2) Automatic
 <p>
  Open a new Nginx Configuration file name can be anything i am choosing arpansahu since my domain is arpansahu.me. there is already a default configuration file but we will leave it like that only
 </p>
-<pre><code class="language-bash">sudo vi /etc/nginx/sites-available/arpansahu
+<pre><code class="language-bash">touch /etc/nginx/sites-available/arpansahu
+sudo vi /etc/nginx/sites-available/arpansahu
 </code></pre>
 <p>
  paste this content in the above file
@@ -2048,13 +2049,17 @@ A Record    @   0.227.49.244 (public IP of ec2) Automatic
 access_log                  /var/log/nginx/supersecure.access.log;
 error_log                   /var/log/nginx/supersecure.error.log;
 
+
 server {
-  server_name               arpansahu.me;        
-  listen                    80;
-  location / {
-    proxy_pass              http://{ip_of_home_server/localhost}:8000;
-    proxy_set_header        Host $host;
-  }
+    listen 80;
+    server_name arpansahu.me www.arpansahu.me;
+    location / {
+        proxy_pass http://127.0.0.1:your_port_here;  # Adjust the proxy_pass or root if serving static files
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
 }
 </code></pre>
 <p>
@@ -2063,13 +2068,12 @@ server {
 <p>
  Checking if the configurations file is correct
 </p>
-<pre><code class="language-bash">sudo service nginx configtest /etc/nginx/sites-available/arpansahu
+<pre><code class="language-bash">sudo nginx -t
 </code></pre>
 <p>
  Now you need to symlink this file to the sites-enabled directory:
 </p>
-<pre><code class="language-bash">cd /etc/nginx/sites-enabled
-sudo ln -s ../sites-available/arpansahu
+<pre><code class="language-bash">sudo ln -s /etc/nginx/sites-available/arpansahu /etc/nginx/sites-enabled/
 </code></pre>
 <p>
  Restarting Nginx Server
@@ -2112,7 +2116,7 @@ sudo ln -s ../sites-available/arpansahu
 </code></pre>
 <pre><code>Now installing certificate
 </code></pre>
-<pre><code class="language-bash">    sudo certbot --nginx --rsa-key-size 4096 --no-redirect
+<pre><code class="language-bash">    sudo certbot --nginx --rsa-key-size 4096 --no-redirect -d arpansahu.me -d www.arpansahu.me
 </code></pre>
 <pre><code>It will ask for the domain name then you can enter your base domain 
 I have generated SSL for arpansahu.me
@@ -2121,11 +2125,11 @@ Then a few questions will be asked answer them all and your SSL certificate will
 
 Now These lines will be added to your # Nginx configuration: /etc/nginx/sites-available/arpansahu
 </code></pre>
-<pre><code class="language-bash">    listen 443 ssl;
-    ssl_certificate /etc/letsencrypt/live/www.supersecure.codes/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/www.supersecure.codes/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+<pre><code class="language-bash">    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 </code></pre>
 <pre><code>Redirecting HTTP to HTTPS
 Open the nginx configuration file  and make it like this
@@ -2175,7 +2179,7 @@ For all subdomains, we will have to set a wildcard SSL certificate
   </p>
  </li>
 </ol>
-<pre><code class="language-bash">    sudo certbot certonly --manual --preferred-challenges dns
+<pre><code class="language-bash">    sudo certbot certonly --manual --preferred-challenges dns -d &quot;*.arpansahu.me&quot; -d &quot;arpansahu.me&quot;
 </code></pre>
 <pre><code>Again you will be asked domain name and here you will use *.arpansahu.me. and second domain you will use is
 arpansahu.me.
@@ -2430,7 +2434,7 @@ using command
           -allow 0.0.0.0/0 \
           -s http://localhost:8080
 </code></pre>
-<pre><code>     Note: When we edited acme-dns config file there we mentioned the port 8090 and thats why we are using this port here also
+<pre><code>     Note: When we edited acme-dns config file there we mentioned the port 8090(now 8080) and thats why we are using this port here also
 
    * Creating Another DNS Entry
 </code></pre>
@@ -2471,7 +2475,7 @@ using command
          --test-cert \ 
          --dry-run \ 
          --preferred-challenges dns \
-         --manual-auth-hook &#x27;acme-dns-client&#x27;       
+         --manual-auth-hook &#x27;acme-dns-client&#x27;
 </code></pre>
 <pre><code>   * Renew certificate (actually)
 </code></pre>
