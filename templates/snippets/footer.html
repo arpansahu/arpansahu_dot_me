@@ -1,59 +1,58 @@
 {% load static %}
 <footer class="footer">
-            <div class="container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 border-e-dashed">
+                <a href="layout-one-1.html">
+                    <img src="{% static 'images/logo-sm.png' %}" alt="" height="18" />
+                    <img src="{% static 'images/logo-light.png' %}" alt="" height="16" />
+                </a>
+                <p class="my-4">I am open for new opportunities
+                </p>
+                <ul class="list-unstyled footer-social mb-0 mt-sm-0 mt-3">
+                    <li class="list-inline-item">
+                        <a href="https://www.facebook.com/arpansahu95/"> <i class="icon-xs" data-feather="facebook"></i> </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://www.twitter.com/arpansahu_/"> <i class="icon-xs" data-feather="twitter"></i> </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://github.com/arpansahu"> <i class="icon-xs" data-feather="github"></i> </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://www.instagram.com/arpansahu"> <i class="icon-xs" data-feather="instagram"></i> </a>
+                    </li>
+                </ul>
+            </div><!-- end col -->
+            <div class="col-lg-6 offset-lg-1">
                 <div class="row">
-                    <div class="col-lg-5 border-e-dashed">
-                        <a href="layout-one-1.html">
-                            <img src="{% static 'images/logo-sm.png' %}" alt="" height="18" />
-                            <img src="{% static 'images/logo-light.png' %}" alt="" height="16" />
-                        </a>
-                        <p class="my-4">I am open for new opportunities
-                        </p>
-                        <ul class="list-unstyled footer-social mb-0 mt-sm-0 mt-3">
-                            <li class="list-inline-item">
-                                <a href="https://www.facebook.com/arpansahu95/"> <i class="icon-xs" data-feather="facebook"></i> </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="https://www.twitter.com/arpansahu_/"> <i class="icon-xs" data-feather="twitter"></i> </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="https://github.com/arpansahu"> <i class="icon-xs" data-feather="github"></i> </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="https://www.instagram.com/arpansahu"> <i class="icon-xs" data-feather="instagram"></i> </a>
-                            </li>
+                    <div class="col-md-4">
+                        <h6 class="text-footer mb-4 mt-sm-0 mt-5">Company</h6>
+                        <ul class="list-unstyled footer-list">
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="{% url 'about' %}">About</a></li>
                         </ul>
                     </div><!-- end col -->
-                    <div class="col-lg-6 offset-lg-1">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h6 class="text-footer mb-4 mt-sm-0 mt-5">Company</h6>
-                                <ul class="list-unstyled footer-list">
-                                    <li><a href="{% url 'home' %}">Home</a></li>
-                                    <li><a href="{% url 'about' %}">About</a></li>
-                                </ul>
-                            </div><!-- end col -->
-                            <div class="col-md-4">
-                                <h6 class="text-footer mb-4 mt-sm-0 mt-4">Information</h6>
-                                <ul class="list-unstyled footer-list">
-                                    <li><a href="{% url 'resume' %}">Resume</a></li>
-                                    <!-- <li><a href="#review">Client Say</a></li> -->
-                                    <li><a href="{% url 'projects' %}">Projects</a></li>
+                    <div class="col-md-4">
+                        <h6 class="text-footer mb-4 mt-sm-0 mt-4">Information</h6>
+                        <ul class="list-unstyled footer-list">
+                            <li><a href="{% url 'resume' %}">Resume</a></li>
+                            <!-- <li><a href="#review">Client Say</a></li> -->
+                            <li><a href="{% url 'projects' %}">Projects</a></li>
 
-                                </ul>
-                            </div><!-- end col -->
-                            <div class="col-md-4">
-                                <h6 class="text-footer mb-4 mt-sm-0 mt-4">More info</h6>
-                                <ul class="list-unstyled footer-list">
-                                    <!-- <li><a href="#blogs">Blogs</a></li> -->
-                                    <li><a href="{% url 'contact' %}">Contact</a></li>
-                                    <li><a href="{% url 't_and_c' %}">Terms & condition</a></li>
-                                    <li><a href="{% url 'privacy' %}">Privacy</a></li>
-                                </ul>
-                            </div><!-- end col -->
-                        </div><!-- end row -->
+                        </ul>
+                    </div><!-- end col -->
+                    <div class="col-md-4">
+                        <h6 class="text-footer mb-4 mt-sm-0 mt-4">More info</h6>
+                        <ul class="list-unstyled footer-list">
+                            <!-- <li><a href="#blogs">Blogs</a></li> -->
+                            <li><a href="{% url 'contact' %}">Contact</a></li>
+                            <li><a href="{% url 't_and_c' %}">Terms & condition</a></li>
+                            <li><a href="{% url 'privacy' %}">Privacy</a></li>
+                        </ul>
                     </div><!-- end col -->
                 </div><!-- end row -->
-            </div>
-            <!-- end container -->
-        </footer>
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div>
+</footer>
