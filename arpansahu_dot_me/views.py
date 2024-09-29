@@ -92,10 +92,7 @@ class Home(View):
 
 class ProjectDetailedView(View):
     def get(self, request, *args, **kwargs):
-        project_name = self.kwargs.get('project_name', None)
-        print("================================================")
-        print(f"Project Name: {project_name}")
-        
+        project_name = self.kwargs.get('project_name', None)        
         template_name = 'modules/project_detailed/project_detailed.html'
         return render(request, template_name=template_name, context={'project_name': project_name})
         
