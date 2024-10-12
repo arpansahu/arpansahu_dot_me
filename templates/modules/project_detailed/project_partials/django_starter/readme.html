@@ -1590,88 +1590,28 @@ copy it and fill it in ui and then you will get option to set the password and u
 </ol>
 <pre><code class="language-bash">        vi ~/.kube/config
 </code></pre>
-<h3>
- Deploy the Kubernetes Dashboard
-</h3>
-<ol>
- <li>
-  Create the kubernetes-dashboard namespace:
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl create namespace kubernetes-dashboard
+<pre><code>Paste the copied content which will look something like this:
 </code></pre>
-<ol>
- <li>
-  Deploy the Kubernetes Dashboard:
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
-</code></pre>
-<ol>
- <li>
-  <p>
-   Create an admin user:
-  </p>
-  <p>
-   Create a file named dashboard-adminuser.yaml
-  </p>
- </li>
-</ol>
-<pre><code class="language-bash">        touch dashboard-adminuser.yaml
-        vi dashboard-adminuser.yaml
-</code></pre>
-<pre><code>copy and paste below content into it
-</code></pre>
-<pre><code class="language-yaml">        [DASHBOARD ADMIN USER MD]
-</code></pre>
-<ol>
- <li>
-  <p>
-   Create ClusterRoleBinding:
-  </p>
-  <p>
-   Create a file named dashboard-adminuser-rolebinding.yaml
-  </p>
- </li>
-</ol>
-<pre><code class="language-bash">        touch dashboard-adminuser-rolebinding.yaml
-        vi dashboard-adminuser-rolebinding.yaml
-</code></pre>
-<pre><code>copy and paste below content into it
-</code></pre>
-<pre><code class="language-yaml">        [DASHBOARD ADMIN USER ROLE BIND MD]
-</code></pre>
-<ol>
- <li>
-  Apply both the files
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl apply -f dashboard-adminuser.yaml
-        kubectl apply -f dashboard-adminuser-rolebinding.yaml
-</code></pre>
-<ol>
- <li>
-  Get the admin user token:
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl -n kubernetes-dashboard create token admin-user
-</code></pre>
-<h3>
- Expose the Kubernetes Dashboard Service using NodePort
-</h3>
-<ol>
- <li>
-  Edit the Kubernetes Dashboard service:
- </li>
-</ol>
-<pre><code class="language-bash">        kubectl -n kubernetes-dashboard edit service kubernetes-dashboard
-</code></pre>
-<ol>
- <li>
-  Modify the service to use NodePort (do not copy blindly just make the mentioned changes):
- </li>
-</ol>
-<pre><code class="language-yaml">        [DASHBOARD SERVICE]
+<pre><code>        apiVersion: v1
+        kind: Config
+        clusters:
+        - name: &quot;local&quot;
+        cluster:
+            server: &quot;https://rancher.arpansahu.me/k8s/clusters/local&quot;
+
+        users:
+        - name: &quot;local&quot;
+        user:
+            token: &quot;kubeconfig-user-gf9xx76krz:68b7z8xf86zb6pvjjdbv9hhqtd29p72tr2kp8n65n6qp24fpf5ss8l&quot;
+
+
+        contexts:
+        - name: &quot;local&quot;
+        context:
+            user: &quot;local&quot;
+            cluster: &quot;local&quot;
+
+        current-context: &quot;local&quot;
 </code></pre>
 <h3>
  Configure On-Premises Nginx as a Reverse Proxy
