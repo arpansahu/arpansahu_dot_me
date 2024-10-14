@@ -47,7 +47,7 @@ redis==4.4.4
 requests==2.32.2
 requests-oauthlib==1.3.1
 rsa==4.8
-s3transfer==0.5.2
+s3transfer==0.10.3
 sentry-sdk==2.13.0
 six==1.16.0
 smmap==5.0.0
