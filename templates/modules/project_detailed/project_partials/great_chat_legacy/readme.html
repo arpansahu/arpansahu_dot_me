@@ -1,0 +1,143 @@
+<h1>
+ Great Chat Legacy
+</h1>
+
+<h2>Description</h2><hr>
+<p>This project is implementation for the following topics related to technologies used with Django</p><br>
+    <p>-Implemented Complete Auth Using Django Default Auth Model.</p>
+        <ol>
+            <li>Used built in Django Auth Model</li>
+            <li>Implemented custom error View for customizing Templates</li>
+            <li>Login. SingUp, Logout, Account Views Implemented</li>
+            <li>In built views of PasswordChangeDoneView, PasswordChangeView, PasswordResetCompleteView, PasswordResetConfirmView, PasswordResetView, PasswordResetCompleteView</li>
+            <li>Build Custom Templates for These Inbuilt Views</li>
+        </ol>
+    <p>-Implemented Chat App using Django Channels/Redis/Tortoise ORM</p>
+        <ol>
+            <li>build custom chat groups</li>
+            <li>as soon as a user register in the app, a signal is fired to create a room with every user</li>
+            <li>Room is just a Django Group with two users</li>
+            <li>Used simple Javascript/Django Channels/Redis to connect to Django Channels and perform these asynchronous chatting system</li>
+            <li>Connected Tortoise ORM with a SQlite Database for asynchronous data</li>
+            <li>User can delete their messages.</li>
+            <li>Used Postgres for Django Models</li>
+        </ol>
+        <p>Similarly, we can build Chat Groups</p><br>
+        <p>-Deployed on Heroku</p>
+        <ol>
+            <li>Used Heroku Postgres </li>
+            <li>Used Daphene </li>
+        </ol>
+    <h2>Demo</h2><hr>
+    <p><a href="http://django-chat-app-version1.herokuapp.com/" target="_blank">Available at: http://django-chat-app-version1.herokuapp.com/</a></p>
+    <p>Note: Remmber to access this project at http because websockets are not configured to run over https in this project yet.</p>
+    <p>admin login details:-- username: admin password: showmecode</p><br>
+    <h2>License</h2><hr>
+    <p><a href="https://choosealicense.com/licenses/mit/">MIT</a></p>
+    <br>
+    <h2>Installation</h2><hr>
+    <p>Installing Pre requisites</p>
+
+<pre><code class="language-python">pip install -r requirements.txt
+</code></pre>
+
+    <p>Making Migrations and Migrating them.</p>
+<pre><code class="language-python">python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+
+    <p>Creating Super User.</p>
+<pre><code class="language-python">python manage.py createsuperuser
+</code></pre>
+    <p>
+        Note: if you try to access chat room with just one user it will be throwing error.So after creating a superuser
+        register from a new user using website and then enter into it. It must have at least two users to chat.
+    </p><hr />
+
+    <p>Installing Redis On Local (For ubuntu) for other Os Please refer to their website https://redis.io/</p>
+<pre><code class="language-python">curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
+sudo apt-get update
+sudo apt-get install redis
+sudo systemctl restart redis.service
+</code></pre>
+
+<p>to check if its running or not</p>
+<pre><code class="language-python">sudo systemctl status redis
+</code></pre>
+
+<p>Uncomment Channel Layers Setting for Local Machine on settings.py, line 137 to 144 </p>
+<pre><code class="language-python">CHANNEL_LAYERS = {
+'default': {
+'BACKEND': 'channels_redis.core.RedisChannelLayer',
+'CONFIG': {
+"hosts": [('127.0.0.1', 6379)],
+},
+},
+}
+</code></pre>
+
+<p>Comment Channel Layers Setting for Heroku on settings.py, line 147 to 154 </p>
+<pre><code class="language-python">CHANNEL_LAYERS = {
+"default": {
+"BACKEND": "channels_redis.core.RedisChannelLayer",
+"CONFIG": {
+"hosts": [config('REDIS_URL')],
+},
+},
+}
+</code></pre>
+
+    <p>Run Server.</p>
+<pre><code class="language-python">python manage.py runserver
+</code></pre>
+    <h2>Deployment on Heroku</h2><hr>
+    <p>Installing Heroku Cli</p>
+<pre><code class="language-python">checkout: https://devcenter.heroku.com/articles/heroku-cli
+</code></pre>
+
+    <p>Create your account in Heroku.</p>
+    <p>Inside your project directory </p>
+    <p>Login Heroku CLI</p>
+<pre><code class="language-python">heroku login
+</code></pre>
+    <p>Create Heroku App</p>
+<pre><code class="language-python">heroku create [app_name]
+</code></pre>
+    <p>Push Heroku App</p>
+<pre><code class="language-python">git push heroku master
+</code></pre>
+    <p>Configure Heroku App Env Variables</p>
+<pre><code class="language-python">heroku config:set GITHUB_USERNAME=joesmith
+</code></pre>
+    <h2>Configuring Django App for Heroku</h2><hr>
+    <p>Install whitenoise </p>
+<pre><code class="language-python">pip install whitenoise
+</code></pre>
+    <p>Include it in Middlewares.</p>
+<pre><code class="language-python">MIDDLEWARE = [
+# ...
+"django.middleware.security.SecurityMiddleware",
+"whitenoise.middleware.WhiteNoiseMiddleware",
+# ...
+]
+</code></pre>
+    <p>Create Procfile and include this code snippet in it.</p>
+<pre><code class="language-python">release: python manage.py migrate
+web: daphne djangochatapplication.asgi:application --port $PORT --bind 0.0.0.0 -v2
+</code></pre>
+
+    <h2>Environment Variables</h2><hr>
+    <p>To run this project, you will need to add the following environment variables to your .env file</p>
+<pre><code class="language-python">SECRET_KEY=
+DEBUG=
+DB_HOST=
+DB_NAME=
+DB_USER=
+DB_PASSWORD=
+DB_PORT=
+EMAIL_USER=
+EMAIL_PASS=
+ALLOWED_HOSTS=
+REDIS_URL=
+</code></pre>

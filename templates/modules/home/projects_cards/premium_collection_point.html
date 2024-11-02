@@ -1,0 +1,57 @@
+{% load static %}
+<div class="col-lg-6 col-md-6 picture-item" data-groups='["conceptual"]'>
+    <div class="card rounded shadow border-0 m-2">
+        <div class="card-body p-4 m-2">
+            <div class="media mb-3">
+                <div class="bg-soft-alt-orange d-flex justify-content-center align-items-center thumb-xl  rounded">
+                    <img src="{% static 'images/projects/premium_collection_point.png' %}" alt="" class="thumb-md">
+                </div>
+                <div class="media-body ms-3 align-self-center">
+                    <h5 class="text-dark fs-18 fw-medium m-0">Premium Collection Point</h5>
+                    <div style="align-self: end">
+                    <a class="btn btn-block btn-social btn-github" href="https://github.com/arpansahu/premium_collection_point" target="_blank">
+                        <span class="cib-github" style="margin-right: 10px"></span> Check Repo
+                    </a>
+                    {% comment %} <a class="btn btn-block btn-social btn-github" href="https://premium-collection-point.arpansahu.me/" target="_blank">
+                        <span class="cib-youtube" style="margin-right: 10px"></span> Live Demo
+                    </a> {% endcomment %}
+                    </div>
+                </div><!--end media-body-->
+            </div><!--end media-->
+
+            {% include 'modules/project_detailed/project_partials/premium_collection_point/technologies.html' %}
+
+
+            <div style="margin-top: 10px">
+                    This project is a working Project for Premium Collection Point. In this project there
+                are two entities namely branch and manager. My father is a LIC Wealth Manager and I
+                have built this project to help him manage his clients across PAN India.
+                <br>
+                Challenges Faced By My Father during Pandemic:
+                <br>
+                <ul style="margin-top: 10px;">
+                    <li>His 90% client used to pay their LIC Premiums using Cash.</li>
+                    <li>Pre Pandemic they used to visit Fathers office or LIC branch to pay their premiums which was not possible due to lockdown across India.</li>
+                    <li>Penalty Charges were increasing on my fathers clients and my Fathers Income was also reducing</li>
+                </ul>
+
+                <br>
+                This Project was build as a solution to the problem
+                <br>
+            </div>
+
+            <div id="container">
+                <button class="learn-more">
+                  <span class="circle" aria-hidden="true">
+                    <span class="icon arrow"></span>
+                  </span>
+                  <span class="button-text">
+                    <a  href="{% url 'project-detailed-view' 'premium_collection_point' %}" target="_blank">
+                    Read More
+                    </a>
+                  </span>
+                </button>
+            </div>
+        </div><!-- end card-body -->
+    </div><!-- end card -->
+</div><!-- end col -->

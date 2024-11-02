@@ -1,0 +1,112 @@
+<h1>
+ Third Eye | Django All Auth Implementation
+</h1>
+<h2>Description</h2><hr>
+                        <p>This project is implementation for the following topics related to technologies used with Django</p><br>
+                            <p>--Implemented Complete Auth Using Django All Auth @https://django-allauth.readthedocs.io/en/latest/installation.html.</p>
+                                <ol>
+                                    <li>Django All Auth built in Django Auth Model</li>
+                                    <li>You can log in with a username/email/social accounts</li>
+                                    <li>Login. SingUp, Logout, Account Views Implemented</li>
+                                    <li>In built views of PasswordChangeDoneView, PasswordChangeView, PasswordResetCompleteView, PasswordResetConfirmView, PasswordResetView, PasswordResetCompleteView</li>
+                                    <li>Build Custom Templates for These Inbuilt Views</li>
+                                    <li>Build custom templates for a lot of functionalities, you just have to place template with same name inside same location which would be used by all auth</li>
+                                    <li>Used GitHub Social Login and Google social Login</li>
+                                    <li>Google Social Login don't work properly since It's for development phase and have to add user to list who can log in</li>
+                                    <li>Moreover, we can merge different social logins into one account with all auth.</li>
+                                </ol>
+                            <p>-Implemented Crud Operations with Django Forms</p>
+                                <ol>
+                                    <li>build crud operation create, update, delete, read function views</li>
+                                    <li>build templates for handling it</li>
+                                    <li>Created Django forms</li>
+                                </ol>
+
+                            <p>-Deployed on Heroku</p>
+                                <ol>
+                                    <li>Used Heroku Postgres </li>
+                                </ol>
+                            <h2>Demo</h2><hr>
+                            <p><a href="https://owl-eyes.arpansahu.me/" target="_blank">Available at: https://owl-eyes.arpansahu.me/</a></p>
+                            <p>admin login details:--
+                                email: admin@arpansahu.me
+                                username: admin
+                                password: showmecode</p>
+                                <br>
+                            <h2>License</h2><hr>
+                            <p><a href="https://choosealicense.com/licenses/mit/">MIT</a></p>
+                            <br>
+                            <h2>Installation</h2><hr>
+                            <p>Installing Pre requisites</p>
+
+<pre><code class="language-python">pip install -r requirements.txt
+</code></pre>
+
+                            <p>Making Migrations and Migrating them.</p>
+<pre><code class="language-python">python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+
+                            <p>Creating Super User.</p>
+<pre><code class="language-python">python manage.py createsuperuser
+</code></pre>
+
+                            <p>Run Server.</p>
+<pre><code class="language-python">python manage.py runserver
+</code></pre>
+                            <h2>Deployment on Heroku</h2><hr>
+                            <p>Installing Heroku Cli</p>
+<pre><code class="language-python">checkout: https://devcenter.heroku.com/articles/heroku-cli
+</code></pre>
+
+                            <p>Create your account in Heroku.</p>
+                            <p>Inside your project directory </p>
+                            <p>Login Heroku CLI</p>
+<pre><code class="language-python">heroku login
+</code></pre>
+                            <p>Create Heroku App</p>
+<pre><code class="language-python">heroku create [app_name]
+</code></pre>
+                            <p>Push Heroku App</p>
+<pre><code class="language-python">git push heroku master
+</code></pre>
+                            <p>Configure Heroku App Env Variables</p>
+<pre><code class="language-python">heroku config:set GITHUB_USERNAME=joesmith
+</code></pre>
+                            <h2>Configuring Django App for Heroku</h2><hr>
+                            <p>Install whitenoise </p>
+<pre><code class="language-python">pip install whitenoise
+</code></pre>
+                            <p>Include it in Middlewares.</p>
+<pre><code class="language-python">MIDDLEWARE = [
+    # ...
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    # ...
+]
+</code></pre>
+                            <p>Create Procfile and include this code snippet in it.</p>
+<pre><code class="language-python">release: ./release-tasks.sh
+web: gunicorn djangoProject.wsgi
+</code></pre>
+
+                            <p>Create release-task.sh for running multilple commands in run: section of procfile.</p>
+<pre><code class="language-python">python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+                            <p>Make release-task.sh executable</p>
+<pre><code class="language-python">chmod +x release-tasks.sh
+</code></pre>
+                            <h2>Environment Variables</h2><hr>
+                            <p>To run this project, you will need to add the following environment variables to your .env file</p>
+<pre><code class="language-python">SECRET_KEY=
+DEBUG=
+DB_HOST=
+DB_NAME=
+DB_USER=
+DB_PASSWORD=
+DB_PORT=
+EMAIL_USER=
+EMAIL_PASS=
+ALLOWED_HOSTS=
+</code></pre>

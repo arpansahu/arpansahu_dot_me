@@ -1,0 +1,158 @@
+
+<h2>Description</h2><hr>
+<p>This project is a working Project for Premium Collection Point. In this project there are two entities namely branch and manager. My father is a LIC Wealth Manager and I have built this project to help him manage his clients across PAN India.</p><br>
+    <p>Challenges Faced By My Father during Pandemic:</p>
+        <ol>
+            <li>His 90% client used to pay their LIC Premiums using Cash.</li>
+            <li>Pre Pandemic they used to visit Fathers office or LIC branch to pay their premiums which was not possible due to lockdown across India.</li>
+            <li>Penalty Charges were increasing on my fathers clients and my Fathers Income was also reducing</li>
+        </ol>
+    <p>Solution To The Problem:</p>
+        <ol>
+            <li>Built a web portal which was looking trustworthy and was with the name of my fathers official branch name i.e. Sahu Beema Kendra which was later renamed to Premium Collection Point.com</li>
+            <li>Customers were used to pay in Cash to Sub branches</li>
+            <li>Sub-branches used to earn 1% commission of the total amount paid through their branch</li>
+            <li>Next day sub-branch owners used to deposit cash to their collected cash to their bank account, and they can add money to their wallet using pcp-pay gateway</li>
+            <li>PCP-Pay gateway was a custom sub service which was built in this project to support UPI/IMPS/CASH methods to add money to wallet</li>
+            <li>Few of our branches were allowed to deposit in CASH to our Bank Account and add money to wallet. But many others were only allowed to add money using UPI QR Code or IMPS</li>
+        </ol>
+    <p>Business Opportunities:</p>
+        <ol>
+            <li>Branches were able to earn 1% of the total amount of premium bills paid through their branch</li>
+            <li>Refer n Earn system was also introduced later which enables branches to earn 10% of the 1 st level refers Income.</li>
+        </ol>
+    <p>Feature Scope and Improvements:</p>
+        <ol>
+            <li>Initially this project was requiring some human intervention in the working of the project.</li>
+            <li>Money Orders can be automated using Email Reading With Python or Sms Reading which were sent by bank for approving money orders</li>
+            <li>Selenium was used to fetch premium amount from Amazon Pay. Although LIC Official Portal for Premium Collection already exists, but it's access cannot be distributed with others (for security purposes). Moreover, bill was a little hard to scrap for that portal due to a lot of captcha. While Amazon Pay was allowing to check the bill without any login required. Note: since jan 2022 amazon pay started hiding premium holders name if we scrap without logging into amazon pay
+                <ol>
+                    <li>So this can be overcome using Bill-desk APIs, but it will cost hefty money</li>
+                </ol>
+            </li>
+            <li>You can also replace this payment Gateway with Paytm Payment Gateway which provides 0% fees on UPI and Debit mode of transactions. But it would require you to be a merchant, and you should have proper documentations</li>
+        </ol>
+    <p>-Implemented Complete Auth Using Custom Auth Model.</p>
+        <ol>
+            <li>Used built in AbstractBaseUser as parent Auth Model</li>
+            <li>Build Custom Manager for the same</li>
+            <li>Implemented custom error View for customizing Templates</li>
+            <li>Login. SingUp, Logout, Account Views Implemented</li>
+            <li>In built views of PasswordChangeDoneView, PasswordChangeView, PasswordResetCompleteView, PasswordResetConfirmView, PasswordResetView, PasswordResetCompleteView</li>
+            <li>Build Custom Templates for These Inbuilt Views</li>
+            <li>Reset Password is working</li>
+            <li>If kyc is False then it will show you Get Kyc Details unless it will welcome you. By default, every user is non keyid.</li>
+            <li>If you want to kyc a person login to admin panel from here: https://premiumcollectionpoint.herokuapp.com/admin/ and modify it</li>
+        </ol>
+    <p>-Used Heroku to Deploy Premium Collection Point</p>
+        <ol>
+            <li>For using Selenium in Heroku</li>
+                <ol>
+                    <li>https://github.com/heroku/heroku-buildpack-chromedriver (ChromeDriver)</li>
+                    <li>https://github.com/heroku/heroku-buildpack-google-chrome (Chrome)</li>
+                    <ol>
+                        <li>apart from default env variables add: variables for ChromeDriver and Chrome -</li>
+                        <li>CHROMEDRIVER_PATH: /app/.chromedriver/bin/chromedriver</li>
+                        <li>GOOGLE_CHROME_BIN: /app/.apt/usr/bin/google-chrome</li>
+                    </ol>
+                </ol>
+            <li>Postgres was used as database</li>
+        </ol>
+    <hr>
+    <p>Note: This project is hosted in Heroku as of now. which restricts a request to be fulfilled in max 30 seconds otherwise requests will be terminated. If Bill Check Service don't work properly in Demo then problem is caused due to this reason. I have myself hosted this project in AWS when it was in use. So I highly recommend to host it on AWS if you want to use yourself for some other purposes then demo.</p>
+    <hr>
+    <h2>Demo</h2><hr>
+    <p><a href="https://premiumcollectionpoint.herokuapp.com/" target="_blank">Available at: https://premiumcollectionpoint.herokuapp.com/</a></p>
+    <p>
+        admin login details:-- url: https://premiumcollectionpoint.herokuapp.com/admin
+        email: admin@arpansahu.me password: showmecode
+        Branch login details:--
+        email: branchone@arpansahu.me password: showmecode
+        Manager login details:--
+        email: managerone@arpansahu.me password: showmecode
+    </p>
+        <br>
+    <h2>License</h2><hr>
+    <p><a href="https://choosealicense.com/licenses/mit/">MIT</a></p>
+    <br>
+    <h2>Installation</h2><hr>
+    <p>Installing Pre requisites</p>
+
+<pre><code class="language-python">pip install -r requirements.txt
+</code></pre>
+
+                        <p>Making Migrations and Migrating them.</p>
+<pre><code class="language-python">python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+
+                        <p>Creating Super User.</p>
+<pre><code class="language-python">python manage.py createsuperuser
+</code></pre>
+
+                        <p>Run Server.</p>
+<pre><code class="language-python">python manage.py runserver
+</code></pre>
+                        <h2>Deployment on Heroku</h2><hr>
+                        <p>Installing Heroku Cli</p>
+<pre><code class="language-python">checkout: https://devcenter.heroku.com/articles/heroku-cli
+</code></pre>
+
+                        <p>Create your account in Heroku.</p>
+                        <p>Inside your project directory </p>
+                        <p>Login Heroku CLI</p>
+<pre><code class="language-python">heroku login
+</code></pre>
+                        <p>Create Heroku App</p>
+<pre><code class="language-python">heroku create [app_name]
+</code></pre>
+                        <p>Apart from python build packs add:</p>
+<pre><code class="language-python">https://github.com/heroku/heroku-buildpack-chromedriver (ChromeDriver)
+https://github.com/heroku/heroku-buildpack-google-chrome (Chrome)
+</code></pre>
+                        <p>Push Heroku App</p>
+<pre><code class="language-python">git push heroku master
+</code></pre>
+                        <p>Configure Heroku App Env Variables</p>
+<pre><code class="language-python">heroku config:se CHROMEDRIVER_PATH= /app/.chromedriver/bin/chromedriver
+heroku config:se GOOGLE_CHROME_BIN= /app/.apt/usr/bin/google-chrome
+heroku config:set GITHUB_USERNAME=joesmith
+...
+</code></pre>
+                        <h2>Configuring Django App for Heroku</h2><hr>
+                        <p>Install whitenoise </p>
+<pre><code class="language-python">pip install whitenoise
+</code></pre>
+                        <p>Include it in Middlewares.</p>
+<pre><code class="language-python">MIDDLEWARE = [
+# ...
+"django.middleware.security.SecurityMiddleware",
+"whitenoise.middleware.WhiteNoiseMiddleware",
+# ...
+]
+</code></pre>
+                        <p>Create Procfile and include this code snippet in it.</p>
+<pre><code class="language-python">release: ./release-tasks.sh
+web: gunicorn djangoProject.wsgi
+</code></pre>
+
+                        <p>Create release-task.sh for running multilple commands in run: section of procfile.</p>
+<pre><code class="language-python">python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+                        <p>Make release-task.sh executable</p>
+<pre><code class="language-python">chmod +x release-tasks.sh
+</code></pre>
+                        <h2>Environment Variables</h2><hr>
+                        <p>To run this project, you will need to add the following environment variables to your .env file</p>
+<pre><code class="language-python">SECRET_KEY=
+DEBUG=
+DB_HOST=
+DB_NAME=
+DB_USER=
+DB_PASSWORD=
+DB_PORT=
+EMAIL_USER=
+EMAIL_PASS=
+ALLOWED_HOSTS=
+</code></pre>
