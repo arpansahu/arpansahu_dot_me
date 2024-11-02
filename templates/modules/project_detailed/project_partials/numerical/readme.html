@@ -1915,7 +1915,7 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen 80;
-    server_name arpansahu.me www.arpansahu.me;
+    server_name arpansahu.me arpansahu.me;
     location / {
         proxy_pass http://127.0.0.1:your_port_here;  # Adjust the proxy_pass or root if serving static files
         proxy_set_header Host $host;

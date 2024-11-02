@@ -1,0 +1,44 @@
+{% load static %}
+<div class="col-lg-6 col-md-6 picture-item" data-groups='["conceptual"]'>
+    <div class="card rounded shadow border-0 m-2">
+        <div class="card-body p-4 m-2">
+            <div class="media mb-3">
+                <div class="bg-soft-alt-orange d-flex justify-content-center align-items-center thumb-xl  rounded">
+                    <img src="{% static 'images/projects/school_chale_hum.png' %}" alt="" class="thumb-md">
+                </div>
+                <div class="media-body ms-3 align-self-center">
+                    <h5 class="text-dark fs-18 fw-medium m-0">School Chale Hum | Django School Management App</h5>
+                    <div style="align-self: end">
+                    <a class="btn btn-block btn-social btn-github" href="https://github.com/arpansahu/school_chale_hum" target="_blank">
+                        <span class="cib-github" style="margin-right: 10px"></span> Check Repo
+                    </a>
+                    <a class="btn btn-block btn-social btn-github" href="https://school-chale-hum.arpansahu.me/" target="_blank">
+                        <span class="cib-youtube" style="margin-right: 10px"></span> Live Demo
+                    </a>
+                    </div>
+                </div><!--end media-body-->
+            </div><!--end media-->
+                {% include 'modules/project_detailed/project_partials/school_chale_hum/technologies.html' %}
+            <div style="margin-top: 10px">
+                <ul>
+                    <li>Developed a Django application for managing students, their schools, and associated books.</li>
+                    <li>Implemented functionality to track and display each student's progress with specific books.</li>
+                    <li>Engineered a custom Django command for extracting data from CSV files and populating the database.</li>
+                    <li>Deployed on Ubuntu VPS, containerized with Docker/Kubernetes, and enabled CI/CD pipelines for automated testing, building, and deployment. Integrated Automatic Readme Generator Github</li>
+                </ul>
+            </div>
+            <div id="container">
+                <button class="learn-more">
+                  <span class="circle" aria-hidden="true">
+                    <span class="icon arrow"></span>
+                  </span>
+                  <span class="button-text">
+                    <a  href="{% url 'project-detailed-view' 'school_chale_hum' %}" target="_blank">
+                    Read More
+                    </a>
+                  </span>
+                </button>
+            </div>
+        </div><!-- end card-body -->
+    </div><!-- end card -->
+</div><!-- end col -->

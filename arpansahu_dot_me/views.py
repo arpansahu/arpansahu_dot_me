@@ -41,7 +41,7 @@ class Home(View):
                         Hi message from {0},
                         How are you?<br>
                         Subject: {1}
-                        www.arpansahu.me""".format(name, subject)
+                        arpansahu.me""".format(name, subject)
             html = """\
                         <html>
                           <body>
@@ -49,7 +49,7 @@ class Home(View):
                                 Message:{2} <br>
                                 Contact Details:<br>
                                 <p>{3}<br>{4}</p>
-                               <a href="https://www.arpansahu.me">arpansahu.me</a> 
+                               <a href="https://arpansahu.me">arpansahu.me</a> 
                             </p>
                           </body>
                         </html>
@@ -156,14 +156,14 @@ class GetOTPView(AjaxResponseMixin, View):
                         Hi message from {0},
                         How are you?<br>
                         Subject: {1}
-                        www.arpansahu.me""".format(email, subject)
+                        arpansahu.me""".format(email, subject)
             html = """\
                         <html>
                           <body>
                             <p>Hi {0} here is otp from for contacting on arpansahu.me <br>
                                 OTP:{2} <br>
                                 <p> this otp is valid for 60 seconds. </p><br>
-                               <a href="https://www.arpansahu.me">arpansahu.me</a> 
+                               <a href="https://arpansahu.me">arpansahu.me</a> 
                             </p>
                           </body>
                         </html>
@@ -236,7 +236,7 @@ class ContactView(View):
                 Hi message from {0},
                 How are you?<br>
                 Subject: {1}
-                www.arpansahu.me""".format(name, subject)
+                arpansahu.me""".format(name, subject)
                 html = """\
                 <html>
                   <body>
@@ -244,7 +244,7 @@ class ContactView(View):
                         Message:{2} <br>
                         Contact Details:<br>
                         <p>{3}<br>{4}</p>
-                       <a href="https://www.arpansahu.me">arpansahu.me</a> 
+                       <a href="https://arpansahu.me">arpansahu.me</a> 
                     </p>
                   </body>
                 </html>

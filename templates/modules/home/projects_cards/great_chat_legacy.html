@@ -1,0 +1,44 @@
+{% load static %}
+<div class="col-lg-6 col-md-6 picture-item" data-groups='["conceptual"]'>
+    <div class="card rounded shadow border-0 m-2">
+        <div class="card-body p-4 m-2">
+            <div class="media mb-3">
+                <div class="bg-soft-alt-orange d-flex justify-content-center align-items-center thumb-xl  rounded">
+                    <img src="{% static 'images/projects/great_chat_legacy.png' %}" alt="" class="thumb-md">
+                </div>
+                <div class="media-body ms-3 align-self-center">
+                    <h5 class="text-dark fs-18 fw-medium m-0">Great Chat Legacy | Django Chat Project </h5>
+                    <div style="align-self: end">
+                    <a class="btn btn-block btn-social btn-github" href="https://github.com/arpansahu/great_chat_legacy" target="_blank">
+                        <span class="cib-github" style="margin-right: 10px"></span> Check Repo
+                    </a>
+                    {% comment %} <a class="btn btn-block btn-social btn-github" href="http://great-chat.arpansahu.me" target="_blank">
+                        <span class="cib-youtube" style="margin-right: 10px"></span> Live Demo
+                    </a> {% endcomment %}
+                    </div>
+                </div><!--end media-body-->
+            </div><!--end media-->
+                {% include 'modules/project_detailed/project_partials/great_chat/technologies.html' %}
+            <div style="margin-top: 10px">
+                <ul>
+                    <li>Implemented Complete Auth Using Django Default Auth Model.</li>
+                    <li>Implemented Chat App using Django Channels/Redis/Tortoise ORM</li>
+                    <li>Deployed on Heroku</li>
+                    <li>Containerized using Docker</li>
+                </ul>
+            </div>
+            <div id="container">
+                <button class="learn-more">
+                  <span class="circle" aria-hidden="true">
+                    <span class="icon arrow"></span>
+                  </span>
+                  <span class="button-text">
+                    <a  href="{% url 'project-detailed-view' 'great_chat_legacy' %}" target="_blank">
+                    Read More
+                    </a>
+                  </span>
+                </button>
+            </div>
+        </div><!-- end card-body -->
+    </div><!-- end card -->
+</div><!-- end col -->
