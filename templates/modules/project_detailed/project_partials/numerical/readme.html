@@ -2879,7 +2879,7 @@ sudo apt-get install jenkins
         }
         stage(&#x27;Check &amp; Create Nginx Configuration&#x27;) {
             when {
-                expression { return params.NODE_CHOICE == &#x27;local&#x27; &amp;&amp; params.DEPLOY }
+                expression { params.DEPLOY }
             }
             agent { label &#x27;local&#x27; } 
             steps {
@@ -2978,59 +2978,73 @@ sudo apt-get install jenkins
 
                     echo &quot;AWS Docker deployment completed.&quot;
 
-                    // Check if the service is running on the AWS node by fetching HTTP status
-                    def httpStatus = sh(script: &quot;curl -s -o /dev/null -w &#x27;%{http_code}&#x27; http://${AWS_IP}:${DOCKER_PORT}&quot;, returnStdout: true).trim()
-                    echo &quot;HTTP Status: ${httpStatus}&quot;
-
-                    if (httpStatus == &#x27;200&#x27;) {
-                        echo &quot;Service on AWS is available. Updating Nginx configuration on local node...&quot;
-
-                        // Update the Nginx configuration to point to the AWS IP and reload Nginx
-                        sh &quot;&quot;&quot;
-                            sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${AWS_IP}:${DOCKER_PORT};|&#x27; ${NGINX_CONF}
-                            sudo nginx -s reload
-                        &quot;&quot;&quot;
-                        echo &#x27;Nginx configuration updated and reloaded successfully.&#x27;
-                    } else {
-                        echo &quot;Service on AWS is not available. Nginx configuration not updated.&quot;
-                        error(&quot;AWS service unavailable, HTTP Status: ${httpStatus}&quot;)
-                    }
-
+                    sleep 60
                 }
             }
         }
-        stage(&#x27;Scale Down Kubernetes and Remove Docker When AWS Nde location&#x27;) {
+        stage(&#x27;Update Nginx &amp; Scale Down Kubernetes and Remove Docker When AWS Nde location&#x27;) {
             when {
                 expression { params.NODE_LOCATION == &#x27;aws&#x27; &amp;&amp; params.DEPLOY }
             }
             agent { label &#x27;local&#x27; }  // Run this stage on the local node
             steps {
                 script {
-                    echo &quot;Scaling down Kubernetes deployment if it exists...&quot;
-                    sh &quot;&quot;&quot;
-                        replicas=\$(kubectl get deployment ${PROJECT_NAME_WITH_DASH}-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
-                        if [ &quot;\$replicas&quot; != &quot;&quot; ] &amp;&amp; [ \$replicas -gt 0 ]; then
-                            kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0
-                            echo &#x27;Kubernetes deployment scaled down successfully.&#x27;
-                        else
-                            echo &#x27;No running Kubernetes deployment to scale down.&#x27;
-                        fi
-                    &quot;&quot;&quot;
 
-                    echo &quot;Checking for running local Docker container for project ${ENV_PROJECT_NAME}...&quot;
-                    sh &quot;&quot;&quot;
-                        DOCKER_CONTAINER=\$(docker ps -q -f name=${ENV_PROJECT_NAME})
-                        if [ &quot;\$DOCKER_CONTAINER&quot; ]; then
-                            echo &quot;Docker container ${ENV_PROJECT_NAME} is running. Stopping and removing it...&quot;
-                            docker rm -f ${ENV_PROJECT_NAME}
-                            if [ \$? -ne 0 ]; then
-                                echo &quot;Failed to remove Docker container ${ENV_PROJECT_NAME}&quot;
-                                exit 1
-                            fi
-                        else
-                            echo &quot;Docker container ${ENV_PROJECT_NAME} is not running. Skipping removal.&quot;
-                        fi
-                    &quot;&quot;&quot;
+                    // Check if the service is running on the AWS node by fetching HTTP status
+                    try {
+                        // Run curl with a timeout to prevent hanging
+                        def httpStatus = sh(
+                            script: &quot;curl -s -o /dev/null -w &#x27;%{http_code}&#x27; --max-time 10 http://${AWS_IP}:${DOCKER_PORT}&quot;,
+                            returnStdout: true
+                        ).trim()
+
+                        echo &quot;HTTP Status: ${httpStatus}&quot;
+
+                        if (httpStatus == &#x27;200&#x27;) {
+                            echo &quot;Service on AWS is available. Updating Nginx configuration on local node...&quot;
+                            sh &quot;&quot;&quot;
+                                sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${AWS_IP}:${DOCKER_PORT};|&#x27; ${NGINX_CONF}
+                                sudo nginx -s reload
+                            &quot;&quot;&quot;
+                            echo &#x27;Nginx configuration updated and reloaded successfully.&#x27;
+
+                            echo &quot;Scaling down Kubernetes deployment if it exists...&quot;
+                            sh &quot;&quot;&quot;
+                                replicas=\$(kubectl get deployment ${PROJECT_NAME_WITH_DASH}-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
+                                if [ &quot;\$replicas&quot; != &quot;&quot; ] &amp;&amp; [ \$replicas -gt 0 ]; then
+                                    kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0
+                                    echo &#x27;Kubernetes deployment scaled down successfully.&#x27;
+                                else
+                                    echo &#x27;No running Kubernetes deployment to scale down.&#x27;
+                                fi
+                            &quot;&quot;&quot;
+
+                            echo &quot;Checking for running local Docker container for project ${ENV_PROJECT_NAME}...&quot;
+                            sh &quot;&quot;&quot;
+                                DOCKER_CONTAINER=\$(docker ps -q -f name=${ENV_PROJECT_NAME})
+                                if [ &quot;\$DOCKER_CONTAINER&quot; ]; then
+                                    echo &quot;Docker container ${ENV_PROJECT_NAME} is running. Stopping and removing it...&quot;
+                                    docker rm -f ${ENV_PROJECT_NAME}
+                                    if [ \$? -ne 0 ]; then
+                                        echo &quot;Failed to remove Docker container ${ENV_PROJECT_NAME}&quot;
+                                        exit 1
+                                    fi
+                                else
+                                    echo &quot;Docker container ${ENV_PROJECT_NAME} is not running. Skipping removal.&quot;
+                                fi
+                            &quot;&quot;&quot;
+
+                        } else {
+                            echo &quot;Service on AWS is not available. Nginx configuration not updated. HTTP Status: ${httpStatus}&quot;
+                            currentBuild.result = &#x27;FAILURE&#x27;
+                        }
+                    } catch (Exception e) {
+                        echo &quot;An error occurred while checking the AWS service status or updating Nginx configuration.&quot;
+                        echo &quot;Exception message: ${e.getMessage()}&quot;
+                        e.printStackTrace()
+                        currentBuild.result = &#x27;FAILURE&#x27;
+                        error(&quot;Stopping pipeline due to error in checking AWS service status or updating Nginx configuration.&quot;)
+                    }
                 }
             }
         }
