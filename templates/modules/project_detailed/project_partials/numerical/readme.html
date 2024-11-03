@@ -2958,7 +2958,7 @@ sudo apt-get install jenkins
         }
         stage(&#x27;Aws Docker Deploy&#x27;) {
             when {
-                expression { params.NODE == &#x27;aws&#x27; &amp;&amp; params.DEPLOY }
+                expression { params.NODE_LOCATION == &#x27;aws&#x27; &amp;&amp; params.DEPLOY }
             }
             steps {
                 script {
