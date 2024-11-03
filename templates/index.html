@@ -71,72 +71,37 @@
 {% block javascripts %}
     <script>
         $(document).ready(function(){
-            var dateObj = new Date();
-            var month = dateObj.getUTCMonth() + 1; //months from 1-12
-            var day = dateObj.getUTCDate();
-            var year = dateObj.getUTCFullYear();
-
-
-            dt1 = new Date("2021-02-08");
-            dt2 = new Date(year + '-' + month + '-' + day);
-
-            function diff_year_month_day(dt1, dt2)
-                {
-
-                var time =(dt2.getTime() - dt1.getTime()) / 1000;
-                var year  = Math.abs(Math.round((time/(60 * 60 * 24))/365.25));
-                var month = Math.abs(Math.round(time/(60 * 60 * 24 * 7 * 4)));
-                var days = Math.abs(Math.round(time/(3600 * 24)));
-                var month_raw = month % (year * 12);
-
-                var final_str = year;
-                if (year <= 1){
-                    final_str += " Year ";
-                }
-                else{
-                    final_str += " Years ";
-                }
-
-                if (month <= 1){
-                    final_str += month_raw + " Month ";
-                }
-                else{
-                    final_str += month_raw + " Months";
-                }
-
-                return final_str
-
-                }
-
-            var diff_year_month_day = diff_year_month_day(dt1, dt2)
-            console.log(diff_year_month_day);
-            $('#expericnce_dynamic').text(diff_year_month_day);
-            $('#expericnce_dynamic_python').text(diff_year_month_day);
-            $('#expericnce_dynamic_django').text(diff_year_month_day);
-            $('#expericnce_dynamic_jwt').text(diff_year_month_day);
-            $('#expericnce_dynamic_docker').text(diff_year_month_day);
-            $('#expericnce_dynamic_aws').text(diff_year_month_day);
-            $('#expericnce_dynamic_heroku').text(diff_year_month_day);
-            $('#expericnce_dynamic_git').text(diff_year_month_day);
-            $('#expericnce_dynamic_github').text(diff_year_month_day);
-            $('#expericnce_dynamic_gitlab').text(diff_year_month_day);
-            $('#expericnce_dynamic_css').text(diff_year_month_day);
-            $('#expericnce_dynamic_html').text(diff_year_month_day);
-            $('#expericnce_dynamic_bootstrap').text(diff_year_month_day);
-            $('#expericnce_dynamic_mysql').text(diff_year_month_day);
-            $('#expericnce_dynamic_prostgres').text(diff_year_month_day);
-            $('#expericnce_dynamic_sqlite').text(diff_year_month_day);
-
-            $('#expericnce_dynamic_nginx').text(diff_year_month_day);
-            $('#expericnce_dynamic_windows').text(diff_year_month_day);
-            $('#expericnce_dynamic_ubuntu').text(diff_year_month_day);
-            $('#expericnce_dynamic_redis').text(diff_year_month_day);
-
-            $('#expericnce_dynamic_selenium').text(diff_year_month_day);
-            $('#expericnce_dynamic_windows').text(diff_year_month_day);
-            $('#expericnce_dynamic_celery').text(diff_year_month_day);
-            $('#expericnce_dynamic_rabbitmq').text(diff_year_month_day);
-
+            // Initialize starting date (make sure the format is correct)
+            var startDate = new Date("2021-02-08");  // Ensure this format works across browsers
+            
+            // Current date
+            var currentDate = new Date();  // Automatically gets today's date
+        
+            function diff_year_month_day(dt1, dt2) {
+                // Calculate the time difference in milliseconds
+                var timeDiff = dt2.getTime() - dt1.getTime();
+        
+                // Convert time difference from milliseconds to days
+                var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                
+                // Calculate years
+                var years = Math.floor(daysDiff / 365.25);
+                
+                // Calculate remaining months after extracting years
+                var months = Math.floor((daysDiff % 365.25) / 30);
+                
+                // Create final string with years and months
+                var finalStr = `${years} Year${years !== 1 ? 's' : ''}, ${months} Month${months !== 1 ? 's' : ''}`;
+        
+                return finalStr;
+            }
+        
+            // Get the calculated experience string
+            var experienceStr = diff_year_month_day(startDate, currentDate);
+        
+            // Update all elements with the "experience_dynamic" class
+            $('.experience_dynamic').text(experienceStr);
+        
             const mydata = JSON.parse(document.getElementById('message_sent_done').textContent);
             if( mydata && mydata != 'get'){
                 {#$('#modal-text').text('Message Sent')#}
