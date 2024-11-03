@@ -1,0 +1,173 @@
+<h1>Razorpay IPN Django Handler</h1>
+
+<p>A Django app for handling Razorpay Instant Payment Notification (IPN) webhook events, designed to manage payment, order, and subscription notifications seamlessly with support for signal-based event tracking.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Full support for handling Razorpay webhook events</li>
+<li>Built-in models for storing payment, subscription, refund, and other event data</li>
+<li>Signal-based notifications for valid and invalid IPN events</li>
+<li>Signature verification for secure processing</li>
+</ul>
+
+<h2>Installation</h2>
+
+<p>Install the package via pip:</p>
+
+<p><code>bash
+pip install razorpay-ipn-django-handler
+</code></p>
+
+<h2>Configuration</h2>
+
+<h3>Step 1: Add to Installed Apps</h3>
+
+<p>In your Django <code>settings.py</code>, add <code>razorpay_ipn_django_handler</code>:</p>
+
+<p><code>python
+INSTALLED_APPS = [
+    ...,
+    "razorpay_ipn_django_handler",
+]
+</code></p>
+
+<h3>Step 2: Configure URLs</h3>
+
+<p>In your project’s <code>urls.py</code>, include the app’s URL configuration for webhook notifications:</p>
+
+<p>```python
+from django.urls import path, include</p>
+
+<p>urlpatterns = [
+    ...,
+    path("payment/razorpay/", include("razorpay<em>ipn</em>django_handler.urls")),
+]
+```</p>
+
+<p>For example, if your server is <code>https://yourdomain.com</code>, Razorpay notifications will be processed at <code>https://yourdomain.com/payment/razorpay/webhook/</code>.</p>
+
+<blockquote>
+  <p><strong>Note</strong>: Customize the <code>"payment/razorpay/"</code> URL to suit your structure if needed.</p>
+</blockquote>
+
+<h3>Step 3: Set Environment Variables</h3>
+
+<p>Add your Razorpay credentials in <code>settings.py</code> using environment variables:</p>
+
+<p><code>python
+RAZORPAY_WEBHOOK_SECRET = "your_webhook_secret_here"
+RAZORPAY_API_KEY = "your_api_key_here"
+RAZORPAY_API_SECRET = "your_api_secret_here"
+</code></p>
+
+<p>Replace the placeholders with your actual credentials from the Razorpay Dashboard.</p>
+
+<h3>Step 4: Migrate Database</h3>
+
+<p>Run migrations to create the necessary database tables:</p>
+
+<p><code>bash
+python manage.py makemigrations
+python manage.py migrate
+</code></p>
+
+<h2>Signal Setup</h2>
+
+<p>The app provides signals for handling valid and invalid IPN events, allowing custom processing based on event types.</p>
+
+<h3>Setting Up Signal Handlers</h3>
+
+<p>In one of your app files, such as <code>signals.py</code>, register handlers for IPN events:</p>
+
+<p>```python
+from django.dispatch import receiver
+from razorpay<em>ipn</em>django<em>handler.signals import valid</em>razorpay<em>ipn</em>received, invalid<em>razorpay</em>ipn<em>received
+from razorpay</em>ipn<em>django</em>handler.models import RazorpayIPN</p>
+
+<h1>Handle valid IPN events</h1>
+
+<p>@receiver(valid<em>razorpay</em>ipn<em>received)
+def handle</em>valid_ipn(sender, instance, **kwargs):
+    print("Received valid IPN event:", instance.event)
+    # Process the IPN instance as needed</p>
+
+<h1>Handle invalid IPN events</h1>
+
+<p>@receiver(invalid<em>razorpay</em>ipn<em>received)
+def handle</em>invalid_ipn(sender, **kwargs):
+    print("Invalid IPN received")
+    # Log or handle invalid IPN events
+```</p>
+
+<p>Here, <code>instance</code> provides a <code>RazorpayIPN</code> object containing event data like <code>event_type</code>, <code>payment_id</code>, and other Razorpay IPN-related information.</p>
+
+<h2>Models Overview</h2>
+
+<p>The following models are included to manage event data and related details effectively:</p>
+
+<h3>1. <strong>RazorpayIPN</strong></h3>
+
+<p>Represents an IPN event with fields to track event type, account ID, signature verification, and related details.</p>
+
+<h3>2. <strong>Payment</strong></h3>
+
+<p>Tracks payment details including amount, status, method, and optional metadata such as UPI, card, or wallet details.</p>
+
+<h3>3. <strong>Subscription</strong></h3>
+
+<p>Captures subscription events, including plan ID, quantity, status, schedule changes, and metadata.</p>
+
+<h3>4. <strong>Refund</strong></h3>
+
+<p>Records refund details, including refund amount, status, batch ID, and additional notes.</p>
+
+<h3>5. <strong>Order</strong></h3>
+
+<p>Stores order-specific details such as amount, status, receipt number, and custom notes.</p>
+
+<blockquote>
+  <p>These models make it easier to track Razorpay events, allowing you to link each IPN event to associated payments, subscriptions, refunds, and orders as per your requirements.</p>
+</blockquote>
+
+<h2>Example Usage</h2>
+
+<p>To verify a Razorpay webhook signature, use the <code>verify_signature</code> method on a <code>RazorpayIPN</code> instance:</p>
+
+<p><code>python
+ipn_instance = RazorpayIPN.objects.create(payload=payload_data)
+signature_valid = ipn_instance.verify_signature(body=request_body, signature=header_signature)
+if signature_valid:
+    # Process the event
+else:
+    # Handle invalid signature
+</code></p>
+
+<h3>Example Event Processing</h3>
+
+<p>In your signal handler, you can access the event data for custom processing:</p>
+
+<p><code>python
+@receiver(valid_razorpay_ipn_received)
+def process_payment_event(sender, instance, **kwargs):
+    if instance.event_type == 'payment.authorized':
+        # Add logic to handle authorized payment events
+    elif instance.event_type == 'subscription.activated':
+        # Add logic to handle subscription activation
+</code></p>
+
+<h2>Contributing</h2>
+
+<p>We welcome contributions to enhance the functionality of this library. Feel free to open issues, suggest features, or submit pull requests on <a href="https://github.com/your-repo">GitHub</a>.</p>
+
+<h2>License</h2>
+
+<p>This project is licensed under the MIT License. See the LICENSE file for more details.</p>
+
+<h2>About the Author</h2>
+
+<p>I am [Arpan Sahu], a developer specializing in web development, payment integrations, and more. Feel free to check out my portfolio to learn more about my work:</p>
+
+<p><a href="https://arpansahu.me">Visit My Portfolio</a></p>
+
+<p>If you have any questions or are interested in collaborating, please reach out via my portfolio contact form or directly through <a href="https://linkedin.com/in/arpansahu">LinkedIn</a>.</p>
