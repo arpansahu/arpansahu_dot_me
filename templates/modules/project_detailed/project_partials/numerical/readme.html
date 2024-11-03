@@ -2827,8 +2827,9 @@ sudo apt-get install jenkins
  </li>
 </ul>
 <pre><code class="language-bash">pipeline {
-    agent { label &#x27;local&#x27; }
+    agent { label &#x27;aws&#x27; }
     parameters {
+        choice(name: &#x27;NODE_LOCATION&#x27;, choices: [ &#x27;aws&#x27;, &#x27;local&#x27;], description: &#x27;Choose where to deploy&#x27;)
         booleanParam(name: &#x27;DEPLOY&#x27;, defaultValue: false, description: &#x27;Skip the Check for Changes stage&#x27;)
         choice(name: &#x27;DEPLOY_TYPE&#x27;, choices: [&#x27;kubernetes&#x27;, &#x27;docker&#x27;], description: &#x27;Select deployment type&#x27;)
     }
@@ -2846,6 +2847,10 @@ sudo apt-get install jenkins
         JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
         SENTRY_ORG=&quot;arpansahu&quot;
         SENTRY_PROJECT=&quot;numerical&quot;
+        LOCAL_ENV_PATH = &quot;/root/projectenvs/${ENV_PROJECT_NAME}/.env&quot;
+        AWS_USER = &quot;ubuntu&quot;
+        AWS_HOST = &quot;ec2-13-60-191-81.eu-north-1.compute.amazonaws.com&quot;
+        SSH_CREDENTIALS_ID = &quot;aws_ssh_key&quot;  // Replace with your Jenkins SSH credentials ID
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -2862,7 +2867,7 @@ sudo apt-get install jenkins
         }
         stage(&#x27;Setup Kubernetes Config&#x27;) {
             when {
-                expression { return params.DEPLOY_TYPE == &#x27;kubernetes&#x27; }
+                expression { return params.NODE_CHOICE == &#x27;local&#x27; &amp;&amp; params.DEPLOY_TYPE == &#x27;kubernetes&#x27; }
             }
             steps {
                 script {
@@ -2874,6 +2879,9 @@ sudo apt-get install jenkins
             }
         }
         stage(&#x27;Check &amp; Create Nginx Configuration&#x27;) {
+            when {
+                expression { return params.NODE_CHOICE == &#x27;local&#x27; &amp;&amp; params.DEPLOY }
+            }
             steps {
                 script {
                     // Check if the Nginx configuration file exists
@@ -2895,7 +2903,7 @@ sudo apt-get install jenkins
                         sh &quot;sudo ln -sf ${NGINX_CONF} /etc/nginx/sites-enabled/&quot;
                     } else {
                         echo &quot;Nginx configuration file already exists.&quot;
-                    }                    
+                    }
                 }
             }
         }
@@ -2948,16 +2956,43 @@ sudo apt-get install jenkins
                 }
             }
         }
+        stage(&#x27;Aws Docker Deploy&#x27;) {
+            when {
+                expression { params.NODE == &#x27;aws&#x27; &amp;&amp; params.DEPLOY }
+            }
+            steps {
+                script {
+                    echo &quot;Starting AWS Docker Deployment...&quot;
+
+                    // Check if .env file exists on AWS node
+                    // Use Jenkins SSH credentials to connect and copy .env to AWS workspace
+
+                    // Proceed with Docker deployment on AWS
+                    echo &quot;Deploying Docker on AWS...&quot;
+                    sh &quot;&quot;&quot;
+                        ssh -o StrictHostKeyChecking=no ${AWS_SSH_USER}@${AWS_SSH_HOST} &lt;&lt; EOF
+                        cd ${AWS_ENV_DIR}
+                        docker-compose down
+                        docker-compose pull
+                        docker-compose up -d
+                        EOF
+                    &quot;&quot;&quot;
+                }
+            }
+        }
         stage(&#x27;Deploy&#x27;) {
             when {
-                expression { params.DEPLOY }
+                allOf {
+                    expression { params.DEPLOY }
+                    expression { params.NODE == &#x27;local&#x27; }
+                }
             }
             steps {
                 script {
                     if (params.DEPLOY_TYPE == &#x27;docker&#x27;) {
 
                         // Copy the .env file to the workspace
-                        sh &quot;sudo cp /root/projectenvs/${ENV_PROJECT_NAME}/.env ${env.WORKSPACE}/&quot;
+                        sh &quot;sudo cp ${LOCAL_ENV_PATH} ${env.WORKSPACE}/&quot;
 
                         sh &#x27;docker-compose down&#x27;
                         sh &#x27;docker-compose pull&#x27;
