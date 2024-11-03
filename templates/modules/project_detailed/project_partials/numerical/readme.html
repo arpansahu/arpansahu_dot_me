@@ -2970,9 +2970,9 @@ sudo apt-get install jenkins
                     // Proceed with Docker deployment on AWS
                     echo &quot;Deploying Docker on AWS...&quot;
 
-                    sh &#x27;docker-compose down&#x27;
-                    sh &#x27;docker-compose pull&#x27;
-                    sh &#x27;docker-compose up -d&#x27;
+                    sh &quot;~/.docker/cli-plugins/docker-compose down&quot;
+                    sh &quot;~/.docker/cli-plugins/docker-compose pull&quot;
+                    sh &quot;~/.docker/cli-plugins/docker-compose up -d&quot;
 
                 }
             }
