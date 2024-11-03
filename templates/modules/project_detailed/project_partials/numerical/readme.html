@@ -2969,14 +2969,11 @@ sudo apt-get install jenkins
 
                     // Proceed with Docker deployment on AWS
                     echo &quot;Deploying Docker on AWS...&quot;
-                    sh &quot;&quot;&quot;
-                        ssh -o StrictHostKeyChecking=no ${AWS_SSH_USER}@${AWS_SSH_HOST} &lt;&lt; EOF
-                        cd ${AWS_ENV_DIR}
-                        docker-compose down
-                        docker-compose pull
-                        docker-compose up -d
-                        EOF
-                    &quot;&quot;&quot;
+
+                    sh &#x27;docker-compose down&#x27;
+                    sh &#x27;docker-compose pull&#x27;
+                    sh &#x27;docker-compose up -d&#x27;
+
                 }
             }
         }
