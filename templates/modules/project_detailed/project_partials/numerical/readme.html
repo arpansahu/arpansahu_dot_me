@@ -2975,10 +2975,6 @@ sudo apt-get install jenkins
                     // Trigger the new job for Docker deployment on AWS and wait for completion
                     try {
                         echo &quot;Triggering &#x27;aws_docker_deploy_job_numerical&#x27; with parameters:&quot;
-                        echo &quot;NGINX_CONF: ${NGINX_CONF}&quot;
-                        echo &quot;SERVER_NAME: ${SERVER_NAME}&quot;
-                        echo &quot;DOCKER_PORT: ${DOCKER_PORT}&quot;
-                        echo &quot;AWS_PUBLIC_IP: ${AWS_IP}&quot;
 
                         def dockerDeployJob = build(
                             job: &#x27;aws_docker_deploy_job_numerical&#x27;, // Ensure this is the exact job name
@@ -2986,7 +2982,9 @@ sudo apt-get install jenkins
                                 string(name: &#x27;NGINX_CONF&#x27;, value: NGINX_CONF),
                                 string(name: &#x27;SERVER_NAME&#x27;, value: SERVER_NAME),
                                 string(name: &#x27;DOCKER_PORT&#x27;, value: DOCKER_PORT),
-                                string(name: &#x27;AWS_PUBLIC_IP&#x27;, value: AWS_IP)
+                                string(name: &#x27;AWS_PUBLIC_IP&#x27;, value: AWS_IP),
+                                string(name: &#x27;PROJECT_NAME_WITH_DASH&#x27;, value: PROJECT_NAME_WITH_DASH),
+                                string(name: &#x27;ENV_PROJECT_NAME&#x27;, value: ENV_PROJECT_NAME),
                             ],
                             propagate: false, // Capture the result without failing the main pipeline immediately
                             wait: true
