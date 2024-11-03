@@ -2867,6 +2867,7 @@ sudo apt-get install jenkins
             when {
                 expression { return params.NODE_CHOICE == &#x27;local&#x27; &amp;&amp; params.DEPLOY_TYPE == &#x27;kubernetes&#x27; }
             }
+            agent { label &#x27;local&#x27; } 
             steps {
                 script {
                     // Copy the kubeconfig file to the workspace
@@ -2880,6 +2881,7 @@ sudo apt-get install jenkins
             when {
                 expression { return params.NODE_CHOICE == &#x27;local&#x27; &amp;&amp; params.DEPLOY }
             }
+            agent { label &#x27;local&#x27; } 
             steps {
                 script {
                     // Check if the Nginx configuration file exists
@@ -2909,6 +2911,7 @@ sudo apt-get install jenkins
             when {
                 expression { params.DEPLOY}
             }
+            agent { label &#x27;local&#x27; } 
             steps {
                 script {
                     echo &quot;Retrieve image tag from ${BUILD_PROJECT_NAME}&quot;
@@ -2973,41 +2976,43 @@ sudo apt-get install jenkins
                     sh &quot;~/.docker/cli-plugins/docker-compose pull&quot;
                     sh &quot;~/.docker/cli-plugins/docker-compose up -d&quot;
 
-                    // Trigger the new job for Docker deployment on AWS and wait for completion
-                    try {
-                        echo &quot;Triggering &#x27;aws_docker_deploy_job_numerical&#x27; with parameters:&quot;
+                    echo &quot;AWS Docker deployment completed.&quot;
 
-                        def dockerDeployJob = build(
-                            job: &#x27;aws_docker_deploy_job_numerical&#x27;, // Ensure this is the exact job name
-                            parameters: [
-                                string(name: &#x27;NGINX_CONF&#x27;, value: NGINX_CONF),
-                                string(name: &#x27;SERVER_NAME&#x27;, value: SERVER_NAME),
-                                string(name: &#x27;DOCKER_PORT&#x27;, value: DOCKER_PORT),
-                                string(name: &#x27;AWS_PUBLIC_IP&#x27;, value: AWS_IP),
-                                string(name: &#x27;PROJECT_NAME_WITH_DASH&#x27;, value: PROJECT_NAME_WITH_DASH),
-                                string(name: &#x27;ENV_PROJECT_NAME&#x27;, value: ENV_PROJECT_NAME),
-                            ],
-                            propagate: false, // Capture the result without failing the main pipeline immediately
-                            wait: true
-                        )
+                }
+            }
+        }
+        stage(&#x27;Scale Down Kubernetes and Remove Docker When AWS Nde location&#x27;) {
+            when {
+                expression { params.NODE_LOCATION == &#x27;aws&#x27; &amp;&amp; params.DEPLOY }
+            }
+            agent { label &#x27;local&#x27; }  // Run this stage on the local node
+            steps {
+                script {
+                    echo &quot;Scaling down Kubernetes deployment if it exists...&quot;
+                    sh &quot;&quot;&quot;
+                        replicas=\$(kubectl get deployment ${PROJECT_NAME_WITH_DASH}-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
+                        if [ &quot;\$replicas&quot; != &quot;&quot; ] &amp;&amp; [ \$replicas -gt 0 ]; then
+                            kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0
+                            echo &#x27;Kubernetes deployment scaled down successfully.&#x27;
+                        else
+                            echo &#x27;No running Kubernetes deployment to scale down.&#x27;
+                        fi
+                    &quot;&quot;&quot;
 
-                        // Log the result of the job
-                        echo &quot;Triggered job &#x27;aws_docker_deploy_job_numerical&#x27; completed with result: ${dockerDeployJob.result}&quot;
-
-                        if (dockerDeployJob.result == &#x27;SUCCESS&#x27;) {
-                            echo &quot;AWS Docker deployment job completed successfully.&quot;
-                        } else {
-                            echo &quot;AWS Docker deployment job failed with status: ${dockerDeployJob.result}&quot;
-                            currentBuild.result = &#x27;FAILURE&#x27;
-                            error(&quot;Stopping main pipeline due to failure in AWS Docker deployment job.&quot;)
-                        }
-                    } catch (Exception e) {
-                        echo &quot;An error occurred while trying to trigger &#x27;aws_docker_deploy_job_numerical&#x27;.&quot;
-                        echo &quot;Exception message: ${e.getMessage()}&quot;
-                        e.printStackTrace()  // Prints the full stack trace for more insight
-                        currentBuild.result = &#x27;FAILURE&#x27;
-                        error(&quot;Stopping main pipeline due to an error when calling AWS Docker deployment job.&quot;)
-                    }
+                    echo &quot;Checking for running local Docker container for project ${ENV_PROJECT_NAME}...&quot;
+                    sh &quot;&quot;&quot;
+                        DOCKER_CONTAINER=\$(docker ps -q -f name=${ENV_PROJECT_NAME})
+                        if [ &quot;\$DOCKER_CONTAINER&quot; ]; then
+                            echo &quot;Docker container ${ENV_PROJECT_NAME} is running. Stopping and removing it...&quot;
+                            docker rm -f ${ENV_PROJECT_NAME}
+                            if [ \$? -ne 0 ]; then
+                                echo &quot;Failed to remove Docker container ${ENV_PROJECT_NAME}&quot;
+                                exit 1
+                            fi
+                        else
+                            echo &quot;Docker container ${ENV_PROJECT_NAME} is not running. Skipping removal.&quot;
+                        fi
+                    &quot;&quot;&quot;
                 }
             }
         }
@@ -3018,6 +3023,7 @@ sudo apt-get install jenkins
                     expression { params.NODE == &#x27;local&#x27; }
                 }
             }
+            agent { label &#x27;local&#x27; } 
             steps {
                 script {
                     if (params.DEPLOY_TYPE == &#x27;docker&#x27;) {
@@ -3171,6 +3177,7 @@ sudo apt-get install jenkins
             when {
                 expression { params.DEPLOY }
             }
+            agent { label &#x27;local&#x27; } 
             steps {
                 script {
                     echo &quot;Sentry Release ...&quot;
