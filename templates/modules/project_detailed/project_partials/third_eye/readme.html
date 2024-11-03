@@ -2004,7 +2004,7 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen 80;
-    server_name arpansahu.me arpansahu.me;
+    server_name arpansahu.me www.arpansahu.me;
     location / {
         proxy_pass http://127.0.0.1:your_port_here;  # Adjust the proxy_pass or root if serving static files
         proxy_set_header Host $host;
@@ -2916,8 +2916,9 @@ sudo apt-get install jenkins
  </li>
 </ul>
 <pre><code class="language-bash">pipeline {
-    agent { label &#x27;local&#x27; }
+    agent any
     parameters {
+        choice(name: &#x27;NODE_LOCATION&#x27;, choices: [ &#x27;aws&#x27;, &#x27;local&#x27;], description: &#x27;Choose where to deploy&#x27;)
         booleanParam(name: &#x27;DEPLOY&#x27;, defaultValue: false, description: &#x27;Skip the Check for Changes stage&#x27;)
         choice(name: &#x27;DEPLOY_TYPE&#x27;, choices: [&#x27;kubernetes&#x27;, &#x27;docker&#x27;], description: &#x27;Select deployment type&#x27;)
     }
@@ -2935,6 +2936,8 @@ sudo apt-get install jenkins
         JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
         SENTRY_ORG=&quot;arpansahu&quot;
         SENTRY_PROJECT=&quot;third_eye&quot;
+        LOCAL_ENV_PATH = &quot;/root/projectenvs/${ENV_PROJECT_NAME}/.env&quot;
+        AWS_IP = &quot;${env.AWS_IP}&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -2951,8 +2954,9 @@ sudo apt-get install jenkins
         }
         stage(&#x27;Setup Kubernetes Config&#x27;) {
             when {
-                expression { return params.DEPLOY_TYPE == &#x27;kubernetes&#x27; }
+                expression { return params.NODE_CHOICE == &#x27;local&#x27; &amp;&amp; params.DEPLOY_TYPE == &#x27;kubernetes&#x27; }
             }
+            agent { label &#x27;local&#x27; } 
             steps {
                 script {
                     // Copy the kubeconfig file to the workspace
@@ -2963,6 +2967,10 @@ sudo apt-get install jenkins
             }
         }
         stage(&#x27;Check &amp; Create Nginx Configuration&#x27;) {
+            when {
+                expression { params.DEPLOY }
+            }
+            agent { label &#x27;local&#x27; } 
             steps {
                 script {
                     // Check if the Nginx configuration file exists
@@ -2984,7 +2992,7 @@ sudo apt-get install jenkins
                         sh &quot;sudo ln -sf ${NGINX_CONF} /etc/nginx/sites-enabled/&quot;
                     } else {
                         echo &quot;Nginx configuration file already exists.&quot;
-                    }                    
+                    }
                 }
             }
         }
@@ -2992,6 +3000,7 @@ sudo apt-get install jenkins
             when {
                 expression { params.DEPLOY}
             }
+            agent { label &#x27;local&#x27; } 
             steps {
                 script {
                     echo &quot;Retrieve image tag from ${BUILD_PROJECT_NAME}&quot;
@@ -3037,16 +3046,111 @@ sudo apt-get install jenkins
                 }
             }
         }
+        stage(&#x27;Aws Docker Deploy&#x27;) {
+            when {
+                expression { params.NODE_LOCATION == &#x27;aws&#x27; &amp;&amp; params.DEPLOY }
+            }
+            agent { label &#x27;aws&#x27; }  // Dynamically use AWS agent if NODE_LOCATION is &#x27;aws&#x27;
+            steps {
+                script {
+                    echo &quot;Starting AWS Docker Deployment...&quot;
+
+                    // Check if .env file exists on AWS node
+                    // Use Jenkins SSH credentials to connect and copy .env to AWS workspace
+
+                    // Proceed with Docker deployment on AWS
+                    echo &quot;Deploying Docker on AWS...&quot;
+
+                    sh &quot;~/.docker/cli-plugins/docker-compose down&quot;
+                    sh &quot;~/.docker/cli-plugins/docker-compose pull&quot;
+                    sh &quot;~/.docker/cli-plugins/docker-compose up -d&quot;
+
+                    echo &quot;AWS Docker deployment completed.&quot;
+
+                    sleep 60
+                }
+            }
+        }
+        stage(&#x27;Update Nginx &amp; Scale Down Kubernetes and Remove Docker When AWS Nde location&#x27;) {
+            when {
+                expression { params.NODE_LOCATION == &#x27;aws&#x27; &amp;&amp; params.DEPLOY }
+            }
+            agent { label &#x27;local&#x27; }  // Run this stage on the local node
+            steps {
+                script {
+
+                    // Check if the service is running on the AWS node by fetching HTTP status
+                    try {
+                        // Run curl with a timeout to prevent hanging
+                        def httpStatus = sh(
+                            script: &quot;curl -s -o /dev/null -w &#x27;%{http_code}&#x27; --max-time 10 http://${AWS_IP}:${DOCKER_PORT}&quot;,
+                            returnStdout: true
+                        ).trim()
+
+                        echo &quot;HTTP Status: ${httpStatus}&quot;
+
+                        if (httpStatus == &#x27;200&#x27;) {
+                            echo &quot;Service on AWS is available. Updating Nginx configuration on local node...&quot;
+                            sh &quot;&quot;&quot;
+                                sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${AWS_IP}:${DOCKER_PORT};|&#x27; ${NGINX_CONF}
+                                sudo nginx -s reload
+                            &quot;&quot;&quot;
+                            echo &#x27;Nginx configuration updated and reloaded successfully.&#x27;
+
+                            echo &quot;Scaling down Kubernetes deployment if it exists...&quot;
+                            sh &quot;&quot;&quot;
+                                replicas=\$(kubectl get deployment ${PROJECT_NAME_WITH_DASH}-app -o=jsonpath=&#x27;{.spec.replicas}&#x27;) || true
+                                if [ &quot;\$replicas&quot; != &quot;&quot; ] &amp;&amp; [ \$replicas -gt 0 ]; then
+                                    kubectl scale deployment ${PROJECT_NAME_WITH_DASH}-app --replicas=0
+                                    echo &#x27;Kubernetes deployment scaled down successfully.&#x27;
+                                else
+                                    echo &#x27;No running Kubernetes deployment to scale down.&#x27;
+                                fi
+                            &quot;&quot;&quot;
+
+                            echo &quot;Checking for running local Docker container for project ${ENV_PROJECT_NAME}...&quot;
+                            sh &quot;&quot;&quot;
+                                DOCKER_CONTAINER=\$(docker ps -q -f name=${ENV_PROJECT_NAME})
+                                if [ &quot;\$DOCKER_CONTAINER&quot; ]; then
+                                    echo &quot;Docker container ${ENV_PROJECT_NAME} is running. Stopping and removing it...&quot;
+                                    docker rm -f ${ENV_PROJECT_NAME}
+                                    if [ \$? -ne 0 ]; then
+                                        echo &quot;Failed to remove Docker container ${ENV_PROJECT_NAME}&quot;
+                                        exit 1
+                                    fi
+                                else
+                                    echo &quot;Docker container ${ENV_PROJECT_NAME} is not running. Skipping removal.&quot;
+                                fi
+                            &quot;&quot;&quot;
+
+                        } else {
+                            echo &quot;Service on AWS is not available. Nginx configuration not updated. HTTP Status: ${httpStatus}&quot;
+                            currentBuild.result = &#x27;FAILURE&#x27;
+                        }
+                    } catch (Exception e) {
+                        echo &quot;An error occurred while checking the AWS service status or updating Nginx configuration.&quot;
+                        echo &quot;Exception message: ${e.getMessage()}&quot;
+                        e.printStackTrace()
+                        currentBuild.result = &#x27;FAILURE&#x27;
+                        error(&quot;Stopping pipeline due to error in checking AWS service status or updating Nginx configuration.&quot;)
+                    }
+                }
+            }
+        }
         stage(&#x27;Deploy&#x27;) {
             when {
-                expression { params.DEPLOY }
+                allOf {
+                    expression { params.DEPLOY }
+                    expression { params.NODE == &#x27;local&#x27; }
+                }
             }
+            agent { label &#x27;local&#x27; } 
             steps {
                 script {
                     if (params.DEPLOY_TYPE == &#x27;docker&#x27;) {
 
                         // Copy the .env file to the workspace
-                        sh &quot;sudo cp /root/projectenvs/${ENV_PROJECT_NAME}/.env ${env.WORKSPACE}/&quot;
+                        sh &quot;sudo cp ${LOCAL_ENV_PATH} ${env.WORKSPACE}/&quot;
 
                         sh &#x27;docker-compose down&#x27;
                         sh &#x27;docker-compose pull&#x27;
@@ -3123,6 +3227,7 @@ sudo apt-get install jenkins
                             // sh &quot;&quot;&quot;
                             // kubectl rollout status deployment/${PROJECT_NAME_WITH_DASH}-app
                             // &quot;&quot;&quot;
+
                             sh &quot;&quot;&quot;
                                 kubectl describe deployment/${PROJECT_NAME_WITH_DASH}-app
                             &quot;&quot;&quot;
@@ -3193,6 +3298,7 @@ sudo apt-get install jenkins
             when {
                 expression { params.DEPLOY }
             }
+            agent { label &#x27;local&#x27; } 
             steps {
                 script {
                     echo &quot;Sentry Release ...&quot;
@@ -3243,10 +3349,7 @@ sudo apt-get install jenkins
                         ]
                     }&#x27;&quot;&quot;&quot;
                 }
-
-
-
-                // Trigger the common_readme job on success when last commit is not Automatic Update from common_readme
+                // Trigger the common_readme job on success when not Automatic Update
                 def commitMessage = sh(script: &quot;git log -1 --pretty=%B&quot;, returnStdout: true).trim()
                 if (!commitMessage.contains(&quot;Automatic Update&quot;)) {
                     def expandedProjectUrl = &quot;https://github.com/arpansahu/${ENV_PROJECT_NAME}&quot;
