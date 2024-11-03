@@ -2978,6 +2978,24 @@ sudo apt-get install jenkins
 
                     echo &quot;AWS Docker deployment completed.&quot;
 
+                    // Check if the service is running on the AWS node by fetching HTTP status
+                    def httpStatus = sh(script: &quot;curl -s -o /dev/null -w &#x27;%{http_code}&#x27; http://${AWS_IP}:${DOCKER_PORT}&quot;, returnStdout: true).trim()
+                    echo &quot;HTTP Status: ${httpStatus}&quot;
+
+                    if (httpStatus == &#x27;200&#x27;) {
+                        echo &quot;Service on AWS is available. Updating Nginx configuration on local node...&quot;
+
+                        // Update the Nginx configuration to point to the AWS IP and reload Nginx
+                        sh &quot;&quot;&quot;
+                            sudo sed -i &#x27;s|proxy_pass .*;|proxy_pass http://${AWS_IP}:${DOCKER_PORT};|&#x27; ${NGINX_CONF}
+                            sudo nginx -s reload
+                        &quot;&quot;&quot;
+                        echo &#x27;Nginx configuration updated and reloaded successfully.&#x27;
+                    } else {
+                        echo &quot;Service on AWS is not available. Nginx configuration not updated.&quot;
+                        error(&quot;AWS service unavailable, HTTP Status: ${httpStatus}&quot;)
+                    }
+
                 }
             }
         }
