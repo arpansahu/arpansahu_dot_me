@@ -2827,7 +2827,7 @@ sudo apt-get install jenkins
  </li>
 </ul>
 <pre><code class="language-bash">pipeline {
-    agent { label &#x27;aws&#x27; }
+    agent any
     parameters {
         choice(name: &#x27;NODE_LOCATION&#x27;, choices: [ &#x27;aws&#x27;, &#x27;local&#x27;], description: &#x27;Choose where to deploy&#x27;)
         booleanParam(name: &#x27;DEPLOY&#x27;, defaultValue: false, description: &#x27;Skip the Check for Changes stage&#x27;)
@@ -2958,6 +2958,7 @@ sudo apt-get install jenkins
             when {
                 expression { params.NODE_LOCATION == &#x27;aws&#x27; &amp;&amp; params.DEPLOY }
             }
+            agent { label &#x27;aws&#x27; }  // Dynamically use AWS agent if NODE_LOCATION is &#x27;aws&#x27;
             steps {
                 script {
                     echo &quot;Starting AWS Docker Deployment...&quot;
