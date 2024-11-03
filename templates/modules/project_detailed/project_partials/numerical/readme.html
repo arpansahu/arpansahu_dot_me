@@ -2849,7 +2849,7 @@ sudo apt-get install jenkins
         SENTRY_PROJECT=&quot;numerical&quot;
         LOCAL_ENV_PATH = &quot;/root/projectenvs/${ENV_PROJECT_NAME}/.env&quot;
         AWS_USER = &quot;ubuntu&quot;
-        AWS_HOST = &quot;ec2-13-60-191-81.eu-north-1.compute.amazonaws.com&quot;
+        AWS_HOST = &quot;${env.AWS_HOST}&quot;
         SSH_CREDENTIALS_ID = &quot;aws_ssh_key&quot;  // Replace with your Jenkins SSH credentials ID
     }
     stages {
@@ -2974,6 +2974,25 @@ sudo apt-get install jenkins
                     sh &quot;~/.docker/cli-plugins/docker-compose pull&quot;
                     sh &quot;~/.docker/cli-plugins/docker-compose up -d&quot;
 
+                    // Trigger the new job for Docker deployment on AWS and wait for completion
+                    def dockerDeployJob = build job: &#x27;aws_docker_deploy_job&#x27;, // Name of the job handling Docker deployment on AWS
+                        parameters: [
+                            string(name: &#x27;NGINX_CONF&#x27;, value: NGINX_CONF_PATH),
+                            string(name: &#x27;SERVER_NAME&#x27;, value: SERVER_NAME_VAR),
+                            string(name: &#x27;DOCKER_PORT&#x27;, value: DOCKER_PORT_VAR),
+                            string(name: &#x27;AWS_PUBLIC_IP&#x27;, value: AWS_PUBLIC_IP_VAR)
+                        ],
+                        propagate: false, // Allows capturing the job result without immediate failure
+                        wait: true
+
+                    // Check the result of the job
+                    if (dockerDeployJob.result == &#x27;SUCCESS&#x27;) {
+                        echo &quot;AWS Docker deployment job completed successfully.&quot;
+                    } else {
+                        echo &quot;AWS Docker deployment job failed with status: ${dockerDeployJob.result}&quot;
+                        currentBuild.result = &#x27;FAILURE&#x27;
+                        error(&quot;Stopping main pipeline due to failure in AWS Docker deployment job.&quot;)
+                    }
                 }
             }
         }
