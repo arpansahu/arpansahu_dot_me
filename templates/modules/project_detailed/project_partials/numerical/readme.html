@@ -2848,9 +2848,7 @@ sudo apt-get install jenkins
         SENTRY_ORG=&quot;arpansahu&quot;
         SENTRY_PROJECT=&quot;numerical&quot;
         LOCAL_ENV_PATH = &quot;/root/projectenvs/${ENV_PROJECT_NAME}/.env&quot;
-        AWS_USER = &quot;ubuntu&quot;
-        AWS_HOST = &quot;${env.AWS_HOST}&quot;
-        SSH_CREDENTIALS_ID = &quot;aws_ssh_key&quot;  // Replace with your Jenkins SSH credentials ID
+        AWS_IP = &quot;${env.AWS_IP}&quot;
     }
     stages {
         stage(&#x27;Initialize&#x27;) {
@@ -2977,7 +2975,7 @@ sudo apt-get install jenkins
                     // Trigger the new job for Docker deployment on AWS and wait for completion
                     try {
                         echo &quot;Triggering &#x27;aws_docker_deploy_job_numerical&#x27; with parameters:&quot;
-                        echo &quot;NGINX_CONF: ${NGINX_CONF_PATH}&quot;
+                        echo &quot;NGINX_CONF: ${NGINX_CONF}&quot;
                         echo &quot;SERVER_NAME: ${SERVER_NAME_VAR}&quot;
                         echo &quot;DOCKER_PORT: ${DOCKER_PORT_VAR}&quot;
                         echo &quot;AWS_PUBLIC_IP: ${AWS_PUBLIC_IP_VAR}&quot;
@@ -2985,10 +2983,10 @@ sudo apt-get install jenkins
                         def dockerDeployJob = build(
                             job: &#x27;aws_docker_deploy_job_numerical&#x27;, // Ensure this is the exact job name
                             parameters: [
-                                string(name: &#x27;NGINX_CONF&#x27;, value: NGINX_CONF_PATH),
-                                string(name: &#x27;SERVER_NAME&#x27;, value: SERVER_NAME_VAR),
-                                string(name: &#x27;DOCKER_PORT&#x27;, value: DOCKER_PORT_VAR),
-                                string(name: &#x27;AWS_PUBLIC_IP&#x27;, value: AWS_PUBLIC_IP_VAR)
+                                string(name: &#x27;NGINX_CONF&#x27;, value: NGINX_CONF),
+                                string(name: &#x27;SERVER_NAME&#x27;, value: SERVER_NAME),
+                                string(name: &#x27;DOCKER_PORT&#x27;, value: DOCKER_PORT),
+                                string(name: &#x27;AWS_PUBLIC_IP&#x27;, value: AWS_IP)
                             ],
                             propagate: false, // Capture the result without failing the main pipeline immediately
                             wait: true
