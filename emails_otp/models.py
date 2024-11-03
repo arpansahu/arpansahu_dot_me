@@ -1,4 +1,4 @@
-import datetime
+from django.utils import timezone
 
 from django.db import models
 
@@ -11,5 +11,5 @@ class EmailsOtpRecord(AbstractBaseModel):
         unique_together = ('email', 'date')
 
     email = models.EmailField()
-    date = models.DateField(default=datetime.datetime.today())
+    date = models.DateField(default=timezone.now)
     count = models.IntegerField(default=1)
