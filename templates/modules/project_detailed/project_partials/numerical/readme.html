@@ -2975,7 +2975,7 @@ sudo apt-get install jenkins
                     sh &quot;~/.docker/cli-plugins/docker-compose up -d&quot;
 
                     // Trigger the new job for Docker deployment on AWS and wait for completion
-                    def dockerDeployJob = build job: &#x27;aws_docker_deploy_job&#x27;, // Name of the job handling Docker deployment on AWS
+                    def dockerDeployJob = build job: &#x27;aws_docker_deploy_job_numerical&#x27;, // Name of the job handling Docker deployment on AWS
                         parameters: [
                             string(name: &#x27;NGINX_CONF&#x27;, value: NGINX_CONF_PATH),
                             string(name: &#x27;SERVER_NAME&#x27;, value: SERVER_NAME_VAR),
