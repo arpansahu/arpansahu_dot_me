@@ -1,30 +1,30 @@
 {% load static %}
-<div class="col-lg-6 col-md-6 picture-item" data-groups='["scraping"]'>
+<div class="col-lg-6 col-md-6 picture-item" data-groups='["industrial"]'>
     <div class="card rounded shadow border-0 m-2">
         <div class="card-body p-4 m-2">
             <div class="media mb-3">
-                <div class="bg-soft-alt-orange d-flex justify-content-center align-items-center thumb-xl rounded">
-                    <img src="{% static 'images/projects/scrape_optimus.png' %}" alt="" class="thumb-md">
+                <div class="bg-soft-alt-orange d-flex justify-content-center align-items-center thumb-xl  rounded">
+                    <img src="{% static 'images/projects/third_eye.png' %}" alt="" class="thumb-md">
                 </div>
                 <div class="media-body ms-3 align-self-center">
-                    <h5 class="text-dark fs-18 fw-medium m-0">Scrape Optimus</h5>
+                    <h5 class="text-dark fs-18 fw-medium m-0">Third Eye (Divya Drishti)</h5>
                     <div style="align-self: end">
-                        {% comment %} <a class="btn btn-block btn-social btn-github" href="https://github.com/arpansahu/scrape_optimus" target="_blank">
-                            <span class="cib-github" style="margin-right: 10px"></span> Check Repo
-                        </a> {% endcomment %}
-                        <a class="btn btn-block btn-social btn-github" href="https://scrapeoptimus.com/" target="_blank">
-                            <span class="cib-youtube" style="margin-right: 10px"></span> Live Demo
-                        </a>
+                    <a class="btn btn-block btn-social btn-github" href="https://github.com/arpansahu/third_eye" target="_blank">
+                        <span class="cib-github" style="margin-right: 10px"></span> Check Repo
+                    </a>
+                    <a class="btn btn-block btn-social btn-github" href="https://third-eye.arpansahu.me/" target="_blank">
+                        <span class="cib-youtube" style="margin-right: 10px"></span> Live Demo
+                    </a>
                     </div>
                 </div><!--end media-body-->
             </div><!--end media-->
-                {% include 'modules/project_detailed/project_partials/scrape_optimus/technologies.html' %}
+                {% include 'modules/project_detailed/project_partials/third_eye/technologies.html' %}
             <div style="margin-top: 10px">
-                A versatile web scraping solution.
+                AI powered Disease Predictor. 
                 <ul style="margin-top: 10px;">
-                    <li>Proxy Aggregator for integration with over 200 proxy providers.</li>
-                    <li>Job Scheduling and Monitoring & Alerts for managing scraping jobs effectively.</li>
-                    <li>AI integration planned for autonomous spider generation.</li>
+                    <li>A simple web interface with three primary views, all function-based, allowing users to interact with the application easily.</li>
+                    <li>Provides users with an intuitive interface to input symptoms, view predictions, and locate nearby medical facilities.</li>
+                    <li>Displays nearby hospital facilities based on the user’s location.</li>
                 </ul>
             </div>
             <div id="container">
@@ -33,7 +33,7 @@
                     <span class="icon arrow"></span>
                   </span>
                   <span class="button-text">
-                    <a href="{% url 'project-detailed-view' 'scrape_optimus' %}" target="_blank">
+                    <a  href="{% url 'project-detailed-view' 'third_eye' %}" target="_blank">
                     Read More
                     </a>
                   </span>
