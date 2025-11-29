@@ -1,21 +1,131 @@
 {% load static %}
-<section class="hero-one position-relative main-bg" id="home"  >
+<section class="hero-one position-relative" id="home" style="padding-top: 120px; padding-bottom: 100px;">
     <div class="container">
-        <div class="row align-items-center justify-content-center">
+        <div class="row align-items-center">
+            <!-- Text Content (Left) -->
+            <div class="col-lg-7 text-center text-lg-start order-2 order-lg-1">
+                <h4 class="text-accent mb-3"
+                    style="color: var(--accent-color); letter-spacing: 2px; text-transform: uppercase; font-weight: 600;">
+                    Software Engineer @ Microsoft</h4>
+                <h1 class="hero-title display-3 fw-bold mb-4 text-white">
+                    Building <span class="text-gradient">Hyperscale Systems</span><br>
+                    That Power the Cloud
+                </h1>
+                <p class="lead text-white-50 mb-4 fs-18" style="max-width: 650px;">
+                    With <span class="text-white fw-semibold"><span id="years-experience">4+</span> years of
+                        experience</span> architecting and scaling distributed systems, I've engineered solutions that
+                    handle <span class="text-white fw-semibold">100M+ requests per minute</span> and process <span
+                        class="text-white fw-semibold">petabyte-scale data</span> at Microsoft.
+                </p>
+                <p class="text-white-50 mb-5 fs-17" style="max-width: 650px;">
+                    I'm a <span class="text-white fw-semibold">technology-agnostic problem solver</span> who believes
+                    languages and frameworks are just tools—what matters is <span class="text-white">architecting robust
+                        systems, optimizing performance, and delivering measurable business impact</span>. Whether it's
+                    distributed computing, real-time data processing, or building scalable platforms, I adapt and excel
+                    with the right technology for the challenge.
+                </p>
 
-            <div class="col-lg-5  mx-auto mt-5">
-                <img src="{% static 'images/personal/arpansahu-new-transparent.png' %}" alt="" class="img-fluid ml-lg-5">
-            </div><!--end col-->
-            <div class="col-lg-7 text-center px-0 px-xl-4 mt-5 mt-lg-0 pt-5 pt-lg-0">
-                <h5 class="d-inline-block py-1 px-3 rounded text-muted font-secondary">Hi, I'm Arpan Sahu</h5>
-                <h1 class="hero-title mb-4 font-secondary fo">I'm a <mark><span class="fw-medium typewrite" data-period="2000" data-type='["Python", "Django", "Flask", "Fast API"]'></span></mark> Developer</h1>
-                <span class="wrap"></span>
-                <div class="mb-5 mb-lg-0">
-                    <div class="d-inline-block">
-                        <a href="{% url 'resume' %}" target="_blank" class="btn btn-primary">View Resume</a>
+                <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
+                    <a href="#projects" class="glass-btn">View My Work</a>
+                    <a href="{% url 'resume' %}" target="_blank" class="glass-btn"
+                        style="background: transparent; border-color: rgba(255,255,255,0.2); color: #fff;">Resume</a>
+                </div>
+            </div>
+
+            <!-- Cartoon Avatar (Right) -->
+            <div class="col-lg-5 order-1 order-lg-2 mb-5 mb-lg-0 text-center position-relative">
+                <div class="hero-image-container animate-float">
+                    <!-- Glow Effect -->
+                    <div
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 300px; background: var(--accent-color); filter: blur(100px); opacity: 0.4; z-index: -1; border-radius: 50%;">
+                    </div>
+
+                    <img src="{% static 'images/cartoon_avatar.png' %}" alt="Arpan Sahu Cartoon Avatar"
+                        class="img-fluid" style="max-height: 450px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));">
+
+                    <!-- Floating Tech Icons (8 icons with varying sizes) -->
+                    <!-- Top Right - Python -->
+                    <div class="glass-card position-absolute d-none d-md-block p-2"
+                        style="top: 15%; right: -10px; width: 60px; height: 60px; border-radius: 15px; animation: float 5s ease-in-out infinite 0s;">
+                        <img src="{% static 'images/logos/python.svg' %}" alt="Python" class="w-100 h-100">
+                    </div>
+
+                    <!-- Bottom Left - Django -->
+                    <div class="glass-card position-absolute d-none d-md-block p-2"
+                        style="bottom: 15%; left: -10px; width: 55px; height: 55px; border-radius: 15px; animation: float 7s ease-in-out infinite 1s;">
+                        <img src="{% static 'images/logos/django.svg' %}" alt="Django" class="w-100 h-100">
+                    </div>
+
+                    <!-- Top Left - React -->
+                    <div class="glass-card position-absolute d-none d-lg-block p-2"
+                        style="top: 25%; left: -30px; width: 50px; height: 50px; border-radius: 12px; animation: float 6s ease-in-out infinite 2s;">
+                        <img src="{% static 'images/logos/react.svg' %}" alt="React" class="w-100 h-100">
+                    </div>
+
+                    <!-- Middle Right - Docker -->
+                    <div class="glass-card position-absolute d-none d-lg-block p-2"
+                        style="top: 45%; right: -25px; width: 48px; height: 48px; border-radius: 12px; animation: float 5.5s ease-in-out infinite 3s;">
+                        <img src="{% static 'images/logos/docker.svg' %}" alt="Docker" class="w-100 h-100">
+                    </div>
+
+                    <!-- Bottom Right - Kubernetes -->
+                    <div class="glass-card position-absolute d-none d-lg-block p-2"
+                        style="bottom: 25%; right: 10px; width: 45px; height: 45px; border-radius: 12px; animation: float 6.5s ease-in-out infinite 1.5s;">
+                        <img src="{% static 'images/logos/kubernetes.svg' %}" alt="Kubernetes" class="w-100 h-100">
+                    </div>
+
+                    <!-- Top Center - AWS -->
+                    <div class="glass-card position-absolute d-none d-xl-block p-2"
+                        style="top: 5%; left: 30%; width: 42px; height: 42px; border-radius: 10px; animation: float 7.5s ease-in-out infinite 2.5s;">
+                        <img src="{% static 'images/logos/aws.svg' %}" alt="AWS" class="w-100 h-100">
+                    </div>
+
+                    <!-- Bottom Center - PostgreSQL -->
+                    <div class="glass-card position-absolute d-none d-xl-block p-2"
+                        style="bottom: 8%; left: 25%; width: 40px; height: 40px; border-radius: 10px; animation: float 6s ease-in-out infinite 0.5s;">
+                        <img src="{% static 'images/logos/postgres.svg' %}" alt="PostgreSQL" class="w-100 h-100">
+                    </div>
+
+                    <!-- Middle Left - Redis -->
+                    <div class="glass-card position-absolute d-none d-xl-block p-2"
+                        style="top: 55%; left: 5%; width: 38px; height: 38px; border-radius: 10px; animation: float 5s ease-in-out infinite 3.5s;">
+                        <img src="{% static 'images/logos/redis.svg' %}" alt="Redis" class="w-100 h-100">
                     </div>
                 </div>
-            </div><!--end col-->
-        </div><!--end row-->
-    </div><!-- end container -->
+            </div>
+        </div>
+    </div>
 </section>
+
+<script>
+    // Calculate years and months of experience dynamically from Feb 2021
+    (function () {
+        const startDate = new Date('2021-02-01');
+        const currentDate = new Date();
+
+        let years = currentDate.getFullYear() - startDate.getFullYear();
+        let months = currentDate.getMonth() - startDate.getMonth();
+
+        // Adjust if months is negative
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        // Build experience text
+        let experienceText = '';
+        if (years > 0) {
+            experienceText = years + (years === 1 ? ' year' : ' years');
+            if (months > 0) {
+                experienceText += ' ' + months + (months === 1 ? ' month' : ' months');
+            }
+        } else {
+            experienceText = months + (months === 1 ? ' month' : ' months');
+        }
+
+        const experienceElement = document.getElementById('years-experience');
+        if (experienceElement) {
+            experienceElement.textContent = experienceText;
+        }
+    })();
+</script>

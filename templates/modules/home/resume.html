@@ -1,220 +1,280 @@
 {% load static %}
-<section class="section" id="resume">
-            <div class="container">
-                <div class="row justify-content-center mb-4">
-                    <div class="col-12 col-md-10 col-lg-7 text-center">
-                        <span class="badge badge-lg rounded bg-soft-alt-success fw-normal fs-13 text-uppercase">Life Time</span>
-                        <h2 class="fs-2 fw-medium lh-1 text-dark my-3">Education & Experience</h2>
-                        <p class="text-gray-700 fs-18 fs-lg mb-4 mb-md-5 lh-lg">
+<section class="section" id="resume" style="padding-top: 100px;">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-12 col-md-10 col-lg-8 text-center">
+                <span class="badge rounded-pill px-3 py-2 mb-3"
+                    style="background: rgba(187, 134, 252, 0.1); color: var(--accent-color); border: 1px solid rgba(187, 134, 252, 0.3);">TIMELINE</span>
+                <h2 class="display-5 fw-bold text-white mb-3">Education & Experience</h2>
+            </div>
+        </div>
 
-                        </p>
-                    </div><!--end col-->
-                </div><!--end row-->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row g-0">
-                            <div class="col-lg-4 col-md-6">
-                                <div class="card rounded bg-light h-100 border-0">
-                                    <div class="card-body d-flex justify-content-center align-items-center">
-                                        <div class="mx-auto text-center">
-                                            <img src="{% static 'images/personal/education.svg' %}" alt="" class="vector-dark" height="150">
-                                            <img src="{% static 'images/personal/education-light.svg' %}" alt="" class="vector-light" height="150">
-                                            <h5 class="text-dark fs-22 fw-medium my-2">Education</h5>
-                                        </div>
-                                    </div><!-- end card-body -->
-                                </div><!-- end card -->
-                            </div><!-- end col -->
-                            <div class="col-lg-8 col-md-6">
-                                <div class="card rounded bg-white  h-100 border-0">
-                                    <div class="card-body p-0">
-                                        <div class="accordion accordion-flush" id="Education_accordion">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="prime">
-                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#Education_one" aria-expanded="false">
-                                                        BTech Computer Science & Engineering Degree
-                                                        <span class="fw-medium text-primary ms-auto fs-14" >CGPA: 8.55</span>
-                                                        <span class="fw-medium text-primary ms-auto fs-14">2017 - 2021</span>
-                                                    </button>
-                                                </h2>
-                                                <div id="Education_one" class="accordion-collapse collapse show" aria-labelledby="prime" data-bs-parent="#Education_accordion">
-                                                    <div class="accordion-body">
-                                                        <p class="text-muted mb-3">Lakshmi Narain College of Technology and Excellence is an educational institution that offers graduate,
-                                                            in the fields of Engineering and Medical Sciences.
-                                                        </p>
-                                                        <p class="fw-medium">Lakshmi Narain College of Technology and Excellence, Bhopal, India</p>
-                                                        <ul>
-                                                            <li>Developed advanced applications as a part of the academic projects, like applications for
-                                                                disease prediction, premium collection and transaction analysis using technologies
-                                                                like C, C++, Python, MySQL and Django
-                                                            </li>
-                                                            <li>
-                                                                Build, Third Eye Project- It is a disease predicting web app which predicts the disease on the basis of user’s
-                                                                symptoms and gives information about nearby hospitals (even without having a GPS
-                                                                supported device), where one can get treated
-                                                                <span class="fw-medium text-primary ms-auto fs-20"> (Jan-Feb) 2020</span>
-                                                            </li>
-                                                            <li>
-                                                                Premium Collection Point- A Django based Web App to collect Premium Dues for LIC Premiums. Build a business model to make the project sustainable
-                                                                in aspect of revenue. There were two entities Branches and their Managers. Branches can also increase their income with the help of Refer n Earn.
-                                                                Built a custom Payment Gateway to support the wallet load money service at 0 cost.
-                                                                <span class="fw-medium text-primary ms-auto fs-20"> (jun-aug) 2020</span>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div><!--end accordion-item-->
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="second">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Education_two" aria-expanded="false">
-                                                        Higher Secondary school
-                                                    <span class="fw-medium text-primary ms-auto fs-14">Percentage: 70.60</span>
-                                                    <span class="fw-medium text-primary ms-auto fs-14">2015 - 2016</span>
-                                                    </button>
-                                                </h2>
-                                                <div id="Education_two" class="accordion-collapse collapse" aria-labelledby="second" data-bs-parent="#Education_accordion">
-                                                    <div class="accordion-body">
-                                                        <p class="text-muted mb-3">Shir Ram Adarsh is an educational institution that offers Higher Education in the field of Science, Technology, Engineering and Mathematics, Arts
-                                                        </p>
-                                                        <p class="fw-medium">Shir Ram Adarsh Higher Secondary, Seoni, M.P., India</p>
-                                                    </div>
-                                                </div>
-                                            </div><!--end accordion-item-->
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="higher">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Education_three" aria-expanded="false">
-                                                        High Secondary school
-                                                    <span class="fw-medium text-primary ms-auto fs-14">Percentage: 88.40</span>
-                                                    <span class="fw-medium text-primary ms-auto fs-14">2013 - 2014</span>
-                                                    </button>
-                                                </h2>
-                                                <div id="Education_three" class="accordion-collapse collapse" aria-labelledby="higher" data-bs-parent="#Education_accordion">
-                                                    <div class="accordion-body">
-                                                        <p class="text-muted mb-3">Bhonsala Military is an educational institution that High Education in the field of Science, Technology, Engineering and Mathematics, Arts
-                                                            along with Military Curriculum
-                                                        </p>
-                                                        <p class="fw-medium">Bhonsala Military School, Nagpur, Mah, India</p>
-                                                        <ul>
-                                                            <li style="align-items: center;">
-                                                                Won, National Aerospace Olympiad held at Bangalore
-                                                                <span class="fw-medium text-primary ms-auto fs-20">2013</span>
-                                                            </li>
-                                                            <li style="align-items: center;">
-                                                                Won, Best Debater Against the motion of Nagpur City
-                                                                <span class="fw-medium text-primary ms-auto fs-20">2013</span>
-                                                            </li>
-                                                            <li style="align-items: center;">
-                                                                Won, Best Debater, in School
-                                                                <span class="fw-medium text-primary ms-auto fs-20">2012</span>
-                                                            </li>
-                                                            <li style="align-items: center;">
-                                                                Won, Best Science Exhibition, in School
-                                                                <span class="fw-medium text-primary ms-auto fs-20">2012</span>
-                                                            </li>
-                                                            <li style="align-items: center;">
-                                                                Won, Best Science Exhibition, in School
-                                                                <span class="fw-medium text-primary ms-auto fs-20">2011</span>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div><!--end accordion-item-->
-                                        </div><!--end accordion-->
-                                    </div><!-- end card-body -->
-                                </div><!-- end card -->
-                            </div><!-- end col -->
-                        </div><!-- end row -->
-                        <hr class="hr-dashed">
-                        <div class="row g-0">
-                            <div class="col-lg-4 col-md-6">
-                                <div class="card rounded bg-light h-100 border-0">
-                                    <div class="card-body d-flex justify-content-center align-items-center">
-                                        <div class="mx-auto text-center">
-                                            <img src="{% static 'images/personal/experience.svg' %}" alt="" class="vector-dark" height="150">
-                                            <img src="{% static 'images/personal/experience-light.svg' %}" alt="" class="vector-light" height="150">
-                                            <h5 class="text-dark fs-22 fw-medium my-2">Experience: <span id="expericnce_dynamic"></span></h5>
-                                        </div>
-                                    </div><!-- end card-body -->
-                                </div><!-- end card -->
-                            </div><!-- end col -->
-                            <div class="col-lg-8 col-md-6">
-                                <div class="card rounded bg-white  h-100 border-0">
-                                    <div class="card-body p-0">
-                                        <div class="accordion accordion-flush" id="Experience_accordion">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="first-co">
-                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#Experience_one" aria-expanded="false">
-                                                        GammaStack - IGaming IT Company
-                                                        <span class="fw-medium text-primary ms-auto fs-14">2021(Feb) - 2022(June)</span>
-                                                    </button>
-                                                </h2>
-                                                <div id="Experience_one" class="accordion-collapse collapse show" aria-labelledby="first-co" data-bs-parent="#Experience_accordion">
-                                                    <div class="accordion-body">
-                                                        <p class="text-muted mb-1">
-                                                            - Delivered high-quality, maintainable code by implementing best practices, automated testing, and code reviews, reducing bug resolution time by 15% and release cycles by 30%.<br>
-                                                            - Collaborated with cross-functional stakeholders to define requirements and optimize implementation strategies, achieving a 25% decrease in project turnaround time.<br>
-                                                            - Designed and implemented a scalable betting platform for Betfaro, supporting 50,000+ concurrent users during peak match times, processing over $1M in daily transactions, and leveraging the Double Bet model to drive a 60% increase in client profitability and a 40% surge in website traffic.<br>
-                                                            - Optimized data processing workflows for KodeKloud by 20% through the development of scalable features leveraging MongoDB, Flask, and AngularJS.<br>
-                                                            - Designed and optimized database schemas to support high-volume transactions, ensuring scalability and efficiency for Betfaro's betting platform.<br>
-                                                        </p>
-                                                        <p class="fw-medium">6th Floor, Crystal IT Park, Indore 452014 (M.P.), India</p>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Python</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Django</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Flask</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Fast API</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Postgres</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">REST</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">AWS</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Redis</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Selenium</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Angular JS</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">React</span>
-                                                    </div>
-                                                </div>
-                                            </div><!--end accordion-item-->
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="second-co">
-                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#Experience_two" aria-expanded="false">
-                                                        Fireye/Trellix - Cybersecurity IT Company
-                                                        <span class="fw-medium text-primary ms-auto fs-14">2022(July) - </span>
-                                                    </button>
-                                                </h2>
-                                                <div id="Experience_two" class="accordion-collapse collapse show" aria-labelledby="second-co" data-bs-parent="#Experience_accordion">
-                                                    <div class="accordion-body">
-                                                        <p class="text-muted mb-1">
-                                                            - Developed a SaaS platform for Extended Detection and Response (XDR), migrating customer data from individually owned, on-premises EC2 instances to a centralized architecture leveraging Kubernetes clusters and a unified database. This transition reduced infrastructure management overhead, enabled scalable, pay-as-you-go service offerings, optimized resource utilization, and facilitated modular cybersecurity services.<br>
-                                                            - Enhanced the SaaS platform's efficiency by building a robust CI/CD pipeline, automating testing, deployment, and scaling processes, reducing deployment times by 40% and increasing system reliability and responsiveness.<br>
-                                                            - Architected integrations with Tenable, Microsoft Azure, VirusTotal, ServiceNow, and Trellix/McAfee, improving platform efficiency by 25% and enabling faster and more effective threat response.<br>
-                                                            - Engineered a high-performance data segregation engine to identify customer-specific threat impacts across billions of records. By transitioning from traditional database queries to Redis key-value pairs and ultimately optimizing to a bit-string representation, achieved a ~99.88% reduction in memory usage and improved query speeds by over 100x, enabling real-time threat analysis and decision-making at scale.<br>
-                                                            - Built a unified query language engine for Super Search, consolidating the search functionalities of three existing Trellix products into a single interface, and implemented Elasticsearch for additional search capabilities. This innovation improved data retrieval speed by 80% and simplified the user experience by eliminating the need for multiple search portals.<br>
-                                                            - Implemented a dynamic rule engine that enables the SaaS platform to define, manage, and execute complex cybersecurity rulesets stored in the database. By eliminating the need for hardcoded logic, this solution streamlined the creation and deployment of new threat detection rules, reducing response times and enhancing agility in addressing emerging threats in a rapidly evolving cybersecurity landscape.<br>
-                                                            - Enhanced incident management workflows by developing a scalable logging system, enabling efficient event tracking and analysis across integrated cybersecurity services.<br>
-                                                        </p>
-                                                        <p class="fw-medium">5, Salarpuria Infinity, 2nd Floor, Front Wing, Bannerghatta Road, Bengaluru, Karnataka 560029, India</p>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Python</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Django</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Postgres</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">AWS</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Linux</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Shell Scripting</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">S3</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Elixir</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">REST</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Javascript</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Node JS</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">JSON API</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Docker</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Kubenetes</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Groovy</span>
-                                                        <span class="badge badge-lg rounded bg-soft-alt-info fw-normal fs-13 text-uppercase mt-2">Open Cybersecurity Schema Framework </span>
-                                                    </div>
-                                                </div>
-                                    </div><!--end accordion-item-->
-                                        </div><!--end accordion-->
-                                    </div><!-- end card-body -->
-                                </div><!-- end card -->
-                            </div><!-- end col -->
-                        </div><!--end row-->
-                    </div><!-- end col -->
-                </div><!-- end row -->
-            </div><!-- end container -->
-        </section>
+        <div class="row g-4">
+            <!-- Education -->
+            <div class="col-lg-6 mb-4">
+                <div class="glass-card p-4">
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center p-3 rounded-circle mb-3"
+                            style="width: 80px; height: 80px; background: rgba(187, 134, 252, 0.15); box-shadow: 0 0 20px rgba(187, 134, 252, 0.4);">
+                            <i data-feather="book-open" style="width: 40px; height: 40px; color: #BB86FC;"></i>
+                        </div>
+                        <h3 class="text-white">Education</h3>
+                    </div>
+
+                    <div class="accordion accordion-flush" id="Education_accordion">
+                        <!-- Item 1 -->
+                        <div class="accordion-item bg-transparent border-0 mb-3">
+                            <h2 class="accordion-header" id="edu_first">
+                                <button
+                                    class="accordion-button collapsed w-100 text-start d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#Education_one"
+                                    aria-expanded="true">
+                                    <span class="text-white fw-medium">BTech CSE</span>
+                                    <span class="text-accent ms-auto small">2017 - 2021</span>
+                                </button>
+                            </h2>
+                            <div id="Education_one" class="accordion-collapse collapse show"
+                                data-bs-parent="#Education_accordion">
+                                <div class="accordion-body text-white-50">
+                                    <p class="fw-bold text-white mb-1">Lakshmi Narain College of Technology &
+                                        Excellence, Bhopal</p>
+                                    <p class="small mb-2">CGPA: 8.55</p>
+                                    <ul class="small ps-3">
+                                        <li>Developed disease prediction app (Third Eye).</li>
+                                        <li>Built Premium Collection Point (Django Web App).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 2 -->
+                        <div class="accordion-item bg-transparent border-0 mb-3">
+                            <h2 class="accordion-header" id="edu_second">
+                                <button
+                                    class="accordion-button collapsed w-100 text-start d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#Education_two">
+                                    <span class="text-white fw-medium">Higher Secondary</span>
+                                    <span class="text-accent ms-auto small">2015 - 2016</span>
+                                </button>
+                            </h2>
+                            <div id="Education_two" class="accordion-collapse collapse"
+                                data-bs-parent="#Education_accordion">
+                                <div class="accordion-body text-white-50">
+                                    <p class="fw-bold text-white mb-1">Shir Ram Adarsh Higher Secondary, Seoni</p>
+                                    <p class="small">Percentage: 70.40%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 3 -->
+                        <div class="accordion-item bg-transparent border-0 mb-3">
+                            <h2 class="accordion-header" id="edu_third">
+                                <button
+                                    class="accordion-button collapsed w-100 text-start d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#Education_three">
+                                    <span class="text-white fw-medium">High Secondary</span>
+                                    <span class="text-accent ms-auto small">2013 - 2014</span>
+                                </button>
+                            </h2>
+                            <div id="Education_three" class="accordion-collapse collapse"
+                                data-bs-parent="#Education_accordion">
+                                <div class="accordion-body text-white-50">
+                                    <p class="fw-bold text-white mb-1">Bhonsala Military School, Nagpur</p>
+                                    <p class="small">Percentage: 88.60%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experience -->
+            <div class="col-lg-6 mb-4">
+                <div class="glass-card p-4">
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center p-3 rounded-circle mb-3"
+                            style="width: 80px; height: 80px; background: rgba(187, 134, 252, 0.15); box-shadow: 0 0 20px rgba(187, 134, 252, 0.4);">
+                            <i data-feather="briefcase" style="width: 40px; height: 40px; color: #BB86FC;"></i>
+                        </div>
+                        <h3 class="text-white">Experience</h3>
+                    </div>
+
+                    <div class="accordion accordion-flush" id="Experience_accordion">
+                        <!-- Item 1 - Microsoft -->
+                        <div class="accordion-item bg-transparent border-0 mb-3">
+                            <h2 class="accordion-header" id="exp_first">
+                                <button
+                                    class="accordion-button collapsed w-100 text-start d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#Experience_one"
+                                    aria-expanded="true">
+                                    <span class="text-white fw-medium">Software Engineer 2, Microsoft</span>
+                                    <span class="text-accent ms-auto small">Mar 2025 - Present</span>
+                                </button>
+                            </h2>
+                            <div id="Experience_one" class="accordion-collapse collapse show"
+                                data-bs-parent="#Experience_accordion">
+                                <div class="accordion-body text-white-50">
+                                    <p class="fw-bold text-white mb-1">Noida, India</p>
+                                    <ul class="small mb-3 ps-3">
+                                        <li class="mb-2">Engineered hyperscale orchestration systems powering
+                                            Microsoft's data collection and analytics pipelines, enabling petabyte-scale
+                                            processing and 100M+ requests per minute with high reliability.</li>
+                                        <li class="mb-2">Optimized distributed infrastructure for performance, fault
+                                            tolerance, and automation, reducing operational overhead while ensuring SLA
+                                            compliance and global availability.</li>
+                                        <li class="mb-2">Built systems that empower downstream data teams to efficiently
+                                            collect, transform, and analyze massive datasets, serving as the foundation
+                                            for Microsoft's data-driven insights and decision-making.</li>
+                                    </ul>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        <span class="badge bg-white-10 text-white-50">100M+ RPM</span>
+                                        <span class="badge bg-white-10 text-white-50">Petabyte-scale</span>
+                                        <span class="badge bg-white-10 text-white-50">Hyperscale Systems</span>
+                                        <span class="badge bg-white-10 text-white-50">Global SLA Compliance</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 2 - Trellix SE -->
+                        <div class="accordion-item bg-transparent border-0 mb-3">
+                            <h2 class="accordion-header" id="exp_second">
+                                <button
+                                    class="accordion-button collapsed w-100 text-start d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#Experience_two">
+                                    <span class="text-white fw-medium">Software Engineer, Trellix/Fireeye-McAfee</span>
+                                    <span class="text-accent ms-auto small">Jul 2022 - Mar 2025</span>
+                                </button>
+                            </h2>
+                            <div id="Experience_two" class="accordion-collapse collapse"
+                                data-bs-parent="#Experience_accordion">
+                                <div class="accordion-body text-white-50">
+                                    <p class="fw-bold text-white mb-1">Bengaluru, India</p>
+                                    <ul class="small mb-3 ps-3">
+                                        <li class="mb-2">Developed a SaaS platform for Extended Detection and Response
+                                            (XDR), migrating customer data from individually owned, on-premises EC2
+                                            instances to a centralized architecture leveraging Kubernetes clusters and a
+                                            unified database. This transition reduced infrastructure management
+                                            overhead, enabled scalable, pay-as-you-go service offerings, optimized
+                                            resource utilization, and facilitated modular cybersecurity services.</li>
+                                        <li class="mb-2">Enhanced the SaaS platform's (SOAR - security orchestration and
+                                            response system) efficiency by building a robust CI/CD pipeline, automating
+                                            testing, deployment, and scaling processes, reducing deployment times by 40%
+                                            and increasing system reliability and responsiveness.</li>
+                                        <li class="mb-2">Architected integrations with Tenable, Microsoft Azure,
+                                            VirusTotal, ServiceNow, and Trellix/McAfee. These integrations handled 3
+                                            million RPM and supported 500,000 concurrent playbook (REST APIs
+                                            Integrations) executions, improving platform efficiency by 25% and enabling
+                                            faster, more effective threat responses.</li>
+                                        <li class="mb-2">Engineered a high-performance data segregation engine to
+                                            identify customer-specific threat impacts across billions of records. By
+                                            transitioning from traditional database queries to Redis key-value pairs and
+                                            ultimately optimizing to a bit-string representation, achieved a ~99.88%
+                                            reduction in memory usage and improved query speeds by over 100x, enabling
+                                            real-time threat analysis and decision-making at scale.</li>
+                                        <li class="mb-2">Made real-time streaming supported in an analytical system
+                                            utilizing Kafka, worked with ACL and other Kafka cluster management along
+                                            with Zookeeper.</li>
+                                        <li class="mb-2">Built a Search Microservice, consolidating the search
+                                            functionalities of three existing Trellix products into a single interface,
+                                            and implemented Elasticsearch for additional search capabilities. This
+                                            innovation improved data retrieval speed by 80% and simplified the user
+                                            experience by eliminating the need for multiple search portals.</li>
+                                        <li class="mb-2">Implemented a dynamic rule engine that enables the SaaS
+                                            platform to define, manage, and execute complex cybersecurity rulesets
+                                            stored in the database. By eliminating the need for hardcoded logic, this
+                                            solution streamlined the creation and deployment of new threat detection
+                                            rules, reducing response times and enhancing agility in addressing emerging
+                                            threats.</li>
+                                        <li class="mb-2">Worked on developing the Trellix IAM microservice to enable
+                                            seamless authentication across internal cybersecurity platforms,
+                                            significantly reducing human involvement in the authentication process.</li>
+                                        <li class="mb-2">Leveraged Generative AI with LangChain, RAG, and gRPC to
+                                            automate the generation of SOAR marketplace apps, reducing manual effort
+                                            through intelligent code generation, playbook creation, and seamless
+                                            microservice communication.</li>
+                                    </ul>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        <span class="badge bg-white-10 text-white-50">3M RPM</span>
+                                        <span class="badge bg-white-10 text-white-50">40% Faster Deployment</span>
+                                        <span class="badge bg-white-10 text-white-50">99.88% Memory Reduction</span>
+                                        <span class="badge bg-white-10 text-white-50">80% Speed Improvement</span>
+                                        <span class="badge bg-white-10 text-white-50">500K Concurrent Executions</span>
+                                        <span class="badge bg-white-10 text-white-50">25% Efficiency Gain</span>
+                                        <span class="badge bg-white-10 text-white-50">100x Faster Queries</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 3 - Trellix Associate -->
+                        <div class="accordion-item bg-transparent border-0 mb-3">
+                            <h2 class="accordion-header" id="exp_third">
+                                <button
+                                    class="accordion-button collapsed w-100 text-start d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#Experience_three">
+                                    <span class="text-white fw-medium">Associate Software Engineer,
+                                        Trellix/Fireeye-McAfee</span>
+                                    <span class="text-accent ms-auto small">Jul 2022 - Jan 2023</span>
+                                </button>
+                            </h2>
+                            <div id="Experience_three" class="accordion-collapse collapse"
+                                data-bs-parent="#Experience_accordion">
+                                <div class="accordion-body text-white-50">
+                                    <p class="fw-bold text-white mb-1">Pune, India</p>
+                                    <p class="small">Got merged with McAfee to form Trellix</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 4 - GammaStack -->
+                        <div class="accordion-item bg-transparent border-0 mb-3">
+                            <h2 class="accordion-header" id="exp_fourth">
+                                <button
+                                    class="accordion-button collapsed w-100 text-start d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#Experience_four">
+                                    <span class="text-white fw-medium">Software Engineer, GammaStack</span>
+                                    <span class="text-accent ms-auto small">Feb 2021 - Jun 2022</span>
+                                </button>
+                            </h2>
+                            <div id="Experience_four" class="accordion-collapse collapse"
+                                data-bs-parent="#Experience_accordion">
+                                <div class="accordion-body text-white-50">
+                                    <p class="fw-bold text-white mb-1">Indore, India</p>
+                                    <ul class="small mb-3 ps-3">
+                                        <li class="mb-2">Delivered high-quality, maintainable code by implementing best
+                                            practices, automated testing, and code reviews, reducing bug resolution time
+                                            by 15% and release cycles by 30%.</li>
+                                        <li class="mb-2">Collaborated with cross-functional stakeholders to define
+                                            requirements and optimize implementation strategies, achieving a 25%
+                                            decrease in project turnaround time.</li>
+                                        <li class="mb-2">Designed and implemented a scalable betting platform for
+                                            Betfaro, supporting 50,000+ concurrent users during peak match times,
+                                            processing over $1M in daily transactions, and leveraging the New Double Bet
+                                            model to drive a 60% increase in client profitability and a 40% surge in
+                                            website traffic.</li>
+                                        <li class="mb-2">Optimized data processing workflows for KodeKloud by 20%
+                                            through the development of scalable features leveraging MongoDB, Flask, and
+                                            AngularJS.</li>
+                                        <li class="mb-2">Designed and optimized database schemas to support high-volume
+                                            transactions, ensuring scalability and efficiency for Betfaro's betting
+                                            platform.</li>
+                                        <li class="mb-2">Integrated subscription-based and order-based payment systems
+                                            with Crypto as well as real currency-based gateways like PayPal and
+                                            Razorpay.</li>
+                                    </ul>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        <span class="badge bg-white-10 text-white-50">50K+ Concurrent Users</span>
+                                        <span class="badge bg-white-10 text-white-50">$1M Daily Transactions</span>
+                                        <span class="badge bg-white-10 text-white-50">60% Profitability Increase</span>
+                                        <span class="badge bg-white-10 text-white-50">40% Traffic Surge</span>
+                                        <span class="badge bg-white-10 text-white-50">30% Faster Releases</span>
+                                        <span class="badge bg-white-10 text-white-50">25% Faster Turnaround</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

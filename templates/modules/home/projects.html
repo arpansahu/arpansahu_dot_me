@@ -1,52 +1,59 @@
 {% load static %}
-<section class="section" id="projects">
-            <div class="container">
-                <div class="row justify-content-center mb-4">
-                    <div class="col-12 col-md-10 col-lg-7 text-center">
-                        <span class="badge badge-lg rounded bg-soft-alt-success fw-normal fs-13 text-uppercase">Work</span>
-                        <h2 class="fs-2 fw-medium lh-1 text-dark my-3">My Projects</h2>
-                        <p class="text-gray-700 fs-18 fs-lg mb-4 mb-md-5 lh-lg">
-                            Some Projects I have built.
-                        </p>
-                    </div><!--end col-->
-                </div><!--end row-->
-                <div class="row">
-                    <div class="col-12 filters-group-wrap">
-                        <div class="filters-group mb-5">
-                            <ul class="mb-0 list-unstyled filter-options filter-tab">
-                                <li class="list-inline-item position-relative text-dark active" data-group="all">All</li>
-                                <li class="list-inline-item position-relative text-dark" data-group="basic">Basic</li>
-                                <li class="list-inline-item position-relative text-dark" data-group="conceptual">Conceptual</li>
-                                <li class="list-inline-item position-relative text-dark" data-group="industrial">Industrial</li>
-                                <li class="list-inline-item position-relative text-dark" data-group="opensource">OpenSource</li>
-                            </ul>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-                <div class="row d-flex  g-1 justify-content-center" id="grid">
-                    
-                    <!--Live-->
-                    {% include "modules/home/projects_cards/scrape_optimus.html" %}
-                    {% include "modules/home/projects_cards/arpansahu_dot_me.html" %}
-                    {% include "modules/home/projects_cards/razorpay_ipn_django_handler.html" %}
-                    {% include "modules/home/projects_cards/great_chat.html" %}
-                    {% include "modules/home/projects_cards/borcelle_crm.html" %}
-                    {% include "modules/home/projects_cards/clock_work.html" %}
-                    {% include "modules/home/projects_cards/school_chale_hum.html" %}
-                    {% include "modules/home/projects_cards/third_eye.html" %}
-                    {% include "modules/home/projects_cards/altered_datum.html" %}
-                    {% include "modules/home/projects_cards/altered_datum_api.html" %}
-                    {% include "modules/home/projects_cards/chew_and_cheer.html" %}
-                    {% include "modules/home/projects_cards/django_starter.html" %}
-                    {% include "modules/home/projects_cards/numerical.html" %}
-                    <!--Live-->
-                    
-                    <!--Not Live-->
-                    {% include "modules/home/projects_cards/premium_collection_point.html" %}
-                    {% include "modules/home/projects_cards/great_chat_legacy.html" %}
-                    {% include "modules/home/projects_cards/geek_glasses.html" %}
-                    {% include "modules/home/projects_cards/owl_eyes.html" %}
-                    <!--Not Live-->
-                </div><!-- end row -->
-            </div><!-- end container -->
-    </section>
+<section class="section" id="projects" style="padding-top: 80px;">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-12 col-md-10 col-lg-8 text-center">
+                <span class="badge rounded-pill px-3 py-2 mb-3"
+                    style="background: rgba(187, 134, 252, 0.1); color: var(--accent-color); border: 1px solid rgba(187, 134, 252, 0.3);">PORTFOLIO</span>
+                <h2 class="display-5 fw-bold text-white mb-3">Featured Projects</h2>
+                <p class="text-white-50 fs-18">
+                    A collection of my work, ranging from web scraping bots to full-stack applications.
+                </p>
+            </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="row mb-5">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="filter-options glass-card p-2 d-inline-flex flex-wrap justify-content-center gap-2"
+                    style="border-radius: 50px;">
+                    <button class="btn btn-sm text-white rounded-pill px-4 active" data-group="all"
+                        style="background: transparent; border: none;">All</button>
+                    <button class="btn btn-sm text-white-50 rounded-pill px-4" data-group="basic"
+                        style="background: transparent; border: none;">Basic</button>
+                    <button class="btn btn-sm text-white-50 rounded-pill px-4" data-group="conceptual"
+                        style="background: transparent; border: none;">Conceptual</button>
+                    <button class="btn btn-sm text-white-50 rounded-pill px-4" data-group="industrial"
+                        style="background: transparent; border: none;">Industrial</button>
+                    <button class="btn btn-sm text-white-50 rounded-pill px-4" data-group="opensource"
+                        style="background: transparent; border: none;">OpenSource</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 justify-content-center" id="grid">
+            <!--Live-->
+            {% include "modules/home/projects_cards/scrape_optimus.html" %}
+            {% include "modules/home/projects_cards/arpansahu_dot_me.html" %}
+            {% include "modules/home/projects_cards/razorpay_ipn_django_handler.html" %}
+            {% include "modules/home/projects_cards/great_chat.html" %}
+            {% include "modules/home/projects_cards/borcelle_crm.html" %}
+            {% include "modules/home/projects_cards/clock_work.html" %}
+            {% include "modules/home/projects_cards/school_chale_hum.html" %}
+            {% include "modules/home/projects_cards/third_eye.html" %}
+            {% include "modules/home/projects_cards/altered_datum.html" %}
+            {% include "modules/home/projects_cards/altered_datum_api.html" %}
+            {% include "modules/home/projects_cards/chew_and_cheer.html" %}
+            {% include "modules/home/projects_cards/django_starter.html" %}
+            {% include "modules/home/projects_cards/numerical.html" %}
+            <!--Live-->
+
+            <!--Not Live-->
+            {% include "modules/home/projects_cards/premium_collection_point.html" %}
+            {% include "modules/home/projects_cards/great_chat_legacy.html" %}
+            {% include "modules/home/projects_cards/geek_glasses.html" %}
+            {% include "modules/home/projects_cards/owl_eyes.html" %}
+            <!--Not Live-->
+        </div>
+    </div>
+</section>
