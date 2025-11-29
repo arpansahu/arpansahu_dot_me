@@ -1,712 +1,310 @@
-{% load static %}<section class="section" id="about">
+{% load static %}
+<section class="section" id="about" style="padding-top: 100px;">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 align-self-center">
-                <h5 class="fs-24 text-dark fw-medium"><mark>Personal Details</mark></h5>
-                <h4 class="fw-normal lh-base text-gray-700 mb-4 fs-20">
-                
-                    As a Full Stack Developer, I’ve evolved into a highly versatile engineer capable of designing, building, and scaling robust systems. Over the years, I've honed my software engineering skills and developed a passion for architecting reliable and efficient solutions. Whether integrating seamless payment systems or designing scalable system architecture, I focus on transforming complex ideas into functional and impactful products.<br>
-                    My journey has been driven by a love for technology, which goes beyond just keeping up with trends—I aim to be at the forefront of change, contributing to and leading innovations. From building end-to-end applications to tackling real-world problems through creative engineering solutions, I am constantly motivated by the challenge of improving, creating, and making a tangible impact in the tech world.
-                
-                </h4>
-                <div class="social">
-                    <a href="https://www.twitter.com/arpansahu_/" target="_blank">
-                        <i class="cib-twitter"></i>
-                    </a>
-                    <a href="https://www.facebook.com/arpansahu95/" target="_blank">
-                        <i class="cib-facebook"></i>
-                    </a>
-                    <a href="https://www.instagram.com/arpansahu" target="_blank">
-                        <i class="cib-instagram"></i>
-                    </a>
-                    <a href="https://join.skype.com/invite/YWieQvb0pivH" target="_blank">
-                        <i class="cib-skype"></i>
-                    </a>
-                    <a href="mailto:arpansahu@zohomail.in">
-                        <i class="cib-gmail"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/arpansahu" target="_blank">
-                        <i class="cib-linkedin"></i>
-                    </a>
-                    <a href="https://github.com/arpansahu" target="_blank">
-                        <i class="cib-github"></i>
-                    </a>
-                    <a href="https://leetcode.com/arpansahu/" target="_blank">#}
-                        <i class="cib-leetcode"></i>
-                    </a>
-{#                    <a href="https://www.hackerearth.com/@arpansahu" target="_blank">#}
-{#                        <i class="cib-hackerearth"></i>#}
-{#                    </a>#}
-{#                    <a href="https://www.hackerrank.com/arpansahu" target="_blank">#}
-{#                        <i class="cib-hackerrank"></i>#}
-{#                    </a>#}
-                    <a href="https://stackoverflow.com/users/10506751/arpansahu" target="_blank">
-                        <i class="cib-stackoverflow"></i>
-                    </a>
+        <!-- About Me Section - Full Width -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8">
+                <div class="glass-card p-4 p-lg-5">
+                    <h5 class="text-accent mb-3" style="color: var(--accent-color);">About Me</h5>
+                    <h4 class="text-white lh-base mb-4">
+                        I transform complex problems into <span class="text-gradient">elegant solutions</span>.
+                    </h4>
+                    <p class="text-white-50 mb-4">
+                        As a Full Stack Developer, I've evolved into a highly versatile engineer capable of designing,
+                        building, and scaling robust systems.
+                        My journey has been driven by a love for technology and a passion for architecting reliable
+                        solutions.
+                    </p>
+
+                    <div class="row mb-4">
+                        <div class="col-6 mb-3">
+                            <h6 class="text-white mb-1">Experience</h6>
+                            <p class="text-white-50 small"><span id="years-experience-about">4 years 9 months</span></p>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6 class="text-white mb-1">Nationality</h6>
+                            <p class="text-white-50 small">Indian</p>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6 class="text-white mb-1">Languages</h6>
+                            <p class="text-white-50 small">English, Hindi</p>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6 class="text-white mb-1">Interests</h6>
+                            <p class="text-white-50 small">Travel, Music, Gaming, Chess</p>
+                        </div>
+                    </div>
+
+                    <div class="social-links d-flex gap-3 justify-content-center">
+                        <a href="https://www.linkedin.com/in/arpansahu" target="_blank" class="text-white fs-20"><i
+                                class="cib-linkedin"></i></a>
+                        <a href="https://github.com/arpansahu" target="_blank" class="text-white fs-20"><i
+                                class="cib-github"></i></a>
+                        <a href="https://www.twitter.com/arpansahu_/" target="_blank" class="text-white fs-20"><i
+                                class="cib-twitter"></i></a>
+                        <a href="mailto:arpansahu@zohomail.in" class="text-white fs-20"><i class="cib-gmail"></i></a>
+                    </div>
                 </div>
-            </div><!--end col-->
-            <div class="col-lg-5 ms-auto align-self-center">
-                <div class="mb-5 mb-lg-0">
-                    <p class="mb-2">
-                        <span class="personal-detail-title">Date of birth</span>
-                        <span class="personal-detail-info">01 Aug 1998</span>
-                    </p>
-                    <p class="mb-2">
-                        <span class="personal-detail-title">Spoken Languages</span>
-                        <span class="personal-detail-info">English - Hindi</span>
-                    </p>
-                    <p class="mb-2">
-                        <span class="personal-detail-title">Nationality</span>
-                        <span class="personal-detail-info">India</span>
-                    </p>
-                    <p class="mb-2">
-                        <span class="personal-detail-title">Interest</span>
-                        <span class="personal-detail-info">Travel, Music, Gaming, Chess</span>
-                    </p>
+            </div>
+        </div>
+
+        <!-- Tech Stack Section - Compact Badge Design -->
+        <div class="row">
+            <div class="col-12">
+                <div class="glass-card p-4">
+                    <h4 class="text-white mb-4 text-center">Tech Stack</h4>
+
+                    <!-- Languages & Frameworks -->
+                    <div class="mb-4">
+                        <h6 class="text-accent mb-3" style="color: var(--accent-color);">Languages & Frameworks</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/python.svg' %}" alt="" style="height: 18px;">Python
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/django.svg' %}" alt="" style="height: 18px;">Django
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/flask.svg' %}" alt="" style="height: 18px;">Flask
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/fastapi.svg' %}" alt="" style="height: 18px;">FastAPI
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/javascript.png' %}" alt=""
+                                    style="height: 18px;">JavaScript
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/react.svg' %}" alt="" style="height: 18px;">React
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/redux.svg' %}" alt="" style="height: 18px;">Redux
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/c.svg' %}" alt="" style="height: 18px;">C
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/c++.svg' %}" alt="" style="height: 18px;">C++
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/html5.svg' %}" alt="" style="height: 18px;">HTML5
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/css3.svg' %}" alt="" style="height: 18px;">CSS3
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/bootstrap.svg' %}" alt=""
+                                    style="height: 18px;">Bootstrap
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/mui.svg' %}" alt="" style="height: 18px;">MUI
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/jquery.svg' %}" alt="" style="height: 18px;">jQuery
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Databases -->
+                    <div class="mb-4">
+                        <h6 class="text-accent mb-3" style="color: var(--accent-color);">Databases</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/postgres.svg' %}" alt=""
+                                    style="height: 18px;">PostgreSQL
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/mysql.svg' %}" alt="" style="height: 18px;">MySQL
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/mongodb.svg' %}" alt="" style="height: 18px;">MongoDB
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/redis.svg' %}" alt="" style="height: 18px;">Redis
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/sqlite.svg' %}" alt="" style="height: 18px;">SQLite
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- DevOps & Cloud -->
+                    <div class="mb-4">
+                        <h6 class="text-accent mb-3" style="color: var(--accent-color);">DevOps & Cloud</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/docker.svg' %}" alt="" style="height: 18px;">Docker
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/kubernetes.svg' %}" alt=""
+                                    style="height: 18px;">Kubernetes
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/aws.svg' %}" alt="" style="height: 18px;">AWS
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/heroku.svg' %}" alt="" style="height: 18px;">Heroku
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/jenkins.svg' %}" alt="" style="height: 18px;">Jenkins
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/github_actions.svg' %}" alt=""
+                                    style="height: 18px;">GitHub Actions
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/gitlab.svg' %}" alt="" style="height: 18px;">GitLab
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/harbor.svg' %}" alt="" style="height: 18px;">Harbor
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/rancher.svg' %}" alt="" style="height: 18px;">Rancher
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/portainer.svg' %}" alt=""
+                                    style="height: 18px;">Portainer
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/nginx.svg' %}" alt="" style="height: 18px;">Nginx
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Message Queues & Streaming -->
+                    <div class="mb-4">
+                        <h6 class="text-accent mb-3" style="color: var(--accent-color);">Message Queues & Streaming</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/kafka.svg' %}" alt="" style="height: 18px;">Kafka
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/rabbitmq.svg' %}" alt=""
+                                    style="height: 18px;">RabbitMQ
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/celery.svg' %}" alt="" style="height: 18px;">Celery
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Tools & Technologies -->
+                    <div class="mb-4">
+                        <h6 class="text-accent mb-3" style="color: var(--accent-color);">Tools & Technologies</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/git.svg' %}" alt="" style="height: 18px;">Git
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/github.svg' %}" alt="" style="height: 18px;">GitHub
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/graphql.svg' %}" alt="" style="height: 18px;">GraphQL
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/jwt.svg' %}" alt="" style="height: 18px;">JWT
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/websockets.svg' %}" alt=""
+                                    style="height: 18px;">WebSockets
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/selenium.svg' %}" alt=""
+                                    style="height: 18px;">Selenium
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/scrapy.svg' %}" alt="" style="height: 18px;">Scrapy
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/sentry.svg' %}" alt="" style="height: 18px;">Sentry
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/minio.svg' %}" alt="" style="height: 18px;">MinIO
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/bash.svg' %}" alt="" style="height: 18px;">Bash
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Data Science & ML -->
+                    <div class="mb-4">
+                        <h6 class="text-accent mb-3" style="color: var(--accent-color);">Data Science & ML</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/pandas.svg' %}" alt="" style="height: 18px;">Pandas
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/scikit_learn.svg' %}" alt=""
+                                    style="height: 18px;">Scikit-learn
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Services & Integrations -->
+                    <div class="mb-0">
+                        <h6 class="text-accent mb-3" style="color: var(--accent-color);">Services & Integrations</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/paypal.svg' %}" alt="" style="height: 18px;">PayPal
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/razorpay.svg' %}" alt=""
+                                    style="height: 18px;">Razorpay
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/google_maps.svg' %}" alt=""
+                                    style="height: 18px;">Google Maps
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/mailjet.svg' %}" alt="" style="height: 18px;">Mailjet
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/dns.svg' %}" alt="" style="height: 18px;">DNS
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/hostinger.svg' %}" alt=""
+                                    style="height: 18px;">Hostinger
+                            </span>
+                            <span class="badge bg-white-10 text-white px-3 py-2 d-flex align-items-center gap-2">
+                                <img src="{% static 'images/logos/namecheap.svg' %}" alt=""
+                                    style="height: 18px;">Namecheap
+                            </span>
+                        </div>
+                    </div>
                 </div>
-            </div><!--end col-->
-            <div class="col-12 mt-5">
-                <div class="d-flex flex-wrap justify-content-center  mt-4 mt-md-5">
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/c.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">C</h6>
-                                <p class="text-muted mb-0 fs-12" id="expericnce_dynamic_c">1 Year Experience</p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/c++.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">C++</h6>
-                                <p class="text-muted mb-0 fs-12" id="expericnce_dynamic_c++">1 Year Experience</p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/python.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Python</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/django.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Django</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/flask.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Flask</h6>
-                                <p class="text-muted mb-0 fs-12" id="expericnce_dynamic_flask">6 Months Experience</p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/fastapi.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Fast API</h6>
-                                <p class="text-muted mb-0 fs-12" id="expericnce_dynamic_fast_api">6 Months Experience</p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/react.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">React</h6>
-                                <p class="text-muted mb-0 fs-12" id="expericnce_dynamic_react">6 Months Experience</p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/redux.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Redux</h6>
-                                <p class="text-muted mb-0 fs-12" id="expericnce_dynamic_redux">6 Months Experience</p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/jwt.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">JWT</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/mui.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">MUI</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/docker.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Docker</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/aws.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">AWS</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/heroku.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Heroku</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/graphql.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Graphql</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/git.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Git</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/github.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Github</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/gitlab.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Gitlab</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/css3.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">CSS</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/html5.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">HTML</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/bootstrap.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Bootstrap</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/mysql.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">MySql</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/postgres.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Postgres</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/sqlite.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">SqLite</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/mongodb.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Mongodb</h6>
-                                <p class="text-muted mb-0 fs-12" id="expericnce_dynamic_mongodb">6 Months Experience</p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/javascript.png' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Javascript</h6>
-                                <p class="text-muted mb-0 fs-12" id="expericnce_dynamic_javascript">1 Year Experience</p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/jquery.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Jquery</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/nginx.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Nginx</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/windows.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Windows</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/ubuntu.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Ubuntu</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/redis.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Redis</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/selenium.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Selenium</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                                        <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/celery.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Celery</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/rabbitmq.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">RabbitMQ</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/rabbitmq.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">ElasticSearch/OpenSearch</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/kafka.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Apache Kafka</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/shell.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Shell</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/bash.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Bash</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/jenkins.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Jenkins</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/google_maps.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Google Maps</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/harbor.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Harbor</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/hostinger.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Hostinger</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/namecheap.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">NameCheap</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/kubernetes.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Kubernetes</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/minio.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Minio</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/openvpn.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">OpenVpn</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/paypal.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Paypal</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/portainer.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Portainer</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/python_package_index.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Python Package Index</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/rancher.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Rancher</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/razorpay.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Razorpay</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/scrapy.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Scrapy</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/sentry.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Sentry</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/websockets.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Websockets</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/mailjet.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Mailjet</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/github_actions.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Github Actions</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/dns.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">DNS</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic"></p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/scikit_learn.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Scikit Learn</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic_scikit_learn">6 Months</p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                    <div class="mx-3 ms-sm-0 ms-sm-0 mb-3 card-bg rounded p-1 pe-3 p-md-3 pe-md-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <div class="thumb-md d-flex flex-wrap justify-content-center align-items-center">
-                                <img src="{% static 'images/logos/pandas.svg' %}" alt="" class="" height="34">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-medium text-gray-700">Pandas</h6>
-                                <p class="text-muted mb-0 fs-12 experience_dynamic_pandas">6 Months</p>
-                            </div>
-                        </div>
-                    </div><!--/div-->
-                </div><!-- End div -->
-            </div><!-- End Col -->
+            </div>
         </div><!--end row-->
     </div><!-- end container -->
 </section>
+
+<script>
+    // Calculate years and months of experience for About section
+    (function () {
+        const startDate = new Date('2021-02-01');
+        const currentDate = new Date();
+
+        let years = currentDate.getFullYear() - startDate.getFullYear();
+        let months = currentDate.getMonth() - startDate.getMonth();
+
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        let experienceText = '';
+        if (years > 0) {
+            experienceText = years + (years === 1 ? ' year' : ' years');
+            if (months > 0) {
+                experienceText += ' ' + months + (months === 1 ? ' month' : ' months');
+            }
+        } else {
+            experienceText = months + (months === 1 ? ' month' : ' months');
+        }
+
+        const experienceElement = document.getElementById('years-experience-about');
+        if (experienceElement) {
+            experienceElement.textContent = experienceText;
+        }
+    })();
+</script>
