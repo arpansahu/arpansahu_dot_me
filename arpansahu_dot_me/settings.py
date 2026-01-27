@@ -353,3 +353,5 @@ LOGGING = {
 }
 
 CSRF_TRUSTED_ORIGINS = ['*', ]
+
+# added a comment
