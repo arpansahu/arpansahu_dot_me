@@ -308,31 +308,26 @@ pipeline {
             steps {
                 script {
                     echo "Sentry Release ..."
+                    
+                    // Use Jenkins credentials for Sentry auth token
+                    withCredentials([string(credentialsId: 'sentry-auth-token', variable: 'SENTRY_AUTH_TOKEN')]) {
+                        sh """
+                            # Get the current git commit hash
+                            VERSION=\$(git rev-parse HEAD)
+                            
+                            echo "Creating Sentry release for version: \$VERSION"
 
-                    sh """
-                        # Load SENTRY_AUTH_TOKEN from .env file
-                        export SENTRY_AUTH_TOKEN=\$(grep '^SENTRY_AUTH_TOKEN=' .env | cut -d '=' -f2)
-                        
-                        if [ -z "\$SENTRY_AUTH_TOKEN" ]; then
-                            echo "ERROR: SENTRY_AUTH_TOKEN not found in .env file"
-                            exit 1
-                        fi
-                        
-                        # Get the current git commit hash
-                        VERSION=\$(git rev-parse HEAD)
-                        
-                        echo "Creating Sentry release for version: \$VERSION"
+                            sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} new \$VERSION
 
-                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} new \$VERSION
+                            # Associate commits with the release
+                            sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} set-commits --auto \$VERSION
 
-                        # Associate commits with the release
-                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} set-commits --auto \$VERSION
-
-                        # Deploy the release (optional step for marking the release as deployed)
-                        sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} deploys \$VERSION new -e production
-                        
-                        echo "✅ Sentry release created successfully"
-                    """
+                            # Deploy the release
+                            sentry-cli releases -o ${SENTRY_ORG} -p ${SENTRY_PROJECT} deploys \$VERSION new -e production
+                            
+                            echo "✅ Sentry release created successfully"
+                        """
+                    }
                 }
             }
         }
