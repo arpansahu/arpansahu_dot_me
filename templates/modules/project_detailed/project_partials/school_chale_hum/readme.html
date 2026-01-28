@@ -97,10 +97,10 @@
   Used Acme-dns server for automating renewal of wildcard certificates
  </li>
  <li>
-  Used docker/kubernetes to run inside a container since other projects are also running on the same server. Can be managed using Portainer and Kube Dashboard. Running at https://portainer.arpansahu.me and https://kube.arpansahu.me respectively.
+  Used docker/kubernetes to run inside a container since other projects are also running on the same server. Can be managed using Portainer and Kube Dashboard. Running at https://portainer.arpansahu.space and https://kube.arpansahu.space respectively.
  </li>
  <li>
-  Used Jenkins for CI/CD Integration Jenkins Server. Running at: https://jenkins.arpansahu.me
+  Used Jenkins for CI/CD Integration Jenkins Server. Running at: https://jenkins.arpansahu.space
  </li>
  <li>
   Used Self Hosted Redis VPS for redis which is not accessible outside AWS, Used Redis Server, hosted on Home Server itself as Redis on Home Server
@@ -112,10 +112,10 @@
   PostgresSQL is also hosted on VPS Server Itself.
  </li>
  <li>
-  Using MinIO as self hosted S3 Storage Server. Running at: https://minio.arpansahu.me
+  Using MinIO as self hosted S3 Storage Server. Running at: https://minio.arpansahu.space
  </li>
  <li>
-  Using Harbor as Self Hosted Docker Registry. Running at: https://harbor.arpansahu.me
+  Using Harbor as Self Hosted Docker Registry. Running at: https://harbor.arpansahu.space
  </li>
  <li>
   Using Sentry for logging and debugging. Running at: https://arpansahu.sentry.io
@@ -234,7 +234,7 @@
  Demo
 </h2>
 <p>
- Available at: https://school-chale-hum.arpansahu.me
+ Available at: https://school-chale-hum.arpansahu.space
 </p>
 <p>
  admin login details:--
@@ -362,7 +362,7 @@
 
     elif BUCKET_TYPE == &#x27;MINIO&#x27;:
         AWS_S3_REGION_NAME = &#x27;us-east-1&#x27;  # MinIO doesn&#x27;t require this, but boto3 does
-        AWS_S3_ENDPOINT_URL = &#x27;https://minio.arpansahu.me&#x27;
+        AWS_S3_ENDPOINT_URL = &#x27;https://minio.arpansahu.space&#x27;
         AWS_DEFAULT_ACL = &#x27;public-read&#x27;
         AWS_S3_OBJECT_PARAMETERS = {
             &#x27;CacheControl&#x27;: &#x27;max-age=86400&#x27;,
@@ -859,17 +859,17 @@ include_files = {
  <br/>
  Single EC2 Machine, which cost me a lot, so now I have shifted all the projects to my own Home Server with
  <br/>
- Ubuntu 22.0 LTS Server, except for portfolio project at https://arpansahu.me along with Nginx
+ Ubuntu 22.0 LTS Server, except for portfolio project at https://arpansahu.space along with Nginx
 </p>
 <p>
- Now there is an EC2 server running with an nginx server and arpansahu.me portfolio
+ Now there is an EC2 server running with an nginx server and arpansahu.space portfolio
  <br/>
- Nginx forwarded https://arpansahu.me/ to the Home Server
+ Nginx forwarded https://arpansahu.space/ to the Home Server
 </p>
 <p>
  Multiple Projects are running inside dockers so all projects are dockerized.
  <br/>
- You can refer to all projects at https://arpansahu.me/projects
+ You can refer to all projects at https://arpansahu.space/projects
 </p>
 <p>
  Every project has a different port on which it runs predefined inside Dockerfile and docker-compose.yml
@@ -1052,9 +1052,9 @@ include_files = {
     Configure Harbor:
    </strong>
    <br/>
-   Note: I am having multiple projects running in single machine and 1 nginx is handling subdomains and domain arpansahu.me. Similarly i want my harbor to be accessible
+   Note: I am having multiple projects running in single machine and 1 nginx is handling subdomains and domain arpansahu.space. Similarly i want my harbor to be accessible
    <br/>
-   from harbor.arpansahu.me.
+   from harbor.arpansahu.space.
   </p>
   <ol>
    <li>
@@ -1072,7 +1072,7 @@ include_files = {
 
         # The IP address or hostname to access admin UI and registry service.
         # DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
-        hostname: harbor.arpansahu.me
+        hostname: harbor.arpansahu.space
 
         # http related config
         http:
@@ -1083,8 +1083,8 @@ include_files = {
         # https port for harbor, default is 443
         port: 8602
         # The path of cert and key files for nginx
-        certificate: /etc/letsencrypt/live/arpansahu.me/fullchain.pem 
-        private_key: /etc/letsencrypt/live/arpansahu.me/privkey.pem
+        certificate: /etc/letsencrypt/live/arpansahu.space/fullchain.pem 
+        private_key: /etc/letsencrypt/live/arpansahu.space/privkey.pem
 
 
         .......
@@ -1455,7 +1455,7 @@ include_files = {
 </ol>
 <pre><code class="language-bash">    server {
         listen         80;
-        server_name    harbor.arpansahu.me;
+        server_name    harbor.arpansahu.space;
         # force https-redirects
         if ($scheme = http) {
             return 301 https://$server_name$request_uri;
@@ -1468,8 +1468,8 @@ include_files = {
         }
 
         listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
         include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
     }
@@ -1492,7 +1492,7 @@ include_files = {
  Access Harbor UI
 </h3>
 <p>
- Harbor UI can be accessed here : https://portainer.arpansahu.me/
+ Harbor UI can be accessed here : https://portainer.arpansahu.space/
 </p>
 <h3>
  Connecting Docker Registry
@@ -1503,7 +1503,7 @@ include_files = {
 <p>
  You can connect to my Docker Registry
 </p>
-<pre><code class="language-bash">    docker login harbor.arpansahu.me
+<pre><code class="language-bash">    docker login harbor.arpansahu.space
 </code></pre>
 <h3>
  Pushing Image to Harbor Docker Registry
@@ -1513,14 +1513,14 @@ include_files = {
   Tag Image
  </li>
 </ol>
-<pre><code class="language-bash">    docker tag image_name harbor.arpansahu.me/library/image_name:latest
+<pre><code class="language-bash">    docker tag image_name harbor.arpansahu.space/library/image_name:latest
 </code></pre>
 <ol>
  <li>
   Push Image
  </li>
 </ol>
-<pre><code class="language-bash">    docker push harbor.arpansahu.me/library/image_name:latest
+<pre><code class="language-bash">    docker push harbor.arpansahu.space/library/image_name:latest
 </code></pre>
 <h3>
  Create Image Retention Policy
@@ -1579,7 +1579,7 @@ services:
     build:  # This section will be used when running locally
       context: .
       dockerfile: Dockerfile
-    image: harbor.arpansahu.me/library/school_chale_hum:latest
+    image: harbor.arpansahu.space/library/school_chale_hum:latest
     env_file: ./.env
     command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8013 school_chale_hum.wsgi&quot;
     container_name: school_chale_hum
@@ -1641,8 +1641,8 @@ services:
 </ol>
 <pre><code class="language-bash">        docker run -d --restart=unless-stopped \
             -p 9380:80 -p 9343:443 \
-            -v /etc/letsencrypt/live/arpansahu.me/fullchain.pem:/etc/rancher/ssl/cert.pem \
-            -v /etc/letsencrypt/live/arpansahu.me/privkey.pem:/etc/rancher/ssl/key.pem \
+            -v /etc/letsencrypt/live/arpansahu.space/fullchain.pem:/etc/rancher/ssl/cert.pem \
+            -v /etc/letsencrypt/live/arpansahu.space/privkey.pem:/etc/rancher/ssl/key.pem \
             --privileged \
             --name rancher \
             rancher/rancher:latest \
@@ -1699,7 +1699,7 @@ copy it and fill it in ui and then you will get option to set the password and u
         clusters:
         - name: &quot;local&quot;
         cluster:
-            server: &quot;https://rancher.arpansahu.me/k8s/clusters/local&quot;
+            server: &quot;https://rancher.arpansahu.space/k8s/clusters/local&quot;
 
         users:
         - name: &quot;local&quot;
@@ -1745,7 +1745,7 @@ copy it and fill it in ui and then you will get option to set the password and u
 
     server {
         listen         80;
-        server_name    rancher.arpansahu.me;
+        server_name    rancher.arpansahu.space;
 
         # Redirect all HTTP traffic to HTTPS
         if ($scheme = http) {
@@ -1765,8 +1765,8 @@ copy it and fill it in ui and then you will get option to set the password and u
 
         # Disable HTTP/2 by ensuring http2 is not included in the listen directive
         listen 443 ssl; # managed by Certbot
-        ssl_certificate           /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-        ssl_certificate_key       /etc/letsencrypt/live/arpansahu.me/privkey.pem;   # managed by Certbot
+        ssl_certificate           /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+        ssl_certificate_key       /etc/letsencrypt/live/arpansahu.space/privkey.pem;   # managed by Certbot
         include                   /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
         ssl_dhparam               /etc/letsencrypt/ssl-dhparams.pem;       # managed by Certbot
     }
@@ -1803,7 +1803,7 @@ Rancher API through kubectl command so thats why we use below function
  Access the Dashboard
 </p>
 <p>
- https://rancher.arpansahu.me
+ https://rancher.arpansahu.space
 </p>
 <p>
  you will be required to fill token for login
@@ -1825,7 +1825,7 @@ Rancher API through kubectl command so thats why we use below function
  </li>
 </ol>
 <pre><code class="language-yaml">kubectl create secret docker-registry harbor-registry-secret \
-  --docker-server=harbor.arpansahu.me \
+  --docker-server=harbor.arpansahu.space \
   --docker-username=HARBOR_USERNAME \
   --docker-password=HARBOR_PASSWORD \
   --docker-email=YOUR_EMAIL_ID
@@ -1854,7 +1854,7 @@ spec:
       imagePullSecrets:
         - name: harbor-registry-secret
       containers:
-        - image: harbor.arpansahu.me/library/school_chale_hum:latest
+        - image: harbor.arpansahu.space/library/school_chale_hum:latest
           name: school-chale-hum
           envFrom:
             - secretRef:
@@ -1922,7 +1922,7 @@ A Record    @   0.227.49.244 (public IP of ec2) Automatic
 <pre><code class="language-bash">random-hash-id  IPv4    HTTP    TCP 80  0.0.0.0/0   –
 </code></pre>
 <p>
- Open a new Nginx Configuration file name can be anything i am choosing arpansahu since my domain is arpansahu.me. there is already a default configuration file but we will leave it like that only
+ Open a new Nginx Configuration file name can be anything i am choosing arpansahu since my domain is arpansahu.space. there is already a default configuration file but we will leave it like that only
 </p>
 <pre><code class="language-bash">touch /etc/nginx/sites-available/arpansahu
 sudo vi /etc/nginx/sites-available/arpansahu
@@ -1937,7 +1937,7 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen 80;
-    server_name arpansahu.me www.arpansahu.me;
+    server_name arpansahu.space www.arpansahu.space;
     location / {
         proxy_pass http://127.0.0.1:your_port_here;  # Adjust the proxy_pass or root if serving static files
         proxy_set_header Host $host;
@@ -2001,18 +2001,18 @@ server {
 </code></pre>
 <pre><code>Now installing certificate
 </code></pre>
-<pre><code class="language-bash">    sudo certbot --nginx --rsa-key-size 4096 --no-redirect -d arpansahu.me -d arpansahu.me
+<pre><code class="language-bash">    sudo certbot --nginx --rsa-key-size 4096 --no-redirect -d arpansahu.space -d arpansahu.space
 </code></pre>
 <pre><code>It will ask for the domain name then you can enter your base domain 
-I have generated SSL for arpansahu.me
+I have generated SSL for arpansahu.space
 
 Then a few questions will be asked answer them all and your SSL certificate will be generated
 
 Now These lines will be added to your # Nginx configuration: /etc/nginx/sites-available/arpansahu
 </code></pre>
 <pre><code class="language-bash">    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 </code></pre>
@@ -2026,7 +2026,7 @@ Open the nginx configuration file  and make it like this
     error_log                   /var/log/nginx/supersecure.error.log;
 
     server {
-      server_name               arpansahu.me;
+      server_name               arpansahu.space;
       listen                    80;
       return                    307 https://$host$request_uri;
     }
@@ -2038,8 +2038,8 @@ Open the nginx configuration file  and make it like this
         proxy_set_header        Host $host;
 
         listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
         include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
     }                          
@@ -2048,7 +2048,7 @@ Open the nginx configuration file  and make it like this
 </code></pre>
 <pre><code class="language-bash">    sudo certbot renew --dry-run
 </code></pre>
-<pre><code>Note: this process was for arpansahu.me and not for all subdomains.
+<pre><code>Note: this process was for arpansahu.space and not for all subdomains.
 For all subdomains, we will have to set a wildcard SSL certificate
 </code></pre>
 <ol>
@@ -2064,25 +2064,25 @@ For all subdomains, we will have to set a wildcard SSL certificate
   </p>
  </li>
 </ol>
-<pre><code class="language-bash">    sudo certbot certonly --manual --preferred-challenges dns -d &quot;*.arpansahu.me&quot; -d &quot;arpansahu.me&quot;
+<pre><code class="language-bash">    sudo certbot certonly --manual --preferred-challenges dns -d &quot;*.arpansahu.space&quot; -d &quot;arpansahu.space&quot;
 </code></pre>
-<pre><code>Again you will be asked domain name and here you will use *.arpansahu.me. and second domain you will use is
-arpansahu.me.
+<pre><code>Again you will be asked domain name and here you will use *.arpansahu.space. and second domain you will use is
+arpansahu.space.
 
-Now, you should have a question in your mind about why we are generating SSL for arpansahu.me separately.
+Now, you should have a question in your mind about why we are generating SSL for arpansahu.space separately.
 It&#x27;s because Let&#x27;s Encrypt does not include a base domain with wildcard certificates for subdomains.
 
 After running the above command you will see a message similar to this
 </code></pre>
 <pre><code class="language-bash">    Saving debug log to /var/log/letsencrypt/letsencrypt.log
     Please enter the domain name(s) you would like on your certificate (comma and/or
-    space separated) (Enter &#x27;c&#x27; to cancel): *.arpansahu.me
-    Requesting a certificate for *.arpansahu.me
+    space separated) (Enter &#x27;c&#x27; to cancel): *.arpansahu.space
+    Requesting a certificate for *.arpansahu.space
 
     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     Please deploy a DNS TXT record under the name:
 
-    _acme-challenge.arpansahu.me.
+    _acme-challenge.arpansahu.space.
 
     with the following value:
 
@@ -2091,7 +2091,7 @@ After running the above command you will see a message similar to this
     Before continuing, verify the TXT record has been deployed. Depending on the DNS
     provider, this may take some time, from a few seconds to multiple minutes. You can
     check if it has finished deploying with the aid of online tools, such as Google
-    Admin Toolbox: https://toolbox.googleapps.com/apps/dig/#TXT/_acme-challenge.arpansahu.me.
+    Admin Toolbox: https://toolbox.googleapps.com/apps/dig/#TXT/_acme-challenge.arpansahu.space.
     Look for one or more bolded line(s) below the line &#x27;; ANSWER&#x27;. It should show the
     value(s) you&#x27;ve just added.
 
@@ -2105,20 +2105,20 @@ Similar to the below record.
 </code></pre>
 <pre><code>Now, use this URL to verify whether records are updated or not
 
-https://toolbox.googleapps.com/apps/dig/#TXT/_acme-challenge.arpansahu.me (arpansahu.me is domain)
+https://toolbox.googleapps.com/apps/dig/#TXT/_acme-challenge.arpansahu.space (arpansahu.space is domain)
 
 If it&#x27;s verified then press enter the terminal as mentioned above
 
 Then your certificate will be generated
 </code></pre>
 <pre><code class="language-bash">    Successfully received a certificate.
-    The certificate is saved at: /etc/letsencrypt/live/arpansahu.me-0001/fullchain.pem            (use this in your nginx configuration file)
-    Key is saved at:         /etc/letsencrypt/live/arpansahu.me-0001/privkey.pem
+    The certificate is saved at: /etc/letsencrypt/live/arpansahu.space-0001/fullchain.pem            (use this in your nginx configuration file)
+    Key is saved at:         /etc/letsencrypt/live/arpansahu.space-0001/privkey.pem
     This certificate expires on 2023-01-20.
     These files will be updated when the certificate is renewed.
 </code></pre>
-<pre><code>You can notice here, the certificate generated is arpansahu.me-0001 and not arpansahu.me
-because we already generated a certificate named arpansahu.me
+<pre><code>You can notice here, the certificate generated is arpansahu.space-0001 and not arpansahu.space
+because we already generated a certificate named arpansahu.space
 
 So remember to delete it before generating this wildcard certificate
 using command
@@ -2206,18 +2206,18 @@ using command
         Similarly, Edit other details mentioned below  
 
         # domain name to serve the requests off of
-        domain = &quot;auth.arpansahu.me&quot;
+        domain = &quot;auth.arpansahu.space&quot;
         # zone name server
-        nsname = &quot;auth.arpansahu.me&quot;
+        nsname = &quot;auth.arpansahu.space&quot;
         # admin email address, where @ is substituted with .
-        nsadmin = &quot;admin@arpansahu.me&quot;
+        nsadmin = &quot;admin@arpansahu.space&quot;
 
 
         records = [
           # domain pointing to the public IP of your acme-dns server
-           &quot;auth.arpansahu.me. A 44.199.177.138. (public elastic IP)”,
+           &quot;auth.arpansahu.space. A 44.199.177.138. (public elastic IP)”,
           # specify that auth.example.org will resolve any *.auth.example.org records
-           &quot;auth.arpansahu.me. NS auth.arpansahu.me.”,
+           &quot;auth.arpansahu.space. NS auth.arpansahu.space.”,
         ]
 
         [api]
@@ -2254,17 +2254,17 @@ using command
 </code></pre>
 <pre><code>  * Create A record for your domain
 </code></pre>
-<pre><code class="language-bash">         auth.arpansahu.me IN A &lt;public-IP&gt;
+<pre><code class="language-bash">         auth.arpansahu.space IN A &lt;public-IP&gt;
 </code></pre>
-<pre><code>  * Create NS record for auth.arpansahu.me pointing to auth.arpansahu.me. This means, that auth.arpansahu.me is
-    responsible for any *.auth.arpansahu.me records
+<pre><code>  * Create NS record for auth.arpansahu.space pointing to auth.arpansahu.space. This means, that auth.arpansahu.space is
+    responsible for any *.auth.arpansahu.space records
 </code></pre>
-<pre><code class="language-bash">        auth.arpansahu.me IN NS auth.arpansahu.me
+<pre><code class="language-bash">        auth.arpansahu.space IN NS auth.arpansahu.space
 </code></pre>
 <pre><code>  * Your DNS record will be looking like this
 </code></pre>
 <pre><code class="language-bash">        A Record    auth    44.199.177.138  Automatic   
-        NS Record   auth    auth.arpansahu.me.  Automatic
+        NS Record   auth    auth.arpansahu.space.  Automatic
 </code></pre>
 <pre><code>  * Test acme-dns server (Split the screen)
 </code></pre>
@@ -2272,9 +2272,9 @@ using command
 </code></pre>
 <pre><code>  * From the local host try to resolve the random DNS record
 </code></pre>
-<pre><code class="language-bash">        dig api.arpansahu.me
-        dig api.auth.arpansahu.me
-        dig 7gvhsbvf.auth.arpansahu.me
+<pre><code class="language-bash">        dig api.arpansahu.space
+        dig api.auth.arpansahu.space
+        dig 7gvhsbvf.auth.arpansahu.space
 </code></pre>
 <ol>
  <li>
@@ -2310,12 +2310,12 @@ using command
    * Create a new acme-dns account for your domain and set it up
 </code></pre>
 <pre><code class="language-bash">         sudo acme-dns-client register \
-         -d arpansahu.me -s http://localhost:8090
+         -d arpansahu.space -s http://localhost:8090
 </code></pre>
 <pre><code>    The above command is old now we will use the new command
 </code></pre>
 <pre><code class="language-bash">         sudo acme-dns-client register \
-          -d arpansahu.me \
+          -d arpansahu.space \
           -allow 0.0.0.0/0 \
           -s http://localhost:8080
 </code></pre>
@@ -2323,7 +2323,7 @@ using command
 
    * Creating Another DNS Entry
 </code></pre>
-<pre><code class="language-bash">         CNAME Record   _acme-challenge e6ac0f0a-0358-46d6-a9d3-8dd41f44c7ec.auth.arpansahu.me. Automatic
+<pre><code class="language-bash">         CNAME Record   _acme-challenge e6ac0f0a-0358-46d6-a9d3-8dd41f44c7ec.auth.arpansahu.space. Automatic
 </code></pre>
 <pre><code>    Since the last update in  the last step now two more entries should be added
 </code></pre>
@@ -2335,7 +2335,7 @@ using command
 <pre><code>    Same as an entry that needs to be added to complete a time challenge as previously we did.
    * Check whether the entry is added successfully or not
 </code></pre>
-<pre><code class="language-bash">         dig _acme-challenge.arpansahu.me
+<pre><code class="language-bash">         dig _acme-challenge.arpansahu.space
 </code></pre>
 <pre><code>   * Get a wildcard certificate
 </code></pre>
@@ -2344,14 +2344,14 @@ using command
          --test-cert \ 
          --preferred-challenges dns \ 
          --manual-auth-hook &#x27;acme-dns-client&#x27; \ 
-         -d ‘*.arpansahu.me’ -d arpansahu.me
+         -d ‘*.arpansahu.space’ -d arpansahu.space
 </code></pre>
 <pre><code>    Note: Here we have to mention both the base and wildcard domain names with -d since let&#x27;s encrypt don&#x27;t provide base domain ssl by default in wildcard domain ssl
 
    * Verifying the certificate
 </code></pre>
 <pre><code class="language-bash">         sudo openssl x509 -text -noout \
-         -in /etc/letsencrypt/live/arpansahu.me/fullchain.pem
+         -in /etc/letsencrypt/live/arpansahu.space/fullchain.pem
 </code></pre>
 <pre><code>   * Renew certificate (test)
 </code></pre>
@@ -2371,7 +2371,7 @@ using command
 </code></pre>
 <pre><code>   * Check the entry is added successfully or not
 </code></pre>
-<pre><code class="language-bash">         dig _acme-challenge.arpansahu.me
+<pre><code class="language-bash">         dig _acme-challenge.arpansahu.space
 </code></pre>
 <pre><code>6. Setup Auto-Renew for Letsencrypt WILDCARD Certificate
    * Setup cronjob
@@ -2391,7 +2391,7 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    school-chale-hum.arpansahu.me;
+    server_name    school-chale-hum.arpansahu.space;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
@@ -2409,8 +2409,8 @@ server {
     }
 
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
@@ -2493,7 +2493,7 @@ sudo apt-get install jenkins
 </ul>
 <pre><code class="language-bash">    server {
         listen         80;
-        server_name    jenkins.arpansahu.me;
+        server_name    jenkins.arpansahu.space;
         # force https-redirects
         if ($scheme = http) {
             return 301 https://$server_name$request_uri;
@@ -2506,8 +2506,8 @@ sudo apt-get install jenkins
         }
 
         listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
         include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
     }
@@ -2568,7 +2568,7 @@ sudo apt-get install jenkins
 </ol>
 <pre><code class="language-bash">        server {
             listen 80;
-            server_name school-chale-hum.arpansahu.me;
+            server_name school-chale-hum.arpansahu.space;
 
             # Force HTTPS redirects
             if ($scheme = http) {
@@ -2587,8 +2587,8 @@ sudo apt-get install jenkins
             }
 
             listen 443 ssl; # managed by Certbot
-            ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-            ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+            ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+            ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
             include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
             ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
         }
@@ -2600,7 +2600,7 @@ sudo apt-get install jenkins
 </ol>
 <pre><code class="language-bash">        server {
             listen 80;
-            server_name school-chale-hum.arpansahu.me;
+            server_name school-chale-hum.arpansahu.space;
 
             # Force HTTPS redirects
             if ($scheme = http) {
@@ -2619,8 +2619,8 @@ sudo apt-get install jenkins
             }
 
             listen 443 ssl; # managed by Certbot
-            ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-            ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+            ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+            ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
             include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
             ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
         }
@@ -2660,7 +2660,7 @@ sudo apt-get install jenkins
         booleanParam(name: &#x27;skip_checks&#x27;, defaultValue: false, description: &#x27;Skip the Check for Changes stage&#x27;)
     }
     environment {
-        REGISTRY = &quot;harbor.arpansahu.me&quot;
+        REGISTRY = &quot;harbor.arpansahu.space&quot;
         REPOSITORY = &quot;library/school_chale_hum&quot;
         IMAGE_TAG = &quot;${env.BUILD_ID}&quot;
         COMMIT_FILE = &quot;${env.WORKSPACE}/last_commit.txt&quot;
@@ -2855,7 +2855,7 @@ sudo apt-get install jenkins
         choice(name: &#x27;DEPLOY_TYPE&#x27;, choices: [&#x27;kubernetes&#x27;, &#x27;docker&#x27;], description: &#x27;Select deployment type&#x27;)
     }
     environment {
-        REGISTRY = &quot;harbor.arpansahu.me&quot;
+        REGISTRY = &quot;harbor.arpansahu.space&quot;
         REPOSITORY = &quot;library/school_chale_hum&quot;
         IMAGE_TAG = &quot;latest&quot;  // or use a specific tag if needed
         KUBECONFIG = &quot;${env.WORKSPACE}/kubeconfig&quot;  // Set the KUBECONFIG environment variable
@@ -2863,9 +2863,9 @@ sudo apt-get install jenkins
         ENV_PROJECT_NAME = &quot;school_chale_hum&quot;
         DOCKER_PORT = &quot;8013&quot;
         PROJECT_NAME_WITH_DASH = &quot;school-chale-hum&quot;
-        SERVER_NAME= &quot;school-chale-hum.arpansahu.me&quot;
+        SERVER_NAME= &quot;school-chale-hum.arpansahu.space&quot;
         BUILD_PROJECT_NAME = &quot;school_chale_hum_build&quot;
-        JENKINS_DOMAIN = &quot;jenkins.arpansahu.me&quot;
+        JENKINS_DOMAIN = &quot;jenkins.arpansahu.space&quot;
         SENTRY_ORG=&quot;arpansahu&quot;
         SENTRY_PROJECT=&quot;school_chale_hum&quot;
     }
@@ -3222,7 +3222,7 @@ sudo apt-get install jenkins
 </p>
 <ul>
  <li>
-  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
+  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
  </li>
 </ul>
 <p>
@@ -3233,7 +3233,7 @@ sudo apt-get install jenkins
 </p>
 <ul>
  <li>
-  Configure another Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
+  Configure another Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
  </li>
 </ul>
 <p>
@@ -3471,8 +3471,8 @@ Add all the env variables as required and mentioned in the Readme File.
             listen 9550 ssl;  # Use SSL on port 443
             proxy_pass postgresql_upstream;
 
-            ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem;  # SSL certificate
-            ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem;  # SSL certificate key
+            ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem;  # SSL certificate
+            ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem;  # SSL certificate key
             ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;  # SSL DH parameters
             include /etc/letsencrypt/options-ssl-nginx.conf;  # SSL options
 
@@ -3541,8 +3541,8 @@ Follow these steps:
                     listen 9550 ssl;  # Use SSL on port different 443
                     proxy_pass postgresql_upstream;
 
-                    ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem;  # SSL certificate
-                    ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem;  # SSL certificate key
+                    ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem;  # SSL certificate
+                    ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem;  # SSL certificate key
                     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;  # SSL DH parameters
                     include /etc/letsencrypt/options-ssl-nginx.conf;  # SSL options
 
@@ -3566,7 +3566,7 @@ Follow these steps:
 </ol>
 <pre><code class="language-bash">    psql &quot;postgres://username:password@domain/database_name?sslmode=require&quot;
 </code></pre>
-<pre><code class="language-bash">psql &quot;postgres://user:user_pass@arpansahu.me/database_name?sslmode=require&quot;
+<pre><code class="language-bash">psql &quot;postgres://user:user_pass@arpansahu.space/database_name?sslmode=require&quot;
 </code></pre>
 <h3>
  Installing PgAdmin
@@ -3711,7 +3711,7 @@ pgadmin4
 </ol>
 <pre><code class="language-bash">    server {
         listen         80;
-        server_name    pgadmin.arpansahu.me;
+        server_name    pgadmin.arpansahu.space;
         # force https-redirects
         if ($scheme = http) {
             return 301 https://$server_name$request_uri;
@@ -3724,8 +3724,8 @@ pgadmin4
         }
 
         listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
         include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
     }
@@ -3751,7 +3751,7 @@ pgadmin4
  This approach should help you manage the dependencies and resolve the version conflicts more effectively while ensuring pgAdmin runs in the background and is accessible via Nginx as a reverse proxy.
 </p>
 <p>
- My PGAdmin4 can be accessed here : https://pgadmin.arpansahu.me/
+ My PGAdmin4 can be accessed here : https://pgadmin.arpansahu.space/
 </p>
 <h2>
  Portainer
@@ -3871,7 +3871,7 @@ pgadmin4
 </ol>
 <pre><code class="language-bash">    server {
         listen         80;
-        server_name    portainer.arpansahu.me;
+        server_name    portainer.arpansahu.space;
         # force https-redirects
         if ($scheme = http) {
             return 301 https://$server_name$request_uri;
@@ -3884,8 +3884,8 @@ pgadmin4
         }
 
         listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
         include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
     }
@@ -3944,7 +3944,7 @@ pgadmin4
 </code></pre>
 <pre><code class="language-bash">        server {
             listen         80;
-            server_name    portainer-agent.arpansahu.me;
+            server_name    portainer-agent.arpansahu.space;
             # force https-redirects
             if ($scheme = http) {
                 return 301 https://$server_name$request_uri;
@@ -3957,8 +3957,8 @@ pgadmin4
             }
 
             listen 443 ssl; # managed by Certbot
-            ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-            ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+            ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+            ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
             include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
             ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
         }
@@ -3998,11 +3998,11 @@ pgadmin4
             portainer/agent:2.19.5
 </code></pre>
 <pre><code>3. Add Name, I have used docker-prod-env
-4. Add Environment address domain:port combination is needed in my case portainer-agent.arpansahu.me: 9995
+4. Add Environment address domain:port combination is needed in my case portainer-agent.arpansahu.space: 9995
 5. Click Connect
 </code></pre>
 <p>
- My Portainer can be accessed here : https://portainer.arpansahu.me/
+ My Portainer can be accessed here : https://portainer.arpansahu.space/
 </p>
 <h2>
  Redis Server
@@ -4184,7 +4184,7 @@ pgadmin4
   </p>
  </li>
 </ol>
-<pre><code class="language-sh">      redis-cli -h arpansahu.me -p 6379 -a your_secure_password
+<pre><code class="language-sh">      redis-cli -h arpansahu.space -p 6379 -a your_secure_password
 </code></pre>
 <h2>
  Note: If you want to use SSL connection
@@ -4222,7 +4222,7 @@ pgadmin4
 <p>
  redis server can be accessed
 </p>
-<pre><code class="language-bash">redis-cli -h arpansahu.me -p 6379 -a password_required
+<pre><code class="language-bash">redis-cli -h arpansahu.space -p 6379 -a password_required
 </code></pre>
 <h2>
  Redis Commander
@@ -4287,7 +4287,7 @@ pgadmin4
 </ol>
 <pre><code class="language-bash">    server {
         listen         80;
-        server_name    redis.arpansahu.me;
+        server_name    redis.arpansahu.space;
         # force https-redirects
         if ($scheme = http) {
             return 301 https://$server_name$request_uri;
@@ -4302,8 +4302,8 @@ pgadmin4
         }
 
         listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
         include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     }
 </code></pre>
@@ -4372,7 +4372,7 @@ pgadmin4
 <pre><code class="language-bash">    pm2 logs redis-commander
 </code></pre>
 <p>
- My Redis Commander can be accessed here : https://redis.arpansahu.me/
+ My Redis Commander can be accessed here : https://redis.arpansahu.space/
 </p>
 <h2>
  MinIO (Self hosted S3 Storage)
@@ -4399,7 +4399,7 @@ pgadmin4
    <br/>
    While setting up nginx we already automated this auto regeneration of certificates every3 months
    <br/>
-   The certificates will be stored in /etc/letsencrypt/live/arpansahu.me/.
+   The certificates will be stored in /etc/letsencrypt/live/arpansahu.space/.
   </p>
  </li>
  <li>
@@ -4472,7 +4472,7 @@ pgadmin4
 </ol>
 <pre><code class="language-bash">    server {
         listen         80;
-        server_name    minio.arpansahu.me;
+        server_name    minio.arpansahu.space;
 
         # Redirect HTTP to HTTPS
         if ($scheme = http) {
@@ -4482,7 +4482,7 @@ pgadmin4
 
     server {
         listen         443 ssl;
-        server_name    minio.arpansahu.me;
+        server_name    minio.arpansahu.space;
 
         # SSL certificates
         ssl_certificate /etc/minio/certs/public.crt;
@@ -4524,7 +4524,7 @@ pgadmin4
 </ol>
 <pre><code class="language-bash">    server {
         listen         80;
-        server_name    minioui.arpansahu.me;
+        server_name    minioui.arpansahu.space;
         # force https-redirects
         if ($scheme = http) {
             return 301 https://$server_name$request_uri;
@@ -4542,8 +4542,8 @@ pgadmin4
         }
 
         listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
         include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
     }
@@ -4666,7 +4666,7 @@ pgadmin4
 <p>
  You can connect to my MinIO Server using terminal
 </p>
-<pre><code class="language-bash">  mc alias set myminio https://arpansahu.me api_key api_secret --api S3v4
+<pre><code class="language-bash">  mc alias set myminio https://arpansahu.space api_key api_secret --api S3v4
   mc ls
 </code></pre>
 <h1>
@@ -4850,7 +4850,7 @@ RECEIVER_EMAIL=your_receiver_email@example.com
 </p>
 <ul>
  <li>
-  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
+  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
  </li>
 </ul>
 <p>

@@ -1,11 +1,45 @@
+# Git
 .git
+.gitignore
+.gitattributes
+
+# Python cache
 __pycache__
 *.pyc
 *.pyo
 *.pyd
+
+# Environment
 .env
+
+# IDE
 .vscode
+.idea
+
+# Node
 node_modules
+
+# Testing
 tests
 logs
 *.log
+
+# CI/CD
+Jenkinsfile*
+.jenkins
+
+# Documentation
+*.md
+README.md
+CHANGELOG.md
+SECURITY.md
+
+# Kubernetes & Docker Compose
+*.yaml
+*.yml
+!docker-compose.yml
+
+# Misc
+.DS_Store
+*.bak
+*.tmp

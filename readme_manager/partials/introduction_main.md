@@ -1,4 +1,4 @@
-# arpansahu.me | Django Portfolio Project 
+# arpansahu.space | Django Portfolio Project 
 
 This is a simple django portfolio project
 

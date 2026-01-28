@@ -81,18 +81,21 @@ pipeline {
                 expression { return BUILD_STATUS != 'NOT_BUILT' }
             }
             steps {
-                script {
-                    // Ensure Docker is running and can be accessed
-                    sh 'docker --version'
+                timeout(time: 30, unit: 'MINUTES') {
+                    script {
+                        // Ensure Docker is running and can be accessed
+                        sh 'docker --version'
 
-                    // Log the image details
-                    echo "Building Docker image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}"
+                        // Log the image details
+                        echo "Building Docker image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}"
 
-                    // Build the Docker image
-                    sh """
-                    docker build -t ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} .
-                    docker tag ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} ${REGISTRY}/${REPOSITORY}:latest
-                    """
+                        // Build the Docker image with BuildKit for better performance
+                        sh """
+                        export DOCKER_BUILDKIT=1
+                        docker build -t ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} .
+                        docker tag ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} ${REGISTRY}/${REPOSITORY}:latest
+                        """
+                    }
                 }
             }
         }
