@@ -220,50 +220,77 @@ pipeline {
                             def clusterIP = sh(script: "kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}'", returnStdout: true).trim()
                             echo "Cluster IP: ${clusterIP}"
 
-                            // Verify if the service is accessible and delete the Docker container if accessible and update nginx configuration
+                            // Health check with retry logic (3 attempts with 1-minute waits)
                             sh """
-                                HTTP_STATUS=\$(curl -s -o /dev/null -w "%{http_code}" -L http://${clusterIP}:${nodePort})
-                                echo "HTTP Status: \$HTTP_STATUS"
+                                MAX_RETRIES=3
+                                RETRY_COUNT=0
+                                SUCCESS=false
                                 
-                                if [ "\$HTTP_STATUS" -eq 200 ]; then
-                                    echo "Service is reachable at http://${clusterIP}:${nodePort}"
-
-                                    echo "Updating Nginx configuration at ${NGINX_CONF}..."
-                                    sudo sed -i 's|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|' ${NGINX_CONF}
+                                echo "Starting health check for http://${clusterIP}:${nodePort}"
+                                
+                                while [ \$RETRY_COUNT -lt \$MAX_RETRIES ]; do
+                                    RETRY_COUNT=\$((RETRY_COUNT+1))
+                                    echo "Attempt \$RETRY_COUNT/\$MAX_RETRIES..."
                                     
-                                    if [ \$? -ne 0 ]; then
-                                        echo "Failed to update Nginx configuration"
-                                        exit 1
-                                    fi
+                                    HTTP_STATUS=\$(curl -s -o /dev/null -w "%{http_code}" -L http://${clusterIP}:${nodePort} 2>/dev/null || echo "000")
+                                    echo "HTTP Status: \$HTTP_STATUS"
                                     
-                                    echo "Reloading Nginx..."
-                                    sudo nginx -s reload
-                                    
-                                    if [ \$? -ne 0 ]; then
-                                        echo "Failed to reload Nginx"
-                                        exit 1
-                                    fi
-                                    
-                                    echo "Nginx reloaded successfully"
-                                    
-                                    DOCKER_CONTAINER=\$(docker ps -q -f name=${ENV_PROJECT_NAME})
-                                    
-                                    if [ "\$DOCKER_CONTAINER" ]; then
-                                        echo "Docker container ${ENV_PROJECT_NAME} is running. Removing it..."
-                                        docker rm -f ${ENV_PROJECT_NAME}
-                                        
-                                        if [ \$? -ne 0 ]; then
-                                            echo "Failed to remove Docker container ${ENV_PROJECT_NAME}"
-                                            exit 1
-                                        fi
-                                        
+                                    if [ "\$HTTP_STATUS" = "200" ]; then
+                                        echo "✅ Service is reachable at http://${clusterIP}:${nodePort}"
+                                        SUCCESS=true
+                                        break
                                     else
-                                        echo "Docker container ${ENV_PROJECT_NAME} is not running. Skipping removal"
+                                        echo "❌ Service not ready (HTTP \$HTTP_STATUS)"
+                                        
+                                        if [ \$RETRY_COUNT -lt \$MAX_RETRIES ]; then
+                                            echo "⏳ Waiting 60 seconds before retry..."
+                                            sleep 60
+                                        fi
                                     fi
-
-                                else
-                                    echo "Service is not reachable at http://${clusterIP}:${nodePort}. HTTP Status: \$HTTP_STATUS"
+                                done
+                                
+                                if [ "\$SUCCESS" = "false" ]; then
+                                    echo "ERROR: Service failed to become reachable after \$MAX_RETRIES attempts"
+                                    echo "Debugging information:"
+                                    kubectl get pods -l app=${PROJECT_NAME_WITH_DASH} || true
+                                    kubectl logs -l app=${PROJECT_NAME_WITH_DASH} --tail=30 || true
                                     exit 1
+                                fi
+                                
+                                # Update Nginx configuration
+                                echo "Updating Nginx configuration at ${NGINX_CONF}..."
+                                sudo sed -i 's|proxy_pass .*;|proxy_pass http://${clusterIP}:${nodePort};|' ${NGINX_CONF}
+                                
+                                if [ \$? -ne 0 ]; then
+                                    echo "Failed to update Nginx configuration"
+                                    exit 1
+                                fi
+                                
+                                echo "Reloading Nginx..."
+                                sudo nginx -s reload
+                                
+                                if [ \$? -ne 0 ]; then
+                                    echo "Failed to reload Nginx"
+                                    exit 1
+                                fi
+                                
+                                echo "✅ Nginx reloaded successfully"
+                                
+                                # Remove Docker container if running
+                                DOCKER_CONTAINER=\$(docker ps -q -f name=${ENV_PROJECT_NAME})
+                                
+                                if [ "\$DOCKER_CONTAINER" ]; then
+                                    echo "Docker container ${ENV_PROJECT_NAME} is running. Removing it..."
+                                    docker rm -f ${ENV_PROJECT_NAME}
+                                    
+                                    if [ \$? -ne 0 ]; then
+                                        echo "Failed to remove Docker container ${ENV_PROJECT_NAME}"
+                                        exit 1
+                                    fi
+                                    
+                                    echo "✅ Docker container removed successfully"
+                                else
+                                    echo "Docker container ${ENV_PROJECT_NAME} is not running. Skipping removal"
                                 fi
                             """
                         } else {
