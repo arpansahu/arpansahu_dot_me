@@ -10,14 +10,12 @@ from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-from mailjet_rest import Client
 import pyotp
 
 from emails_otp.models import EmailsOtpRecord
 from resume.models import Resume
 from .forms import ContactForm
-
-mailjet = Client(auth=(settings.MAIL_JET_API_KEY, settings.MAIL_JET_API_SECRET), version='v3.1')
+from .utils import send_email
 
 
 class Home(View):
@@ -37,49 +35,30 @@ class Home(View):
             subject = request.POST['subject']
             message_form = request.POST['message']
 
-            text = """\
-                        Hi message from {0},
+            text = f"""Hi message from {name},
                         How are you?<br>
-                        Subject: {1}
-                        arpansahu.space""".format(name, subject)
-            html = """\
-                        <html>
+                        Subject: {subject}
+                        {settings.PROTOCOL}://{settings.DOMAIN}"""
+            html = f"""<html>
                           <body>
-                            <p>Hi {0} contacted from your Portfolio,<br>
-                                Message:{2} <br>
+                            <p>Hi {name} contacted from your Portfolio,<br>
+                                Message:{message_form} <br>
                                 Contact Details:<br>
-                                <p>{3}<br>{4}</p>
-                               <a href="https://arpansahu.space">arpansahu.space</a> 
+                                <p>{contact}<br>{email}</p>
+                               <a href="{settings.PROTOCOL}://{settings.DOMAIN}">{settings.DOMAIN}</a> 
                             </p>
                           </body>
-                        </html>
-                        """.format(name, subject, message_form, contact, email)
-
-            data = {
-                'Messages': [
-                    {
-                        "From": {
-                            "Email": settings.MAIL_JET_EMAIL_ADDRESS,
-                            "Name": "arpansahu.space"
-                        },
-                        "To": [
-                            {
-                                "Email": settings.MY_EMAIL_ADDRESS,
-                                "Name": "Arpan Sahu"
-                            }
-                        ],
-                        "Subject": f'{name} Contacted you on arpansahu.space',
-                        "TextPart": text,
-                        "HTMLPart": html,
-                        "CustomID": f"{email}"
-                    }
-                ]
-            }
+                        </html>"""
 
             try:
-                result = mailjet.send.create(data=data)
-                if result.status_code == 200:
-                    message_sent = True
+                message_sent, _ = send_email(
+                    to_email=settings.MY_EMAIL_ADDRESS,
+                    to_name="Arpan Sahu",
+                    subject=f'{name} Contacted you on {settings.DOMAIN}',
+                    text_part=text,
+                    html_part=html,
+                    custom_id=email
+                )
             except Exception as e:
                 tb = traceback.format_exc()
                 print(tb)
@@ -92,7 +71,12 @@ class Home(View):
 
 class ProjectDetailedView(View):
     def get(self, request, *args, **kwargs):
-        project_name = self.kwargs.get('project_name', None)        
+        project_name = self.kwargs.get('project_name', None)
+        
+        # Validate project_name - should not contain .html extension
+        if project_name and '.html' in project_name:
+            return HttpResponseNotFound('Invalid project name')
+            
         template_name = 'modules/project_detailed/project_detailed.html'
         return render(request, template_name=template_name, context={'project_name': project_name})
         
