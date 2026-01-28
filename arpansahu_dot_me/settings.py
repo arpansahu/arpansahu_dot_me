@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
+import subprocess
 from pathlib import Path
 from decouple import config
 import sentry_sdk
@@ -258,12 +259,15 @@ LOGIN_REDIRECT_URL = "/"
 
 OTP_EXPIRY_TIME = 60
 
-# HTTP_X_FORWARDED_PROTO
-# SECURE_HSTS_SECONDS = 30  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!*
-# SECURE_HSTS_SECONDS = 2_592_000  # 30 days
-# SECURE_HSTS_PRELOAD = True
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+# Security Settings for Production
+if not DEBUG:
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_PRELOAD = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 # REFERRER POLICY
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
@@ -287,6 +291,10 @@ def get_git_commit_hash():
     except Exception:
         return None
 
+# Adjust sampling rates based on environment
+traces_sample_rate = 0.1 if SENTRY_ENVIRONMENT == 'production' else 1.0
+profiles_sample_rate = 0.1 if SENTRY_ENVIRONMENT == 'production' else 1.0
+
 sentry_sdk.init(
     dsn=SENTRY_DSH_URL,
     integrations=[
@@ -301,11 +309,11 @@ sentry_sdk.init(
                 cache_spans=False,
             ),
         ],
-    traces_sample_rate=1.0,  # Adjust this according to your needs
-    send_default_pii=True,  # To capture personal identifiable information (optional)
-    release=get_git_commit_hash(),  # Set the release to the current git commit hash
-    environment=SENTRY_ENVIRONMENT,  # Or "staging", "development", etc.
-    profiles_sample_rate=1.0,
+    traces_sample_rate=traces_sample_rate,  # 10% in production, 100% in dev
+    send_default_pii=True,
+    release=get_git_commit_hash(),
+    environment=SENTRY_ENVIRONMENT,
+    profiles_sample_rate=profiles_sample_rate,  # 10% in production, 100% in dev
 )
 
 LOGGING = {
