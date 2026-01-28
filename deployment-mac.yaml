@@ -17,7 +17,7 @@ spec:
       imagePullSecrets:
         - name: harbor-registry-secret
       containers:
-        - image: harbor.arpansahu.me/library/arpansahu_dot_me_mac:latest
+        - image: harbor.arpansahu.space/library/arpansahu_dot_me_mac:latest
           name: arpansahu-dot-me-mac
           envFrom:
             - secretRef:

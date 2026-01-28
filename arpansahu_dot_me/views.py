@@ -41,7 +41,7 @@ class Home(View):
                         Hi message from {0},
                         How are you?<br>
                         Subject: {1}
-                        arpansahu.me""".format(name, subject)
+                        arpansahu.space""".format(name, subject)
             html = """\
                         <html>
                           <body>
@@ -49,7 +49,7 @@ class Home(View):
                                 Message:{2} <br>
                                 Contact Details:<br>
                                 <p>{3}<br>{4}</p>
-                               <a href="https://arpansahu.me">arpansahu.me</a> 
+                               <a href="https://arpansahu.space">arpansahu.space</a> 
                             </p>
                           </body>
                         </html>
@@ -60,7 +60,7 @@ class Home(View):
                     {
                         "From": {
                             "Email": settings.MAIL_JET_EMAIL_ADDRESS,
-                            "Name": "arpansahu.me"
+                            "Name": "arpansahu.space"
                         },
                         "To": [
                             {
@@ -68,7 +68,7 @@ class Home(View):
                                 "Name": "Arpan Sahu"
                             }
                         ],
-                        "Subject": f'{name} Contacted you on arpansahu.me',
+                        "Subject": f'{name} Contacted you on arpansahu.space',
                         "TextPart": text,
                         "HTMLPart": html,
                         "CustomID": f"{email}"
@@ -142,7 +142,7 @@ class GetOTPView(AjaxResponseMixin, View):
         message = None
         otp = None
         status_code = None
-        subject = 'One Time Password for Contacting on arpansahu.me'
+        subject = 'One Time Password for Contacting on arpansahu.space'
 
         if email_status_obj and email_status_obj.count >= 5:
             status_code = 400
@@ -156,14 +156,14 @@ class GetOTPView(AjaxResponseMixin, View):
                         Hi message from {0},
                         How are you?<br>
                         Subject: {1}
-                        arpansahu.me""".format(email, subject)
+                        arpansahu.space""".format(email, subject)
             html = """\
                         <html>
                           <body>
-                            <p>Hi {0} here is otp from for contacting on arpansahu.me <br>
+                            <p>Hi {0} here is otp from for contacting on arpansahu.space <br>
                                 OTP:{2} <br>
                                 <p> this otp is valid for 60 seconds. </p><br>
-                               <a href="https://arpansahu.me">arpansahu.me</a> 
+                               <a href="https://arpansahu.space">arpansahu.space</a> 
                             </p>
                           </body>
                         </html>
@@ -174,7 +174,7 @@ class GetOTPView(AjaxResponseMixin, View):
                     {
                         "From": {
                             "Email": settings.MAIL_JET_EMAIL_ADDRESS,
-                            "Name": "arpansahu.me"
+                            "Name": "arpansahu.space"
                         },
                         "To": [
                             {
@@ -236,7 +236,7 @@ class ContactView(View):
                 Hi message from {0},
                 How are you?<br>
                 Subject: {1}
-                arpansahu.me""".format(name, subject)
+                arpansahu.space""".format(name, subject)
                 html = """\
                 <html>
                   <body>
@@ -244,7 +244,7 @@ class ContactView(View):
                         Message:{2} <br>
                         Contact Details:<br>
                         <p>{3}<br>{4}</p>
-                       <a href="https://arpansahu.me">arpansahu.me</a> 
+                       <a href="https://arpansahu.space">arpansahu.space</a> 
                     </p>
                   </body>
                 </html>
@@ -255,7 +255,7 @@ class ContactView(View):
                         {
                             "From": {
                                 "Email": settings.MAIL_JET_EMAIL_ADDRESS,
-                                "Name": "arpansahu.me"
+                                "Name": "arpansahu.space"
                             },
                             "To": [
                                 {
@@ -263,7 +263,7 @@ class ContactView(View):
                                     "Name": "Arpan Sahu"
                                 }
                             ],
-                            "Subject": f'{name} Contacted you on arpansahu.me',
+                            "Subject": f'{name} Contacted you on arpansahu.space',
                             "TextPart": text,
                             "HTMLPart": html,
                             "CustomID": f"{email}"
