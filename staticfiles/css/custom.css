@@ -1,0 +1,31 @@
+/* Fix for overlapping background text in Resume section */
+.bg-text {
+    opacity: 0.1 !important;
+    /* Keep it subtle as a background */
+    z-index: 0 !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+
+.bg-text h1 {
+    font-size: 6rem;
+    margin: 0;
+    color: #ffffff !important;
+    /* Make "Resume" white */
+}
+
+/* Ensure the main title is on top and visible */
+.position-relative.z-i-2 {
+    z-index: 2 !important;
+    position: relative !important;
+    color: #ffffff !important;
+    /* Make "Education & Experience" white */
+}
+
+/* Override text-dark class for this specific section if needed */
+.section h2.text-dark {
+    color: #ffffff !important;
+}

@@ -11,6 +11,17 @@ pipeline {
         ENV_PROJECT_NAME = "arpansahu_dot_me"
     }
     stages {
+        stage('Setup Environment') {
+            steps {
+                script {
+                    echo "Loading environment variables from Jenkins credentials..."
+                    withCredentials([string(credentialsId: 'arpansahu_dot_me_env_file', variable: 'ENV_CONTENT')]) {
+                        sh 'echo "$ENV_CONTENT" > .env'
+                        echo "✓ Environment file created successfully"
+                    }
+                }
+            }
+        }
         stage('Checkout') {
             steps {
                 checkout scm
@@ -19,6 +30,9 @@ pipeline {
         stage('Check for Changes') {
             steps {
                 script {
+                    // Initialize BUILD_STATUS
+                    BUILD_STATUS = 'NOT_BUILT'
+                    
                     if (params.skip_checks) {
                         echo "Skipping Checks is True. Proceeding with build."
                         BUILD_STATUS = 'BUILT'
@@ -62,17 +76,6 @@ pipeline {
                         // Save the current commit hash to the file
                         writeFile(file: COMMIT_FILE, text: currentCommit)
                     }
-                }
-            }
-        }
-        stage('Dependencies') {
-            when {
-                expression { return BUILD_STATUS != 'NOT_BUILT' }
-            }
-            steps {
-                script {
-                    // Copy .env file to the workspace
-                    sh "sudo cp /root/projectenvs/${ENV_PROJECT_NAME}/.env ${env.WORKSPACE}/"
                 }
             }
         }
@@ -155,7 +158,6 @@ pipeline {
                 }'"""
 
                 // Trigger arpansahu_dot_me job only if the build is stable
-                build job: 'arpansahu_dot_me', parameters: [booleanParam(name: 'DEPLOY', value: true)], wait: false
             }
         }
         failure {
