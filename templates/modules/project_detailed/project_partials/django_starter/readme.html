@@ -3862,8 +3862,8 @@ CMD python manage.py migrate --noinput &amp;&amp; python manage.py collectstatic
     image: harbor.arpansahu.me/library/django_starter:latest
     env_file: ./.env
     container_name: django_starter
-    volumes:
-      - .:/app
+    # volumes:
+    #   - .:/app  # Only for local development, commented out for production deployment
     ports:
       - &quot;8016:8016&quot;
       - &quot;8054:8054&quot;
