@@ -1,14 +1,14 @@
 pipeline {
     agent { label 'local' }
     parameters {
-        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Skip the Check for Changes stage')
+        booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Enable deployment')
         choice(name: 'DEPLOY_TYPE', choices: ['kubernetes', 'docker'], description: 'Select deployment type')
     }
     environment {
         REGISTRY = "harbor.arpansahu.space"
         REPOSITORY = "library/arpansahu_dot_me"
-        IMAGE_TAG = "latest"  // or use a specific tag if needed
-        KUBECONFIG = "${env.WORKSPACE}/kubeconfig"  // Set the KUBECONFIG environment variable
+        IMAGE_TAG = "latest"
+        KUBECONFIG = "${env.WORKSPACE}/kubeconfig"
         NGINX_CONF = "/etc/nginx/sites-available/arpansahu"
         ENV_PROJECT_NAME = "arpansahu_dot_me"
         DOCKER_PORT = "8000"
@@ -20,17 +20,6 @@ pipeline {
         SENTRY_PROJECT="arpansahu_dot_me"
     }
     stages {
-        stage('Setup Environment') {
-            steps {
-                script {
-                    echo "Loading environment variables from Jenkins credentials..."
-                    withCredentials([string(credentialsId: 'arpansahu_dot_me_env_file', variable: 'ENV_CONTENT')]) {
-                        sh 'echo "$ENV_CONTENT" > .env'
-                        echo "✓ Environment file created successfully"
-                    }
-                }
-            }
-        }
         stage('Initialize') {
             steps {
                 script {
@@ -41,6 +30,17 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+        }
+        stage('Setup Environment') {
+            steps {
+                script {
+                    echo "Loading environment variables from Jenkins credentials..."
+                    withCredentials([string(credentialsId: 'arpansahu_dot_me_env_file', variable: 'ENV_CONTENT')]) {
+                        writeFile file: '.env', text: env.ENV_CONTENT
+                        echo "✅ Environment file created successfully"
+                    }
+                }
             }
         }
         stage('Setup Kubernetes Config') {
