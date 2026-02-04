@@ -3848,7 +3848,7 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 EXPOSE 8016 8054
 
 # Start supervisord to manage the processes
-CMD python manage.py collectstatic --noinput &amp;&amp; supervisord -c /etc/supervisor/conf.d/supervisord.conf
+CMD python manage.py migrate --noinput &amp;&amp; python manage.py collectstatic --noinput &amp;&amp; supervisord -c /etc/supervisor/conf.d/supervisord.conf
 
 </code></pre>
 <p>
