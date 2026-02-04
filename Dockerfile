@@ -13,4 +13,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD bash -c "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi"
+CMD bash -c "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi"
