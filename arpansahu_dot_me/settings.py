@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 import subprocess
+import ssl
 from pathlib import Path
 from decouple import config
 import sentry_sdk
@@ -207,8 +208,12 @@ if not DEBUG:
         PRIVATE_FILE_STORAGE = f'{PROJECT_NAME}.storage_backends.PrivateMediaStorage'
 
     elif BUCKET_TYPE == 'MINIO':
-        AWS_S3_REGION_NAME = 'us-east-1'  # MinIO doesn't require this, but boto3 does
-        AWS_S3_ENDPOINT_URL = 'https://minio.arpansahu.space'
+        AWS_S3_REGION_NAME = 'us-east-1'
+        AWS_S3_ENDPOINT_URL = 'https://minioapi.arpansahu.space'
+        AWS_S3_ADDRESSING_STYLE = 'path'
+        AWS_S3_SIGNATURE_VERSION = 's3v4'
+        AWS_S3_VERIFY = True
+        
         AWS_DEFAULT_ACL = 'public-read'
         AWS_S3_OBJECT_PARAMETERS = {
             'CacheControl': 'max-age=86400',
@@ -221,17 +226,24 @@ if not DEBUG:
 
         # s3 static settings
         AWS_STATIC_LOCATION = f'portfolio/{PROJECT_NAME}/static'
-        STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}/{AWS_STATIC_LOCATION}/'
-        STATICFILES_STORAGE = f'{PROJECT_NAME}.storage_backends.StaticStorage'
-
-        # s3 public media settings
         AWS_PUBLIC_MEDIA_LOCATION = f'portfolio/{PROJECT_NAME}/media'
+        AWS_PRIVATE_MEDIA_LOCATION = f'portfolio/{PROJECT_NAME}/private'
+        
+        # Modern Django 4.2+ STORAGES configuration
+        STORAGES = {
+            'default': {
+                'BACKEND': f'{PROJECT_NAME}.storage_backends.PublicMediaStorage',
+            },
+            'staticfiles': {
+                'BACKEND': f'{PROJECT_NAME}.storage_backends.StaticStorage',
+            },
+            'private': {
+                'BACKEND': f'{PROJECT_NAME}.storage_backends.PrivateMediaStorage',
+            },
+        }
+        
+        STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}/{AWS_STATIC_LOCATION}/'
         MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}/{AWS_PUBLIC_MEDIA_LOCATION}/'
-        DEFAULT_FILE_STORAGE = f'{PROJECT_NAME}.storage_backends.PublicMediaStorage'
-
-        # s3 private media settings
-        PRIVATE_MEDIA_LOCATION = f'portfolio/{PROJECT_NAME}/private'
-        PRIVATE_FILE_STORAGE = f'{PROJECT_NAME}.storage_backends.PrivateMediaStorage'
 else:
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -273,16 +285,32 @@ if not DEBUG:
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 #Caching
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': REDIS_CLOUD_URL,
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        },
-        'KEY_PREFIX': PROJECT_NAME
+
+# Celery Redis SSL Configuration
+CELERY_REDIS_BACKEND_USE_SSL = {'ssl_cert_reqs': ssl.CERT_REQUIRED}
+CELERY_BROKER_USE_SSL = {'ssl_cert_reqs': ssl.CERT_REQUIRED}
+
+if not DEBUG:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': REDIS_CLOUD_URL,
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+                'CONNECTION_POOL_KWARGS': {
+                    'ssl_cert_reqs': ssl.CERT_REQUIRED
+                }
+            },
+            'KEY_PREFIX': PROJECT_NAME
+        }
     }
-}
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'unique-snowflake',
+        }
+    }
 
 # Get the current git commit hash
 def get_git_commit_hash():
@@ -360,6 +388,6 @@ LOGGING = {
     },
 }
 
-CSRF_TRUSTED_ORIGINS = [f'{PROTOCOL}://{DOMAIN}', f'{PROTOCOL}://*.{DOMAIN}']
+CSRF_TRUSTED_ORIGINS = [f'{PROTOCOL}{DOMAIN}', f'{PROTOCOL}*.{DOMAIN}']
 
 # added a comment
