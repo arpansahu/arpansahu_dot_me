@@ -4556,6 +4556,423 @@ ls /var/lib/rancher/k3s
   Portainer Community Forums
  </a>
 </p>
+<hr/>
+<h2>
+ SSL Certificates for Kubernetes
+</h2>
+<h3>
+ Overview
+</h3>
+<p>
+ For Kubernetes deployments requiring SSL certificates (Java apps like Kafka, Ingress with TLS), certificates from nginx can be converted to Kubernetes secrets and Java keystores.
+</p>
+<h3>
+ Architecture
+</h3>
+<pre><code>nginx SSL Certificates (/etc/nginx/ssl/arpansahu.space/)
+    ↓
+Java Keystore Generation (for apps like Kafka)
+    ↓
+Kubernetes Secrets (TLS + Keystore)
+    ↓
+Pods mount secrets as volumes
+</code></pre>
+<h3>
+ Automated Keystore Renewal & Jenkins Upload
+</h3>
+<p>
+ See
+ <a href="./keystore-renewal-and-upload-to-jenkins.sh">
+  <code>
+   keystore-renewal-and-upload-to-jenkins.sh
+  </code>
+ </a>
+ for complete automation.
+</p>
+<p>
+ This script:
+ <br/>
+ 1. ✅ Generates Java keystores from nginx certificates
+ <br/>
+ 2. ✅ Creates/updates Kubernetes secrets
+ <br/>
+ 3. ✅ Uploads certificates to Jenkins credentials
+ <br/>
+ 4. ✅ Restarts affected pods
+</p>
+<p>
+ <strong>
+  Prerequisites:
+ </strong>
+ <br/>
+ - nginx SSL certificates installed (see
+ <a href="../02-nginx/">
+  AWS Deployment/02-nginx
+ </a>
+ )
+ <br/>
+ - K3s cluster running
+ <br/>
+ - Jenkins API token configured
+</p>
+<p>
+ <strong>
+  Run after certificate renewal:
+ </strong>
+</p>
+<pre><code class="language-bash">cd &quot;AWS Deployment/kubernetes_k3s&quot;
+chmod +x keystore-renewal-and-upload-to-jenkins.sh
+./keystore-renewal-and-upload-to-jenkins.sh
+</code></pre>
+<h3>
+ Manual Certificate Deployment
+</h3>
+<h4>
+ 1. Create TLS Secret
+</h4>
+<pre><code class="language-bash"># Create TLS secret for Ingress
+sudo kubectl create secret tls arpansahu-tls \
+  --cert=/etc/nginx/ssl/arpansahu.space/fullchain.pem \
+  --key=/etc/nginx/ssl/arpansahu.space/privkey.pem \
+  --dry-run=client -o yaml | sudo kubectl apply -f -
+</code></pre>
+<h4>
+ 2. Generate Java Keystores (for Kafka/Java apps)
+</h4>
+<pre><code class="language-bash"># Set passwords (use strong passwords)
+KEYSTORE_PASS=&quot;your-secure-password&quot;
+TRUSTSTORE_PASS=&quot;your-secure-password&quot;
+KEY_PASS=&quot;your-secure-password&quot;
+
+# Create SSL directory
+sudo mkdir -p /var/lib/rancher/k3s/ssl/keystores
+cd /var/lib/rancher/k3s/ssl/keystores
+
+# Convert PEM to PKCS12
+sudo openssl pkcs12 -export \
+  -in /etc/nginx/ssl/arpansahu.space/fullchain.pem \
+  -inkey /etc/nginx/ssl/arpansahu.space/privkey.pem \
+  -out kafka.p12 \
+  -name kafka \
+  -passout pass:$KEYSTORE_PASS
+
+# Create keystore
+sudo keytool -importkeystore -noprompt \
+  -deststorepass $KEYSTORE_PASS \
+  -destkeypass $KEY_PASS \
+  -destkeystore kafka.keystore.jks \
+  -srckeystore kafka.p12 \
+  -srcstoretype PKCS12 \
+  -srcstorepass $KEYSTORE_PASS \
+  -alias kafka
+
+# Create truststore
+sudo rm -f kafka.truststore.jks
+sudo keytool -keystore kafka.truststore.jks \
+  -alias CARoot \
+  -import \
+  -file /etc/nginx/ssl/arpansahu.space/fullchain.pem \
+  -storepass $TRUSTSTORE_PASS \
+  -noprompt
+
+# Set permissions
+sudo chmod 644 *.jks
+</code></pre>
+<h4>
+ 3. Create Keystore Secret
+</h4>
+<pre><code class="language-bash">sudo kubectl create secret generic kafka-ssl-keystore \
+  --from-file=kafka.keystore.jks=/var/lib/rancher/k3s/ssl/keystores/kafka.keystore.jks \
+  --from-file=kafka.truststore.jks=/var/lib/rancher/k3s/ssl/keystores/kafka.truststore.jks \
+  --from-literal=keystore-password=$KEYSTORE_PASS \
+  --from-literal=truststore-password=$TRUSTSTORE_PASS \
+  --from-literal=key-password=$KEY_PASS \
+  --dry-run=client -o yaml | sudo kubectl apply -f -
+</code></pre>
+<h3>
+ Using Certificates in Deployments
+</h3>
+<h4>
+ Kafka Deployment Example
+</h4>
+<pre><code class="language-yaml">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      containers:
+      - name: kafka
+        image: confluentinc/cp-kafka:7.8.0
+        env:
+        - name: KAFKA_SSL_KEYSTORE_LOCATION
+          value: /etc/kafka/secrets/kafka.keystore.jks
+        - name: KAFKA_SSL_KEYSTORE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kafka-ssl-keystore
+              key: keystore-password
+        - name: KAFKA_SSL_KEY_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kafka-ssl-keystore
+              key: key-password
+        - name: KAFKA_SSL_TRUSTSTORE_LOCATION
+          value: /etc/kafka/secrets/kafka.truststore.jks
+        - name: KAFKA_SSL_TRUSTSTORE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kafka-ssl-keystore
+              key: truststore-password
+        volumeMounts:
+        - name: kafka-ssl
+          mountPath: /etc/kafka/secrets
+          readOnly: true
+      volumes:
+      - name: kafka-ssl
+        secret:
+          secretName: kafka-ssl-keystore
+</code></pre>
+<h4>
+ Ingress with TLS Example
+</h4>
+<pre><code class="language-yaml">apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  namespace: default
+spec:
+  tls:
+  - hosts:
+    - app.arpansahu.space
+    secretName: arpansahu-tls
+  rules:
+  - host: app.arpansahu.space
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app-service
+            port:
+              number: 80
+</code></pre>
+<h3>
+ Jenkins Credential Upload
+</h3>
+<h4>
+ Via Jenkins UI
+</h4>
+<ol>
+ <li>
+  Navigate to: https://jenkins.arpansahu.space
+ </li>
+ <li>
+  <strong>
+   Manage Jenkins → Credentials → (global) → Add Credentials
+  </strong>
+ </li>
+ <li>
+  Configure:
+ </li>
+ <li>
+  <strong>
+   Kind:
+  </strong>
+  Secret text
+ </li>
+ <li>
+  <strong>
+   ID:
+  </strong>
+  <code>
+   kafka-ssl-ca-cert
+  </code>
+ </li>
+ <li>
+  <strong>
+   Secret:
+  </strong>
+  Paste certificate content
+ </li>
+ <li>
+  <strong>
+   Description:
+  </strong>
+  <code>
+   Kafka SSL CA Certificate for Kubernetes
+  </code>
+ </li>
+</ol>
+<p>
+ <strong>
+  Get certificate:
+ </strong>
+</p>
+<pre><code class="language-bash">ssh server &quot;cat /etc/nginx/ssl/arpansahu.space/fullchain.pem&quot; | pbcopy
+</code></pre>
+<h4>
+ Using in Jenkinsfile
+</h4>
+<pre><code class="language-groovy">pipeline {
+    agent any
+
+    stages {
+        stage(&#x27;Deploy to K8s&#x27;) {
+            steps {
+                withCredentials([string(credentialsId: &#x27;kafka-ssl-ca-cert&#x27;, variable: &#x27;KAFKA_CERT&#x27;)]) {
+                    sh &#x27;&#x27;&#x27;
+                        # Create secret in K8s
+                        echo &quot;$KAFKA_CERT&quot; &gt; kafka-cert.pem
+
+                        kubectl create secret generic kafka-ssl \
+                            --from-file=ca-cert.pem=kafka-cert.pem \
+                            --dry-run=client -o yaml | kubectl apply -f -
+
+                        rm kafka-cert.pem
+                    &#x27;&#x27;&#x27;
+                }
+            }
+        }
+    }
+}
+</code></pre>
+<h3>
+ Monitoring
+</h3>
+<h4>
+ Check Secrets
+</h4>
+<pre><code class="language-bash"># List secrets
+sudo kubectl get secrets
+
+# Describe TLS secret
+sudo kubectl describe secret arpansahu-tls
+
+# Check keystore secret
+sudo kubectl get secret kafka-ssl-keystore -o yaml
+
+# Verify certificate expiry
+sudo kubectl get secret arpansahu-tls -o jsonpath=&#x27;{.data.tls\.crt}&#x27; | \
+  base64 -d | openssl x509 -noout -dates
+</code></pre>
+<h4>
+ Verify Pods Using Secrets
+</h4>
+<pre><code class="language-bash"># Check pod status
+sudo kubectl get pods
+
+# View pod logs
+sudo kubectl logs deployment/kafka
+
+# Exec into pod
+sudo kubectl exec -it deployment/kafka -- ls /etc/kafka/secrets/
+</code></pre>
+<h3>
+ Troubleshooting
+</h3>
+<p>
+ <strong>
+  Secrets not updating:
+ </strong>
+ <br/>
+ - K8s doesn't auto-restart pods when secrets update
+ <br/>
+ - Force restart:
+ <code>
+  sudo kubectl rollout restart deployment/kafka
+ </code>
+</p>
+<p>
+ <strong>
+  Permission errors:
+ </strong>
+ <br/>
+ - Ensure keystores have correct permissions (644)
+ <br/>
+ - Check pod security contexts
+</p>
+<p>
+ <strong>
+  Certificate mismatch:
+ </strong>
+ <br/>
+ - Verify keystore was generated from correct PEM files
+ <br/>
+ - Check keystore password matches secret
+</p>
+<h3>
+ Automation Integration
+</h3>
+<p>
+ To integrate with certificate renewal automation:
+</p>
+<ol>
+ <li>
+  Run SSL renewal setup (nginx):
+ </li>
+</ol>
+<pre><code class="language-bash">cd &quot;AWS Deployment/02-nginx&quot;
+./ssl-renewal-automation.sh
+</code></pre>
+<ol>
+ <li>
+  Add K3s keystore renewal to deploy script:
+ </li>
+</ol>
+<pre><code class="language-bash"># Edit ~/deploy_certs.sh to include:
+if command -v kubectl &amp;&gt; /dev/null; then
+    echo &quot;Updating K8s certificates...&quot;
+    cd &quot;AWS Deployment/kubernetes_k3s&quot;
+    ./keystore-renewal-and-upload-to-jenkins.sh
+fi
+</code></pre>
+<h3>
+ Security Notes
+</h3>
+<ol>
+ <li>
+  <strong>
+   Secret Encryption:
+  </strong>
+  Enable encryption at rest for K3s secrets
+ </li>
+ <li>
+  <strong>
+   RBAC:
+  </strong>
+  Limit secret access to necessary service accounts
+ </li>
+ <li>
+  <strong>
+   Passwords:
+  </strong>
+  Use strong keystore passwords
+ </li>
+ <li>
+  <strong>
+   Rotation:
+  </strong>
+  Certificates auto-renew every 90 days
+ </li>
+ <li>
+  <strong>
+   Backups:
+  </strong>
+  Include secrets in K3s backups
+ </li>
+</ol>
+<hr/>
 <h3>
  Step 4: Serving the requests from Nginx
 </h3>
@@ -5119,6 +5536,277 @@ sudo lsof -i :80
 </p>
 <pre><code class="language-bash">cat ~/.acme.sh/arpansahu.space/arpansahu.space.log
 </code></pre>
+<hr/>
+<h2>
+ SSL Certificate Automation & Renewal
+</h2>
+<h3>
+ Overview
+</h3>
+<p>
+ Automated SSL certificate management system with:
+ <br/>
+ - Automatic renewal every 90 days via Let's Encrypt
+ <br/>
+ - Automated deployment to nginx
+ <br/>
+ - Automated Kafka keystore regeneration (for Docker deployments)
+ <br/>
+ - Zero manual intervention required
+</p>
+<h3>
+ Architecture
+</h3>
+<pre><code>acme.sh (Let&#x27;s Encrypt)
+    ↓
+~/.acme.sh/arpansahu.space_ecc/
+    ↓
+deploy_certs.sh (reload hook)
+    ├── /etc/nginx/ssl/arpansahu.space/  → nginx reload
+    └── ~/kafka-deployment/ssl/          → Kafka restart (if exists)
+</code></pre>
+<h3>
+ Automated Renewal Setup
+</h3>
+<p>
+ See
+ <a href="./ssl-renewal-automation.sh">
+  <code>
+   ssl-renewal-automation.sh
+  </code>
+ </a>
+ for complete automation setup script.
+</p>
+<p>
+ This script configures:
+ <br/>
+ 1. ✅ Deployment script (
+ <code>
+  ~/deploy_certs.sh
+ </code>
+ )
+ <br/>
+ 2. ✅ Passwordless sudo permissions
+ <br/>
+ 3. ✅ acme.sh reload hook registration
+ <br/>
+ 4. ✅ Automatic certificate distribution to all services
+</p>
+<p>
+ <strong>
+  Run after initial SSL installation:
+ </strong>
+</p>
+<pre><code class="language-bash">cd &quot;AWS Deployment/02-nginx&quot;
+chmod +x ssl-renewal-automation.sh
+./ssl-renewal-automation.sh
+</code></pre>
+<h3>
+ Renewal Schedule
+</h3>
+<ul>
+ <li>
+  <strong>
+   acme.sh Cron:
+  </strong>
+  Runs daily at
+  <strong>
+   10:45 AM UTC
+  </strong>
+ </li>
+ <li>
+  <strong>
+   Checks for Renewal:
+  </strong>
+  Certificates < 60 days remaining
+ </li>
+ <li>
+  <strong>
+   Auto-Renewal Trigger:
+  </strong>
+  ~60 days before expiry
+ </li>
+</ul>
+<p>
+ Check next renewal date:
+</p>
+<pre><code class="language-bash">~/.acme.sh/acme.sh --list
+</code></pre>
+<h3>
+ Monitoring Certificate Expiry
+</h3>
+<pre><code class="language-bash"># Check nginx certificate
+openssl x509 -in /etc/nginx/ssl/arpansahu.space/fullchain.pem -noout -dates
+
+# Check acme.sh logs
+cat ~/.acme.sh/acme.sh.log
+
+# Verify services using certificates
+curl -vI https://arpansahu.space 2&gt;&amp;1 | grep &quot;expire date&quot;
+</code></pre>
+<h3>
+ Manual Operations
+</h3>
+<p>
+ <strong>
+  Force renewal (testing only - rate limits apply):
+ </strong>
+</p>
+<pre><code class="language-bash">~/.acme.sh/acme.sh --renew -d arpansahu.space --ecc --force
+</code></pre>
+<p>
+ <strong>
+  Update reload hook:
+ </strong>
+</p>
+<pre><code class="language-bash">~/.acme.sh/acme.sh --install-cert -d arpansahu.space --ecc \
+  --reloadcmd &#x27;/home/arpansahu/deploy_certs.sh&#x27;
+</code></pre>
+<h3>
+ Troubleshooting Renewal
+</h3>
+<p>
+ <strong>
+  Certificate not updating:
+ </strong>
+ <br/>
+ 1. Check cron is running:
+ <code>
+  crontab -l | grep acme
+ </code>
+ <br/>
+ 2. Manually trigger:
+ <code>
+  ~/.acme.sh/acme.sh --renew -d arpansahu.space --ecc --force
+ </code>
+ <br/>
+ 3. Check reload hook:
+ <code>
+  cat ~/.acme.sh/arpansahu.space_ecc/arpansahu.space.conf | grep ReloadCmd
+ </code>
+</p>
+<p>
+ <strong>
+  Permission errors:
+ </strong>
+ <br/>
+ 1. Verify sudoers:
+ <code>
+  sudo visudo -c -f /etc/sudoers.d/acme-cert-deploy
+ </code>
+ <br/>
+ 2. Test sudo:
+ <code>
+  sudo systemctl reload nginx
+ </code>
+</p>
+<h3>
+ File Locations
+</h3>
+<table>
+ <thead>
+  <tr>
+   <th>
+    Component
+   </th>
+   <th>
+    Path
+   </th>
+  </tr>
+ </thead>
+ <tbody>
+  <tr>
+   <td>
+    acme.sh Installation
+   </td>
+   <td>
+    <code>
+     ~/.acme.sh/
+    </code>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    Certificate Storage
+   </td>
+   <td>
+    <code>
+     ~/.acme.sh/arpansahu.space_ecc/
+    </code>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    nginx Certificates
+   </td>
+   <td>
+    <code>
+     /etc/nginx/ssl/arpansahu.space/
+    </code>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    Deployment Script
+   </td>
+   <td>
+    <code>
+     ~/deploy_certs.sh
+    </code>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    Sudoers Config
+   </td>
+   <td>
+    <code>
+     /etc/sudoers.d/acme-cert-deploy
+    </code>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    acme.sh Logs
+   </td>
+   <td>
+    <code>
+     ~/.acme.sh/acme.sh.log
+    </code>
+   </td>
+  </tr>
+ </tbody>
+</table>
+<h3>
+ Security Notes
+</h3>
+<ol>
+ <li>
+  <strong>
+   Private Keys:
+  </strong>
+  Never commit private keys to Git
+ </li>
+ <li>
+  <strong>
+   Sudoers:
+  </strong>
+  Use specific commands, avoid wildcards where possible
+ </li>
+ <li>
+  <strong>
+   Permissions:
+  </strong>
+  Keep private keys at 600, certificates at 644
+ </li>
+ <li>
+  <strong>
+   Rate Limits:
+  </strong>
+  Let's Encrypt allows 50 renewals per week per domain
+ </li>
+</ol>
+<hr/>
 <h3>
  Backup Configuration
 </h3>
@@ -11444,6 +12132,187 @@ mc anonymous get myminio/arpansahu-static
  </strong>
 </p>
 <h4>
+ Automated Bucket Policy Application
+</h4>
+<p>
+ For easier policy management, use the included scripts:
+</p>
+<p>
+ <strong>
+  1. Create Policy File
+ </strong>
+</p>
+<p>
+ Copy the example and customize for your bucket:
+</p>
+<pre><code class="language-bash"># Copy template
+cp minio_bucket_policy.json.example minio_bucket_policy.json
+
+# Edit to match your bucket name and paths
+nano minio_bucket_policy.json
+</code></pre>
+<p>
+ Example policy for multi-project setup:
+</p>
+<pre><code class="language-json">{
+  &quot;Version&quot;: &quot;2012-10-17&quot;,
+  &quot;Statement&quot;: [
+    {
+      &quot;Effect&quot;: &quot;Allow&quot;,
+      &quot;Principal&quot;: {&quot;AWS&quot;: [&quot;*&quot;]},
+      &quot;Action&quot;: [&quot;s3:GetObject&quot;],
+      &quot;Resource&quot;: [
+        &quot;arn:aws:s3:::arpansahu-one-bucket/portfolio/*/static/*&quot;,
+        &quot;arn:aws:s3:::arpansahu-one-bucket/portfolio/*/media/*&quot;
+      ]
+    }
+  ]
+}
+</code></pre>
+<p>
+ <strong>
+  2. Update .env File
+ </strong>
+</p>
+<p>
+ Ensure your
+ <code>
+  .env
+ </code>
+ contains:
+</p>
+<pre><code class="language-env">MINIO_ROOT_USER=arpansahu
+MINIO_ROOT_PASSWORD=your_password_here
+AWS_STORAGE_BUCKET_NAME=arpansahu-one-bucket
+MINIO_ENDPOINT=https://minioapi.arpansahu.space
+POLICY_FILE=minio_bucket_policy.json
+</code></pre>
+<p>
+ <strong>
+  3. Apply Policy Using Script
+ </strong>
+</p>
+<pre><code class="language-bash"># Option 1: Interactive script (recommended)
+chmod +x apply_minio_policy.sh
+./apply_minio_policy.sh
+
+# Option 2: Python script
+pip install boto3 python-dotenv
+python3 apply_policy.py
+</code></pre>
+<p>
+ <strong>
+  Available Methods:
+ </strong>
+</p>
+<table>
+ <thead>
+  <tr>
+   <th>
+    Method
+   </th>
+   <th>
+    Tool Required
+   </th>
+   <th>
+    Best For
+   </th>
+  </tr>
+ </thead>
+ <tbody>
+  <tr>
+   <td>
+    <strong>
+     MinIO Client (mc)
+    </strong>
+   </td>
+   <td>
+    <code>
+     brew install minio/stable/mc
+    </code>
+   </td>
+   <td>
+    Quick setup, simple policies
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <strong>
+     AWS CLI
+    </strong>
+   </td>
+   <td>
+    <code>
+     brew install awscli
+    </code>
+   </td>
+   <td>
+    AWS compatibility, automation
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <strong>
+     Python (boto3)
+    </strong>
+   </td>
+   <td>
+    <code>
+     pip install boto3
+    </code>
+   </td>
+   <td>
+    Complex policies, validation
+   </td>
+  </tr>
+ </tbody>
+</table>
+<p>
+ <strong>
+  Verify Policy Applied:
+ </strong>
+</p>
+<pre><code class="language-bash"># Using mc
+mc anonymous get myminio/arpansahu-one-bucket
+
+# Using AWS CLI
+aws --endpoint-url=https://minioapi.arpansahu.space \
+    s3api get-bucket-policy \
+    --bucket arpansahu-one-bucket
+
+# Test public access
+curl https://minioapi.arpansahu.space/arpansahu-one-bucket/portfolio/django_starter/static/test.txt
+</code></pre>
+<p>
+ <strong>
+  Security Notes:
+ </strong>
+ <br/>
+ - ✅ Scripts use environment variables (safe to commit)
+ <br/>
+ - ✅ Never commit
+ <code>
+  .env
+ </code>
+ or
+ <code>
+  minio_bucket_policy.json
+ </code>
+ with real credentials
+ <br/>
+ - ✅
+ <code>
+  .gitignore
+ </code>
+ includes these files by default
+ <br/>
+ - ✅ Use
+ <code>
+  .example
+ </code>
+ files as templates
+</p>
+<h4>
  Path-Based Policy (Single Bucket with Multiple Access Levels)
 </h4>
 <p>
@@ -13003,6 +13872,46 @@ mc ls test
    </td>
    <td>
     Standalone API nginx config
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <code>
+     apply_minio_policy.sh
+    </code>
+   </td>
+   <td>
+    Automated bucket policy application script
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <code>
+     apply_policy.py
+    </code>
+   </td>
+   <td>
+    Python script for bucket policy management
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <code>
+     minio_bucket_policy.json.example
+    </code>
+   </td>
+   <td>
+    Template for bucket policy
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <code>
+     minio_bucket_policy.json
+    </code>
+   </td>
+   <td>
+    Actual bucket policy (not in git)
    </td>
   </tr>
   <tr>
