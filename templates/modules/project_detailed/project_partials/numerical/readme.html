@@ -4798,28 +4798,38 @@ ssl_context = ssl.create_default_context()
 ssl_context.load_verify_locations(cadata=get_kafka_ssl_cert())
 </code></pre>
 <h4>
- Complete Automation
+ Automation
 </h4>
 <p>
- Add both scripts to
- <code>
-  ~/deploy_certs.sh
- </code>
- for automatic execution after certificate renewal:
+ SSL certificate renewal and distribution is
+ <strong>
+  fully automated
+ </strong>
+ . See
+ <a href="../ssl-automation/README.md">
+  SSL Automation Documentation
+ </a>
+ for complete details.
 </p>
-<pre><code class="language-bash"># At end of ~/deploy_certs.sh
-if command -v kubectl &amp;&gt; /dev/null; then
-    echo &quot;Updating K3s SSL certificates...&quot;
-    cd &quot;$HOME/AWS Deployment/kubernetes_k3s&quot;
-
-    # Renew K3s keystores
-    ./1_renew_k3s_ssl_keystores.sh
-
-    # Upload to MinIO for Django projects
-    ./2_upload_keystores_to_minio.sh
-
-    echo &quot;✅ K3s and MinIO certificates updated&quot;
-fi
+<p>
+ <strong>
+  What happens automatically:
+ </strong>
+ <br/>
+ - ✅ K3s certificates updated after SSL renewal
+ <br/>
+ - ✅ Kubernetes secrets refreshed (arpansahu-tls, kafka-ssl-keystore)
+ <br/>
+ - ✅ Keystores uploaded to MinIO for Django projects
+</p>
+<p>
+ <strong>
+  Manual execution (testing):
+ </strong>
+</p>
+<pre><code class="language-bash">cd ~/k3s_scripts
+./1_renew_k3s_ssl_keystores.sh
+./2_upload_keystores_to_minio.sh
 </code></pre>
 <h3>
  Manual Certificate Deployment
@@ -5109,31 +5119,17 @@ sudo kubectl exec -it deployment/kafka -- ls /etc/kafka/secrets/
  - Check keystore password matches secret
 </p>
 <h3>
- Automation Integration
+ Automation
 </h3>
 <p>
- To integrate with certificate renewal automation:
+ SSL certificate renewal is fully automated. See
+ <strong>
+  <a href="../ssl-automation/README.md">
+   SSL Automation Documentation
+  </a>
+ </strong>
+ for complete setup and troubleshooting.
 </p>
-<ol>
- <li>
-  Run SSL renewal setup (nginx):
- </li>
-</ol>
-<pre><code class="language-bash">cd &quot;AWS Deployment/02-nginx&quot;
-./ssl-renewal-automation.sh
-</code></pre>
-<ol>
- <li>
-  Add K3s keystore renewal to deploy script:
- </li>
-</ol>
-<pre><code class="language-bash"># Edit ~/deploy_certs.sh to include:
-if command -v kubectl &amp;&gt; /dev/null; then
-    echo &quot;Updating K8s certificates...&quot;
-    cd &quot;AWS Deployment/kubernetes_k3s&quot;
-    ./keystore-renewal-and-upload-to-jenkins.sh
-fi
-</code></pre>
 <h3>
  Security Notes
 </h3>
