@@ -6063,272 +6063,49 @@ sudo lsof -i :80
 <h2>
  SSL Certificate Automation & Renewal
 </h2>
-<h3>
- Overview
-</h3>
-<p>
- Automated SSL certificate management system with:
- <br/>
- - Automatic renewal every 90 days via Let's Encrypt
- <br/>
- - Automated deployment to nginx
- <br/>
- - Automated Kafka keystore regeneration (for Docker deployments)
- <br/>
- - Zero manual intervention required
-</p>
-<h3>
- Architecture
-</h3>
-<pre><code>acme.sh (Let&#x27;s Encrypt)
-    ↓
-~/.acme.sh/arpansahu.space_ecc/
-    ↓
-deploy_certs.sh (reload hook)
-    ├── /etc/nginx/ssl/arpansahu.space/  → nginx reload
-    └── ~/kafka-deployment/ssl/          → Kafka restart (if exists)
-</code></pre>
-<h3>
- Automated Renewal Setup
-</h3>
-<p>
- See
- <a href="./ssl-renewal-automation.sh">
-  <code>
-   ssl-renewal-automation.sh
-  </code>
- </a>
- for complete automation setup script.
-</p>
-<p>
- This script configures:
- <br/>
- 1. ✅ Deployment script (
- <code>
-  ~/deploy_certs.sh
- </code>
- )
- <br/>
- 2. ✅ Passwordless sudo permissions
- <br/>
- 3. ✅ acme.sh reload hook registration
- <br/>
- 4. ✅ Automatic certificate distribution to all services
-</p>
 <p>
  <strong>
-  Run after initial SSL installation:
+  Complete SSL automation is now centralized.
  </strong>
+ See
+ <strong>
+  <a href="../ssl-automation/README.md">
+   SSL Automation Documentation
+  </a>
+ </strong>
+ for:
 </p>
-<pre><code class="language-bash">cd &quot;AWS Deployment/02-nginx&quot;
-chmod +x ssl-renewal-automation.sh
-./ssl-renewal-automation.sh
-</code></pre>
-<h3>
- Renewal Schedule
-</h3>
 <ul>
  <li>
-  <strong>
-   acme.sh Cron:
-  </strong>
-  Runs daily at
-  <strong>
-   10:45 AM UTC
-  </strong>
+  ✅ Automated renewal (acme.sh + deploy_certs.sh)
  </li>
  <li>
-  <strong>
-   Checks for Renewal:
-  </strong>
-  Certificates < 60 days remaining
+  ✅ Nginx certificate deployment
  </li>
  <li>
-  <strong>
-   Auto-Renewal Trigger:
-  </strong>
-  ~60 days before expiry
+  ✅ Kafka keystore regeneration
+ </li>
+ <li>
+  ✅ Kubernetes secret updates
+ </li>
+ <li>
+  ✅ MinIO upload for Django projects
+ </li>
+ <li>
+  ✅ Complete troubleshooting guide
  </li>
 </ul>
 <p>
- Check next renewal date:
+ <strong>
+  Quick verification:
+ </strong>
 </p>
-<pre><code class="language-bash">~/.acme.sh/acme.sh --list
-</code></pre>
-<h3>
- Monitoring Certificate Expiry
-</h3>
-<pre><code class="language-bash"># Check nginx certificate
+<pre><code class="language-bash"># Check certificate expiry
 openssl x509 -in /etc/nginx/ssl/arpansahu.space/fullchain.pem -noout -dates
 
-# Check acme.sh logs
-cat ~/.acme.sh/acme.sh.log
-
-# Verify services using certificates
-curl -vI https://arpansahu.space 2&gt;&amp;1 | grep &quot;expire date&quot;
+# Test automation
+ssh arpansahu@arpansahu.space &#x27;~/deploy_certs.sh&#x27;
 </code></pre>
-<h3>
- Manual Operations
-</h3>
-<p>
- <strong>
-  Force renewal (testing only - rate limits apply):
- </strong>
-</p>
-<pre><code class="language-bash">~/.acme.sh/acme.sh --renew -d arpansahu.space --ecc --force
-</code></pre>
-<p>
- <strong>
-  Update reload hook:
- </strong>
-</p>
-<pre><code class="language-bash">~/.acme.sh/acme.sh --install-cert -d arpansahu.space --ecc \
-  --reloadcmd &#x27;/home/arpansahu/deploy_certs.sh&#x27;
-</code></pre>
-<h3>
- Troubleshooting Renewal
-</h3>
-<p>
- <strong>
-  Certificate not updating:
- </strong>
- <br/>
- 1. Check cron is running:
- <code>
-  crontab -l | grep acme
- </code>
- <br/>
- 2. Manually trigger:
- <code>
-  ~/.acme.sh/acme.sh --renew -d arpansahu.space --ecc --force
- </code>
- <br/>
- 3. Check reload hook:
- <code>
-  cat ~/.acme.sh/arpansahu.space_ecc/arpansahu.space.conf | grep ReloadCmd
- </code>
-</p>
-<p>
- <strong>
-  Permission errors:
- </strong>
- <br/>
- 1. Verify sudoers:
- <code>
-  sudo visudo -c -f /etc/sudoers.d/acme-cert-deploy
- </code>
- <br/>
- 2. Test sudo:
- <code>
-  sudo systemctl reload nginx
- </code>
-</p>
-<h3>
- File Locations
-</h3>
-<table>
- <thead>
-  <tr>
-   <th>
-    Component
-   </th>
-   <th>
-    Path
-   </th>
-  </tr>
- </thead>
- <tbody>
-  <tr>
-   <td>
-    acme.sh Installation
-   </td>
-   <td>
-    <code>
-     ~/.acme.sh/
-    </code>
-   </td>
-  </tr>
-  <tr>
-   <td>
-    Certificate Storage
-   </td>
-   <td>
-    <code>
-     ~/.acme.sh/arpansahu.space_ecc/
-    </code>
-   </td>
-  </tr>
-  <tr>
-   <td>
-    nginx Certificates
-   </td>
-   <td>
-    <code>
-     /etc/nginx/ssl/arpansahu.space/
-    </code>
-   </td>
-  </tr>
-  <tr>
-   <td>
-    Deployment Script
-   </td>
-   <td>
-    <code>
-     ~/deploy_certs.sh
-    </code>
-   </td>
-  </tr>
-  <tr>
-   <td>
-    Sudoers Config
-   </td>
-   <td>
-    <code>
-     /etc/sudoers.d/acme-cert-deploy
-    </code>
-   </td>
-  </tr>
-  <tr>
-   <td>
-    acme.sh Logs
-   </td>
-   <td>
-    <code>
-     ~/.acme.sh/acme.sh.log
-    </code>
-   </td>
-  </tr>
- </tbody>
-</table>
-<h3>
- Security Notes
-</h3>
-<ol>
- <li>
-  <strong>
-   Private Keys:
-  </strong>
-  Never commit private keys to Git
- </li>
- <li>
-  <strong>
-   Sudoers:
-  </strong>
-  Use specific commands, avoid wildcards where possible
- </li>
- <li>
-  <strong>
-   Permissions:
-  </strong>
-  Keep private keys at 600, certificates at 644
- </li>
- <li>
-  <strong>
-   Rate Limits:
-  </strong>
-  Let's Encrypt allows 50 renewals per week per domain
- </li>
-</ol>
 <hr/>
 <h3>
  Backup Configuration
