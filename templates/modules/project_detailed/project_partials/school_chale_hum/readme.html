@@ -4718,7 +4718,7 @@ chmod +x 1_renew_k3s_ssl_keystores.sh
  <strong>
   Purpose:
  </strong>
- Make SSL certificates available for Django projects to dynamically fetch and cache
+ Make SSL certificates securely available for Django projects to dynamically fetch and cache
 </p>
 <p>
  <strong>
@@ -4729,21 +4729,21 @@ chmod +x 1_renew_k3s_ssl_keystores.sh
  <code>
   fullchain.pem
  </code>
- to MinIO
+ to MinIO (private path)
  <br/>
  2. ✅ Uploads
  <code>
   kafka.keystore.jks
  </code>
- to MinIO
+ to MinIO (private path)
  <br/>
  3. ✅ Uploads
  <code>
   kafka.truststore.jks
  </code>
- to MinIO
+ to MinIO (private path)
  <br/>
- 4. ✅ Sets public read permissions
+ 4. ✅ Requires authentication to access (secure storage)
 </p>
 <p>
  <strong>
@@ -4779,17 +4779,17 @@ chmod +x 2_upload_keystores_to_minio.sh
  <br/>
  -
  <code>
-  s3://arpansahu-one-bucket/keystores/kafka/fullchain.pem
+  s3://arpansahu-one-bucket/keystores/private/kafka/fullchain.pem
  </code>
  <br/>
  -
  <code>
-  s3://arpansahu-one-bucket/keystores/kafka/kafka.keystore.jks
+  s3://arpansahu-one-bucket/keystores/private/kafka/kafka.keystore.jks
  </code>
  <br/>
  -
  <code>
-  s3://arpansahu-one-bucket/keystores/kafka/kafka.truststore.jks
+  s3://arpansahu-one-bucket/keystores/private/kafka/kafka.truststore.jks
  </code>
 </p>
 <p>
@@ -4800,10 +4800,11 @@ chmod +x 2_upload_keystores_to_minio.sh
 <pre><code class="language-python"># common_utils/kafka_ssl.py
 import boto3
 from functools import lru_cache
+from django.conf import settings
 
 @lru_cache(maxsize=1)
 def get_kafka_ssl_cert():
-    &quot;&quot;&quot;Fetch latest SSL certificate from MinIO&quot;&quot;&quot;
+    &quot;&quot;&quot;Fetch latest SSL certificate from MinIO (authenticated)&quot;&quot;&quot;
     s3 = boto3.client(&#x27;s3&#x27;,
         endpoint_url=&#x27;https://minioapi.arpansahu.space&#x27;,
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
@@ -4811,7 +4812,7 @@ def get_kafka_ssl_cert():
     )
     obj = s3.get_object(
         Bucket=&#x27;arpansahu-one-bucket&#x27;,
-        Key=&#x27;keystores/kafka/fullchain.pem&#x27;
+        Key=&#x27;keystores/private/kafka/fullchain.pem&#x27;
     )
     return obj[&#x27;Body&#x27;].read().decode()
 
