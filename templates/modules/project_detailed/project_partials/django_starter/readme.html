@@ -1,8 +1,8 @@
 <h1>
- Django Starter | Django Base project clone, save the hustle
+ Django Starter | Production-Ready Django Boilerplate
 </h1>
 <p>
- This is a simple django CRUD project
+ A comprehensive Django starter project featuring modern best practices, multiple integrations, and enterprise-ready architecture. Clone it, configure it, and start building your application immediately.
 </p>
 <h2>
  Project Features
@@ -10,58 +10,143 @@
 <ol>
  <li>
   <strong>
-   Account Functionality:
+   Account Management:
   </strong>
-  Complete account management.
+  Complete authentication with email verification, password reset, and profile management.
  </li>
  <li>
   <strong>
-   PostgreSql Integration:
+   PostgreSQL Database:
   </strong>
-  Utilized as a database.
+  Production-grade relational database with migrations and connection pooling.
  </li>
  <li>
   <strong>
-   AWS S3/MinIO Integration:
+   AWS S3/MinIO Storage:
   </strong>
-  For file storage.
+  Flexible file storage supporting both AWS S3 and self-hosted MinIO.
  </li>
  <li>
   <strong>
    Redis Integration:
   </strong>
-  Utilized for caching and message pub/sub.
+  High-performance caching, session storage, and Celery message broker.
  </li>
  <li>
   <strong>
-   MailJet Integration:
+   MailJet Email Service:
   </strong>
-  Used for email services.
+  Transactional emails with templates and delivery tracking.
  </li>
  <li>
   <strong>
-   Dockerized Project:
+   Docker Containerization:
   </strong>
-  Fully containerized for easy deployment.
+  Fully containerized with Docker Compose for local development.
  </li>
  <li>
   <strong>
-   Kubernetes-native
+   Kubernetes Deployment:
   </strong>
-  Kubernetes support also available.
+  Production-ready K8s manifests with ConfigMaps and Secrets.
  </li>
  <li>
   <strong>
    CI/CD Pipeline:
   </strong>
-  Continuous integration and deployment included using Jenkins.
+  Automated build, test, and deployment with Jenkins.
+ </li>
+ <li>
+  <strong>
+   Notes Application:
+  </strong>
+  Full-featured CRUD app with categories, tags, comments, and version history.
+ </li>
+ <li>
+  <strong>
+   Elasticsearch Search:
+  </strong>
+  Full-text search with analytics dashboard and Kibana integration.
+ </li>
+ <li>
+  <strong>
+   Kafka Event Streaming:
+  </strong>
+  Real-time event publishing and consumption with Apache Kafka.
+ </li>
+ <li>
+  <strong>
+   RabbitMQ Messaging:
+  </strong>
+  Message queue system for async notifications and task distribution.
+ </li>
+ <li>
+  <strong>
+   Commands Dashboard:
+  </strong>
+  Management command execution, scheduling, and metrics tracking.
+ </li>
+ <li>
+  <strong>
+   REST API:
+  </strong>
+  Complete Django REST Framework API with JWT authentication and Swagger docs.
+ </li>
+ <li>
+  <strong>
+   Celery Task Queue:
+  </strong>
+  Background task processing with real-time WebSocket progress tracking.
+ </li>
+ <li>
+  <strong>
+   Comprehensive Testing:
+  </strong>
+  Automated test generation with django-test-enforcer and Playwright UI tests.
  </li>
 </ol>
-<h1>
- Starter Project
-</h1>
+<h2>
+ Why Use This Starter?
+</h2>
+<ul>
+ <li>
+  🚀
+  <strong>
+   Production-Ready:
+  </strong>
+  Battle-tested configurations for real-world deployments
+ </li>
+ <li>
+  🔧
+  <strong>
+   Fully Configured:
+  </strong>
+  All integrations pre-wired and working out of the box
+ </li>
+ <li>
+  📦
+  <strong>
+   Modular Design:
+  </strong>
+  Enable/disable features based on your needs
+ </li>
+ <li>
+  🧪
+  <strong>
+   Test Coverage:
+  </strong>
+  Built-in testing infrastructure with 100% view coverage
+ </li>
+ <li>
+  📖
+  <strong>
+   Well Documented:
+  </strong>
+  Comprehensive documentation and code comments
+ </li>
+</ul>
 <p>
- Can be cloned and used as a base project for any django project
+ Can be cloned and used as a base project for any Django application.
 </p>
 <p>
  -Deployed on AWS / Now in My Own Home Ubuntu Server LTS 22.0 / Hostinger VPS Server
@@ -234,6 +319,18 @@
   <img alt="Postgres" src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white"/>
  </a>
  <br/>
+ <a href="https://www.elastic.co/">
+  <img alt="Elasticsearch" src="https://img.shields.io/badge/Elasticsearch-005571?style=for-the-badge&logo=elasticsearch&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://kafka.apache.org/">
+  <img alt="Apache Kafka" src="https://img.shields.io/badge/Apache%20Kafka-231F20?style=for-the-badge&logo=apachekafka&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://www.rabbitmq.com/">
+  <img alt="RabbitMQ" src="https://img.shields.io/badge/RabbitMQ-FF6600?style=for-the-badge&logo=rabbitmq&logoColor=white"/>
+ </a>
+ <br/>
  <a href="https://www.github.com/">
   <img alt="Github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>
  </a>
@@ -292,6 +389,18 @@
  <br/>
  <a href="https://flower.readthedocs.io/en/latest/">
   <img alt="Flower" src="https://img.shields.io/badge/Flower-FF8C00?style=for-the-badge&logo=flower&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://docs.pytest.org/">
+  <img alt="Pytest" src="https://img.shields.io/badge/Pytest-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://playwright.dev/">
+  <img alt="Playwright" src="https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://www.django-rest-framework.org/">
+  <img alt="DRF" src="https://img.shields.io/badge/Django%20REST-ff1709?style=for-the-badge&logo=django&logoColor=white"/>
  </a>
 </p>
 <h2>
@@ -13472,6 +13581,15 @@ mc ls test
  </code>
 </p>
 <hr/>
+<p>
+ [README of Elasticsearch Setup]
+</p>
+<p>
+ [README of Apache Kafka Setup]
+</p>
+<p>
+ [README of RabbitMQ Setup]
+</p>
 <h2>
  Jenkins (CI/CD Automation Server)
 </h2>
@@ -17950,6 +18068,18 @@ Add all the env variables as required and mentioned in the Readme File.
   <img alt="Postgres" src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white"/>
  </a>
  <br/>
+ <a href="https://www.elastic.co/">
+  <img alt="Elasticsearch" src="https://img.shields.io/badge/Elasticsearch-005571?style=for-the-badge&logo=elasticsearch&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://kafka.apache.org/">
+  <img alt="Apache Kafka" src="https://img.shields.io/badge/Apache%20Kafka-231F20?style=for-the-badge&logo=apachekafka&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://www.rabbitmq.com/">
+  <img alt="RabbitMQ" src="https://img.shields.io/badge/RabbitMQ-FF6600?style=for-the-badge&logo=rabbitmq&logoColor=white"/>
+ </a>
+ <br/>
  <a href="https://www.github.com/">
   <img alt="Github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>
  </a>
@@ -18008,6 +18138,18 @@ Add all the env variables as required and mentioned in the Readme File.
  <br/>
  <a href="https://flower.readthedocs.io/en/latest/">
   <img alt="Flower" src="https://img.shields.io/badge/Flower-FF8C00?style=for-the-badge&logo=flower&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://docs.pytest.org/">
+  <img alt="Pytest" src="https://img.shields.io/badge/Pytest-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://playwright.dev/">
+  <img alt="Playwright" src="https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://www.django-rest-framework.org/">
+  <img alt="DRF" src="https://img.shields.io/badge/Django%20REST-ff1709?style=for-the-badge&logo=django&logoColor=white"/>
  </a>
 </p>
 <h2>
@@ -18072,4 +18214,64 @@ Add all the env variables as required and mentioned in the Readme File.
 </p>
 <p>
  HARBOR_PASSWORD=
+</p>
+<p>
+ HARBOR_URL=https://harbor.example.com
+</p>
+<p>
+ MY_EMAIL_ADDRESS=
+</p>
+<h1>
+ Flower Basic Auth
+</h1>
+<p>
+ FLOWER_ADMIN_USERNAME=
+ <br/>
+ FLOWER_ADMIN_PASS=
+</p>
+<h1>
+ RabbitMQ Configuration
+</h1>
+<p>
+ RABBITMQ_HOST=
+ <br/>
+ RABBITMQ_PORT=5672
+ <br/>
+ RABBITMQ_USER=
+ <br/>
+ RABBITMQ_PASSWORD=
+ <br/>
+ RABBITMQ_VHOST=/
+ <br/>
+ RABBITMQ_MANAGEMENT_PORT=15672
+</p>
+<h1>
+ Kafka Configuration
+</h1>
+<p>
+ KAFKA_BOOTSTRAP_SERVERS=
+ <br/>
+ KAFKA_SECURITY_PROTOCOL=SASL_SSL
+ <br/>
+ KAFKA_SASL_MECHANISM=PLAIN
+ <br/>
+ KAFKA_SASL_USERNAME=
+ <br/>
+ KAFKA_SASL_PASSWORD=
+ <br/>
+ KAFKA_SSL_TRUSTSTORE_PASSWORD=
+ <br/>
+ KAFKA_SSL_KEYSTORE_PASSWORD=
+</p>
+<h1>
+ Elasticsearch Configuration
+</h1>
+<p>
+ ELASTICSEARCH_HOST=
+ <br/>
+ ELASTICSEARCH_USER=
+ <br/>
+ ELASTICSEARCH_PASSWORD=
+ <br/>
+ ELASTICSEARCH_INDEX_PREFIX=django_starter
 </p>
