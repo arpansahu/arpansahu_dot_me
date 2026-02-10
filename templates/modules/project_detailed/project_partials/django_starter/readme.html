@@ -3962,7 +3962,11 @@ EXPOSE 8016 8054
 # Start supervisord to manage the processes
 # Note: For Kubernetes deployments, migrations are handled by Jenkins (see Jenkinsfile-deploy)
 #       For Docker Compose deployments, migrations run here on container startup
-CMD python manage.py migrate --noinput &amp;&amp; python manage.py collectstatic --noinput &amp;&amp; supervisord -c /etc/supervisor/conf.d/supervisord.conf
+CMD python manage.py migrate --noinput &amp;&amp; \
+    echo &quot;Running collectstatic...&quot; &amp;&amp; \
+    python manage.py collectstatic --noinput --verbosity 2 &amp;&amp; \
+    echo &quot;✅ Collectstatic completed successfully&quot; &amp;&amp; \
+    supervisord -c /etc/supervisor/conf.d/supervisord.conf
 
 </code></pre>
 <p>
@@ -18189,6 +18193,12 @@ Add all the env variables as required and mentioned in the Readme File.
 </p>
 <p>
  BUCKET_TYPE=
+</p>
+<h1>
+ Set to True to use S3/MinIO for static/media files, False to use local filesystem
+</h1>
+<p>
+ USE_S3=True
 </p>
 <h1>
  ==================== Domain Configuration ====================
