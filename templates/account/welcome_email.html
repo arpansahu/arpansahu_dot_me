@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Arpan Sahu!</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f4; font-family: Arial, sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 40px 0;">
+        <tr>
+            <td align="center">
+                <!-- Main Container -->
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                    <!-- Header with Confetti -->
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 50px 40px; text-align: center; border-radius: 10px 10px 0 0; position: relative;">
+                            <div style="font-size: 60px; margin-bottom: 15px;">🎉</div>
+                            <h1 style="margin: 0; color: #ffffff; font-size: 32px; font-weight: 700;">Welcome Aboard!</h1>
+                            <p style="margin: 10px 0 0; color: rgba(255, 255, 255, 0.8); font-size: 16px;">Your account is now active</p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 40px;">
+                            <p style="margin: 0 0 20px; color: #333333; font-size: 16px; line-height: 1.6;">
+                                Hi <strong>{{ user.username }}</strong>,
+                            </p>
+                            <p style="margin: 0 0 20px; color: #555555; font-size: 16px; line-height: 1.6;">
+                                Your account has been successfully activated! You're now part of the community and can access all features.
+                            </p>
+                            
+                            <!-- Features Box -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin: 30px 0; border-radius: 8px; overflow: hidden;">
+                                <tr>
+                                    <td style="background: linear-gradient(135deg, rgba(187, 134, 252, 0.1), rgba(99, 102, 241, 0.1)); padding: 25px; border: 1px solid rgba(187, 134, 252, 0.2);">
+                                        <h3 style="margin: 0 0 15px; color: #333333; font-size: 18px;">What you can do now:</h3>
+                                        <ul style="margin: 0; padding-left: 20px; color: #555555; line-height: 1.8;">
+                                            <li>💬 <strong>Comment on blog posts</strong> and engage with content</li>
+                                            <li>🔔 <strong>Receive notifications</strong> when someone replies to you</li>
+                                            <li>👤 <strong>Manage your profile</strong> and customize settings</li>
+                                            <li>❤️ <strong>Like posts and comments</strong> to show appreciation</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <p style="margin: 20px 0; color: #555555; font-size: 16px; line-height: 1.6;">
+                                Ready to explore? Click the button below to get started:
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Button -->
+                    <tr>
+                        <td style="padding: 0 40px 40px; text-align: center;">
+                            <table cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+                                <tr>
+                                    <td style="background: linear-gradient(135deg, #bb86fc, #6366f1); border-radius: 30px; padding: 15px 40px;">
+                                        <a href="{{ protocol }}://{{ domain }}/blog/" 
+                                           style="color: #ffffff; text-decoration: none; font-size: 16px; font-weight: 600; display: block;">
+                                            Explore Blog
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Tips Section -->
+                    <tr>
+                        <td style="padding: 0 40px 30px;">
+                            <div style="background: #f8f9fa; border-left: 4px solid #bb86fc; padding: 20px; border-radius: 4px;">
+                                <h4 style="margin: 0 0 10px; color: #333333; font-size: 16px;">
+                                    💡 Pro Tip
+                                </h4>
+                                <p style="margin: 0; color: #555555; font-size: 14px; line-height: 1.6;">
+                                    Complete your profile by adding your first and last name to personalize your experience. You can do this in your <a href="{{ protocol }}://{{ domain }}/account/profile/" style="color: #bb86fc; text-decoration: none;">account settings</a>.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f8f9fa; padding: 30px 40px; text-align: center; border-radius: 0 0 10px 10px;">
+                            <p style="margin: 0 0 10px; color: #888888; font-size: 14px;">
+                                <strong>Arpan Sahu</strong><br>
+                                Software Engineer & Technology Enthusiast
+                            </p>
+                            <p style="margin: 0; color: #999999; font-size: 12px;">
+                                <a href="{{ protocol }}://{{ domain }}" style="color: #bb86fc; text-decoration: none;">arpansahu.space</a>
+                            </p>
+                            <div style="margin-top: 15px;">
+                                <a href="https://github.com/arpansahu" style="color: #888888; text-decoration: none; margin: 0 8px;">
+                                    GitHub
+                                </a>
+                                <span style="color: #cccccc;">•</span>
+                                <a href="https://linkedin.com/in/arpansahu" style="color: #888888; text-decoration: none; margin: 0 8px;">
+                                    LinkedIn
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                
+                <!-- Footer Note -->
+                <table width="600" cellpadding="0" cellspacing="0" style="margin-top: 20px;">
+                    <tr>
+                        <td style="text-align: center; padding: 20px;">
+                            <p style="margin: 0 0 5px; color: #999999; font-size: 12px;">
+                                This email was sent to {{ user.email }}
+                            </p>
+                            <p style="margin: 0; color: #999999; font-size: 12px;">
+                                &copy; 2026 Arpan Sahu. All rights reserved.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

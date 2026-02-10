@@ -64,37 +64,106 @@ class CustomPasswordResetView(PasswordContextMixin, FormView):
         return super().form_valid(form)
 
 
-def send_mail_account_activate(reciever_email, user, SUBJECT="Confirm Your Email"):
-    message = render_to_string(template_name='account/activate_account_mail.html', context={
+def send_mail_account_activate(reciever_email, user, SUBJECT="Confirm Your Email - Arpan Sahu"):
+    html_message = render_to_string(template_name='account/activate_account_mail.html', context={
         'user': user,
         'protocol': PROTOCOL,
         'domain': DOMAIN,
         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
         'token': account_activation_token.make_token(user),
     })
+    
+    # Plain text version for email clients that don't support HTML
+    text_message = f"""
+    Hi {user.username},
+    
+    Thank you for registering at arpansahu.space!
+    
+    To activate your account, please click the link below:
+    {PROTOCOL}://{DOMAIN}/account/activate/{urlsafe_base64_encode(force_bytes(user.pk))}/{account_activation_token.make_token(user)}/
+    
+    If you didn't request this, please ignore this email.
+    
+    This link will expire in 24 hours.
+    
+    Best regards,
+    Arpan Sahu
+    {PROTOCOL}://{DOMAIN}
+    """
 
     data = {
         'Messages': [
             {
                 "From": {
                     "Email": "admin@arpansahu.space",
-                    "Name": "Great Chat"
+                    "Name": "Arpan Sahu"
                 },
                 "To": [
                     {
                         "Email": reciever_email,
-                        "Name": "Dear User"
+                        "Name": user.username
                     }
                 ],
                 "Subject": SUBJECT,
-                "TextPart": message,
-                "HTMLPart": f"<h3>Dear {user.username}, Message: {message}",
-                "CustomID": f"{reciever_email}"
+                "TextPart": text_message,
+                "HTMLPart": html_message,
+                "CustomID": f"account_activation_{user.pk}"
             }
         ]
     }
     result = mailjet.send.create(data=data)
-    print("account activation mail send")
+    print(f"Account activation email sent to {reciever_email}")
+    return result
+
+
+def send_welcome_email(reciever_email, user):
+    """Send welcome email after successful account activation"""
+    html_message = render_to_string(template_name='account/welcome_email.html', context={
+        'user': user,
+        'protocol': PROTOCOL,
+        'domain': DOMAIN,
+    })
+    
+    text_message = f"""
+    Hi {user.username},
+    
+    Welcome aboard! Your account has been successfully activated.
+    
+    You're now part of the community and can access all features:
+    • Comment on blog posts and engage with content
+    • Receive notifications when someone replies to you
+    • Manage your profile and customize settings
+    • Like posts and comments to show appreciation
+    
+    Explore the blog: {PROTOCOL}://{DOMAIN}/blog/
+    
+    Best regards,
+    Arpan Sahu
+    {PROTOCOL}://{DOMAIN}
+    """
+
+    data = {
+        'Messages': [
+            {
+                "From": {
+                    "Email": "admin@arpansahu.space",
+                    "Name": "Arpan Sahu"
+                },
+                "To": [
+                    {
+                        "Email": reciever_email,
+                        "Name": user.username
+                    }
+                ],
+                "Subject": "Welcome to Arpan Sahu!",
+                "TextPart": text_message,
+                "HTMLPart": html_message,
+                "CustomID": f"welcome_email_{user.pk}"
+            }
+        ]
+    }
+    result = mailjet.send.create(data=data)
+    print(f"Welcome email sent to {reciever_email}")
     return result
 
 
@@ -108,6 +177,8 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
+        # Send welcome email after activation
+        send_welcome_email(user.email, user)
         return render(request, 'account/account_activation_done.html', context={'message': 'Thank you for your email '
                                                                                            'confirmation. Now you can '
                                                                                            'login your account.'})
@@ -148,7 +219,9 @@ class LoginView(View):
         form = LoginForm(request.POST or None)
         msg = None
         if request.user.is_authenticated:
-            return redirect('home')
+            # If already authenticated, redirect to next or home
+            next_url = request.GET.get('next', '/')
+            return redirect(next_url)
         return render(request, "account/login.html", {"form": form, "msg": msg})
 
     def post(self, request):
@@ -159,7 +232,9 @@ class LoginView(View):
             user = authenticate(email=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect("/")
+                # Redirect to next parameter or home
+                next_url = request.GET.get('next') or request.POST.get('next', '/')
+                return redirect(next_url)
             else:
                 msg = 'Invalid credentials'
         else:
@@ -176,21 +251,48 @@ class AccountView(View):
             initial={
                 "email": request.user.email,
                 "username": request.user.username,
-                "name": request.user.name
+                "first_name": request.user.first_name,
+                "last_name": request.user.last_name,
             }
         )
-        context["account"] = Account.objects.get(email=request.user.email)
+        context["account"] = request.user
         context['account_form'] = form
+        # Add unread notification count
+        try:
+            from blog.models import Notification
+            context['unread_notification_count'] = Notification.objects.filter(
+                recipient=request.user, is_read=False
+            ).count()
+        except Exception:
+            context['unread_notification_count'] = 0
         return render(request, 'account/account.html', context)
 
     def post(self, request, *args, **kwargs):
+        from django.contrib import messages as django_messages
+        
         context = {}
-        form = AccountUpdateForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            print(form.__dict__)
-            form.save()
-
-        context["account"] = Account.objects.get(email=request.user.email)
+        # Update user fields manually
+        user = request.user
+        user.username = request.POST.get('username', user.username)
+        user.email = request.POST.get('email', user.email)
+        user.first_name = request.POST.get('first_name', '')
+        user.last_name = request.POST.get('last_name', '')
+        
+        try:
+            user.save()
+            django_messages.success(request, 'Your profile has been updated successfully!')
+        except Exception as e:
+            django_messages.error(request, f'Error updating profile: {str(e)}')
+        
+        form = AccountUpdateForm(
+            initial={
+                "email": user.email,
+                "username": user.username,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+            }
+        )
+        context["account"] = user
         context['account_form'] = form
         return render(request, 'account/account.html', context)
 

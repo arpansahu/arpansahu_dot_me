@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -31,6 +31,15 @@ from .views import (
     TAndCView,
 )
 
+from account.views import (
+    LoginView,
+    LogoutView,
+    RegistrationView,
+    AccountView,
+    activate,
+    CustomPasswordResetView,
+)
+
 def trigger_error(request):
     division_by_zero = 1 / 0
 
@@ -41,6 +50,21 @@ def large_resource(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Home.as_view(), name='home'),
+    path('blog/', include('blog.urls')),
+    path('comments/', include('comments.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    
+    # Account URLs
+    path('account/login/', LoginView.as_view(), name='login'),
+    path('account/logout/', LogoutView.as_view(), name='logout'),
+    path('account/register/', RegistrationView.as_view(), name='register'),
+    path('account/profile/', AccountView.as_view(), name='account'),
+    path('account/activate/<uidb64>/<token>/', activate, name='activate'),
+    
+    # Password Reset URLs (Custom)
+    path('account/password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),
+    path('account/', include('django.contrib.auth.urls')),  # This includes password_reset_done, confirm, complete
+    
     path('projects/<str:project_name>', ProjectDetailedView.as_view(), name='project-detailed-view'),
     path('contact/', ContactView.as_view(), name='contact'),
     path('about/', AboutView.as_view(), name='about'),

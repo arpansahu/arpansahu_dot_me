@@ -1,0 +1,20 @@
+{% comment %}
+Google AdSense In-Article Ad
+Use within article content
+{% endcomment %}
+
+{% if GOOGLE_ADSENSE_ENABLED and GOOGLE_ADSENSE_CLIENT_ID %}
+<div class="adsense-in-article" style="margin: 40px 0; text-align: center;">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ GOOGLE_ADSENSE_CLIENT_ID }}"
+            crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+         style="display:block; text-align:center;"
+         data-ad-layout="in-article"
+         data-ad-format="fluid"
+         data-ad-client="{{ GOOGLE_ADSENSE_CLIENT_ID }}"
+         data-ad-slot=""></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+{% endif %}

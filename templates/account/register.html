@@ -1,0 +1,272 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register - Arpan Sahu{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .auth-page {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 20px 40px;
+    }
+    
+    .auth-container {
+        max-width: 450px;
+        width: 100%;
+    }
+    
+    .auth-card {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    
+    .auth-header {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+    
+    .auth-title {
+        color: #fff;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    
+    .auth-subtitle {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.95rem;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-label {
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 500;
+        margin-bottom: 8px;
+        display: block;
+        font-size: 0.9rem;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 14px 18px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: #bb86fc;
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 20px rgba(187, 134, 252, 0.2);
+    }
+    
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+    }
+    
+    .form-error {
+        color: #ff6b6b;
+        font-size: 0.85rem;
+        margin-top: 5px;
+        display: block;
+    }
+    
+    .btn-auth {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #bb86fc, #6366f1);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+    }
+    
+    .btn-auth:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(187, 134, 252, 0.4);
+    }
+    
+    .auth-footer {
+        text-align: center;
+        margin-top: 25px;
+        padding-top: 25px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .auth-footer-text {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.9rem;
+    }
+    
+    .auth-link {
+        color: #bb86fc;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .auth-link:hover {
+        color: #d4b0ff;
+        text-decoration: underline;
+    }
+    
+    .password-toggle {
+        position: relative;
+    }
+    
+    .password-toggle-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+    
+    .password-toggle-icon:hover {
+        color: #bb86fc;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">Create Account</h1>
+                <p class="auth-subtitle">Sign up to get started</p>
+            </div>
+            
+            <form method="POST" action="{% url 'register' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">
+                {% csrf_token %}
+                {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                {% endif %}
+                
+                <div class="form-group">
+                    <label class="form-label" for="username">Username</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="username" 
+                           name="username" 
+                           placeholder="Choose a username"
+                           value="{{ registration_form.username.value|default:'' }}"
+                           required>
+                    {% if registration_form.username.errors %}
+                        {% for error in registration_form.username.errors %}
+                            <span class="form-error">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input type="email" 
+                           class="form-control" 
+                           id="email" 
+                           name="email" 
+                           placeholder="you@example.com"
+                           value="{{ registration_form.email.value|default:'' }}"
+                           required>
+                    {% if registration_form.email.errors %}
+                        {% for error in registration_form.email.errors %}
+                            <span class="form-error">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="password1">Password</label>
+                    <div class="password-toggle">
+                        <input type="password" 
+                               class="form-control" 
+                               id="password1" 
+                               name="password1" 
+                               placeholder="Create a password"
+                               required>
+                        <i class="fas fa-eye password-toggle-icon" id="togglePassword1"></i>
+                    </div>
+                    {% if registration_form.password1.errors %}
+                        {% for error in registration_form.password1.errors %}
+                            <span class="form-error">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="password2">Confirm Password</label>
+                    <div class="password-toggle">
+                        <input type="password" 
+                               class="form-control" 
+                               id="password2" 
+                               name="password2" 
+                               placeholder="Confirm your password"
+                               required>
+                        <i class="fas fa-eye password-toggle-icon" id="togglePassword2"></i>
+                    </div>
+                    {% if registration_form.password2.errors %}
+                        {% for error in registration_form.password2.errors %}
+                            <span class="form-error">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <button type="submit" class="btn-auth">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </form>
+            
+            <div class="auth-footer">
+                <p class="auth-footer-text">
+                    Already have an account? 
+                    <a href="{% url 'login' %}" class="auth-link">Log in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Password toggles
+function setupPasswordToggle(inputId, iconId) {
+    document.getElementById(iconId).addEventListener('click', function() {
+        const password = document.getElementById(inputId);
+        const icon = this;
+        
+        if (password.type === 'password') {
+            password.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            password.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+}
+
+setupPasswordToggle('password1', 'togglePassword1');
+setupPasswordToggle('password2', 'togglePassword2');
+</script>
+{% endblock %}

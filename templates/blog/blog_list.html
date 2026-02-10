@@ -1,0 +1,463 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blog - Arpan Sahu{% endblock %}
+
+{% block stylesheets %}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    .blog-hero-section {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .blog-hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 20% 50%, rgba(187, 134, 252, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+    }
+    
+    .blog-hero-content {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .blog-hero-title {
+        font-size: 4.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #ffffff 0%, #bb86fc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1.5rem;
+        letter-spacing: -2px;
+    }
+    
+    .blog-hero-subtitle {
+        font-size: 1.4rem;
+        color: rgba(255, 255, 255, 0.7);
+        max-width: 700px;
+        margin: 0 auto 2rem;
+        line-height: 1.6;
+    }
+    
+    .search-wrapper {
+        max-width: 600px;
+        margin: 0 auto;
+        position: relative;
+    }
+    
+    .search-input-field {
+        width: 100%;
+        padding: 18px 60px 18px 25px;
+        border-radius: 50px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        color: #fff;
+        font-size: 1.05rem;
+        transition: all 0.3s ease;
+    }
+    
+    .search-input-field:focus {
+        outline: none;
+        border-color: #bb86fc;
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 30px rgba(187, 134, 252, 0.3);
+    }
+    
+    .search-input-field::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+    }
+    
+    .search-icon-btn {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: linear-gradient(135deg, #bb86fc, #6366f1);
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .search-icon-btn:hover {
+        transform: translateY(-50%) scale(1.1);
+        box-shadow: 0 5px 20px rgba(187, 134, 252, 0.4);
+    }
+    
+    .blog-posts-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 80px 20px;
+    }
+    
+    .posts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        gap: 35px;
+        margin-top: 50px;
+    }
+    
+    .post-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        position: relative;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    
+    .post-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(187, 134, 252, 0.1), rgba(99, 102, 241, 0.1));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 0;
+    }
+    
+    .post-card:hover::before {
+        opacity: 1;
+    }
+    
+    .post-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 25px 50px rgba(187, 134, 252, 0.25);
+        border-color: rgba(187, 134, 252, 0.3);
+    }
+    
+    .post-card-image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 260px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .post-card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .post-card:hover .post-card-image {
+        transform: scale(1.08);
+    }
+    
+    .featured-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+        color: #fff;
+        padding: 7px 18px;
+        border-radius: 25px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        z-index: 2;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 15px rgba(238, 90, 111, 0.4);
+    }
+    
+    .post-card-content {
+        padding: 28px;
+        position: relative;
+        z-index: 1;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .post-meta-row {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 18px;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .category-pill {
+        background: rgba(187, 134, 252, 0.15);
+        color: #bb86fc;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(187, 134, 252, 0.3);
+    }
+    
+    .category-pill:hover {
+        background: rgba(187, 134, 252, 0.25);
+        color: #bb86fc;
+        transform: translateY(-2px);
+    }
+    
+    .post-title {
+        font-size: 1.65rem;
+        font-weight: 700;
+        margin-bottom: 14px;
+        color: #fff;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        letter-spacing: -0.5px;
+    }
+    
+    .post-excerpt {
+        color: rgba(255, 255, 255, 0.65);
+        margin-bottom: 22px;
+        line-height: 1.7;
+        font-size: 0.98rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        flex: 1;
+    }
+    
+    .post-footer-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 18px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        margin-top: auto;
+    }
+    
+    .author-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .author-avatar-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #bb86fc, #6366f1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.95rem;
+        box-shadow: 0 4px 12px rgba(187, 134, 252, 0.3);
+    }
+    
+    .author-name-text {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 500;
+    }
+    
+    .reading-time-text {
+        font-size: 0.88rem;
+        color: rgba(255, 255, 255, 0.5);
+        font-weight: 500;
+    }
+    
+    .pagination-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        margin-top: 70px;
+    }
+    
+    .pagination-controls a,
+    .pagination-controls span {
+        padding: 12px 22px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        font-size: 0.95rem;
+    }
+    
+    .pagination-controls a:hover {
+        background: linear-gradient(135deg, #bb86fc, #6366f1);
+        color: #fff;
+        border-color: transparent;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(187, 134, 252, 0.3);
+    }
+    
+    .pagination-controls .current-page {
+        background: linear-gradient(135deg, #bb86fc, #6366f1);
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 5px 20px rgba(187, 134, 252, 0.3);
+    }
+    
+    .no-posts-message {
+        text-align: center;
+        padding: 80px 20px;
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .no-posts-icon {
+        font-size: 5rem;
+        margin-bottom: 25px;
+        opacity: 0.2;
+    }
+    
+    .no-posts-title {
+        font-size: 1.8rem;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 12px;
+    }
+    
+    @media (max-width: 768px) {
+        .blog-hero-title {
+            font-size: 2.8rem;
+        }
+        
+        .blog-hero-subtitle {
+            font-size: 1.1rem;
+        }
+        
+        .posts-grid {
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+        
+        .post-title {
+            font-size: 1.4rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="blog-hero-section">
+    <div class="blog-hero-content">
+        <h1 class="blog-hero-title">📚 Blog</h1>
+        <p class="blog-hero-subtitle">Thoughts, insights, and tutorials on software engineering, system design, and modern web technologies</p>
+        
+        <div class="search-wrapper">
+            <form method="get" action="{% url 'blog:blog_list' %}">
+                <input type="text" 
+                       name="q" 
+                       class="search-input-field" 
+                       placeholder="Search articles, topics, tutorials..." 
+                       value="{{ request.GET.q|default:'' }}">
+                <button type="submit" class="search-icon-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<div class="blog-posts-container">
+    {% if page_obj %}
+    <div class="posts-grid">
+        {% for post in page_obj %}
+        
+        {# Insert ad after every 3rd post #}
+        {% if forloop.counter0|divisibleby:3 and forloop.counter0 > 0 %}
+            {% include 'ads/display_ad.html' %}
+        {% endif %}
+        
+        <a href="{% url 'blog:blog_detail' post.slug %}" style="text-decoration: none; color: inherit;">
+            <article class="post-card">
+                {% if post.is_featured %}
+                <span class="featured-badge">★ Featured</span>
+                {% endif %}
+                
+                <div class="post-card-image-wrapper">
+                    {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-card-image">
+                    {% else %}
+                    <div class="post-card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%, #f093fb 100%);"></div>
+                    {% endif %}
+                </div>
+                
+                <div class="post-card-content">
+                    <div class="post-meta-row">
+                        {% if post.category %}
+                        <span class="category-pill">{{ post.category.name }}</span>
+                        {% endif %}
+                        <span>{{ post.published_date|date:"M d, Y" }}</span>
+                    </div>
+                    
+                    <h2 class="post-title">{{ post.title }}</h2>
+                    <p class="post-excerpt">{{ post.excerpt }}</p>
+                    
+                    <div class="post-footer-meta">
+                        <div class="author-box">
+                            <div class="author-avatar-circle">
+                                {{ post.author.first_name|first|upper }}{{ post.author.last_name|first|upper }}
+                            </div>
+                            <span class="author-name-text">{{ post.author.get_full_name }}</span>
+                        </div>
+                        <span class="reading-time-text">{{ post.get_reading_time }} min read</span>
+                    </div>
+                </div>
+            </article>
+        </a>
+        {% endfor %}
+    </div>
+    
+    {% if page_obj.has_other_pages %}
+    <div class="pagination-controls">
+        {% if page_obj.has_previous %}
+        <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">« First</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">‹ Previous</a>
+        {% endif %}
+        
+        <span class="current-page">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next ›</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Last »</a>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    {% else %}
+    <div class="no-posts-message">
+        <div class="no-posts-icon">📝</div>
+        <h3 class="no-posts-title">No posts found</h3>
+        <p>We're working on bringing you great content. Check back soon!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

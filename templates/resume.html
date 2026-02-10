@@ -3,39 +3,127 @@
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
 <style>
+    .pdf-container {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        padding: 20px;
+    }
     
+    .pdf-page {
+        display: block;
+        margin: 0 auto 20px auto;
+        max-width: 100%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .pdf-page:last-child {
+        margin-bottom: 0;
+    }
+    
+    .pdf-loading {
+        text-align: center;
+        padding: 60px 20px;
+        color: #666;
+    }
+    
+    .pdf-loading i {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        color: #bb86fc;
+    }
 </style>
 {% endblock stylesheets %}
 
 {% block content %}
 
-<section class="section bg-light" id="contact">
- 
-    <div class="container">
-      
-
-
-                        <embed
-                            src="{% static 'pdfs/resume.pdf' %}#toolbar=0&navpanes=0&scrollbar=0"
-                            type="application/pdf"
-                            frameBorder="0"
-                            scrolling="auto"
-                            height="4525px"
-                            width="800px"
-                            style="margin-left: 180px;"
-                        ></embed>
-
-            
-    </div><!-- end container -->
+<section class="section" id="resume" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); min-height: 100vh; padding: 80px 0;">
+    <div class="container" style="max-width: 1000px;">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h2 style="color: #fff; font-size: 2.5rem; font-weight: 700; margin-bottom: 15px;">Resume</h2>
+            <p style="color: rgba(255, 255, 255, 0.7); font-size: 1.1rem;">Download my latest resume</p>
+            <a href="{% static 'pdfs/resume.pdf' %}?v=20260210-3" download="Arpan_Sahu_Resume.pdf" 
+               class="btn btn-primary" 
+               style="margin-top: 20px; background: linear-gradient(135deg, #bb86fc, #6366f1); border: none; padding: 12px 30px; font-size: 1.05rem; border-radius: 25px; box-shadow: 0 4px 15px rgba(187, 134, 252, 0.3);">
+                <i class="fas fa-download"></i> Download PDF
+            </a>
+        </div>
+        
+        <div class="pdf-container" id="pdf-container">
+            <div class="pdf-loading" id="pdf-loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading resume...</p>
+            </div>
+        </div>
+    </div>
 </section>
-
 
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    // Set PDF.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    
+    const pdfUrl = "{% static 'pdfs/resume.pdf' %}?v=20260210-3";
+    const container = document.getElementById('pdf-container');
+    const loading = document.getElementById('pdf-loading');
+    
+    // Load and render PDF
+    pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
+        loading.style.display = 'none';
+        
+        // Get total number of pages
+        const numPages = pdf.numPages;
+        
+        // Render each page
+        for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+            pdf.getPage(pageNum).then(function(page) {
+                // Calculate scale to fit container width
+                const containerWidth = container.clientWidth - 40; // Account for padding
+                const viewport = page.getViewport({ scale: 1 });
+                const scale = containerWidth / viewport.width;
+                const scaledViewport = page.getViewport({ scale: scale * 1.5 }); // 1.5x for better quality
+                
+                // Create canvas for this page
+                const canvas = document.createElement('canvas');
+                canvas.className = 'pdf-page';
+                canvas.width = scaledViewport.width;
+                canvas.height = scaledViewport.height;
+                canvas.style.width = (scaledViewport.width / 1.5) + 'px';
+                canvas.style.height = (scaledViewport.height / 1.5) + 'px';
+                
+                // Append canvas in correct order
+                const existingCanvases = container.querySelectorAll('canvas');
+                let inserted = false;
+                for (let i = 0; i < existingCanvases.length; i++) {
+                    const existingPageNum = parseInt(existingCanvases[i].dataset.page);
+                    if (pageNum < existingPageNum) {
+                        container.insertBefore(canvas, existingCanvases[i]);
+                        inserted = true;
+                        break;
+                    }
+                }
+                if (!inserted) {
+                    container.appendChild(canvas);
+                }
+                canvas.dataset.page = pageNum;
+                
+                // Render page to canvas
+                const context = canvas.getContext('2d');
+                page.render({
+                    canvasContext: context,
+                    viewport: scaledViewport
+                });
+            });
+        }
+    }).catch(function(error) {
+        loading.innerHTML = '<i class="fas fa-exclamation-triangle"></i><p>Failed to load PDF. <a href="' + pdfUrl + '" download>Download instead</a></p>';
+        console.error('PDF loading error:', error);
+    });
+</script>
 
 {% endblock javascripts %}

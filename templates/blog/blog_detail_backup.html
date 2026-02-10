@@ -1,0 +1,317 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load blog_tags %}
+
+{% block title %}{{ post.title }} - Blog{% endblock %}
+
+{% block meta_description %}{{ post.meta_description|default:post.excerpt }}{% endblock %}
+{% block meta_keywords %}{{ post.meta_keywords }}{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<style>
+    .post-header {
+        padding: 120px 0 60px;
+        background: linear-gradient(135deg, var(--bg-dark) 0%, #24243e 100%);
+    }
+    
+    .post-content {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .post-content h2, .post-content h3 {
+        color: #fff;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .post-content p {
+        margin-bottom: 1.5rem;
+    }
+    
+    .post-content code:not([class*="language-"]) {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2px 6px;
+        border-radius: 3px;
+        color: var(--accent-color);
+    }
+    
+    .post-content pre {
+        margin: 2rem 0;
+        border-radius: 8px;
+        background: #2d2d2d !important;
+    }
+    
+    .post-content blockquote {
+        border-left: 4px solid var(--accent-color);
+        padding-left: 1rem;
+        margin: 1.5rem 0;
+        color: rgba(255, 255, 255, 0.7);
+        font-style: italic;
+    }
+    
+    .post-content img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin: 2rem 0;
+    }
+    
+    .post-content table {
+        width: 100%;
+        margin: 2rem 0;
+        border-collapse: collapse;
+    }
+    
+    .post-content table th,
+    .post-content table td {
+        padding: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .post-content table th {
+        background: rgba(187, 134, 252, 0.2);
+    }
+    
+    .comment-box {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .ad-container {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 2rem 0;
+        text-align: center;
+    }
+    
+    .related-post-img {
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px 8px 0 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Top Banner Ad -->
+{% if ads.top_banner %}
+<div class="container my-4">
+    <div class="ad-container">
+        {{ ads.top_banner.ad_code|safe }}
+    </div>
+</div>
+{% endif %}
+
+<!-- Post Header -->
+<section class="post-header">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                {% if post.category %}
+                <span class="badge category-badge mb-3">{{ post.category.name }}</span>
+                {% endif %}
+                
+                <h1 class="display-4 fw-bold text-white mb-3">{{ post.title }}</h1>
+                
+                <div class="d-flex align-items-center text-white-50 mb-3">
+                    <div class="me-4">
+                        <i class="far fa-user"></i> {{ post.author.username }}
+                    </div>
+                    <div class="me-4">
+                        <i class="far fa-calendar"></i> {{ post.published_date|date:"F d, Y" }}
+                    </div>
+                    <div class="me-4">
+                        <i class="far fa-clock"></i> {{ post.get_reading_time }} min read
+                    </div>
+                    <div>
+                        <i class="far fa-eye"></i> {{ post.views }} views
+                    </div>
+                </div>
+                
+                {% if post.tags.all %}
+                <div class="mb-3">
+                    {% for tag in post.tags.all %}
+                    <a href="{% url 'blog:tag_posts' tag.slug %}" class="badge tag-badge me-2">#{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Post Content -->
+<section class="section bg-transparent py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <div class="glass-card p-4 p-lg-5">
+                    {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" class="img-fluid rounded mb-4" alt="{{ post.title }}">
+                    {% endif %}
+                    
+                    <div class="post-content">
+                        {{ post.content|safe }}
+                    </div>
+                    
+                    <!-- In-Content Ad 1 (after first section) -->
+                    {% if ads.in_content_1 %}
+                    <div class="ad-container my-4">
+                        {{ ads.in_content_1.ad_code|safe }}
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Share Buttons -->
+                    <div class="mt-5 pt-4 border-top border-white-10">
+                        <h5 class="text-white mb-3">Share this post</h5>
+                        <div class="d-flex gap-2">
+                            <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title }}" 
+                               target="_blank" class="glass-btn btn-sm">
+                                <i class="fab fa-twitter"></i> Twitter
+                            </a>
+                            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" 
+                               target="_blank" class="glass-btn btn-sm">
+                                <i class="fab fa-linkedin"></i> LinkedIn
+                            </a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                               target="_blank" class="glass-btn btn-sm">
+                                <i class="fab fa-facebook"></i> Facebook
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- In-Content Ad 2 -->
+                {% if ads.in_content_2 %}
+                <div class="ad-container my-4">
+                    {{ ads.in_content_2.ad_code|safe }}
+                </div>
+                {% endif %}
+                
+                <!-- Comments Section -->
+                {% if post.enable_comments %}
+                <div class="glass-card p-4 p-lg-5 mt-4">
+                    <h4 class="text-white mb-4">
+                        <i class="far fa-comments"></i> Comments ({{ comments.count }})
+                    </h4>
+                    
+                    {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'blog:add_comment' post.slug %}" class="mb-4">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <textarea name="content" class="form-control" rows="4" 
+                                      placeholder="Share your thoughts..." required></textarea>
+                        </div>
+                        <button type="submit" class="glass-btn">Post Comment</button>
+                    </form>
+                    {% else %}
+                    <p class="text-white-50 mb-4">
+                        <a href="{% url 'login' %}?next={{ request.path }}" class="text-accent">Login</a> to post a comment
+                    </p>
+                    {% endif %}
+                    
+                    <!-- Display Comments -->
+                    {% for comment in comments %}
+                    <div class="comment-box">
+                        <div class="d-flex align-items-center mb-2">
+                            <strong class="text-white me-2">{{ comment.author.username }}</strong>
+                            <small class="text-white-50">{{ comment.created_at|date:"M d, Y - H:i" }}</small>
+                        </div>
+                        <p class="text-white-50 mb-0">{{ comment.content }}</p>
+                    </div>
+                    {% empty %}
+                    <p class="text-white-50 text-center">No comments yet. Be the first to comment!</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div style="position: sticky; top: 100px;">
+                    <!-- Sidebar Top Ad -->
+                    {% if ads.sidebar_top %}
+                    <div class="ad-container mb-4">
+                        {{ ads.sidebar_top.ad_code|safe }}
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Author Info -->
+                    <div class="glass-card p-4 mb-4">
+                        <h5 class="text-white mb-3"><i class="far fa-user"></i> About Author</h5>
+                        <p class="text-white fw-semibold">{{ post.author.username }}</p>
+                        <p class="text-white-50 small">Software Engineer passionate about building scalable systems</p>
+                    </div>
+                    
+                    <!-- Sidebar Middle Ad -->
+                    {% if ads.sidebar_middle %}
+                    <div class="ad-container mb-4">
+                        {{ ads.sidebar_middle.ad_code|safe }}
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Related Posts -->
+                    {% if related_posts %}
+                    <div class="glass-card p-4 mb-4">
+                        <h5 class="text-white mb-3"><i class="fas fa-link"></i> Related Posts</h5>
+                        {% for related in related_posts %}
+                        <div class="mb-3 {% if not forloop.last %}pb-3 border-bottom border-white-10{% endif %}">
+                            {% if related.featured_image %}
+                            <img src="{{ related.featured_image.url }}" class="related-post-img w-100 mb-2" alt="{{ related.title }}">
+                            {% endif %}
+                            <a href="{% url 'blog:post_detail' related.slug %}" class="text-white text-decoration-none">
+                                <h6>{{ related.title }}</h6>
+                            </a>
+                            <small class="text-white-50">
+                                <i class="far fa-calendar"></i> {{ related.published_date|date:"M d, Y" }}
+                            </small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Sidebar Bottom Ad -->
+                    {% if ads.sidebar_bottom %}
+                    <div class="ad-container">
+                        {{ ads.sidebar_bottom.ad_code|safe }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Bottom Banner Ad -->
+{% if ads.bottom_banner %}
+<div class="container my-4">
+    <div class="ad-container">
+        {{ ads.bottom_banner.ad_code|safe }}
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+<script>
+    // Auto-highlight code blocks
+    Prism.highlightAll();
+</script>
+{% endblock %}

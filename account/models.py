@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 
 
 # Create your models here.
@@ -37,10 +37,12 @@ class MyAccountManager(BaseUserManager):
 
 
 
-class Account(AbstractBaseUser):
+class Account(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True)
     name = models.CharField(max_length=30, null=True, verbose_name="name")
+    first_name = models.CharField(max_length=30, blank=True)
+    last_name = models.CharField(max_length=30, blank=True)
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
     is_admin = models.BooleanField(default=False)
@@ -54,9 +56,22 @@ class Account(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+    
+    def get_full_name(self):
+        """Return the first_name plus the last_name, with a space in between."""
+        full_name = f"{self.first_name} {self.last_name}".strip()
+        return full_name if full_name else self.username
 
     def has_perm(self, perm, obj=None):
-        return self.is_admin
+        """Does the user have a specific permission?"""
+        # Simplest possible answer: Yes, if they are a superuser
+        if self.is_superuser:
+            return True
+        # Otherwise check via PermissionsMixin
+        return super().has_perm(perm, obj)
 
     def has_module_perms(self, app_label):
-        return True
+        """Does the user have permissions to view the app `app_label`?"""
+        if self.is_superuser or self.is_staff:
+            return True
+        return super().has_module_perms(app_label)

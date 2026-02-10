@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load blog_tags %}
+
+{% block title %}Blog - Arpan Sahu{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<style>
+    .blog-header {
+        padding: 100px 0 60px;
+        background: linear-gradient(135deg, var(--bg-dark) 0%, #24243e 100%);
+    }
+    
+    .blog-card {
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    
+    .blog-card:hover {
+        transform: translateY(-10px);
+    }
+    
+    .blog-card-img {
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .category-badge {
+        background: rgba(187, 134, 252, 0.2);
+        color: var(--accent-color);
+        border: 1px solid rgba(187, 134, 252, 0.3);
+    }
+    
+    .tag-badge {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .search-box {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    .sidebar-widget {
+        position: sticky;
+        top: 100px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="blog-header">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-4 fw-bold text-white mb-3">📝 Blog</h1>
+                <p class="lead text-white-50">Thoughts on Software Engineering, System Design, and Technology</p>
+                
+                <!-- Search Box -->
+                <form method="get" class="search-box mt-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="q" placeholder="Search articles..." 
+                               value="{{ search_query|default:'' }}">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Top Banner Ad -->
+{% if ads.top_banner %}
+<div class="container my-4">
+    <div class="text-center">
+        {{ ads.top_banner.ad_code|safe }}
+    </div>
+</div>
+{% endif %}
+
+<!-- Blog Content -->
+<section class="section bg-transparent py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                {% if page_obj %}
+                    <div class="row g-4">
+                        {% for post in page_obj %}
+                        <div class="col-md-6">
+                            <div class="glass-card blog-card">
+                                {% if post.featured_image %}
+                                <img src="{{ post.featured_image.url }}" class="card-img-top blog-card-img" alt="{{ post.title }}">
+                                {% else %}
+                                <img src="{% static 'images/blog-placeholder.jpg' %}" class="card-img-top blog-card-img" alt="{{ post.title }}">
+                                {% endif %}
+                                
+                                <div class="card-body p-4">
+                                    {% if post.category %}
+                                    <span class="badge category-badge mb-2">{{ post.category.name }}</span>
+                                    {% endif %}
+                                    
+                                    <h5 class="card-title text-white">
+                                        <a href="{% url 'blog:post_detail' post.slug %}" class="text-white text-decoration-none">
+                                            {{ post.title }}
+                                        </a>
+                                    </h5>
+                                    
+                                    <p class="text-white-50 small mb-3">{{ post.excerpt|truncatewords:20 }}</p>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="text-white-50 small">
+                                            <i class="far fa-calendar"></i> {{ post.published_date|date:"M d, Y" }}
+                                            <span class="ms-2"><i class="far fa-clock"></i> {{ post.get_reading_time }} min</span>
+                                        </div>
+                                        <a href="{% url 'blog:post_detail' post.slug %}" class="glass-btn btn-sm">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Pagination -->
+                    {% if page_obj.has_other_pages %}
+                    <div class="mt-5">
+                        <nav>
+                            <ul class="pagination justify-content-center">
+                                {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">Previous</a>
+                                </li>
+                                {% endif %}
+                                
+                                {% for num in page_obj.paginator.page_range %}
+                                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                                    <a class="page-link" href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}">{{ num }}</a>
+                                </li>
+                                {% endfor %}
+                                
+                                {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">Next</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                    {% endif %}
+                {% else %}
+                    <div class="glass-card p-5 text-center">
+                        <h3 class="text-white">No posts found</h3>
+                        <p class="text-white-50">Check back soon for new content!</p>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="sidebar-widget">
+                    <!-- Sidebar Ad -->
+                    {% if ads.sidebar_top %}
+                    <div class="glass-card p-3 mb-4">
+                        {{ ads.sidebar_top.ad_code|safe }}
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Featured Posts -->
+                    {% if featured_posts %}
+                    <div class="glass-card p-4 mb-4">
+                        <h5 class="text-white mb-3"><i class="fas fa-star text-warning"></i> Featured</h5>
+                        {% for post in featured_posts %}
+                        <div class="mb-3 {% if not forloop.last %}pb-3 border-bottom border-white-10{% endif %}">
+                            <a href="{% url 'blog:post_detail' post.slug %}" class="text-white text-decoration-none">
+                                <h6 class="mb-1">{{ post.title }}</h6>
+                            </a>
+                            <small class="text-white-50">
+                                <i class="far fa-calendar"></i> {{ post.published_date|date:"M d" }}
+                            </small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Categories -->
+                    {% if categories %}
+                    <div class="glass-card p-4 mb-4">
+                        <h5 class="text-white mb-3"><i class="fas fa-folder"></i> Categories</h5>
+                        {% for category in categories %}
+                        <a href="{% url 'blog:category_posts' category.slug %}" class="badge category-badge me-2 mb-2">
+                            {{ category.name }} ({{ category.post_count }})
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Tags -->
+                    {% if tags %}
+                    <div class="glass-card p-4">
+                        <h5 class="text-white mb-3"><i class="fas fa-tags"></i> Tags</h5>
+                        {% for tag in tags %}
+                        <a href="{% url 'blog:tag_posts' tag.slug %}" class="badge tag-badge me-2 mb-2">
+                            #{{ tag.name }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+{% endblock %}

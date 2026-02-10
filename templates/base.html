@@ -44,6 +44,14 @@
 
   <!-- Sentry SDK for JavaScript -->
   <script src="https://js.sentry-cdn.com/331f4612eb24264aada28947f75526c3.min.js" crossorigin="anonymous"></script>
+
+  <!-- Google AdSense -->
+  {% if GOOGLE_ADSENSE_ENABLED and GOOGLE_ADSENSE_CLIENT_ID %}
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ GOOGLE_ADSENSE_CLIENT_ID }}"
+          crossorigin="anonymous"></script>
+  {% endif %}
+
+  {% block stylesheets %}{% endblock %}
 </head>
 
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="80">
@@ -51,8 +59,9 @@
   {% include "snippets/header.html" %}
   <!-- navbar ends HERE -->
 
-  {% block content %}{% endblock content %}
-
+  <div style="min-height: calc(100vh - 200px);">
+    {% block content %}{% endblock content %}
+  </div>
 
   <!-- start footer -->
   {% include 'snippets/footer.html' %}

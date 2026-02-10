@@ -1,0 +1,1280 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }} - Arpan Sahu{% endblock %}
+
+{% block meta_description %}{{ post.meta_description|default:post.excerpt }}{% endblock %}
+{% block meta_keywords %}{{ post.meta_keywords }}{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .article-hero {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        padding: 100px 0 60px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .article-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 30% 40%, rgba(187, 134, 252, 0.15) 0%, transparent 60%);
+    }
+    
+    .article-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 60px 20px 100px;
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 50px;
+        align-items: start;
+    }
+    
+    .article-main-content {
+        min-width: 0;
+    }
+    
+    .article-sidebar {
+        position: sticky;
+        top: 100px;
+    }
+    
+    .sidebar-widget {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 25px;
+        margin-bottom: 25px;
+    }
+    
+    .sidebar-widget-title {
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    @media (max-width: 1024px) {
+        .article-wrapper {
+            grid-template-columns: 1fr;
+        }
+        
+        .article-sidebar {
+            position: static;
+        }
+    }
+    
+    .article-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 60px 20px 100px;
+        position: relative;
+    }
+    
+    .article-category-badge {
+        display: inline-block;
+        background: rgba(187, 134, 252, 0.15);
+        color: #bb86fc;
+        padding: 8px 20px;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        border: 1px solid rgba(187, 134, 252, 0.3);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .article-category-badge:hover {
+        background: rgba(187, 134, 252, 0.25);
+        transform: translateY(-2px);
+    }
+    
+    .article-title {
+        font-size: 3.2rem;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 25px;
+        line-height: 1.2;
+        letter-spacing: -1.5px;
+    }
+    
+    .article-meta-bar {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.95rem;
+    }
+    
+    .article-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .article-meta-item i {
+        color: #bb86fc;
+    }
+    
+    .article-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .tag-link {
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.7);
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .tag-link:hover {
+        background: rgba(187, 134, 252, 0.15);
+        color: #bb86fc;
+        border-color: rgba(187, 134, 252, 0.3);
+    }
+    
+    .article-content-card {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 50px 45px;
+        margin-top: -40px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .featured-image {
+        width: 100%;
+        border-radius: 12px;
+        margin-bottom: 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    
+    .content-body {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.85);
+    }
+    
+    .content-body h1,
+    .content-body h2,
+    .content-body h3,
+    .content-body h4,
+    .content-body h5,
+    .content-body h6 {
+        color: #fff;
+        font-weight: 700;
+        margin-top: 2.5rem;
+        margin-bottom: 1.2rem;
+        line-height: 1.3;
+    }
+    
+    .content-body h1 { font-size: 2.5rem; }
+    .content-body h2 { font-size: 2rem; letter-spacing: -0.5px; }
+    .content-body h3 { font-size: 1.6rem; }
+    .content-body h4 { font-size: 1.3rem; }
+    
+    .content-body p {
+        margin-bottom: 1.8rem;
+    }
+    
+    .content-body a {
+        color: #bb86fc;
+        text-decoration: underline;
+        transition: color 0.3s ease;
+    }
+    
+    .content-body a:hover {
+        color: #d4b0ff;
+    }
+    
+    .content-body strong {
+        color: #fff;
+        font-weight: 600;
+    }
+    
+    .content-body em {
+        font-style: italic;
+    }
+    
+    .content-body ul,
+    .content-body ol {
+        margin-bottom: 1.8rem;
+        padding-left: 2rem;
+    }
+    
+    .content-body li {
+        margin-bottom: 0.8rem;
+        line-height: 1.7;
+    }
+    
+    .content-body code {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 3px 8px;
+        border-radius: 4px;
+        color: #bb86fc;
+        font-size: 0.9em;
+        font-family: 'Courier New', monospace;
+    }
+    
+    .content-body pre {
+        background: #1e1e1e !important;
+        padding: 20px;
+        border-radius: 10px;
+        overflow-x: auto;
+        margin: 2.5rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .content-body pre code {
+        background: none;
+        padding: 0;
+        color: #d4d4d4;
+        font-size: 0.95rem;
+    }
+    
+    .content-body blockquote {
+        border-left: 4px solid #bb86fc;
+        padding-left: 1.5rem;
+        margin: 2rem 0;
+        color: rgba(255, 255, 255, 0.7);
+        font-style: italic;
+        font-size: 1.1rem;
+    }
+    
+    .content-body img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin: 2.5rem 0;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .content-body table {
+        width: 100%;
+        margin: 2.5rem 0;
+        border-collapse: collapse;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .content-body table th,
+    .content-body table td {
+        padding: 14px 18px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: left;
+    }
+    
+    .content-body table th {
+        background: rgba(187, 134, 252, 0.15);
+        color: #fff;
+        font-weight: 600;
+    }
+    
+    .content-body table tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.02);
+    }
+    
+    .content-body hr {
+        border: none;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        margin: 3rem 0;
+    }
+    
+    .social-share-section {
+        margin-top: 50px;
+        padding-top: 40px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .share-title {
+        color: #fff;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+    
+    .share-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    
+    .share-btn {
+        padding: 12px 24px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .share-btn-twitter {
+        background: rgba(29, 161, 242, 0.1);
+        color: #1da1f2;
+    }
+    
+    .share-btn-twitter:hover {
+        background: #1da1f2;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(29, 161, 242, 0.3);
+    }
+    
+    .share-btn-linkedin {
+        background: rgba(0, 119, 181, 0.1);
+        color: #0077b5;
+    }
+    
+    .share-btn-linkedin:hover {
+        background: #0077b5;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(0, 119, 181, 0.3);
+    }
+    
+    .share-btn-facebook {
+        background: rgba(24, 119, 242, 0.1);
+        color: #1877f2;
+    }
+    
+    .share-btn-facebook:hover {
+        background: #1877f2;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(24, 119, 242, 0.3);
+    }
+    
+    .comments-section {
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 40px;
+        margin-top: 60px;
+    }
+    
+    .comments-title {
+        color: #fff;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 30px;
+    }
+    
+    .comment-item {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        position: relative;
+    }
+    
+    .comment-item.reply {
+        margin-left: 40px;
+        border-left: 2px solid #bb86fc;
+    }
+    
+    .comment-author {
+        color: #bb86fc;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .comment-badge {
+        background: rgba(187, 134, 252, 0.2);
+        color: #bb86fc;
+        font-size: 0.75rem;
+        padding: 2px 8px;
+        border-radius: 4px;
+    }
+    
+    .comment-date {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+    }
+    
+    .comment-text {
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+    
+    .comment-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .comment-action-btn {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.9rem;
+        cursor: pointer;
+        padding: 5px 10px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .comment-action-btn:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: #bb86fc;
+    }
+    
+    .comment-action-btn.liked {
+        color: #ef4444;
+    }
+    
+    .comment-edit-form,
+    .comment-reply-form {
+        margin-top: 15px;
+        display: none;
+    }
+    
+    .comment-edit-form.active,
+    .comment-reply-form.active {
+        display: block;
+    }
+    
+    .comment-form-box {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 25px;
+        margin-top: 30px;
+    }
+    
+    .form-label {
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 500;
+        margin-bottom: 8px;
+        display: block;
+    }
+    
+    .form-textarea {
+        width: 100%;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        font-size: 1rem;
+        resize: vertical;
+        min-height: 120px;
+        font-family: inherit;
+    }
+    
+    .form-textarea:focus {
+        outline: none;
+        border-color: #bb86fc;
+        box-shadow: 0 0 20px rgba(187, 134, 252, 0.2);
+    }
+    
+    .submit-btn {
+        background: linear-gradient(135deg, #bb86fc, #6366f1);
+        color: #fff;
+        padding: 12px 32px;
+        border-radius: 25px;
+        border: none;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+    }
+    
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 25px rgba(187, 134, 252, 0.4);
+    }
+    
+    .login-prompt {
+        color: rgba(255, 255, 255, 0.7);
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .login-link {
+        color: #bb86fc;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    
+    .login-link:hover {
+        text-decoration: underline;
+    }
+    
+    /* Auth buttons hover effects */
+    a[href*="login"]:hover,
+    a[href*="register"]:hover {
+        transform: translateY(-2px);
+    }
+    
+    a[href*="login"]:hover {
+        background: rgba(187, 134, 252, 0.25) !important;
+        box-shadow: 0 4px 12px rgba(187, 134, 252, 0.3);
+    }
+    
+    a[href*="register"]:hover {
+        background: rgba(40, 167, 69, 0.25) !important;
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    }
+    
+    a[href*="logout"]:hover {
+        background: rgba(220, 53, 69, 0.25) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+        .article-title {
+            font-size: 2.2rem;
+        }
+        
+        .article-content-card {
+            padding: 30px 20px;
+        }
+        
+        .content-body {
+            font-size: 1.05rem;
+        }
+        
+        .content-body h2 {
+            font-size: 1.7rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<article>
+    <header class="article-hero">
+        <div class="container" style="position: relative; z-index: 1;">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    {% if post.category %}
+                    <a href="{% url 'blog:category_posts' post.category.slug %}" class="article-category-badge">
+                        {{ post.category.name }}
+                    </a>
+                    {% endif %}
+                    
+                    <h1 class="article-title">{{ post.title }}</h1>
+                    
+                    <div class="article-meta-bar">
+                        <div class="article-meta-item">
+                            <i class="far fa-user"></i>
+                            <span>{{ post.author.get_full_name }}</span>
+                        </div>
+                        <div class="article-meta-item">
+                            <i class="far fa-calendar"></i>
+                            <span>{{ post.published_date|date:"F d, Y" }}</span>
+                        </div>
+                        <div class="article-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>{{ post.get_reading_time }} min read</span>
+                        </div>
+                        <div class="article-meta-item">
+                            <i class="far fa-eye"></i>
+                            <span>{{ post.views }} views</span>
+                        </div>
+                    </div>
+                    
+                    {% if post.tags.all %}
+                    <div class="article-tags">
+                        {% for tag in post.tags.all %}
+                        <a href="{% url 'blog:tag_posts' tag.slug %}" class="tag-link">#{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="article-wrapper">
+        <div class="article-main-content">
+            <div class="article-content-card">
+                {% if post.featured_image %}
+                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="featured-image">
+                {% endif %}
+                
+                <div class="content-body">
+                    {{ post.content|safe }}
+                </div>
+                
+                <div class="social-share-section">
+                <h3 class="share-title">Share this article</h3>
+                <div class="share-buttons">
+                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title }}" 
+                       target="_blank" 
+                       rel="noopener"
+                       class="share-btn share-btn-twitter">
+                        <i class="fab fa-twitter"></i> Twitter
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" 
+                       target="_blank" 
+                       rel="noopener"
+                       class="share-btn share-btn-linkedin">
+                        <i class="fab fa-linkedin"></i> LinkedIn
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                       target="_blank" 
+                       rel="noopener"
+                       class="share-btn share-btn-facebook">
+                        <i class="fab fa-facebook"></i> Facebook
+                    </a>
+                </div>
+            </div>
+            
+            {% if post.enable_comments %}
+            <section class="comments-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px;">
+                    <h2 class="comments-title" style="margin-bottom: 0;">💬 Comments (<span id="comments-count">{{ approved_comments.count }}</span>)</h2>
+                    
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        {% if user.is_authenticated %}
+                        <span style="color: rgba(255, 255, 255, 0.8); font-size: 0.95rem;">
+                            <i class="fas fa-user-circle"></i> {{ user.get_full_name }}
+                        </span>
+                        <a href="{% url 'logout' %}" 
+                           style="background: rgba(220, 53, 69, 0.15); color: #dc3545; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; border: 1px solid rgba(220, 53, 69, 0.3); transition: all 0.3s ease;">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                        {% else %}
+                        <a href="{% url 'login' %}?next={{ request.path }}" 
+                           style="background: rgba(187, 134, 252, 0.15); color: #bb86fc; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; border: 1px solid rgba(187, 134, 252, 0.3); transition: all 0.3s ease;">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                        <a href="{% url 'register' %}?next={{ request.path }}" 
+                           style="background: rgba(40, 167, 69, 0.15); color: #28a745; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; border: 1px solid rgba(40, 167, 69, 0.3); transition: all 0.3s ease;">
+                            <i class="fas fa-user-plus"></i> Sign Up
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div id="comments-list">
+                {% if approved_comments %}
+                    {% for comment in approved_comments %}
+                    <div class="comment-item" data-comment-id="{{ comment.id }}" data-author-id="{{ comment.author.id|default:'' }}">
+                        <div class="comment-author">
+                            {{ comment.get_author_display_name }}
+                            {% if comment.is_edited %}
+                            <span class="comment-badge">Edited</span>
+                            {% endif %}
+                            {% if comment.is_pinned %}
+                            <span class="comment-badge" style="background: rgba(255, 193, 7, 0.2); color: #ffc107;">Pinned</span>
+                            {% endif %}
+                        </div>
+                        <div class="comment-date">{{ comment.created_at|date:"F d, Y p.m.d h:i A" }}</div>
+                        <div class="comment-text" data-original-content="{{ comment.content }}">{{ comment.content }}</div>
+                        
+                        <!-- Comment Actions -->
+                        <div class="comment-actions">
+                            {% if user.is_authenticated %}
+                            <button class="comment-action-btn like-btn" data-comment-id="{{ comment.id }}">
+                                <i class="fas fa-heart{% if comment.is_liked_by|default:False %} liked{% endif %}"></i>
+                                <span class="like-count">{{ comment.get_like_count }}</span>
+                            </button>
+                            {% else %}
+                            <span class="comment-action-btn" style="cursor: default;">
+                                <i class="fas fa-heart"></i>
+                                <span class="like-count">{{ comment.get_like_count }}</span>
+                            </span>
+                            {% endif %}
+                            
+                            <button class="comment-action-btn reply-btn" onclick="toggleReplyForm({{ comment.id }})">
+                                <i class="fas fa-reply"></i> Reply
+                            </button>
+                            
+                            {% if user.is_authenticated and comment.author.id == user.id %}
+                            <button class="comment-action-btn edit-btn" onclick="toggleEditForm({{ comment.id }})">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            {% endif %}
+                            
+                            {% if comment.is_edited %}
+                            <button class="comment-action-btn" onclick="showEditHistory({{ comment.id }})">
+                                <i class="fas fa-history"></i> History
+                            </button>
+                            {% endif %}
+                            
+                            {% if comment.get_reply_count > 0 %}
+                            <span class="comment-action-btn" style="cursor: default;">
+                                <i class="fas fa-comments"></i> {{ comment.get_reply_count }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Edit Form (hidden by default) -->
+                        {% if user.is_authenticated and comment.author.id == user.id %}
+                        <div class="comment-edit-form" id="edit-form-{{ comment.id }}">
+                            <textarea class="form-control" id="edit-content-{{ comment.id }}" rows="3">{{ comment.content }}</textarea>
+                            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                                <button onclick="saveEdit({{ comment.id }})" class="btn-auth" style="width: auto; padding: 8px 20px; font-size: 0.9rem;">Save</button>
+                                <button onclick="toggleEditForm({{ comment.id }})" class="btn-auth btn-secondary" style="width: auto; padding: 8px 20px; font-size: 0.9rem;">Cancel</button>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Reply Form (hidden by default) -->
+                        <div class="comment-reply-form" id="reply-form-{{ comment.id }}">
+                            {% if not user.is_authenticated %}
+                            <input type="text" class="form-control" id="reply-name-{{ comment.id }}" placeholder="Your name" style="margin-bottom: 10px;">
+                            {% endif %}
+                            <textarea class="form-control" id="reply-content-{{ comment.id }}" rows="3" placeholder="Write your reply..."></textarea>
+                            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                                <button onclick="postReply({{ comment.id }})" class="btn-auth" style="width: auto; padding: 8px 20px; font-size: 0.9rem;">Reply</button>
+                                <button onclick="toggleReplyForm({{ comment.id }})" class="btn-auth btn-secondary" style="width: auto; padding: 8px 20px; font-size: 0.9rem;">Cancel</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Nested Replies -->
+                        {% if comment.replies.all %}
+                        <div class="comment-replies" style="margin-top: 20px;">
+                            {% for reply in comment.replies.all %}
+                                {% if reply.is_approved %}
+                                <div class="comment-item reply" data-comment-id="{{ reply.id }}" data-author-id="{{ reply.author.id|default:'' }}">
+                                    <div class="comment-author">
+                                        {{ reply.get_author_display_name }}
+                                        {% if reply.is_edited %}
+                                        <span class="comment-badge">Edited</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="comment-date">{{ reply.created_at|date:"F d, Y p.m.d h:i A" }}</div>
+                                    <div class="comment-text">{{ reply.content }}</div>
+                                    
+                                    <div class="comment-actions">
+                                        {% if user.is_authenticated %}
+                                        <button class="comment-action-btn like-btn" data-comment-id="{{ reply.id }}">
+                                            <i class="fas fa-heart"></i>
+                                            <span class="like-count">{{ reply.get_like_count }}</span>
+                                        </button>
+                                        {% else %}
+                                        <span class="comment-action-btn" style="cursor: default;">
+                                            <i class="fas fa-heart"></i>
+                                            <span class="like-count">{{ reply.get_like_count }}</span>
+                                        </span>
+                                        {% endif %}
+                                        
+                                        <button class="comment-action-btn reply-btn" onclick="toggleReplyForm({{ reply.id }})">
+                                            <i class="fas fa-reply"></i> Reply
+                                        </button>
+                                        
+                                        {% if user.is_authenticated and reply.author.id == user.id %}
+                                        <button class="comment-action-btn edit-btn" onclick="toggleEditForm({{ reply.id }})">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                        {% endif %}
+                                        
+                                        {% if reply.is_edited %}
+                                        <button class="comment-action-btn" onclick="showEditHistory({{ reply.id }})">
+                                            <i class="fas fa-history"></i> History
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <!-- Edit/Reply forms for nested comments -->
+                                    {% if user.is_authenticated and reply.author.id == user.id %}
+                                    <div class="comment-edit-form" id="edit-form-{{ reply.id }}">
+                                        <textarea class="form-control" id="edit-content-{{ reply.id }}" rows="3">{{ reply.content }}</textarea>
+                                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                                            <button onclick="saveEdit({{ reply.id }})" class="btn-auth" style="width: auto; padding: 8px 20px; font-size: 0.9rem;">Save</button>
+                                            <button onclick="toggleEditForm({{ reply.id }})" class="btn-auth btn-secondary" style="width: auto; padding: 8px 20px; font-size: 0.9rem;">Cancel</button>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <div class="comment-reply-form" id="reply-form-{{ reply.id }}">
+                                        {% if not user.is_authenticated %}
+                                        <input type="text" class="form-control" id="reply-name-{{ reply.id }}" placeholder="Your name" style="margin-bottom: 10px;">
+                                        {% endif %}
+                                        <textarea class="form-control" id="reply-content-{{ reply.id }}" rows="3" placeholder="Write your reply..."></textarea>
+                                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                                            <button onclick="postReply({{ reply.id }})" class="btn-auth" style="width: auto; padding: 8px 20px; font-size: 0.9rem;">Reply</button>
+                                            <button onclick="toggleReplyForm({{ reply.id }})" class="btn-auth btn-secondary" style="width: auto; padding: 8px 20px; font-size: 0.9rem;">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p id="no-comments-msg" style="color: rgba(255, 255, 255, 0.6);">No comments yet. Be the first to share your thoughts!</p>
+                {% endif %}
+                </div>
+                
+                <div class="comment-form-box">
+                    <h3 style="color: #fff; font-size: 1.3rem; margin-bottom: 20px;">Leave a Comment</h3>
+                    <form id="comment-form" method="post" action="{% url 'blog:add_comment' post.slug %}">
+                        {% csrf_token %}
+                        
+                        {% if not user.is_authenticated %}
+                        <div style="background: rgba(187, 134, 252, 0.1); border: 1px solid rgba(187, 134, 252, 0.3); border-radius: 8px; padding: 12px 15px; margin-bottom: 20px;">
+                            <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.9rem; margin: 0;">
+                                <i class="fas fa-info-circle" style="color: #bb86fc;"></i>
+                                <strong>Want to receive reply notifications?</strong> 
+                                <a href="{% url 'login' %}?next={{ request.path }}" style="color: #bb86fc; text-decoration: underline;">Login</a> or 
+                                <a href="{% url 'register' %}?next={{ request.path }}" style="color: #bb86fc; text-decoration: underline;">Sign up</a> to get notified when someone replies to your comment!
+                            </p>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label class="form-label" for="id_guest_name">Your Name *</label>
+                            <input type="text" 
+                                   name="guest_name" 
+                                   id="id_guest_name" 
+                                   class="form-textarea" 
+                                   style="min-height: auto; padding: 12px;"
+                                   placeholder="Enter your name" 
+                                   required>
+                        </div>
+                        {% else %}
+                        <div style="background: rgba(40, 167, 69, 0.1); border: 1px solid rgba(40, 167, 69, 0.3); border-radius: 8px; padding: 12px 15px; margin-bottom: 15px;">
+                            <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.9rem; margin: 0;">
+                                <i class="fas fa-bell" style="color: #28a745;"></i>
+                                Commenting as <strong>{{ user.get_full_name }}</strong>. You'll receive notifications for replies!
+                            </p>
+                        </div>
+                        {% endif %}
+                        
+                        <label class="form-label" for="id_content">Your Comment *</label>
+                        <textarea name="content" 
+                                  id="id_content" 
+                                  class="form-textarea" 
+                                  placeholder="Share your thoughts..." 
+                                  required></textarea>
+                        <button type="submit" class="submit-btn">
+                            <span class="btn-text">Post Comment</span>
+                            <span class="btn-loader" style="display: none;">Posting...</span>
+                        </button>
+                    </form>
+                    <div id="comment-message" style="margin-top: 15px; display: none;"></div>
+                    <p style="color: rgba(255, 255, 255, 0.5); font-size: 0.9rem; margin-top: 15px;">
+                        {% if user.is_authenticated %}
+                        Your comment will appear immediately.
+                        {% else %}
+                        Your comment will be reviewed before it appears publicly.
+                        {% endif %}
+                    </p>
+                </div>
+            </section>
+            {% endif %}
+        </div>
+        
+        <!-- Sidebar with Ads -->
+        <aside class="article-sidebar">
+            <!-- Google AdSense Sidebar Ad -->
+            <div class="sidebar-widget" style="padding: 0; background: transparent; border: none;">
+                {% include 'ads/sidebar_ad.html' %}
+            </div>
+            
+            <!-- Related Posts Widget -->
+            {% if related_posts %}
+            <div class="sidebar-widget">
+                <h3 class="sidebar-widget-title">Related Posts</h3>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    {% for related in related_posts|slice:":5" %}
+                    <a href="{% url 'blog:blog_detail' related.slug %}" 
+                       style="text-decoration: none; color: rgba(255, 255, 255, 0.8); font-size: 0.95rem; line-height: 1.4; transition: color 0.3s;">
+                        {{ related.title }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Another Ad Slot -->
+            <div class="sidebar-widget">
+                <h3 class="sidebar-widget-title">Support This Blog</h3>
+                <div style="text-align: center; padding: 20px; background: rgba(255, 255, 255, 0.03); border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-bottom: 15px;">
+                        Enjoying the content? Buy me a coffee!
+                    </p>
+                    <a href="https://www.buymeacoffee.com/arpansahu" 
+                       target="_blank"
+                       style="display: inline-block; background: linear-gradient(135deg, #FFDD00, #FFC800); color: #000; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
+                        <i class="fas fa-coffee"></i> Buy Me a Coffee
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Categories Widget -->
+            {% if categories %}
+            <div class="sidebar-widget">
+                <h3 class="sidebar-widget-title">Categories</h3>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    {% for category in categories %}
+                    <a href="{% url 'blog:category_posts' category.slug %}" 
+                       class="category-pill"
+                       style="display: inline-block; width: fit-content;">
+                        {{ category.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </aside>
+    </div>
+</article>
+
+<script>
+// AJAX Comment Submission
+document.getElementById('comment-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const form = this;
+    const formData = new FormData(form);
+    const submitBtn = form.querySelector('.submit-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnLoader = submitBtn.querySelector('.btn-loader');
+    const messageDiv = document.getElementById('comment-message');
+    
+    // Show loading state
+    submitBtn.disabled = true;
+    btnText.style.display = 'none';
+    btnLoader.style.display = 'inline';
+    
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Reset button state
+        submitBtn.disabled = false;
+        btnText.style.display = 'inline';
+        btnLoader.style.display = 'none';
+        
+        if (data.success) {
+            // Clear form
+            form.querySelector('#id_content').value = '';
+            if (form.querySelector('#id_guest_name')) {
+                form.querySelector('#id_guest_name').value = '';
+                form.querySelector('#id_guest_email').value = '';
+            }
+            
+            // Show success message
+            messageDiv.style.display = 'block';
+            messageDiv.style.padding = '12px 20px';
+            messageDiv.style.borderRadius = '8px';
+            messageDiv.style.marginTop = '15px';
+            messageDiv.style.background = 'rgba(40, 167, 69, 0.15)';
+            messageDiv.style.color = '#28a745';
+            messageDiv.style.border = '1px solid rgba(40, 167, 69, 0.3)';
+            messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> ' + data.message;
+            
+            // Add comment to list if approved
+            if (data.comment.is_approved) {
+                const commentsList = document.getElementById('comments-list');
+                const noCommentsMsg = document.getElementById('no-comments-msg');
+                
+                if (noCommentsMsg) {
+                    noCommentsMsg.remove();
+                }
+                
+                const commentHTML = `
+                    <div class="comment-item" data-comment-id="${data.comment.id}">
+                        <div class="comment-author">${data.comment.author}</div>
+                        <div class="comment-date">${data.comment.created_at}</div>
+                        <div class="comment-text">${data.comment.content}</div>
+                    </div>
+                `;
+                commentsList.insertAdjacentHTML('beforeend', commentHTML);
+                
+                // Update count
+                const countElem = document.getElementById('comments-count');
+                countElem.textContent = parseInt(countElem.textContent) + 1;
+                
+                // Scroll to new comment
+                setTimeout(() => {
+                    const newComment = commentsList.lastElementChild;
+                    newComment.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            }
+            
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        } else {
+            // Show error message
+            messageDiv.style.display = 'block';
+            messageDiv.style.padding = '12px 20px';
+            messageDiv.style.borderRadius = '8px';
+            messageDiv.style.marginTop = '15px';
+            messageDiv.style.background = 'rgba(220, 53, 69, 0.15)';
+            messageDiv.style.color = '#dc3545';
+            messageDiv.style.border = '1px solid rgba(220, 53, 69, 0.3)';
+            messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + data.error;
+            
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        submitBtn.disabled = false;
+        btnText.style.display = 'inline';
+        btnLoader.style.display = 'none';
+        
+        messageDiv.style.display = 'block';
+        messageDiv.style.padding = '12px 20px';
+        messageDiv.style.borderRadius = '8px';
+        messageDiv.style.marginTop = '15px';
+        messageDiv.style.background = 'rgba(220, 53, 69, 0.15)';
+        messageDiv.style.color = '#dc3545';
+        messageDiv.style.border = '1px solid rgba(220, 53, 69, 0.3)';
+        messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> An error occurred. Please try again.';
+        
+        setTimeout(() => {
+            messageDiv.style.display = 'none';
+        }, 5000);
+    });
+});
+
+// Toggle Edit Form
+function toggleEditForm(commentId) {
+    const editForm = document.getElementById(`edit-form-${commentId}`);
+    editForm.classList.toggle('active');
+}
+
+// Toggle Reply Form
+function toggleReplyForm(commentId) {
+    const replyForm = document.getElementById(`reply-form-${commentId}`);
+    replyForm.classList.toggle('active');
+}
+
+// Save Edit
+function saveEdit(commentId) {
+    const content = document.getElementById(`edit-content-${commentId}`).value.trim();
+    
+    if (!content) {
+        alert('Comment cannot be empty');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('content', content);
+    formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+    
+    fetch(`/comments/${commentId}/edit/`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update comment text
+            const commentItem = document.querySelector(`[data-comment-id="${commentId}"]`);
+            const commentText = commentItem.querySelector('.comment-text');
+            commentText.textContent = data.content;
+            
+            // Add or update "Edited" badge
+            const authorDiv = commentItem.querySelector('.comment-author');
+            let editedBadge = authorDiv.querySelector('.comment-badge');
+            if (!editedBadge) {
+                editedBadge = document.createElement('span');
+                editedBadge.className = 'comment-badge';
+                editedBadge.textContent = 'Edited';
+                authorDiv.appendChild(editedBadge);
+            }
+            
+            // Hide edit form
+            toggleEditForm(commentId);
+            
+            // Show success message
+            alert('Comment updated successfully!');
+        } else {
+            alert(data.error || 'Failed to update comment');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    });
+}
+
+// Post Reply
+function postReply(parentId) {
+    const content = document.getElementById(`reply-content-${parentId}`).value.trim();
+    const nameInput = document.getElementById(`reply-name-${parentId}`);
+    const guestName = nameInput ? nameInput.value.trim() : '';
+    
+    if (!content) {
+        alert('Reply cannot be empty');
+        return;
+    }
+    
+    // Check if guest user needs to provide a name
+    {% if not user.is_authenticated %}
+    if (!guestName) {
+        alert('Please enter your name');
+        return;
+    }
+    {% endif %}
+    
+    const formData = new FormData();
+    formData.append('content', content);
+    formData.append('parent_id', parentId);
+    if (guestName) {
+        formData.append('guest_name', guestName);
+    }
+    formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+    
+    fetch('{% url "blog:add_comment" post.slug %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Reload page to show new reply
+            location.reload();
+        } else {
+            alert(data.error || 'Failed to post reply');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    });
+}
+
+// Toggle Like
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.like-btn')) {
+        const btn = e.target.closest('.like-btn');
+        const commentId = btn.dataset.commentId;
+        
+        fetch(`/comments/${commentId}/like/`, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const icon = btn.querySelector('i');
+                const countSpan = btn.querySelector('.like-count');
+                
+                if (data.liked) {
+                    icon.classList.add('liked');
+                } else {
+                    icon.classList.remove('liked');
+                }
+                
+                countSpan.textContent = data.like_count;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+});
+
+// Show Edit History
+function showEditHistory(commentId) {
+    fetch(`/comments/${commentId}/history/`, {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success && data.history.length > 0) {
+            let historyHTML = '<h3>Edit History</h3><div style="max-height: 400px; overflow-y: auto;">';
+            
+            data.history.forEach((edit, index) => {
+                historyHTML += `
+                    <div style="padding: 15px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 10px; background: rgba(255,255,255,0.02);">
+                        <div style="color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-bottom: 8px;">
+                            Edited by ${edit.edited_by} on ${edit.edited_at}
+                        </div>
+                        <div style="color: rgba(255,255,255,0.8);">${edit.previous_content}</div>
+                    </div>
+                `;
+            });
+            
+            historyHTML += '</div>';
+            historyHTML += `<div style="margin-top: 15px; padding: 15px; background: rgba(187,134,252,0.1); border-radius: 8px; border: 1px solid rgba(187,134,252,0.2);">
+                <strong style="color: #bb86fc;">Current Version:</strong><br>
+                <div style="color: rgba(255,255,255,0.8); margin-top: 8px;">${data.current_content}</div>
+            </div>`;
+            
+            // Create modal
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px;';
+            modal.innerHTML = `
+                <div style="background: #1a1a2e; padding: 30px; border-radius: 15px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto; border: 1px solid rgba(255,255,255,0.1);">
+                    ${historyHTML}
+                    <button onclick="this.closest('div').parentElement.remove()" style="margin-top: 20px; padding: 10px 20px; background: linear-gradient(135deg, #bb86fc, #6366f1); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Close</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        } else {
+            alert('No edit history available');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to load edit history');
+    });
+}
+</script>
+
+{% endblock %}
