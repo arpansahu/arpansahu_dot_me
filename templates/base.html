@@ -13,24 +13,24 @@
   <!-- favicon -->
   <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
   <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@coreui/icons/css/all.min.css">
+  
+  <!-- CoreUI Icons (Local) -->
+  <link rel="stylesheet" href="{% static 'vendor/coreui-icons/all.min.css' %}" />
 
   <!-- css -->
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
   <link href="{% static 'css/style.min.css' %}" rel="stylesheet" type="text/css" />
 
-  <!--     Fonts and icons     -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <link href="{% static 'css/google-font.css' %}" rel="stylesheet" type="text/css" />
+  <!-- Fonts (Local) -->
+  <link href="{% static 'css/local-fonts.css' %}" rel="stylesheet" type="text/css" />
   <link href="{% static 'css/glass.css' %}" rel="stylesheet" type="text/css" />
+  
   <!-- Nucleo Icons -->
   <link href="{% static 'css/assets/css/nucleo-icons.css' %}" rel="stylesheet" />
   <link href="{% static 'css/assets/css/nucleo-svg.css' %}" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  
+  <!-- Font Awesome Icons (Local) -->
+  <link rel="stylesheet" href="{% static 'vendor/fontawesome/css/all.min.css' %}" />
   <!-- CSS Files -->
   <link href="{% static 'css/prism-min.css' %}" rel="stylesheet" />
 

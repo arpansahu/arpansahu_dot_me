@@ -40,6 +40,9 @@ STORAGES = {
     },
 }
 
+# Static files settings for tests
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 # Disable security settings for tests
 SECURE_SSL_REDIRECT = False
 SECURE_HSTS_SECONDS = 0
