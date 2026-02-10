@@ -3,6 +3,7 @@ pipeline {
     parameters {
         booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Enable deployment')
         choice(name: 'DEPLOY_TYPE', choices: ['kubernetes', 'docker'], description: 'Select deployment type')
+        string(name: 'IMAGE_TAG', defaultValue: '', description: 'Image tag to deploy (leave empty to auto-detect from build)')
     }
     environment {
         REGISTRY = "harbor.arpansahu.space"
@@ -36,8 +37,8 @@ pipeline {
             steps {
                 script {
                     echo "Loading environment variables from Jenkins credentials..."
-                    withCredentials([string(credentialsId: 'arpansahu_dot_me_env_file', variable: 'ENV_CONTENT')]) {
-                        writeFile file: '.env', text: env.ENV_CONTENT
+                    withCredentials([file(credentialsId: 'arpansahu_dot_me_env_file', variable: 'ENV_FILE')]) {
+                        sh "cp \$ENV_FILE .env"
                         echo "✅ Environment file created successfully"
                     }
                 }
