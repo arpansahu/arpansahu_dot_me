@@ -65,6 +65,7 @@ django-jazzmin==3.0.1
 
 # Testing
 django-test-enforcer==0.1.0
+rich>=13.0.0
 pytest==8.0.0
 pytest-django==4.7.0
 pytest-cov==4.1.0
