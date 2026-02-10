@@ -105,9 +105,9 @@ pipeline {
                         // Log the raw JSON response for debugging
                         echo "Raw JSON response: ${buildInfoJson}"
 
-                        def imageTag = sh(script: """
-                            echo '${buildInfoJson}' | grep -oP '"number":\\s*\\K\\d+' | head -n 1
-                        """, returnStdout: true).trim()
+                        // Parse JSON using Groovy's JsonSlurper
+                        def buildInfo = new groovy.json.JsonSlurper().parseText(buildInfoJson)
+                        def imageTag = buildInfo.number?.toString() ?: ''
 
                         echo "Retrieved image tag (build number): ${imageTag}"
 
