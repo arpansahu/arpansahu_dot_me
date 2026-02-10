@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+        booleanParam(name: 'SKIP_TESTS', defaultValue: false, description: 'Skip running tests')
+    }
     environment {
         REGISTRY = "harbor.arpansahu.space"
         REPOSITORY = "library/arpansahu_dot_me"
@@ -23,6 +26,9 @@ pipeline {
             }
         }
         stage('Run Tests') {
+            when {
+                expression { return !params.SKIP_TESTS }
+            }
             steps {
                 script {
                     echo 'Running Django Unit Tests...'
@@ -43,6 +49,9 @@ pipeline {
             }
         }
         stage('Run UI Tests') {
+            when {
+                expression { return !params.SKIP_TESTS }
+            }
             steps {
                 script {
                     echo 'Running Playwright UI Tests with embedded Django server...'
