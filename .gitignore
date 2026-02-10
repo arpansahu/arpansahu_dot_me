@@ -59,3 +59,4 @@ socialauth
 
 **/migrations/**test_db.sqlite3
 staticfiles/
+media/
