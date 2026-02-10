@@ -18185,6 +18185,15 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  BUCKET_TYPE=
 </p>
+<h1>
+ ==================== Domain Configuration ====================
+</h1>
+<h1>
+ For LOCAL: DOMAIN=localhost:8016 and PROTOCOL=http
+</h1>
+<h1>
+ For PRODUCTION: DOMAIN=yourdomain.com and PROTOCOL=https://
+</h1>
 <p>
  DOMAIN=
 </p>
@@ -18277,6 +18286,29 @@ Add all the env variables as required and mentioned in the Readme File.
 </p>
 <h1>
  ==================== Social Authentication (OAuth) ====================
+</h1>
+<h1>
+ IMPORTANT: Add these callback URLs to your OAuth provider console:
+</h1>
+<h1>
+ Local Dev:  http://localhost:8016/accounts/
+ <provider>
+  /login/callback/
+ </provider>
+</h1>
+<h1>
+ Production: https://yourdomain.com/accounts/
+ <provider>
+  /login/callback/
+ </provider>
+</h1>
+<h1>
+</h1>
+<h1>
+ Replace
+ <provider>
+  with: google, github, facebook, twitter, linkedin_oauth2
+ </provider>
 </h1>
 <h1>
  Google OAuth - https://console.developers.google.com/
