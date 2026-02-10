@@ -105,9 +105,10 @@ pipeline {
                         // Log the raw JSON response for debugging
                         echo "Raw JSON response: ${buildInfoJson}"
 
-                        // Parse JSON using Groovy's JsonSlurper
-                        def buildInfo = new groovy.json.JsonSlurper().parseText(buildInfoJson)
-                        def imageTag = buildInfo.number?.toString() ?: ''
+                        // Extract build number using sed (avoids non-serializable JsonSlurper)
+                        def imageTag = sh(script: """
+                            echo '${buildInfoJson}' | sed 's/.*"number":\\([0-9]*\\).*/\\1/' | head -c 20
+                        """, returnStdout: true).trim()
 
                         echo "Retrieved image tag (build number): ${imageTag}"
 
