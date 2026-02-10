@@ -4,11 +4,11 @@ Overrides production settings to use SQLite for testing.
 """
 from arpansahu_dot_me.settings import *
 
-# Use SQLite for testing
+# Use in-memory SQLite for testing (fresh database each run)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'test_db.sqlite3',
+        'NAME': ':memory:',
     }
 }
 
