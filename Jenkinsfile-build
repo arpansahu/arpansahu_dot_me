@@ -64,7 +64,6 @@ pipeline {
                             --env-file .env \
                             mcr.microsoft.com/playwright/python:v1.40.0-jammy \
                             bash -c '
-                                set -e
                                 pip install -q -r requirements.txt
                                 pip install -q pytest pytest-django pytest-playwright
                                 playwright install chromium
@@ -81,11 +80,12 @@ pipeline {
                                     sleep 1
                                 done
                                 
+                                TEST_EXIT_CODE=0
                                 pytest */test_ui.py -v --tb=short -x || TEST_EXIT_CODE=\\\$?
                                 
                                 kill \\\$SERVER_PID 2>/dev/null || true
                                 
-                                exit \\\${TEST_EXIT_CODE:-0}
+                                exit \\\$TEST_EXIT_CODE
                             '
                         """,
                         returnStatus: true
