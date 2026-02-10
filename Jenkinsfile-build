@@ -57,9 +57,9 @@ pipeline {
                     echo 'Running Playwright UI Tests with embedded Django server...'
                     
                     def uiTestResult = sh(
-                        script: """
+                        script: '''
                         docker run --rm \
-                            -v \$(pwd):/app \
+                            -v $(pwd):/app \
                             -w /app \
                             --env-file .env \
                             mcr.microsoft.com/playwright/python:v1.40.0-jammy \
@@ -69,7 +69,7 @@ pipeline {
                                 playwright install chromium
                                 
                                 python manage.py runserver 0.0.0.0:8000 --settings=arpansahu_dot_me.test_settings &
-                                SERVER_PID=\\\$!
+                                SERVER_PID=$!
                                 
                                 echo "Waiting for Django server to start..."
                                 for i in {1..30}; do
@@ -80,14 +80,14 @@ pipeline {
                                     sleep 1
                                 done
                                 
-                                TEST_EXIT_CODE=0
-                                pytest */test_ui.py -v --tb=short -x || TEST_EXIT_CODE=\\\$?
+                                pytest */test_ui.py -v --tb=short -x
+                                TEST_RESULT=$?
                                 
-                                kill \\\$SERVER_PID 2>/dev/null || true
+                                kill $SERVER_PID 2>/dev/null || true
                                 
-                                exit \\\$TEST_EXIT_CODE
+                                exit $TEST_RESULT
                             '
-                        """,
+                        ''',
                         returnStatus: true
                     )
                     
