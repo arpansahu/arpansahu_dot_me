@@ -22,6 +22,15 @@ class Migration(migrations.Migration):
             model_name='commentlike',
             name='user',
         ),
+        # Remove indexes BEFORE removing fields they reference
+        migrations.RemoveIndex(
+            model_name='notification',
+            name='blog_notifi_recipie_8f9839_idx',
+        ),
+        migrations.RemoveIndex(
+            model_name='notification',
+            name='blog_notifi_is_read_ea054d_idx',
+        ),
         migrations.RemoveField(
             model_name='notification',
             name='comment',
