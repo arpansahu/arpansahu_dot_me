@@ -320,8 +320,8 @@ SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 #Caching
 
 # Celery Redis SSL Configuration
-CELERY_REDIS_BACKEND_USE_SSL = {'ssl_cert_reqs': ssl.CERT_REQUIRED}
-CELERY_BROKER_USE_SSL = {'ssl_cert_reqs': ssl.CERT_REQUIRED}
+CELERY_REDIS_BACKEND_USE_SSL = {'ssl_cert_reqs': ssl.CERT_NONE}
+CELERY_BROKER_USE_SSL = {'ssl_cert_reqs': ssl.CERT_NONE}
 
 if not DEBUG:
     CACHES = {
@@ -331,7 +331,7 @@ if not DEBUG:
             'OPTIONS': {
                 'CLIENT_CLASS': 'django_redis.client.DefaultClient',
                 'CONNECTION_POOL_KWARGS': {
-                    'ssl_cert_reqs': ssl.CERT_REQUIRED
+                    'ssl_cert_reqs': ssl.CERT_NONE  # Allow self-signed certs
                 }
             },
             'KEY_PREFIX': PROJECT_NAME
