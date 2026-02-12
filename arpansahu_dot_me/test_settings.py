@@ -2,13 +2,17 @@
 Test settings for pytest.
 Overrides production settings to use SQLite for testing.
 """
+import os
 from arpansahu_dot_me.settings import *
 
-# Use in-memory SQLite for testing (fresh database each run)
+# Use file-based SQLite when TEST_DB_FILE is set (needed for UI tests where
+# migrate and runserver run as separate processes sharing a database).
+# Default to in-memory for fast unit tests.
+_test_db = os.environ.get('TEST_DB_FILE', ':memory:')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
+        'NAME': _test_db,
     }
 }
 
