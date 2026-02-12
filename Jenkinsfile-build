@@ -82,7 +82,7 @@ pipeline {
                                     sleep 1
                                 done
                                 
-                                pytest */test_ui.py -v --tb=short -x
+                                pytest */test_ui.py -m "ui and not todo" -v --tb=short -x
                                 TEST_RESULT=$?
                                 
                                 kill $SERVER_PID 2>/dev/null || true

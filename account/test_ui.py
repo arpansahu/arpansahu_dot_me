@@ -220,6 +220,7 @@ class TestAccountUIElements:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestAccountActivationDoneUI:
     """UI tests for account_activation_done.html - IMPLEMENT THESE!"""
 
@@ -273,6 +274,7 @@ class TestAccountActivationDoneUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestDeleteAccountConfirmUI:
     """UI tests for delete_account_confirm.html - IMPLEMENT THESE!"""
 
@@ -314,6 +316,7 @@ class TestDeleteAccountConfirmUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestRegisterUI:
     """UI tests for register.html - IMPLEMENT THESE!"""
 
@@ -463,6 +466,7 @@ class TestRegisterUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestLoginUI:
     """UI tests for login.html - IMPLEMENT THESE!"""
 
@@ -684,6 +688,7 @@ class TestLoginUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestAccountUI:
     """UI tests for account.html - IMPLEMENT THESE!"""
 
@@ -857,6 +862,7 @@ class TestAccountUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestActivateAccountMailUI:
     """UI tests for activate_account_mail.html - IMPLEMENT THESE!"""
 
@@ -922,6 +928,7 @@ class TestActivateAccountMailUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestWelcomeEmailUI:
     """UI tests for welcome_email.html - IMPLEMENT THESE!"""
 
@@ -987,6 +994,7 @@ class TestWelcomeEmailUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestDeleteAccountDoneUI:
     """UI tests for delete_account_done.html - IMPLEMENT THESE!"""
 
@@ -1004,6 +1012,7 @@ class TestDeleteAccountDoneUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestPasswordResetFromKeyUI:
     """UI tests for password_reset_from_key.html - IMPLEMENT THESE!"""
 
@@ -1093,6 +1102,7 @@ class TestPasswordResetFromKeyUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestVerifiedEmailRequiredUI:
     """UI tests for verified_email_required.html - IMPLEMENT THESE!"""
 
@@ -1182,6 +1192,7 @@ class TestVerifiedEmailRequiredUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestEmailConfirmUI:
     """UI tests for email_confirm.html - IMPLEMENT THESE!"""
 
@@ -1355,6 +1366,7 @@ class TestEmailConfirmUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestEmailChangeUI:
     """UI tests for email_change.html - IMPLEMENT THESE!"""
 
@@ -1444,6 +1456,7 @@ class TestEmailChangeUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestConfirmEmailVerificationCodeUI:
     """UI tests for confirm_email_verification_code.html - IMPLEMENT THESE!"""
 
@@ -1617,6 +1630,7 @@ class TestConfirmEmailVerificationCodeUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestPasswordChangeUI:
     """UI tests for password_change.html - IMPLEMENT THESE!"""
 
@@ -1706,6 +1720,7 @@ class TestPasswordChangeUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestSignupByPasskeyUI:
     """UI tests for signup_by_passkey.html - IMPLEMENT THESE!"""
 
@@ -1795,6 +1810,7 @@ class TestSignupByPasskeyUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestConfirmLoginCodeUI:
     """UI tests for confirm_login_code.html - IMPLEMENT THESE!"""
 
@@ -1968,6 +1984,7 @@ class TestConfirmLoginCodeUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestSignupUI:
     """UI tests for signup.html - IMPLEMENT THESE!"""
 

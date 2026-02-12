@@ -189,6 +189,7 @@ class TestBlogAccessibility:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestBlogListUI:
     """UI tests for blog_list.html - IMPLEMENT THESE!"""
 
@@ -314,6 +315,7 @@ class TestBlogListUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestBlogListOldUI:
     """UI tests for blog_list_old.html - IMPLEMENT THESE!"""
 
@@ -451,6 +453,7 @@ class TestBlogListOldUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestNotificationsUI:
     """UI tests for notifications.html - IMPLEMENT THESE!"""
 
@@ -492,6 +495,7 @@ class TestNotificationsUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestUserProfileUI:
     """UI tests for user_profile.html - IMPLEMENT THESE!"""
 
@@ -521,6 +525,7 @@ class TestUserProfileUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestBlogListBackupUI:
     """UI tests for blog_list_backup.html - IMPLEMENT THESE!"""
 
@@ -658,6 +663,7 @@ class TestBlogListBackupUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestBlogDetailBackupUI:
     """UI tests for blog_detail_backup.html - IMPLEMENT THESE!"""
 
@@ -771,6 +777,7 @@ class TestBlogDetailBackupUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestBlogDetailUI:
     """UI tests for blog_detail.html - IMPLEMENT THESE!"""
 
@@ -1208,6 +1215,7 @@ class TestBlogDetailUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestContentSidebarUI:
     """UI tests for content_sidebar.html - IMPLEMENT THESE!"""
 

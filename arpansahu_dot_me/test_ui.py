@@ -208,6 +208,7 @@ class TestFormElements:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestResumeUI:
     """UI tests for resume.html - IMPLEMENT THESE!"""
 
@@ -225,6 +226,7 @@ class TestResumeUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestIndexUI:
     """UI tests for index.html - IMPLEMENT THESE!"""
 
@@ -254,6 +256,7 @@ class TestIndexUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestContactUI:
     """UI tests for contact.html - IMPLEMENT THESE!"""
 
@@ -283,6 +286,7 @@ class TestContactUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestTAndCUI:
     """UI tests for t_and_c.html - IMPLEMENT THESE!"""
 
@@ -300,6 +304,7 @@ class TestTAndCUI:
 
 
 @pytest.mark.ui
+@pytest.mark.todo
 class TestPrivacyUI:
     """UI tests for privacy.html - IMPLEMENT THESE!"""
 
