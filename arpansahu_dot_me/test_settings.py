@@ -43,6 +43,9 @@ STORAGES = {
 # Static files settings for tests
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Allow test hosts
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'testserver']
+
 # Disable security settings for tests
 SECURE_SSL_REDIRECT = False
 SECURE_HSTS_SECONDS = 0
