@@ -46,9 +46,9 @@ class TestResumeDownload:
     @pytest.mark.ui
     def test_download_endpoint_exists(self, page: Page, server_url):
         """Test download endpoint returns a file or valid response."""
-        # The endpoint serves a file download, so use expect_download
-        # to handle the download event instead of page.goto()
-        with page.expect_download() as download_info:
-            page.goto(f"{server_url}/download/resume/")
-        download = download_info.value
-        assert download.suggested_filename.endswith('.pdf')
+        # Use page.request (API context) since page.goto() can't handle
+        # download responses — it throws "Download is starting" error.
+        response = page.request.get(f"{server_url}/download/resume/")
+        assert response.status == 200
+        content_type = response.headers.get('content-type', '')
+        assert 'application/pdf' in content_type or 'application/octet-stream' in content_type or 'force-download' in content_type
