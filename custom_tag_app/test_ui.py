@@ -6,6 +6,7 @@ import pytest
 from playwright.sync_api import Page, expect
 
 
+@pytest.mark.ui
 class TestCustomTagsUI:
     """UI tests for custom template tags."""
     

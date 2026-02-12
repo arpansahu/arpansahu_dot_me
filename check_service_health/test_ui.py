@@ -6,6 +6,7 @@ import pytest
 from playwright.sync_api import Page, expect
 
 
+@pytest.mark.ui
 class TestServiceHealthUI:
     """UI tests for service health checks."""
     

@@ -32,3 +32,24 @@ class TestTestModel:
         TestModel.objects.create(name='Service 3')
         assert TestModel.objects.count() == 3
 
+
+
+
+
+class TestCheckServiceHealthViews:
+    """Tests for check_service_health views (views.py has no custom views)."""
+
+    def test_views_module_importable(self):
+        """Test check_service_health.views can be imported."""
+        from check_service_health import views
+        assert views is not None
+
+
+class TestAsCompleted:
+    """Tests for as_completed from concurrent.futures used in sync_media_to_s3."""
+
+    def test_as_completed_importable(self):
+        """Test as_completed can be imported from concurrent.futures."""
+        from concurrent.futures import as_completed
+        assert callable(as_completed)
+

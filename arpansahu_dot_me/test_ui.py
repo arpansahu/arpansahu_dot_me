@@ -205,3 +205,113 @@ class TestFormElements:
         if email_input.count() > 0:
             email_input.first.fill('test@example.com')
             expect(email_input.first).to_have_value('test@example.com')
+
+
+@pytest.mark.ui
+class TestResumeUI:
+    """UI tests for resume.html - IMPLEMENT THESE!"""
+
+    def test_download_pdf(self, page: Page):
+        """Test link: Download PDF"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .btn
+        # element = page.locator(".btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Download PDF"
+
+
+@pytest.mark.ui
+class TestIndexUI:
+    """UI tests for index.html - IMPLEMENT THESE!"""
+
+    def test_unknown(self, page: Page):
+        """Test button: ×"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .close
+        # element = page.locator(".close")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for ×"
+
+    def test_close(self, page: Page):
+        """Test button: Close"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .btn
+        # element = page.locator(".btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Close"
+
+
+@pytest.mark.ui
+class TestContactUI:
+    """UI tests for contact.html - IMPLEMENT THESE!"""
+
+    def test_unknown(self, page: Page):
+        """Test button: ×"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .close
+        # element = page.locator(".close")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for ×"
+
+    def test_close(self, page: Page):
+        """Test button: Close"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .btn
+        # element = page.locator(".btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Close"
+
+
+@pytest.mark.ui
+class TestTAndCUI:
+    """UI tests for t_and_c.html - IMPLEMENT THESE!"""
+
+    def test_contact_us(self, page: Page):
+        """Test link: Contact US"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .btn
+        # element = page.locator(".btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Contact US"
+
+
+@pytest.mark.ui
+class TestPrivacyUI:
+    """UI tests for privacy.html - IMPLEMENT THESE!"""
+
+    def test_contact_us(self, page: Page):
+        """Test link: Contact US"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .btn
+        # element = page.locator(".btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Contact US"
+

@@ -186,3 +186,1076 @@ class TestBlogAccessibility:
         # Blog should have at least some links
         assert links.count() > 0
         expect(links.first).to_be_visible()
+
+
+@pytest.mark.ui
+class TestBlogListUI:
+    """UI tests for blog_list.html - IMPLEMENT THESE!"""
+
+    def test_button(self, page: Page):
+        """Test button: button"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .search-icon-btn
+        # element = page.locator(".search-icon-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for button"
+
+    def test_form(self, page: Page):
+        """Test form: form_"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: [data-testid="form"]
+        # element = page.locator("[data-testid="form"]")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for form_"
+
+    def test_featured_min_read(self, page: Page):
+        """Test link: ★ Featured min read"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: [data-testid="featured_min_read"]
+        # element = page.locator("[data-testid="featured_min_read"]")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for ★ Featured min read"
+
+    def test_first(self, page: Page):
+        """Test link: « First"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: [data-testid="first"]
+        # element = page.locator("[data-testid="first"]")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for « First"
+
+    def test_previous(self, page: Page):
+        """Test link: ‹ Previous"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: [data-testid="previous"]
+        # element = page.locator("[data-testid="previous"]")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for ‹ Previous"
+
+    def test_next(self, page: Page):
+        """Test link: Next ›"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: [data-testid="next"]
+        # element = page.locator("[data-testid="next"]")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Next ›"
+
+    def test_last(self, page: Page):
+        """Test link: Last »"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: [data-testid="last"]
+        # element = page.locator("[data-testid="last"]")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Last »"
+
+    def test_unknown(self, page: Page):
+        """Test link: ()"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .category-pill
+        # element = page.locator(".category-pill")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for ()"
+
+    def test_unknown_2(self, page: Page):
+        """Test link: #"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: [data-testid="unknown"]
+        # element = page.locator("[data-testid="unknown"]")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for #"
+
+    def test_q(self, page: Page):
+        """Test input: q"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .search-input-field
+        # element = page.locator(".search-input-field")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for q"
+
+
+@pytest.mark.ui
+class TestBlogListOldUI:
+    """UI tests for blog_list_old.html - IMPLEMENT THESE!"""
+
+    def test_search(self, page: Page):
+        """Test button: Search"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .btn
+        # element = page.locator(".btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Search"
+
+    def test_form(self, page: Page):
+        """Test form: form_"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .search-box
+        # element = page.locator(".search-box")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for form_"
+
+    def test_link(self, page: Page):
+        """Test link: link"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .text-white
+        # element = page.locator(".text-white")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for link"
+
+    def test_read_more(self, page: Page):
+        """Test link: Read More"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .glass-btn
+        # element = page.locator(".glass-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Read More"
+
+    def test_previous(self, page: Page):
+        """Test link: Previous"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .page-link
+        # element = page.locator(".page-link")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Previous"
+
+    def test_link_2(self, page: Page):
+        """Test link: link"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .page-link
+        # element = page.locator(".page-link")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for link"
+
+    def test_next(self, page: Page):
+        """Test link: Next"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .page-link
+        # element = page.locator(".page-link")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Next"
+
+    def test_link_3(self, page: Page):
+        """Test link: link"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .text-white
+        # element = page.locator(".text-white")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for link"
+
+    def test_unknown(self, page: Page):
+        """Test link: ()"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .badge
+        # element = page.locator(".badge")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for ()"
+
+    def test_unknown_2(self, page: Page):
+        """Test link: #"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .badge
+        # element = page.locator(".badge")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for #"
+
+    def test_q(self, page: Page):
+        """Test input: q"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .form-control
+        # element = page.locator(".form-control")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for q"
+
+
+@pytest.mark.ui
+class TestNotificationsUI:
+    """UI tests for notifications.html - IMPLEMENT THESE!"""
+
+    def test_mark_all_as_read(self, page: Page):
+        """Test button: Mark All as Read"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .mark-all-btn
+        # element = page.locator(".mark-all-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Mark All as Read"
+
+    def test_form(self, page: Page):
+        """Test form: form_"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: [data-testid="form"]
+        # element = page.locator("[data-testid="form"]")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for form_"
+
+    def test_ago(self, page: Page):
+        """Test link: ago"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .notification-link
+        # element = page.locator(".notification-link")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for ago"
+
+
+@pytest.mark.ui
+class TestUserProfileUI:
+    """UI tests for user_profile.html - IMPLEMENT THESE!"""
+
+    def test_link(self, page: Page):
+        """Test link: link"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .post-link
+        # element = page.locator(".post-link")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for link"
+
+    def test_link_2(self, page: Page):
+        """Test link: link"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .post-link
+        # element = page.locator(".post-link")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for link"
+
+
+@pytest.mark.ui
+class TestBlogListBackupUI:
+    """UI tests for blog_list_backup.html - IMPLEMENT THESE!"""
+
+    def test_search(self, page: Page):
+        """Test button: Search"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .btn
+        # element = page.locator(".btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Search"
+
+    def test_form(self, page: Page):
+        """Test form: form_"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .search-box
+        # element = page.locator(".search-box")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for form_"
+
+    def test_link(self, page: Page):
+        """Test link: link"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .text-white
+        # element = page.locator(".text-white")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for link"
+
+    def test_read_more(self, page: Page):
+        """Test link: Read More"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .glass-btn
+        # element = page.locator(".glass-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Read More"
+
+    def test_previous(self, page: Page):
+        """Test link: Previous"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .page-link
+        # element = page.locator(".page-link")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Previous"
+
+    def test_link_2(self, page: Page):
+        """Test link: link"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .page-link
+        # element = page.locator(".page-link")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for link"
+
+    def test_next(self, page: Page):
+        """Test link: Next"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .page-link
+        # element = page.locator(".page-link")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Next"
+
+    def test_link_3(self, page: Page):
+        """Test link: link"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .text-white
+        # element = page.locator(".text-white")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for link"
+
+    def test_unknown(self, page: Page):
+        """Test link: ()"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .badge
+        # element = page.locator(".badge")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for ()"
+
+    def test_unknown_2(self, page: Page):
+        """Test link: #"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .badge
+        # element = page.locator(".badge")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for #"
+
+    def test_q(self, page: Page):
+        """Test input: q"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .form-control
+        # element = page.locator(".form-control")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for q"
+
+
+@pytest.mark.ui
+class TestBlogDetailBackupUI:
+    """UI tests for blog_detail_backup.html - IMPLEMENT THESE!"""
+
+    def test_post_comment(self, page: Page):
+        """Test button: Post Comment"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .glass-btn
+        # element = page.locator(".glass-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Post Comment"
+
+    def test_form(self, page: Page):
+        """Test form: form_"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .mb-4
+        # element = page.locator(".mb-4")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for form_"
+
+    def test_unknown(self, page: Page):
+        """Test link: #"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .badge
+        # element = page.locator(".badge")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for #"
+
+    def test_twitter(self, page: Page):
+        """Test link: Twitter"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .glass-btn
+        # element = page.locator(".glass-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Twitter"
+
+    def test_linked_in(self, page: Page):
+        """Test link: LinkedIn"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .glass-btn
+        # element = page.locator(".glass-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for LinkedIn"
+
+    def test_facebook(self, page: Page):
+        """Test link: Facebook"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .glass-btn
+        # element = page.locator(".glass-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Facebook"
+
+    def test_login(self, page: Page):
+        """Test link: Login"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .text-accent
+        # element = page.locator(".text-accent")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Login"
+
+    def test_link(self, page: Page):
+        """Test link: link"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .text-white
+        # element = page.locator(".text-white")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for link"
+
+    def test_content(self, page: Page):
+        """Test textarea: content"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .form-control
+        # element = page.locator(".form-control")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for content"
+
+
+@pytest.mark.ui
+class TestBlogDetailUI:
+    """UI tests for blog_detail.html - IMPLEMENT THESE!"""
+
+    def test_series_posts(self, page: Page):
+        """Test button: Series ( posts)"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .related-posts-toggle
+        # element = page.locator(".related-posts-toggle")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Series ( posts)"
+
+    def test_button(self, page: Page):
+        """Test button: button"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .comment-action-btn
+        # element = page.locator(".comment-action-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for button"
+
+    def test_reply(self, page: Page):
+        """Test button: Reply"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .comment-action-btn
+        # element = page.locator(".comment-action-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Reply"
+
+    def test_edit(self, page: Page):
+        """Test button: Edit"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .comment-action-btn
+        # element = page.locator(".comment-action-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Edit"
+
+    def test_history(self, page: Page):
+        """Test button: History"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .comment-action-btn
+        # element = page.locator(".comment-action-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for History"
+
+    def test_save(self, page: Page):
+        """Test button: Save"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .btn-auth
+        # element = page.locator(".btn-auth")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Save"
+
+    def test_cancel(self, page: Page):
+        """Test button: Cancel"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .btn-auth
+        # element = page.locator(".btn-auth")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Cancel"
+
+    def test_reply_2(self, page: Page):
+        """Test button: Reply"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .btn-auth
+        # element = page.locator(".btn-auth")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Reply"
+
+    def test_cancel_2(self, page: Page):
+        """Test button: Cancel"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .btn-auth
+        # element = page.locator(".btn-auth")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Cancel"
+
+    def test_button_2(self, page: Page):
+        """Test button: button"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .comment-action-btn
+        # element = page.locator(".comment-action-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for button"
+
+    def test_reply_3(self, page: Page):
+        """Test button: Reply"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .comment-action-btn
+        # element = page.locator(".comment-action-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Reply"
+
+    def test_edit_2(self, page: Page):
+        """Test button: Edit"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .comment-action-btn
+        # element = page.locator(".comment-action-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Edit"
+
+    def test_history_2(self, page: Page):
+        """Test button: History"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .comment-action-btn
+        # element = page.locator(".comment-action-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for History"
+
+    def test_save_2(self, page: Page):
+        """Test button: Save"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .btn-auth
+        # element = page.locator(".btn-auth")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Save"
+
+    def test_cancel_3(self, page: Page):
+        """Test button: Cancel"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .btn-auth
+        # element = page.locator(".btn-auth")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Cancel"
+
+    def test_reply_4(self, page: Page):
+        """Test button: Reply"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .btn-auth
+        # element = page.locator(".btn-auth")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Reply"
+
+    def test_cancel_4(self, page: Page):
+        """Test button: Cancel"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .btn-auth
+        # element = page.locator(".btn-auth")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Cancel"
+
+    def test_post_comment_posting(self, page: Page):
+        """Test button: Post CommentPosting..."""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .submit-btn
+        # element = page.locator(".submit-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Post CommentPosting..."
+
+    def test_commentform(self, page: Page):
+        """Test form: comment-form"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: #comment-form
+        # element = page.locator("#comment-form")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for comment-form"
+
+    def test_link(self, page: Page):
+        """Test link: link"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .article-category-badge
+        # element = page.locator(".article-category-badge")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for link"
+
+    def test_unknown(self, page: Page):
+        """Test link: #"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .tag-link
+        # element = page.locator(".tag-link")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for #"
+
+    def test_link_2(self, page: Page):
+        """Test link: link"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .related-post-link{%
+        # element = page.locator(".related-post-link{%")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for link"
+
+    def test_twitter(self, page: Page):
+        """Test link: Twitter"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .share-btn
+        # element = page.locator(".share-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Twitter"
+
+    def test_linked_in(self, page: Page):
+        """Test link: LinkedIn"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .share-btn
+        # element = page.locator(".share-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for LinkedIn"
+
+    def test_facebook(self, page: Page):
+        """Test link: Facebook"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .share-btn
+        # element = page.locator(".share-btn")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Facebook"
+
+    def test_previous(self, page: Page):
+        """Test link: Previous"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .post-nav-card
+        # element = page.locator(".post-nav-card")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Previous"
+
+    def test_next(self, page: Page):
+        """Test link: Next"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .post-nav-card
+        # element = page.locator(".post-nav-card")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Next"
+
+    def test_link_3(self, page: Page):
+        """Test link: link"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .category-pill
+        # element = page.locator(".category-pill")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for link"
+
+    def test_link_4(self, page: Page):
+        """Test link: link"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: [data-testid="link"]
+        # element = page.locator("[data-testid="link"]")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for link"
+
+    def test_logout(self, page: Page):
+        """Test link: Logout"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: [data-testid="logout"]
+        # element = page.locator("[data-testid="logout"]")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Logout"
+
+    def test_login(self, page: Page):
+        """Test link: Login"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: [data-testid="login"]
+        # element = page.locator("[data-testid="login"]")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Login"
+
+    def test_sign_up(self, page: Page):
+        """Test link: Sign Up"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: [data-testid="sign_up"]
+        # element = page.locator("[data-testid="sign_up"]")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Sign Up"
+
+    def test_login_2(self, page: Page):
+        """Test link: Login"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: [data-testid="login"]
+        # element = page.locator("[data-testid="login"]")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Login"
+
+    def test_sign_up_2(self, page: Page):
+        """Test link: Sign up"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: [data-testid="sign_up"]
+        # element = page.locator("[data-testid="sign_up"]")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Sign up"
+
+    def test_id_guest_name(self, page: Page):
+        """Test input: id_guest_name"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: #id_guest_name
+        # element = page.locator("#id_guest_name")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for id_guest_name"
+
+    def test_id_content(self, page: Page):
+        """Test textarea: id_content"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: #id_content
+        # element = page.locator("#id_content")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for id_content"
+
+
+@pytest.mark.ui
+class TestContentSidebarUI:
+    """UI tests for content_sidebar.html - IMPLEMENT THESE!"""
+
+    def test_button(self, page: Page):
+        """Test button: button"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .sidebar-category-header{%
+        # element = page.locator(".sidebar-category-header{%")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for button"
+
+    def test_link(self, page: Page):
+        """Test link: link"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .sidebar-post-link{%
+        # element = page.locator(".sidebar-post-link{%")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for link"
+
+    def test_previous(self, page: Page):
+        """Test link: Previous"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .post-nav-link
+        # element = page.locator(".post-nav-link")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Previous"
+
+    def test_next(self, page: Page):
+        """Test link: Next"""
+        # TODO: Navigate to the correct page
+        # page.goto("http://localhost:8000/")
+        
+        # Locate element using: .post-nav-link
+        # element = page.locator(".post-nav-link")
+        # expect(element).to_be_visible()
+        
+        # This test FAILS until you implement it!
+        assert False, "TODO: Implement test for Next"
+

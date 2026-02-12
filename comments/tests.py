@@ -314,3 +314,98 @@ class TestGetEditHistoryView:
         """Test POST request is not allowed."""
         response = client.post(reverse('comments:edit_history', kwargs={'comment_id': test_comment.id}))
         assert response.status_code == 405
+
+
+
+
+class TestToggleLikeCommentFunctionView:
+    """Tests for comments toggle_like_comment function-based view."""
+
+    def test_toggle_like_comment_creates_like(self, client, test_user, test_comment):
+        """Test POST creates a comment like."""
+        client.force_login(test_user)
+        # Use a different user to like (test_user created the comment)
+        other_user = User.objects.create_user(
+            email='liker@example.com', username='liker', password='pass123'
+        )
+        other_user.is_active = True
+        other_user.save()
+        client.force_login(other_user)
+        response = client.post(reverse('comments:toggle_like', kwargs={'comment_id': test_comment.id}))
+        assert response.status_code == 200
+        data = response.json()
+        assert data['success'] is True
+        assert data['liked'] is True
+
+    def test_toggle_like_comment_removes_like(self, client, test_comment):
+        """Test toggling like twice removes the like."""
+        other_user = User.objects.create_user(
+            email='liker2@example.com', username='liker2', password='pass123'
+        )
+        other_user.is_active = True
+        other_user.save()
+        client.force_login(other_user)
+        url = reverse('comments:toggle_like', kwargs={'comment_id': test_comment.id})
+        client.post(url)  # like
+        response = client.post(url)  # unlike
+        data = response.json()
+        assert data['liked'] is False
+        assert data['like_count'] == 0
+
+    def test_toggle_like_requires_login(self, client, test_comment):
+        """Test liking requires authentication."""
+        response = client.post(reverse('comments:toggle_like', kwargs={'comment_id': test_comment.id}))
+        assert response.status_code == 302
+
+    def test_toggle_like_get_not_allowed(self, client, test_user, test_comment):
+        """Test GET request returns 405."""
+        client.force_login(test_user)
+        response = client.get(reverse('comments:toggle_like', kwargs={'comment_id': test_comment.id}))
+        assert response.status_code == 405
+
+
+class TestCommentSignals:
+    """Tests for comments signal handlers."""
+
+    def test_comment_reply_creates_notification(self, db, test_user, test_user_2, published_post, test_comment):
+        """Test notification is created when someone replies to a comment."""
+        from comments.models import Notification
+        ct = ContentType.objects.get_for_model(BlogPost)
+        Comment.objects.create(
+            content_type=ct, object_id=published_post.id,
+            author=test_user_2, content='Reply to your comment',
+            parent=test_comment, is_approved=True
+        )
+        assert Notification.objects.filter(
+            recipient=test_user, notification_type='comment_reply'
+        ).exists()
+
+    def test_like_creates_notification(self, db, test_user, test_user_2, test_comment):
+        """Test notification is created when someone likes a comment."""
+        from comments.models import Notification
+        CommentLike.objects.create(comment=test_comment, user=test_user_2)
+        assert Notification.objects.filter(
+            recipient=test_user, notification_type='comment_like'
+        ).exists()
+
+    def test_self_like_no_notification(self, db, test_user, test_comment):
+        """Test no notification when liking own comment."""
+        from comments.models import Notification
+        CommentLike.objects.create(comment=test_comment, user=test_user)
+        assert not Notification.objects.filter(
+            recipient=test_user, notification_type='comment_like'
+        ).exists()
+
+    def test_self_reply_no_notification(self, db, test_user, published_post, test_comment):
+        """Test no notification when replying to own comment."""
+        from comments.models import Notification
+        ct = ContentType.objects.get_for_model(BlogPost)
+        Comment.objects.create(
+            content_type=ct, object_id=published_post.id,
+            author=test_user, content='My own reply',
+            parent=test_comment, is_approved=True
+        )
+        assert not Notification.objects.filter(
+            recipient=test_user, notification_type='comment_reply'
+        ).exists()
+

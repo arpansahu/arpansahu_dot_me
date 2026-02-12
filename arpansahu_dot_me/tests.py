@@ -177,3 +177,85 @@ class TestGetOTPView:
         """Test OTP URL resolves correctly."""
         url = reverse('get-otp')
         assert url == '/get-otp'
+
+
+
+
+class TestTriggerErrorView:
+    """Tests for trigger_error sentry debug view."""
+
+    def test_trigger_error_raises_division_error(self, client, db):
+        """Test sentry-debug/ raises ZeroDivisionError."""
+        with pytest.raises(ZeroDivisionError):
+            client.get('/sentry-debug/')
+
+
+class TestAdSenseSettings:
+    """Tests for adsense_settings context processor."""
+
+    def test_adsense_settings_returns_dict(self, db):
+        """Test adsense_settings returns expected keys."""
+        from django.test import RequestFactory
+        from arpansahu_dot_me.context_processors import adsense_settings
+        request = RequestFactory().get('/')
+        result = adsense_settings(request)
+        assert 'GOOGLE_ADSENSE_CLIENT_ID' in result
+        assert 'GOOGLE_ADSENSE_ENABLED' in result
+
+    def test_adsense_settings_values_from_settings(self, db):
+        """Test adsense values come from Django settings."""
+        from django.test import RequestFactory
+        from django.conf import settings
+        from arpansahu_dot_me.context_processors import adsense_settings
+        request = RequestFactory().get('/')
+        result = adsense_settings(request)
+        assert result['GOOGLE_ADSENSE_CLIENT_ID'] == settings.GOOGLE_ADSENSE_CLIENT_ID
+        assert result['GOOGLE_ADSENSE_ENABLED'] == settings.GOOGLE_ADSENSE_ENABLED
+
+
+class TestSendEmailUtil:
+    """Tests for send_email utility function."""
+
+    def test_send_email_function_is_callable(self):
+        """Test send_email function exists and is callable."""
+        from arpansahu_dot_me.utils import send_email
+        assert callable(send_email)
+
+    def test_send_email_with_mock(self, db, mocker):
+        """Test send_email calls mailjet API correctly."""
+        from arpansahu_dot_me import utils
+        mock_result = mocker.MagicMock()
+        mock_result.status_code = 200
+        mock_send = mocker.MagicMock()
+        mock_send.create.return_value = mock_result
+        mocker.patch.object(utils.mailjet, 'send', mock_send)
+
+        success, status_code = utils.send_email(
+            to_email='test@test.com',
+            to_name='Test User',
+            subject='Test Subject',
+            text_part='Hello',
+            html_part='<p>Hello</p>',
+        )
+        assert success is True
+        assert status_code == 200
+        mock_send.create.assert_called_once()
+
+
+class TestGetGitCommitHash:
+    """Tests for get_git_commit_hash function."""
+
+    def test_get_git_commit_hash_returns_string_or_none(self):
+        """Test get_git_commit_hash returns a string hash or None."""
+        from arpansahu_dot_me.settings import get_git_commit_hash
+        result = get_git_commit_hash()
+        # In a git repo it returns a hex string; outside git it returns None
+        assert result is None or (isinstance(result, str) and len(result) == 40)
+
+    def test_get_git_commit_hash_handles_error(self, mocker):
+        """Test returns None when git is not available."""
+        import subprocess
+        mocker.patch('subprocess.check_output', side_effect=Exception('no git'))
+        from arpansahu_dot_me.settings import get_git_commit_hash
+        assert get_git_commit_hash() is None
+

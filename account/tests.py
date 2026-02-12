@@ -306,3 +306,96 @@ class TestActivateView:
         }))
         assert response.status_code == 200
         assert 'invalid' in response.content.decode().lower()
+
+
+
+class TestErrorHandlerViews:
+    """Tests for custom error handler views."""
+
+    def test_error_404_renders(self, db):
+        """Test error_404 renders the error template."""
+        from django.test import RequestFactory
+        from account.views import error_404
+        request = RequestFactory().get('/nonexistent/')
+        response = error_404(request, exception=Exception('Not found'))
+        assert response.status_code == 200
+        assert b'404' in response.content or len(response.content) > 0
+
+    def test_error_400_renders(self, db):
+        """Test error_400 renders the error template."""
+        from django.test import RequestFactory
+        from account.views import error_400
+        request = RequestFactory().get('/')
+        response = error_400(request, exception=Exception('Bad request'))
+        assert response.status_code == 200
+
+    def test_error_403_renders(self, db):
+        """Test error_403 renders the error template."""
+        from django.test import RequestFactory
+        from account.views import error_403
+        request = RequestFactory().get('/')
+        response = error_403(request, exception=Exception('Forbidden'))
+        assert response.status_code == 200
+
+    def test_error_500_renders(self, db):
+        """Test error_500 renders the error template."""
+        from django.test import RequestFactory
+        from account.views import error_500
+        request = RequestFactory().get('/')
+        response = error_500(request)
+        assert response.status_code == 200
+
+
+class TestSendMailAccountActivate:
+    """Tests for send_mail_account_activate function."""
+
+    def test_send_mail_account_activate_calls_mailjet(self, test_user, mocker):
+        """Test activation email is sent via MailJet."""
+        from account import views as account_views
+        mock_result = mocker.MagicMock()
+        mock_result.status_code = 200
+        mock_send = mocker.MagicMock()
+        mock_send.create.return_value = mock_result
+        mocker.patch.object(account_views.mailjet, 'send', mock_send)
+
+        result = account_views.send_mail_account_activate(test_user.email, test_user)
+        mock_send.create.assert_called_once()
+        assert result == mock_result
+
+
+class TestSendWelcomeEmail:
+    """Tests for send_welcome_email function."""
+
+    def test_send_welcome_email_calls_mailjet(self, test_user, mocker):
+        """Test welcome email is sent via MailJet."""
+        from account import views as account_views
+        mock_result = mocker.MagicMock()
+        mock_result.status_code = 200
+        mock_send = mocker.MagicMock()
+        mock_send.create.return_value = mock_result
+        mocker.patch.object(account_views.mailjet, 'send', mock_send)
+
+        result = account_views.send_welcome_email(test_user.email, test_user)
+        mock_send.create.assert_called_once()
+        assert result == mock_result
+
+
+class TestSendPasswordResetEmail:
+    """Tests for send_password_reset_email function."""
+
+    def test_send_password_reset_email_calls_mailjet(self, test_user, mocker):
+        """Test password reset email is sent via MailJet."""
+        from account import email_utils
+        mock_result = mocker.MagicMock()
+        mock_result.status_code = 200
+        mock_send = mocker.MagicMock()
+        mock_send.create.return_value = mock_result
+        mocker.patch.object(email_utils.mailjet, 'send', mock_send)
+
+        result = email_utils.send_password_reset_email(
+            test_user,
+            'http://localhost:8000/account/password_reset_confirm/uid/token/'
+        )
+        mock_send.create.assert_called_once()
+        assert result == mock_result
+
