@@ -147,6 +147,9 @@ class Demo {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  window.demo = new Demo(document.getElementById('grid'));
+  const gridElement = document.getElementById('grid');
+  if (gridElement) {
+    window.demo = new Demo(gridElement);
+  }
 });
 

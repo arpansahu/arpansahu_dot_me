@@ -3,7 +3,7 @@ import os
 import traceback
 from datetime import datetime
 
-from braces.views import AjaxResponseMixin
+from braces.views import AjaxResponseMixin, JsonRequestResponseMixin
 from django.conf import settings
 from django.http import HttpResponseRedirect, FileResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404
@@ -15,7 +15,7 @@ import pyotp
 from emails_otp.models import EmailsOtpRecord
 from resume.models import Resume
 from .forms import ContactForm
-from .utils import send_email
+from .utils import send_email, mailjet
 
 
 class Home(View):
@@ -99,7 +99,7 @@ class ProjectsView(View):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class GetOTPView(AjaxResponseMixin, View):
+class GetOTPView(JsonRequestResponseMixin, AjaxResponseMixin, View):
 
     def dispatch(self, request, *args, **kwargs):
         request_method = request.method.lower()
@@ -271,20 +271,41 @@ class ContactView(View):
 
 class ResumeView(View):
     def get(self, *args, **kwargs):
-        return render(self.request, template_name='resume.html',)
+        # Try to get the active resume from the database
+        resume = Resume.objects.filter(is_active=True).first()
+        context = {}
+        if resume and resume.file:
+            context['resume_url'] = resume.file.url
+            context['resume_source'] = 'db'
+        else:
+            # Fallback to static file
+            context['resume_url'] = settings.STATIC_URL + 'pdfs/resume.pdf'
+            context['resume_source'] = 'static'
+        return render(self.request, template_name='resume.html', context=context)
+
 
 class ResumeDownloadView(View):
     def get(self, request, *args, **kwargs):
-        # Get the latest resume file from the database by ordering by id
-        resume = Resume.objects.order_by('id').last()
+        # Try active resume from database first
+        resume = Resume.objects.filter(is_active=True).first()
 
-        if not resume:
-            return HttpResponseNotFound('The requested file was not found on the server.')
+        if resume and resume.file:
+            try:
+                resume.file.open()
+                response = FileResponse(
+                    resume.file, as_attachment=True,
+                    filename=os.path.basename(resume.file.name)
+                )
+                return response
+            except Exception:
+                pass  # Fall through to static fallback
 
-        try:
-            # Open the file from storage
-            resume.file.open()
-            response = FileResponse(resume.file, as_attachment=True, filename=resume.file.name)
-            return response
-        except Exception as e:
-            return HttpResponseNotFound(f'The requested file was not found on the server. Error: {str(e)}')
+        # Fallback to static file
+        static_path = os.path.join(settings.BASE_DIR, 'static', 'pdfs', 'resume.pdf')
+        if os.path.exists(static_path):
+            return FileResponse(
+                open(static_path, 'rb'), as_attachment=True,
+                filename='Arpan_Sahu_Resume.pdf'
+            )
+
+        return HttpResponseNotFound('No resume file found.')
