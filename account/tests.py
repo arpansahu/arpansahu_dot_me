@@ -52,7 +52,7 @@ class TestAccountModel:
         )
         assert user.email == 'newuser@example.com'
         assert user.username == 'newuser'
-        assert user.is_active is False
+        assert user.is_active is True  # Default True to support OAuth users
         assert user.is_staff is False
         assert user.is_superuser is False
     
@@ -64,7 +64,7 @@ class TestAccountModel:
             password='adminpassword123'
         )
         assert admin.email == 'admin@example.com'
-        assert admin.is_active is False  # Still needs activation or update
+        assert admin.is_active is True  # Default True to support OAuth users
         assert admin.is_staff is True
         assert admin.is_superuser is True
         assert admin.is_admin is True

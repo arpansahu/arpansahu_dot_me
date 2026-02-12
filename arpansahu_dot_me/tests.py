@@ -157,10 +157,11 @@ class TestResumeView:
 class TestResumeDownloadView:
     """Tests for ResumeDownloadView."""
     
-    def test_resume_download_no_file_returns_404(self, client, db):
-        """Test download with no resume file returns 404."""
+    def test_resume_download_falls_back_to_static(self, client, db):
+        """Test download with no DB resume falls back to static PDF and returns 200."""
         response = client.get(reverse('resume_download'))
-        assert response.status_code == 404
+        assert response.status_code == 200
+        assert response['Content-Type'] == 'application/pdf'
 
 
 class TestGetOTPView:
