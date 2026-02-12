@@ -25,6 +25,7 @@ def create_comment_notification(sender, instance, created, **kwargs):
             Notification.objects.create(
                 recipient=instance.parent.author,
                 sender=instance.author,  # Can be None for guest users
+                sender_name_cache=author_name or 'Someone',
                 notification_type='comment_reply',
                 post=instance.post,
                 comment=instance.parent,
@@ -36,26 +37,30 @@ def create_comment_notification(sender, instance, created, **kwargs):
 def create_post_like_notification(sender, instance, created, **kwargs):
     """Create notification when someone likes a post"""
     if created and instance.user != instance.post.author:
+        sender_name = instance.user.get_full_name() or instance.user.username
         # Someone liked the post
         Notification.objects.create(
             recipient=instance.post.author,
             sender=instance.user,
+            sender_name_cache=sender_name,
             notification_type='post_like',
             post=instance.post,
-            message=f'{instance.user.get_full_name()} liked your post "{instance.post.title}"'
+            message=f'{sender_name} liked your post "{instance.post.title}"'
         )
 
 
 @receiver(post_save, sender=CommentLike)
 def create_comment_like_notification(sender, instance, created, **kwargs):
     """Create notification when someone likes a comment"""
-    if created and instance.user != instance.comment.author:
+    if created and instance.comment.author and instance.user != instance.comment.author:
+        sender_name = instance.user.get_full_name() or instance.user.username if instance.user else 'Someone'
         # Someone liked the comment
         Notification.objects.create(
             recipient=instance.comment.author,
             sender=instance.user,
+            sender_name_cache=sender_name,
             notification_type='comment_like',
             post=instance.comment.post,
             comment=instance.comment,
-            message=f'{instance.user.get_full_name()} liked your comment on "{instance.comment.post.title}"'
+            message=f'{sender_name} liked your comment on "{instance.comment.post.title}"'
         )

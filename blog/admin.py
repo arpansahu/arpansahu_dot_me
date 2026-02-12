@@ -28,8 +28,9 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
-    list_display = ['title', 'author', 'category', 'status', 'is_featured', 'views', 'published_date', 'created_at']
+    list_display = ['title', 'author', 'category', 'sequence', 'status', 'is_featured', 'views', 'published_date', 'created_at']
     list_filter = ['status', 'is_featured', 'category', 'tags', 'created_at', 'published_date']
+    list_editable = ['sequence']
     search_fields = ['title', 'content', 'excerpt']
     prepopulated_fields = {'slug': ('title',)}
     filter_horizontal = ['tags']
@@ -47,7 +48,7 @@ class BlogPostAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
         ('Publishing', {
-            'fields': ('status', 'published_date', 'is_featured', 'enable_comments')
+            'fields': ('status', 'published_date', 'is_featured', 'enable_comments', 'sequence')
         }),
         ('Statistics', {
             'fields': ('views',),

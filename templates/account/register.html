@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load socialaccount %}
 
 {% block title %}Register - Arpan Sahu{% endblock %}
 
@@ -146,6 +147,111 @@
     .password-toggle-icon:hover {
         color: #bb86fc;
     }
+    
+    /* Social Login Styles */
+    .social-login-divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin: 25px 0 20px 0;
+    }
+    
+    .social-login-divider::before,
+    .social-login-divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    
+    .social-login-divider span {
+        padding: 0 15px;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.85rem;
+    }
+    
+    .social-buttons-container {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+    }
+    
+    .social-btn-circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .social-btn-circle:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+    
+    .social-btn-circle i {
+        font-size: 1.3rem;
+    }
+    
+    .btn-google-circle {
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 2px solid #ea4335;
+        color: #ea4335;
+    }
+    
+    .btn-google-circle:hover {
+        background-color: #ea4335;
+        color: #fff;
+    }
+    
+    .btn-github-circle {
+        background-color: rgba(36, 41, 46, 0.8);
+        border: 2px solid #fff;
+        color: #fff;
+    }
+    
+    .btn-github-circle:hover {
+        background-color: #fff;
+        color: #24292e;
+    }
+    
+    .btn-facebook-circle {
+        background-color: rgba(24, 119, 242, 0.2);
+        border: 2px solid #1877f2;
+        color: #1877f2;
+    }
+    
+    .btn-facebook-circle:hover {
+        background-color: #1877f2;
+        color: #fff;
+    }
+    
+    .btn-twitter-circle {
+        background-color: rgba(0, 0, 0, 0.5);
+        border: 2px solid #fff;
+        color: #fff;
+    }
+    
+    .btn-twitter-circle:hover {
+        background-color: #fff;
+        color: #000;
+    }
+    
+    .btn-linkedin-circle {
+        background-color: rgba(10, 102, 194, 0.2);
+        border: 2px solid #0a66c2;
+        color: #0a66c2;
+    }
+    
+    .btn-linkedin-circle:hover {
+        background-color: #0a66c2;
+        color: #fff;
+    }
 </style>
 {% endblock %}
 
@@ -236,6 +342,41 @@
                     <i class="fas fa-user-plus"></i> Create Account
                 </button>
             </form>
+            
+            <!-- Social Login Section -->
+            {% get_providers as socialaccount_providers %}
+            {% if socialaccount_providers %}
+            <div class="social-login-divider">
+                <span>Or sign up with</span>
+            </div>
+            <div class="social-buttons-container">
+                {% for provider in socialaccount_providers %}
+                    {% if provider.id == 'google' %}
+                        <a href="{% provider_login_url provider.id process='login' %}" class="social-btn-circle btn-google-circle" title="Sign up with Google">
+                            <i class="fab fa-google"></i>
+                        </a>
+                    {% elif provider.id == 'github' %}
+                        <a href="{% provider_login_url provider.id process='login' %}" class="social-btn-circle btn-github-circle" title="Sign up with GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    {% comment %}Facebook disabled: requires business verification
+                    {% elif provider.id == 'facebook' %}
+                        <a href="{% provider_login_url provider.id process='login' %}" class="social-btn-circle btn-facebook-circle" title="Sign up with Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    {% endcomment %}
+                    {% elif provider.id == 'twitter' or provider.id == 'twitter_oauth2' %}
+                        <a href="{% provider_login_url provider.id process='login' %}" class="social-btn-circle btn-twitter-circle" title="Sign up with X">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+                <!-- LinkedIn (OpenID Connect) -->
+                <a href="{% url 'openid_connect_login' provider_id='linkedin' %}?process=login" class="social-btn-circle btn-linkedin-circle" title="Sign up with LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+            {% endif %}
             
             <div class="auth-footer">
                 <p class="auth-footer-text">

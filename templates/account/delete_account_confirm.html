@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Delete Account - Arpan Sahu{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .delete-page {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 20px 40px;
+    }
+    
+    .delete-container {
+        max-width: 500px;
+        width: 100%;
+    }
+    
+    .delete-card {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+    
+    .warning-icon {
+        font-size: 4rem;
+        color: #dc3545;
+        margin-bottom: 20px;
+    }
+    
+    .delete-title {
+        color: #dc3545;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    
+    .delete-subtitle {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 1rem;
+        margin-bottom: 30px;
+    }
+    
+    .warning-box {
+        background: rgba(255, 193, 7, 0.15);
+        border: 1px solid rgba(255, 193, 7, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+        text-align: left;
+    }
+    
+    .warning-box h6 {
+        color: #ffc107;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    
+    .warning-box p {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+    
+    .warning-box ul {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.85rem;
+        margin: 0;
+        padding-left: 20px;
+    }
+    
+    .warning-box li {
+        margin-bottom: 5px;
+    }
+    
+    .admin-note {
+        background: rgba(187, 134, 252, 0.15);
+        border: 1px solid rgba(187, 134, 252, 0.3);
+        border-radius: 12px;
+        padding: 15px 20px;
+        margin-bottom: 25px;
+        text-align: left;
+    }
+    
+    .admin-note p {
+        color: #bb86fc;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+    
+    .confirm-text {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.95rem;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+    
+    .btn-danger {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 10px;
+    }
+    
+    .btn-danger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(220, 53, 69, 0.4);
+    }
+    
+    .btn-secondary {
+        width: 100%;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.12);
+        transform: translateY(-2px);
+        color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="delete-page">
+    <div class="delete-container">
+        <div class="delete-card">
+            <div class="warning-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            
+            <h1 class="delete-title">Delete Account</h1>
+            <p class="delete-subtitle">This action cannot be undone</p>
+            
+            <div class="warning-box">
+                <h6><i class="fas fa-info-circle"></i> Warning</h6>
+                <p>Deleting your account will permanently remove:</p>
+                <ul>
+                    <li>Your profile and personal information</li>
+                    <li>All your comments and likes</li>
+                    <li>Your notification history</li>
+                    <li>Connected social accounts</li>
+                </ul>
+            </div>
+            
+            {% if is_admin %}
+            <div class="admin-note">
+                <p><i class="fas fa-shield-alt"></i> <strong>Admin Account Notice:</strong> As an admin, your account will be <strong>disabled</strong> rather than deleted. Your blog posts will be hidden from public view but preserved in the system.</p>
+            </div>
+            {% endif %}
+            
+            <form method="post" action="{% url 'delete_account' %}">
+                {% csrf_token %}
+                
+                <p class="confirm-text">
+                    Are you absolutely sure you want to {% if is_admin %}disable{% else %}delete{% endif %} your account?
+                </p>
+                
+                <button type="submit" class="btn-danger">
+                    <i class="fas fa-trash-alt"></i> Yes, {% if is_admin %}Disable{% else %}Delete{% endif %} My Account
+                </button>
+                
+                <a href="{% url 'account' %}" class="btn-secondary">
+                    <i class="fas fa-arrow-left"></i> No, Keep My Account
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

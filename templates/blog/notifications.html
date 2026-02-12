@@ -3,6 +3,14 @@
 
 {% block title %}Notifications{% endblock %}
 
+{% block head_extra %}
+{% if GOOGLE_ADSENSE_ENABLED and GOOGLE_ADSENSE_CLIENT_ID %}
+<!-- Google AdSense Auto Ads (blog pages only) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ GOOGLE_ADSENSE_CLIENT_ID }}"
+     crossorigin="anonymous"></script>
+{% endif %}
+{% endblock %}
+
 {% block stylesheets %}
 <style>
     .notifications-hero {

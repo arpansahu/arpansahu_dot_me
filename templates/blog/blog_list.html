@@ -3,6 +3,14 @@
 
 {% block title %}Blog - Arpan Sahu{% endblock %}
 
+{% block head_extra %}
+{% if GOOGLE_ADSENSE_ENABLED and GOOGLE_ADSENSE_CLIENT_ID %}
+<!-- Google AdSense Auto Ads (blog pages only) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ GOOGLE_ADSENSE_CLIENT_ID }}"
+     crossorigin="anonymous"></script>
+{% endif %}
+{% endblock %}
+
 {% block stylesheets %}
 <style>
     * {
@@ -104,9 +112,40 @@
     }
     
     .blog-posts-container {
-        max-width: 1200px;
+        max-width: 1400px;
         margin: 0 auto;
         padding: 80px 20px;
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 40px;
+        align-items: start;
+    }
+    
+    .blog-main-content {
+        min-width: 0;
+    }
+    
+    .blog-sidebar {
+        position: sticky;
+        top: 100px;
+    }
+    
+    .sidebar-widget {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 25px;
+        margin-bottom: 25px;
+    }
+    
+    .sidebar-widget-title {
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .posts-grid {
@@ -344,6 +383,16 @@
         margin-bottom: 12px;
     }
     
+    @media (max-width: 1024px) {
+        .blog-posts-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .blog-sidebar {
+            position: static;
+        }
+    }
+    
     @media (max-width: 768px) {
         .blog-hero-title {
             font-size: 2.8rem;
@@ -387,15 +436,10 @@
 </section>
 
 <div class="blog-posts-container">
+    <div class="blog-main-content">
     {% if page_obj %}
     <div class="posts-grid">
         {% for post in page_obj %}
-        
-        {# Insert ad after every 3rd post #}
-        {% if forloop.counter0|divisibleby:3 and forloop.counter0 > 0 %}
-            {% include 'ads/display_ad.html' %}
-        {% endif %}
-        
         <a href="{% url 'blog:blog_detail' post.slug %}" style="text-decoration: none; color: inherit;">
             <article class="post-card">
                 {% if post.is_featured %}
@@ -459,5 +503,46 @@
         <p>We're working on bringing you great content. Check back soon!</p>
     </div>
     {% endif %}
+    </div>
+    
+    <!-- Blog Sidebar -->
+    <aside class="blog-sidebar">
+        {% include 'blog/partials/content_sidebar.html' %}
+        
+        {% if categories %}
+        <div class="sidebar-widget">
+            <h3 class="sidebar-widget-title">
+                <i class="fas fa-tags" style="color: #bb86fc; margin-right: 8px;"></i>
+                Categories
+            </h3>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                {% for category in categories %}
+                <a href="{% url 'blog:category_posts' category.slug %}" 
+                   class="category-pill"
+                   style="display: inline-block; width: fit-content;">
+                    {{ category.name }} <span style="opacity: 0.6; font-size: 0.85em;">({{ category.post_count }})</span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if tags %}
+        <div class="sidebar-widget">
+            <h3 class="sidebar-widget-title">
+                <i class="fas fa-hashtag" style="color: #bb86fc; margin-right: 8px;"></i>
+                Tags
+            </h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                {% for tag in tags %}
+                <a href="{% url 'blog:tag_posts' tag.slug %}" 
+                   style="background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.7); padding: 5px 12px; border-radius: 15px; font-size: 0.82rem; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease;">
+                    #{{ tag.name }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </aside>
 </div>
 {% endblock %}

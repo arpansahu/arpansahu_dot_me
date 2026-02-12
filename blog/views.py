@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Prefetch
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
@@ -9,9 +9,36 @@ from comments.models import Comment, CommentLike, Notification
 from account.models import Account
 
 
+def _get_sidebar_categories(current_post=None):
+    """Build sidebar data: categories with their posts in sequence order."""
+    categories_with_posts = Category.objects.prefetch_related(
+        Prefetch(
+            'posts',
+            queryset=BlogPost.objects.filter(
+                status='published',
+                author__is_active=True
+            ).order_by('sequence', 'published_date').only(
+                'id', 'title', 'slug', 'sequence', 'category_id'
+            ),
+            to_attr='ordered_posts'
+        )
+    ).annotate(
+        published_post_count=Count(
+            'posts',
+            filter=Q(posts__status='published', posts__author__is_active=True)
+        )
+    ).filter(published_post_count__gt=0).order_by('name')
+
+    return categories_with_posts
+
+
 def blog_list(request):
     """List all published blog posts"""
-    posts = BlogPost.objects.filter(status='published').select_related('author', 'category').prefetch_related('tags')
+    # Only show posts from active authors
+    posts = BlogPost.objects.filter(
+        status='published',
+        author__is_active=True
+    ).select_related('author', 'category').prefetch_related('tags')
     
     # Filter by category
     category_slug = request.GET.get('category')
@@ -41,8 +68,11 @@ def blog_list(request):
     categories = Category.objects.annotate(post_count=Count('posts')).filter(post_count__gt=0)
     tags = Tag.objects.annotate(post_count=Count('posts')).filter(post_count__gt=0)
     
-    # Get featured posts
-    featured_posts = BlogPost.objects.filter(status='published', is_featured=True)[:3]
+    # Get featured posts (only from active authors)
+    featured_posts = BlogPost.objects.filter(status='published', is_featured=True, author__is_active=True)[:3]
+    
+    # Sidebar: categories with ordered posts
+    sidebar_categories = _get_sidebar_categories()
     
     context = {
         'page_obj': page_obj,
@@ -50,6 +80,7 @@ def blog_list(request):
         'tags': tags,
         'featured_posts': featured_posts,
         'search_query': search_query,
+        'sidebar_categories': sidebar_categories,
     }
     
     return render(request, 'blog/blog_list.html', context)
@@ -60,7 +91,8 @@ def blog_detail(request, slug):
     post = get_object_or_404(
         BlogPost.objects.select_related('author', 'category').prefetch_related('tags'),
         slug=slug,
-        status='published'
+        status='published',
+        author__is_active=True  # Only show posts from active authors
     )
     
     # Increment views
@@ -69,9 +101,10 @@ def blog_detail(request, slug):
     # Get approved comments (only top-level, replies will be nested)
     approved_comments = post.comments.filter(is_approved=True, parent=None).select_related('author').prefetch_related('replies__author')
     
-    # Get related posts (same category or tags)
+    # Get related posts (same category or tags, only from active authors)
     related_posts = BlogPost.objects.filter(
-        status='published'
+        status='published',
+        author__is_active=True
     ).filter(
         Q(category=post.category) | Q(tags__in=post.tags.all())
     ).exclude(
@@ -81,11 +114,52 @@ def blog_detail(request, slug):
     # Get all categories for sidebar
     categories = Category.objects.annotate(post_count=Count('posts')).filter(post_count__gt=0)
     
+    # Sidebar: categories with ordered posts
+    sidebar_categories = _get_sidebar_categories(current_post=post)
+    
+    # Find previous and next posts within same category (series)
+    prev_post = None
+    next_post = None
+    series_posts = []
+    if post.category:
+        same_category_posts = list(BlogPost.objects.filter(
+            status='published',
+            author__is_active=True,
+            category=post.category
+        ).order_by('sequence', 'published_date').values_list('id', 'title', 'slug', flat=False))
+        
+        # Build series_posts list with current flag
+        for i, (pid, ptitle, pslug) in enumerate(same_category_posts):
+            series_posts.append({
+                'title': ptitle,
+                'slug': pslug,
+                'is_current': pid == post.id,
+                'number': i + 1,
+            })
+        
+        current_index = None
+        for i, (pid, ptitle, pslug) in enumerate(same_category_posts):
+            if pid == post.id:
+                current_index = i
+                break
+        
+        if current_index is not None:
+            if current_index > 0:
+                p = same_category_posts[current_index - 1]
+                prev_post = {'title': p[1], 'slug': p[2]}
+            if current_index < len(same_category_posts) - 1:
+                n = same_category_posts[current_index + 1]
+                next_post = {'title': n[1], 'slug': n[2]}
+    
     context = {
         'post': post,
         'approved_comments': approved_comments,
         'related_posts': related_posts,
         'categories': categories,
+        'sidebar_categories': sidebar_categories,
+        'prev_post': prev_post,
+        'next_post': next_post,
+        'series_posts': series_posts,
     }
     
     return render(request, 'blog/blog_detail.html', context)

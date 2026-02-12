@@ -59,6 +59,18 @@ SENTRY_DSH_URL = config('SENTRY_DSH_URL')
 GOOGLE_ADSENSE_CLIENT_ID = config('GOOGLE_ADSENSE_CLIENT_ID', default='')  # Format: ca-pub-XXXXXXXXXXXXXXXX
 GOOGLE_ADSENSE_ENABLED = config('GOOGLE_ADSENSE_ENABLED', cast=bool, default=False)
 
+# Social Authentication Credentials
+GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID', default='')
+GOOGLE_CLIENT_SECRET = config('GOOGLE_CLIENT_SECRET', default='')
+GITHUB_CLIENT_ID = config('GITHUB_CLIENT_ID', default='')
+GITHUB_CLIENT_SECRET = config('GITHUB_CLIENT_SECRET', default='')
+# FACEBOOK_APP_ID = config('FACEBOOK_APP_ID', default='')  # Disabled: requires business verification
+# FACEBOOK_APP_SECRET = config('FACEBOOK_APP_SECRET', default='')  # Disabled: requires business verification
+TWITTER_OAUTH2_CLIENT_ID = config('TWITTER_OAUTH2_CLIENT_ID', default='')
+TWITTER_OAUTH2_CLIENT_SECRET = config('TWITTER_OAUTH2_CLIENT_SECRET', default='')
+LINKEDIN_CLIENT_ID = config('LINKEDIN_CLIENT_ID', default='')
+LINKEDIN_CLIENT_SECRET = config('LINKEDIN_CLIENT_SECRET', default='')
+
 PROJECT_NAME = 'arpansahu_dot_me'
 # ===============================================================================
 
@@ -72,11 +84,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',  # Required for allauth
 
     # custom apps
     'check_service_health',
     'custom_tag_app',
-    'account',
+    'account.apps.AccountConfig',  # Uses 'user_account' label to avoid conflict with allauth.account
     'emails_otp',
     'resume',
     'blog',
@@ -86,6 +99,16 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'django_test_enforcer',
+    
+    # Social Authentication (django-allauth)
+    'allauth',
+    'allauth.account',  # Required for socialaccount to work (manages email addresses)
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+    # 'allauth.socialaccount.providers.facebook',  # Disabled: requires business verification
+    'allauth.socialaccount.providers.twitter_oauth2',
+    'allauth.socialaccount.providers.openid_connect',  # LinkedIn uses OpenID Connect
 ]
 
 MIDDLEWARE = [
@@ -97,15 +120,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',  # Required for django-allauth
 ]
 
 ROOT_URLCONF = 'arpansahu_dot_me.urls'
 
 # Authentication backends - Allow login with email or username
 AUTHENTICATION_BACKENDS = [
-    'account.backends.EmailOrUsernameModelBackend',  # Custom backend for email or username
-    'django.contrib.auth.backends.ModelBackend',     # Fallback to default
+    'django.contrib.auth.backends.ModelBackend',  # Default Django authentication
+    'allauth.account.auth_backends.AuthenticationBackend',  # allauth authentication
 ]
+
+# Django Sites Framework
+SITE_ID = 1
 
 
 TEMPLATES = [
@@ -294,13 +321,136 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = "account.Account"
+AUTH_USER_MODEL = "user_account.Account"  # Using the label to avoid conflict with allauth.account
 
 # Login_required Decorator
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
+# ==================== Email Configuration ====================
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+DEFAULT_FROM_EMAIL = 'noreply@arpansahu.space'
+
+# ==================== Django-Allauth Configuration ====================
+# Account settings
+ACCOUNT_LOGIN_METHODS = {'email'}  # Use email for login instead of username
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # 'mandatory', 'optional', or 'none'
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_PRESERVE_USERNAME_CASING = False
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
+ACCOUNT_USER_MODEL_EMAIL_FIELD = 'email'
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http' if DEBUG else PROTOCOL.rstrip('://')  # http for local dev, https for production
+
+# Suppress verbose allauth session messages (we use toast notifications instead)
+ACCOUNT_MESSAGES = {
+    "logged_in": {"level": None},          # Suppress "Successfully signed in as ..."
+    "logged_out": {"level": None},         # Suppress "You have signed out."
+}
+
+# Social Account settings
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_STORE_TOKENS = True
+
+# Custom social signup form: auto-connects to existing users by email
+SOCIALACCOUNT_FORMS = {
+    'signup': 'account.forms.AutoConnectSocialSignupForm',
+}
+
+# Social Account Providers Configuration
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': GOOGLE_CLIENT_ID,
+            'secret': GOOGLE_CLIENT_SECRET,
+            'key': ''
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    },
+    'github': {
+        'APP': {
+            'client_id': GITHUB_CLIENT_ID,
+            'secret': GITHUB_CLIENT_SECRET,
+            'key': ''
+        },
+        'SCOPE': [
+            'user',
+            'read:user',
+            'user:email',
+        ],
+    },
+    # Facebook disabled: requires business verification
+    # 'facebook': {
+    #     'APP': {
+    #         'client_id': FACEBOOK_APP_ID,
+    #         'secret': FACEBOOK_APP_SECRET,
+    #         'key': ''
+    #     },
+    #     'METHOD': 'oauth2',
+    #     'SCOPE': ['email', 'public_profile'],
+    #     'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+    #     'INIT_PARAMS': {'cookie': True},
+    #     'FIELDS': [
+    #         'id',
+    #         'first_name',
+    #         'last_name',
+    #         'name',
+    #         'email',
+    #     ],
+    #     'EXCHANGE_TOKEN': True,
+    #     'VERIFIED_EMAIL': False,
+    #     'VERSION': 'v18.0',
+    # },
+    'twitter_oauth2': {
+        'APP': {
+            'client_id': TWITTER_OAUTH2_CLIENT_ID,
+            'secret': TWITTER_OAUTH2_CLIENT_SECRET,
+        },
+        'SCOPE': ['tweet.read', 'users.read'],
+    },
+    # LinkedIn uses OpenID Connect (linkedin_oauth2 is deprecated)
+    'openid_connect': {
+        'APPS': [
+            {
+                'provider_id': 'linkedin',
+                'name': 'LinkedIn',
+                'client_id': LINKEDIN_CLIENT_ID,
+                'secret': LINKEDIN_CLIENT_SECRET,
+                'settings': {
+                    'server_url': 'https://www.linkedin.com/oauth',
+                    'token_auth_method': 'client_secret_post',
+                },
+            }
+        ]
+    },
+}
+
+# Custom Allauth Adapters
+ACCOUNT_ADAPTER = 'account.adapter.CustomAccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'account.adapter.CustomSocialAccountAdapter'
 
 OTP_EXPIRY_TIME = 60
 

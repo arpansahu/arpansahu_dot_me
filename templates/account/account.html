@@ -186,6 +186,89 @@
         color: rgba(255, 255, 255, 0.7);
         font-size: 0.9rem;
     }
+    
+    /* Social Providers Section */
+    .social-section {
+        margin-top: 10px;
+    }
+    
+    .social-provider-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .provider-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .provider-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+    
+    .provider-name {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #fff;
+    }
+    
+    .provider-status {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .provider-status.connected {
+        color: #28a745;
+    }
+    
+    .btn-connect {
+        padding: 8px 20px;
+        font-size: 0.85rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .btn-connect-link {
+        background: linear-gradient(135deg, #bb86fc, #6366f1);
+        color: #fff;
+    }
+    
+    .btn-connect-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(187, 134, 252, 0.4);
+        color: #fff;
+        text-decoration: none;
+    }
+    
+    .btn-disconnect {
+        background: rgba(220, 53, 69, 0.15);
+        color: #dc3545;
+        border: 1px solid rgba(220, 53, 69, 0.3);
+    }
+    
+    .btn-disconnect:hover {
+        background: #dc3545;
+        color: #fff;
+    }
 </style>
 {% endblock %}
 
@@ -295,6 +378,44 @@
             </div>
         </div>
         
+        <!-- Connected Social Accounts -->
+        <div class="account-card">
+            <h2 class="section-title">
+                <i class="fas fa-link"></i> Connected Accounts
+            </h2>
+            
+            <div class="social-section">
+                {% for provider in social_providers %}
+                <div class="social-provider-row">
+                    <div class="provider-info">
+                        <div class="provider-icon" style="background-color: {{ provider.color }};">
+                            <i class="{{ provider.icon }}"></i>
+                        </div>
+                        <div>
+                            <div class="provider-name">{{ provider.name }}</div>
+                            <div class="provider-status {% if provider.connected %}connected{% endif %}">
+                                {% if provider.connected %}Connected{% else %}Not connected{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% if provider.connected %}
+                    <form method="post" action="{% url 'social_disconnect' provider.id %}" style="margin:0;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-connect btn-disconnect"
+                                onclick="return confirm('Disconnect {{ provider.name }}?')">
+                            <i class="fas fa-unlink"></i> Disconnect
+                        </button>
+                    </form>
+                    {% else %}
+                    <a href="{{ provider.login_url }}" class="btn-connect btn-connect-link">
+                        <i class="fas fa-plus"></i> Connect
+                    </a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
         <!-- Activity Stats -->
         <div class="account-card">
             <h2 class="section-title">
@@ -302,10 +423,12 @@
             </h2>
             
             <div class="activity-stats">
+                {% if account.is_admin %}
                 <div class="stat-card">
                     <div class="stat-number">{{ account.blog_posts.count }}</div>
                     <div class="stat-label">Blog Posts</div>
                 </div>
+                {% endif %}
                 
                 <div class="stat-card">
                     <div class="stat-number">{{ account.blog_comments.count }}</div>
@@ -341,6 +464,25 @@
                     <i class="fas fa-blog"></i> Browse Blog
                 </a>
             </div>
+        </div>
+        
+        <!-- Danger Zone -->
+        <div class="account-card" style="border: 1px solid rgba(220, 53, 69, 0.3);">
+            <h2 class="section-title" style="color: #dc3545; border-bottom-color: rgba(220, 53, 69, 0.2);">
+                <i class="fas fa-exclamation-triangle"></i> Danger Zone
+            </h2>
+            
+            <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 20px; font-size: 0.9rem;">
+                {% if account.is_admin %}
+                As an admin, your account will be <strong>disabled</strong> instead of deleted. Your blog posts will be hidden from public view.
+                {% else %}
+                Once you delete your account, there is no going back. Please be certain.
+                {% endif %}
+            </p>
+            
+            <a href="{% url 'delete_account' %}" class="btn-secondary" style="background: rgba(220, 53, 69, 0.15); color: #dc3545; border-color: rgba(220, 53, 69, 0.3); text-align: center;">
+                <i class="fas fa-trash-alt"></i> {% if account.is_admin %}Disable{% else %}Delete{% endif %} Account
+            </a>
         </div>
     </div>
 </div>

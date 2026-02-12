@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 
 from .views import (
     Home,
@@ -38,6 +39,8 @@ from account.views import (
     AccountView,
     activate,
     CustomPasswordResetView,
+    SocialDisconnectView,
+    DeleteAccountView,
 )
 
 def trigger_error(request):
@@ -54,12 +57,21 @@ urlpatterns = [
     path('comments/', include('comments.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     
+    # Redirect allauth login/logout to custom pages (must be BEFORE allauth.urls)
+    path('accounts/login/', RedirectView.as_view(pattern_name='login', permanent=False)),
+    path('accounts/logout/', RedirectView.as_view(pattern_name='logout', permanent=False)),
+    
+    # Social Authentication (django-allauth) - For OAuth callbacks
+    path('accounts/', include('allauth.urls')),
+    
     # Account URLs
     path('account/login/', LoginView.as_view(), name='login'),
     path('account/logout/', LogoutView.as_view(), name='logout'),
     path('account/register/', RegistrationView.as_view(), name='register'),
     path('account/profile/', AccountView.as_view(), name='account'),
     path('account/activate/<uidb64>/<token>/', activate, name='activate'),
+    path('account/social/disconnect/<str:provider_id>/', SocialDisconnectView.as_view(), name='social_disconnect'),
+    path('account/delete/', DeleteAccountView.as_view(), name='delete_account'),
     
     # Password Reset URLs (Custom)
     path('account/password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),

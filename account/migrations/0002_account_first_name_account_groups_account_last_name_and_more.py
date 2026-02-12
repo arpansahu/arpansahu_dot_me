@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('auth', '0012_alter_user_first_name_max_length'),
-        ('account', '0001_initial'),
+        ('user_account', '0001_initial'),
     ]
 
     operations = [

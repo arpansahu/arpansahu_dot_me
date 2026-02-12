@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Account {% if is_admin %}Disabled{% else %}Deleted{% endif %} - Arpan Sahu{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .done-page {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 20px 40px;
+    }
+    
+    .done-container {
+        max-width: 500px;
+        width: 100%;
+    }
+    
+    .done-card {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+    
+    .done-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+    }
+    
+    .done-icon.success {
+        color: #28a745;
+    }
+    
+    .done-icon.warning {
+        color: #ffc107;
+    }
+    
+    .done-title {
+        color: #fff;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+    
+    .done-message {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+    
+    .btn-primary {
+        display: inline-block;
+        padding: 14px 40px;
+        background: linear-gradient(135deg, #bb86fc, #6366f1);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(187, 134, 252, 0.4);
+        color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="done-page">
+    <div class="done-container">
+        <div class="done-card">
+            <div class="done-icon {% if is_admin %}warning{% else %}success{% endif %}">
+                {% if is_admin %}
+                <i class="fas fa-user-slash"></i>
+                {% else %}
+                <i class="fas fa-check-circle"></i>
+                {% endif %}
+            </div>
+            
+            <h1 class="done-title">
+                Account {% if is_admin %}Disabled{% else %}Deleted{% endif %}
+            </h1>
+            
+            <p class="done-message">
+                {{ message }}
+            </p>
+            
+            <a href="{% url 'home' %}" class="btn-primary">
+                <i class="fas fa-home"></i> Return to Home
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

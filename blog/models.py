@@ -82,6 +82,7 @@ class BlogPost(models.Model):
     # Settings
     enable_comments = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=False, help_text="Display on homepage")
+    sequence = models.PositiveIntegerField(default=0, help_text="Order within category (lower = first)")
     
     # Generic relation to comments
     comments = GenericRelation('comments.Comment', related_query_name='blog_posts')

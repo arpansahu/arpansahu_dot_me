@@ -245,6 +245,55 @@ class LoginView(View):
 
 @method_decorator(login_required(redirect_field_name=''), name='dispatch')
 class AccountView(View):
+    def _get_social_context(self, user):
+        """Build a list of all enabled providers with their connection status."""
+        from allauth.socialaccount.models import SocialAccount
+        connected = {sa.provider: sa for sa in SocialAccount.objects.filter(user=user)}
+        
+        providers = [
+            {
+                'id': 'google',
+                'name': 'Google',
+                'icon': 'fab fa-google',
+                'color': '#ea4335',
+                'connected': 'google' in connected,
+                'login_url': '/accounts/google/login/?process=connect',
+            },
+            {
+                'id': 'github',
+                'name': 'GitHub',
+                'icon': 'fab fa-github',
+                'color': '#24292e',
+                'connected': 'github' in connected,
+                'login_url': '/accounts/github/login/?process=connect',
+            },
+            {
+                'id': 'facebook',
+                'name': 'Facebook',
+                'icon': 'fab fa-facebook-f',
+                'color': '#1877f2',
+                'connected': 'facebook' in connected,
+                'login_url': '/accounts/facebook/login/?process=connect',
+            },
+            {
+                'id': 'twitter_oauth2',
+                'name': 'X (Twitter)',
+                'icon': 'fab fa-x-twitter',
+                'color': '#000000',
+                'connected': 'twitter_oauth2' in connected,
+                'login_url': '/accounts/twitter_oauth2/login/?process=connect',
+            },
+            {
+                'id': 'linkedin',
+                'name': 'LinkedIn',
+                'icon': 'fab fa-linkedin-in',
+                'color': '#0a66c2',
+                'connected': 'linkedin' in connected,
+                'login_url': '/accounts/openid_connect/login/?provider_id=linkedin&process=connect',
+            },
+        ]
+        return providers
+
     def get(self, request, *args, **kwargs):
         context = {}
         form = AccountUpdateForm(
@@ -257,6 +306,7 @@ class AccountView(View):
         )
         context["account"] = request.user
         context['account_form'] = form
+        context['social_providers'] = self._get_social_context(request.user)
         # Add unread notification count
         try:
             from blog.models import Notification
@@ -294,7 +344,91 @@ class AccountView(View):
         )
         context["account"] = user
         context['account_form'] = form
+        context['social_providers'] = self._get_social_context(user)
         return render(request, 'account/account.html', context)
+
+
+@method_decorator(login_required(redirect_field_name=''), name='dispatch')
+class SocialDisconnectView(View):
+    """Disconnect a social account from the current user."""
+    
+    def post(self, request, provider_id):
+        from allauth.socialaccount.models import SocialAccount
+        from django.contrib import messages
+        
+        try:
+            account = SocialAccount.objects.get(user=request.user, provider=provider_id)
+            
+            # Safety: ensure user still has a way to log in (password or another social account)
+            other_socials = SocialAccount.objects.filter(user=request.user).exclude(pk=account.pk).count()
+            has_password = request.user.has_usable_password()
+            
+            if not has_password and other_socials == 0:
+                messages.error(
+                    request,
+                    "Cannot disconnect — you have no password set and this is your only sign-in method. "
+                    "Please set a password first."
+                )
+                return redirect('account')
+            
+            provider_name = {
+                'google': 'Google', 'github': 'GitHub', 'facebook': 'Facebook',
+                'twitter_oauth2': 'X (Twitter)', 'linkedin': 'LinkedIn',
+            }.get(provider_id, provider_id.title())
+            
+            account.delete()
+            messages.success(request, f'{provider_name} account disconnected successfully.')
+        except SocialAccount.DoesNotExist:
+            messages.error(request, 'Social account not found.')
+        
+        return redirect('account')
+
+
+@method_decorator(login_required(redirect_field_name=''), name='dispatch')
+class DeleteAccountView(View):
+    """View for account deletion with confirmation.
+    
+    Admin accounts cannot be fully deleted - they will be disabled instead,
+    and their blog posts will be hidden from public view.
+    """
+    
+    def get(self, request, *args, **kwargs):
+        """Show confirmation page before deletion"""
+        context = {
+            'is_admin': request.user.is_admin,
+        }
+        return render(request, 'account/delete_account_confirm.html', context)
+    
+    def post(self, request, *args, **kwargs):
+        """Handle account deletion or deactivation"""
+        user = request.user
+        is_admin = user.is_admin
+        
+        if is_admin:
+            # Admin accounts are disabled, not deleted
+            user.is_active = False
+            user.save()
+            
+            # Log user out
+            logout(request)
+            
+            return render(request, 'account/delete_account_done.html', {
+                'message': 'Your admin account has been disabled. Your blog posts will no longer be displayed publicly. Contact system administrator if you wish to reactivate.',
+                'is_admin': True,
+            })
+        else:
+            # Regular users can delete their account
+            # Log user out before deletion
+            logout(request)
+            
+            # Delete the user account
+            user.delete()
+            
+            return render(request, 'account/delete_account_done.html', {
+                'message': 'Your account has been successfully deleted. We\'re sorry to see you go!',
+                'is_admin': False,
+            })
+
 
 def error_404(request, exception):
     return render(request, 'error/error_404.html')

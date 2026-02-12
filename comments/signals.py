@@ -21,6 +21,7 @@ def create_comment_notification(sender, instance, created, **kwargs):
             Notification.objects.create(
                 recipient=instance.parent.author,
                 sender=instance.author,
+                sender_name_cache=sender_name,
                 notification_type='comment_reply',
                 comment=instance,
                 message=f'{sender_name} replied to your comment'
@@ -40,10 +41,12 @@ def create_like_notification(sender, instance, created, **kwargs):
     
     # Only notify if comment has an author and it's not self-like
     if comment_author and instance.user != comment_author:
+        sender_name = instance.user.get_full_name() or instance.user.username if instance.user else 'Someone'
         Notification.objects.create(
             recipient=comment_author,
             sender=instance.user,
+            sender_name_cache=sender_name,
             notification_type='comment_like',
             comment=instance.comment,
-            message=f'{instance.user.get_full_name() or instance.user.username} liked your comment'
+            message=f'{sender_name} liked your comment'
         )

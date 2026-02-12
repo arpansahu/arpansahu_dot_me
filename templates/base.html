@@ -45,11 +45,7 @@
   <!-- Sentry SDK for JavaScript -->
   <script src="https://js.sentry-cdn.com/331f4612eb24264aada28947f75526c3.min.js" crossorigin="anonymous"></script>
 
-  <!-- Google AdSense -->
-  {% if GOOGLE_ADSENSE_ENABLED and GOOGLE_ADSENSE_CLIENT_ID %}
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ GOOGLE_ADSENSE_CLIENT_ID }}"
-          crossorigin="anonymous"></script>
-  {% endif %}
+  {% block head_extra %}{% endblock %}
 
   {% block stylesheets %}{% endblock %}
 </head>

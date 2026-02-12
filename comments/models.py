@@ -17,11 +17,18 @@ class Comment(models.Model):
     # Author (registered or guest)
     author = models.ForeignKey(
         Account, 
-        on_delete=models.CASCADE, 
+        on_delete=models.SET_NULL,  # Keep comments when user is deleted
         related_name='comments', 
         null=True, 
         blank=True,
         help_text="Registered user who made the comment"
+    )
+    
+    # Store author name at time of comment (persists after account deletion)
+    author_name_cache = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Cached author name (preserved if account is deleted)"
     )
     
     # Guest user fields
@@ -75,6 +82,9 @@ class Comment(models.Model):
         """Get display name for comment author"""
         if self.author:
             return self.author.get_full_name() or self.author.username
+        # If author was deleted, use cached name
+        if self.author_name_cache:
+            return self.author_name_cache
         return self.guest_name or 'Anonymous'
     
     def get_like_count(self):
@@ -104,6 +114,8 @@ class Comment(models.Model):
         # Auto-approve comments from registered users
         if self.author and not self.pk:  # New comment from registered user
             self.is_approved = True
+            # Cache author name for persistence after deletion
+            self.author_name_cache = self.author.get_full_name() or self.author.username
         super().save(*args, **kwargs)
 
 
@@ -116,7 +128,9 @@ class CommentLike(models.Model):
     )
     user = models.ForeignKey(
         Account, 
-        on_delete=models.CASCADE, 
+        on_delete=models.SET_NULL,  # Keep like record when user deleted
+        null=True,
+        blank=True,
         related_name='user_comment_likes'
     )
     created_at = models.DateTimeField(auto_now_add=True)
@@ -175,11 +189,18 @@ class Notification(models.Model):
     )
     sender = models.ForeignKey(
         Account, 
-        on_delete=models.CASCADE, 
+        on_delete=models.SET_NULL,  # Keep notifications when sender is deleted
         related_name='user_sent_notifications', 
         null=True, 
         blank=True,
         help_text="User who triggered the notification (null for guest users)"
+    )
+    
+    # Cache sender name for persistence after deletion
+    sender_name_cache = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Cached sender name (preserved if account is deleted)"
     )
     notification_type = models.CharField(max_length=20, choices=NOTIFICATION_TYPES)
     
