@@ -45,8 +45,10 @@ class TestResumeDownload:
     
     @pytest.mark.ui
     def test_download_endpoint_exists(self, page: Page, server_url):
-        """Test download endpoint exists."""
-        response = page.goto(f"{server_url}/download/resume/")
-        # Download endpoint may redirect, show 404, or return file
-        assert response.status in [200, 302, 404]
-        expect(page.locator('body')).not_to_be_empty()
+        """Test download endpoint returns a file or valid response."""
+        # The endpoint serves a file download, so use expect_download
+        # to handle the download event instead of page.goto()
+        with page.expect_download() as download_info:
+            page.goto(f"{server_url}/download/resume/")
+        download = download_info.value
+        assert download.suggested_filename.endswith('.pdf')
