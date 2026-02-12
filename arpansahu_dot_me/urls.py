@@ -18,6 +18,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
+from django.views.static import serve as static_serve
+import os
 
 from .views import (
     Home,
@@ -89,7 +91,13 @@ urlpatterns = [
 
     #sentry test view 
     path('sentry-debug/', trigger_error),
-    path('large_resource/', large_resource)
+    path('large_resource/', large_resource),
+
+    # ads.txt for Google AdSense verification
+    path('ads.txt', static_serve, {
+        'path': 'ads.txt',
+        'document_root': os.path.join(settings.BASE_DIR, 'static'),
+    }),
 ]
 
 if settings.DEBUG:
