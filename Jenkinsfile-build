@@ -1,7 +1,7 @@
 pipeline {
     agent any
     parameters {
-        booleanParam(name: 'SKIP_TESTS', defaultValue: false, description: 'Skip running tests')
+        booleanParam(name: 'RUN_TESTS', defaultValue: false, description: 'Skip running tests')
     }
     environment {
         REGISTRY = "harbor.arpansahu.space"

@@ -527,10 +527,10 @@
  Demo
 </h2>
 <p>
- Available at: https://clock-work.arpansahu.me
+ Available at: https://clock-work.arpansahu.space
 </p>
 <p>
- Flower Panel Available at: https://flower-clock-work.arpansahu.me
+ Flower Panel Available at: https://flower-clock-work.arpansahu.space
  <br/>
  Login credentials required : Private
 </p>
@@ -701,7 +701,7 @@ def debug_task(self):
 
     elif BUCKET_TYPE == &#x27;MINIO&#x27;:
         AWS_S3_REGION_NAME = &#x27;us-east-1&#x27;  # MinIO doesn&#x27;t require this, but boto3 does
-        AWS_S3_ENDPOINT_URL = &#x27;https://minio.arpansahu.me&#x27;
+        AWS_S3_ENDPOINT_URL = &#x27;https://minio.arpansahu.space&#x27;
         AWS_DEFAULT_ACL = &#x27;public-read&#x27;
         AWS_S3_OBJECT_PARAMETERS = {
             &#x27;CacheControl&#x27;: &#x27;max-age=86400&#x27;,
@@ -1244,7 +1244,7 @@ include_files = {
   Phase 2: EC2 + Home Server Hybrid (2022-2023)
  </strong>
  <br/>
- - EC2 for portfolio (arpansahu.me) with Nginx
+ - EC2 for portfolio (arpansahu.space) with Nginx
  <br/>
  - Home Server for all other projects
  <br/>
@@ -1986,7 +1986,7 @@ include_files = {
  - Automated backups to cloud storage
 </p>
 <p>
- Live projects: https://arpansahu.me/projects
+ Live projects: https://arpansahu.space/projects
 </p>
 <h3>
  Next Steps
@@ -4241,7 +4241,7 @@ services:
     build:  # This section will be used when running locally
       context: .
       dockerfile: Dockerfile
-    image: harbor.arpansahu.me/library/clock_work:latest
+    image: harbor.arpansahu.space/library/clock_work:latest
     env_file: ./.env
     container_name: clock_work
     volumes:
@@ -5853,7 +5853,7 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    clock-work.arpansahu.me;
+    server_name    clock-work.arpansahu.space;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
@@ -5871,8 +5871,8 @@ server {
     }
 
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
@@ -17926,7 +17926,7 @@ RECEIVER_EMAIL=your_receiver_email@example.com
 </p>
 <ul>
  <li>
-  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
+  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
  </li>
 </ul>
 <p>

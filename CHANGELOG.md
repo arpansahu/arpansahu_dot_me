@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2026-02-13
+### Added
+- **Blog Demo Content** — 10 posts across 5 categories (Technology, Web Development, DevOps & Cloud, Python Programming, Career & Productivity) with 20 tags for AdSense verification
+- **Management command** `create_demo_posts` for populating blog with demo content
+- **`@pytest.mark.todo`** marker for auto-generated test stubs (239 stubs properly deselected)
+
+### Fixed
+- **CI/CD Pipeline (Jenkins)** — 6 iterative fixes for full build+deploy success:
+  - `ALLOWED_HOSTS` added to `test_settings.py` for UI test server
+  - File-based SQLite for UI tests (`:memory:` is per-process, not shared between `migrate` and `runserver`)
+  - Resume download UI test: use `page.request.get()` instead of `page.goto()` (Playwright can't navigate to download URLs)
+  - Deploy health check: removed `-L` flag from curl, accept 301/302 status codes (`SECURE_SSL_REDIRECT` causes redirects)
+- **Test suite** — 190 unit tests + 77 UI tests passing, 239 stubs deselected
+- **README.md** — Updated remaining `arpansahu.me` references to `arpansahu.space`
+
+---
+
 ## [2.0.0] - 2026-02-12
 ### Added
 - **Social Authentication** via django-allauth (Google, GitHub, Twitter OAuth2, LinkedIn OpenID Connect)
