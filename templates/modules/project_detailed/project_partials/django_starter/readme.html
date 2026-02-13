@@ -12,7 +12,25 @@
   <strong>
    Account Management:
   </strong>
-  Complete authentication with email verification, password reset, and profile management.
+  Complete authentication with email verification, password reset, profile management, and account deletion.
+ </li>
+ <li>
+  <strong>
+   Social Authentication (OAuth):
+  </strong>
+  One-click sign-in via Google, GitHub, Facebook, Twitter/X (OAuth 2.0), and LinkedIn (OpenID Connect) using django-allauth. Includes account page UI to connect/disconnect providers.
+ </li>
+ <li>
+  <strong>
+   Real-Time WebSocket Notifications:
+  </strong>
+  Push notifications via Django Channels with toast UI, notification bell with badge, and auto-reconnecting WebSocket client.
+ </li>
+ <li>
+  <strong>
+   Professional HTML Email Templates:
+  </strong>
+  Branded activation, welcome, password reset, and social-connected emails sent via Mailjet REST API with plain-text fallbacks.
  </li>
  <li>
   <strong>
@@ -24,19 +42,19 @@
   <strong>
    AWS S3/MinIO Storage:
   </strong>
-  Flexible file storage supporting both AWS S3 and self-hosted MinIO.
+  Flexible 3-tier file storage (public/protected/private) supporting both AWS S3 and self-hosted MinIO with signed URLs.
  </li>
  <li>
   <strong>
    Redis Integration:
   </strong>
-  High-performance caching, session storage, and Celery message broker.
+  High-performance caching, session storage, Celery message broker, and Channels layer backend.
  </li>
  <li>
   <strong>
    MailJet Email Service:
   </strong>
-  Transactional emails with templates and delivery tracking.
+  Transactional emails via both Mailjet REST API (direct) and django-anymail backend.
  </li>
  <li>
   <strong>
@@ -48,61 +66,73 @@
   <strong>
    Kubernetes Deployment:
   </strong>
-  Production-ready K8s manifests with ConfigMaps and Secrets.
+  Production-ready K8s manifests with ConfigMaps, Secrets, and Rancher-compatible service definitions.
  </li>
  <li>
   <strong>
    CI/CD Pipeline:
   </strong>
-  Automated build, test, and deployment with Jenkins.
+  Automated build, test, and deployment with Jenkins (separate build and deploy Jenkinsfiles).
  </li>
  <li>
   <strong>
    Notes Application:
   </strong>
-  Full-featured CRUD app with categories, tags, comments, and version history.
+  Full-featured CRUD app demonstrating all Django Generic Class-Based Views — ListView, DetailView, CreateView, UpdateView, DeleteView, FormView, RedirectView, and TemplateView — with categories, tags, comments, pinning, archiving, and version history.
  </li>
  <li>
   <strong>
    Elasticsearch Search:
   </strong>
-  Full-text search with analytics dashboard and Kibana integration.
+  Full-text search with autocomplete suggestions, analytics dashboard, index management, and cluster health monitoring.
  </li>
  <li>
   <strong>
    Kafka Event Streaming:
   </strong>
-  Real-time event publishing and consumption with Apache Kafka.
+  Real-time event publishing and consumption with Apache Kafka, including event dashboard and analytics views.
  </li>
  <li>
   <strong>
    RabbitMQ Messaging:
   </strong>
-  Message queue system for async notifications and task distribution.
+  Priority-based message queue system for async notifications with dashboard and message history.
  </li>
  <li>
   <strong>
    Commands Dashboard:
   </strong>
-  Management command execution, scheduling, and metrics tracking.
+  Web UI for management command execution, scheduling, metrics collection, data import/export, and command log tracking — with 19 built-in management commands.
  </li>
  <li>
   <strong>
    REST API:
   </strong>
-  Complete Django REST Framework API with JWT authentication and Swagger docs.
+  Complete Django REST Framework API with session/basic authentication, Swagger/OpenAPI docs (drf-spectacular), ReDoc, throttling, filtering, and API key management.
  </li>
  <li>
   <strong>
    Celery Task Queue:
   </strong>
-  Background task processing with real-time WebSocket progress tracking.
+  Background task processing with real-time WebSocket progress tracking via custom Celery progress app and Flower monitoring.
  </li>
  <li>
   <strong>
    Comprehensive Testing:
   </strong>
-  Automated test generation with django-test-enforcer and Playwright UI tests.
+  Automated test generation with django-test-enforcer, Playwright UI tests, pytest with parallel execution (xdist), and full coverage reporting.
+ </li>
+ <li>
+  <strong>
+   Error Tracking:
+  </strong>
+  Sentry integration for production error monitoring and alerting.
+ </li>
+ <li>
+  <strong>
+   Service Health Checks:
+  </strong>
+  11 management commands to verify database, cache, email, storage, Elasticsearch, Kafka, RabbitMQ, Celery, Flower, and Harbor connectivity.
  </li>
 </ol>
 <h2>
@@ -131,11 +161,25 @@
   Enable/disable features based on your needs
  </li>
  <li>
+  🔐
+  <strong>
+   Social Auth:
+  </strong>
+  5 OAuth providers configured and ready to use
+ </li>
+ <li>
   🧪
   <strong>
    Test Coverage:
   </strong>
   Built-in testing infrastructure with 100% view coverage
+ </li>
+ <li>
+  📡
+  <strong>
+   Real-Time:
+  </strong>
+  WebSocket notifications and Celery progress tracking
  </li>
  <li>
   📖
@@ -272,12 +316,206 @@
  Django is a Python-based free and open-source web framework that follows the model-template-view architectural pattern.
 </p>
 <h2>
+ What is Django REST Framework ?
+</h2>
+<p>
+ Django REST Framework (DRF) is a powerful and flexible toolkit for building Web APIs in Django. It provides serialization,
+ <br/>
+ authentication, viewsets, routers, throttling, filtering, and pagination out of the box, making it easy to build
+ <br/>
+ RESTful APIs that follow best practices.
+</p>
+<h2>
+ What is drf-spectacular ?
+</h2>
+<p>
+ drf-spectacular is an OpenAPI 3.0 schema generation library for Django REST Framework. It auto-generates Swagger UI
+ <br/>
+ and ReDoc documentation from your API views and serializers, providing interactive API documentation for developers.
+</p>
+<h2>
  What is Redis ?
 </h2>
 <p>
  Redis is an in-memory data structure project implementing a distributed, in-memory key-value database with optional durability.
  <br/>
- The most common Redis use cases are session cache, full-page cache, queues, leader boards and counting, publish-subscribe, and much more. in this case, we will use Redis as a message broker.
+ The most common Redis use cases are session cache, full-page cache, queues, leader boards and counting, publish-subscribe, and much more. In this project, Redis is used as a cache backend, Celery message broker, and Django Channels layer.
+</p>
+<h2>
+ What is Celery ?
+</h2>
+<p>
+ Celery is an asynchronous task queue/job queue based on distributed message passing. It is focused on real-time operation
+ <br/>
+ but supports scheduling as well. In this project, Celery handles background task processing with real-time WebSocket
+ <br/>
+ progress tracking via a custom progress recorder.
+</p>
+<h2>
+ What is Flower ?
+</h2>
+<p>
+ Flower is a real-time web-based monitoring tool for Celery. It provides detailed information about the state of workers,
+ <br/>
+ tasks, and queues. It allows you to monitor task progress, view task details, and control worker pools from a web interface.
+</p>
+<h2>
+ What is Django Channels ?
+</h2>
+<p>
+ Django Channels extends Django to handle WebSockets, HTTP2, and other protocols beyond traditional HTTP. It builds on
+ <br/>
+ ASGI (Asynchronous Server Gateway Interface) and enables real-time features like push notifications, live updates,
+ <br/>
+ and chat systems. In this project, Channels powers real-time notification delivery and Celery task progress updates.
+</p>
+<h2>
+ What is Daphne ?
+</h2>
+<p>
+ Daphne is an HTTP, HTTP2, and WebSocket protocol server for ASGI and ASGI-HTTP, developed as part of the Django Channels
+ <br/>
+ project. It serves as the production-ready ASGI server for Django applications that need WebSocket support.
+</p>
+<h2>
+ What is PostgreSQL ?
+</h2>
+<p>
+ PostgreSQL is a powerful, open-source object-relational database system with a strong reputation for reliability,
+ <br/>
+ feature robustness, and performance. It supports advanced data types, full-text search, and JSON storage.
+</p>
+<h2>
+ What is Elasticsearch ?
+</h2>
+<p>
+ Elasticsearch is a distributed, RESTful search and analytics engine built on Apache Lucene. It provides full-text
+ <br/>
+ search, structured search, analytics, and logging capabilities. In this project, it powers the search app with
+ <br/>
+ autocomplete suggestions, index management, cluster health monitoring, and search analytics.
+</p>
+<h2>
+ What is Apache Kafka ?
+</h2>
+<p>
+ Apache Kafka is an open-source distributed event streaming platform used for high-performance data pipelines,
+ <br/>
+ streaming analytics, data integration, and mission-critical applications. In this project, Kafka handles real-time
+ <br/>
+ event publishing and consumption with an event dashboard and analytics views.
+</p>
+<h2>
+ What is RabbitMQ ?
+</h2>
+<p>
+ RabbitMQ is an open-source message broker that implements the Advanced Message Queuing Protocol (AMQP). It supports
+ <br/>
+ multiple messaging patterns including point-to-point, publish-subscribe, and request-reply. In this project,
+ <br/>
+ RabbitMQ powers priority-based async notifications with a dashboard and message history.
+</p>
+<h2>
+ What is MinIO ?
+</h2>
+<p>
+ MinIO is a high-performance, S3-compatible object storage system. It is designed for large-scale data infrastructure
+ <br/>
+ and provides an API compatible with Amazon S3. In this project, MinIO serves as self-hosted object storage for
+ <br/>
+ public, protected, and private file uploads.
+</p>
+<h2>
+ What is Docker ?
+</h2>
+<p>
+ Docker is a platform for developing, shipping, and running applications inside lightweight, portable containers.
+ <br/>
+ Containers package an application with all its dependencies, ensuring it runs consistently across different environments.
+</p>
+<h2>
+ What is Kubernetes ?
+</h2>
+<p>
+ Kubernetes is an open-source container orchestration platform that automates deploying, scaling, and managing
+ <br/>
+ containerized applications. In this project, K8s manifests, ConfigMaps, Secrets, and service definitions are
+ <br/>
+ provided for production deployment.
+</p>
+<h2>
+ What is Jenkins ?
+</h2>
+<p>
+ Jenkins is an open-source automation server that enables continuous integration and continuous delivery (CI/CD).
+ <br/>
+ This project includes separate Jenkinsfiles for build and deploy pipelines.
+</p>
+<h2>
+ What is Nginx ?
+</h2>
+<p>
+ Nginx is a high-performance HTTP server and reverse proxy. In this project, Nginx handles SSL termination,
+ <br/>
+ HTTP-to-HTTPS redirection, WebSocket proxying, and reverse proxying to the application server.
+</p>
+<h2>
+ What is Harbor ?
+</h2>
+<p>
+ Harbor is an open-source container image registry that provides role-based access control, image scanning,
+ <br/>
+ and replication. It is used in this project to store Docker images built by the CI/CD pipeline.
+</p>
+<h2>
+ What is Sentry ?
+</h2>
+<p>
+ Sentry is an application monitoring platform that provides real-time error tracking and performance monitoring.
+ <br/>
+ It helps developers identify, triage, and resolve issues in production applications.
+</p>
+<h2>
+ What is django-allauth ?
+</h2>
+<p>
+ django-allauth is a comprehensive Django authentication library that handles account registration, login,
+ <br/>
+ social authentication, email verification, and account management. In this project, it provides OAuth sign-in
+ <br/>
+ via Google, GitHub, Facebook, Twitter/X (OAuth 2.0), and LinkedIn (OpenID Connect), with a custom adapter
+ <br/>
+ for sending branded welcome emails and WebSocket notifications on social signup.
+</p>
+<h2>
+ What is Mailjet ?
+</h2>
+<p>
+ Mailjet is a cloud-based email delivery service for sending transactional and marketing emails. In this project,
+ <br/>
+ it is used both as a direct REST API (via mailjet-rest) for custom email sends and as a Django email backend
+ <br/>
+ (via django-anymail) for allauth-triggered emails.
+</p>
+<h2>
+ What is Playwright ?
+</h2>
+<p>
+ Playwright is a framework for end-to-end testing of web applications. It supports Chromium, Firefox, and
+ <br/>
+ WebKit browsers and provides APIs for automating browser interactions. In this project, Playwright is used
+ <br/>
+ for UI integration tests alongside pytest.
+</p>
+<h2>
+ What is Pytest ?
+</h2>
+<p>
+ Pytest is a mature full-featured Python testing tool. It supports fixtures, parameterization, markers, and
+ <br/>
+ plugins. Combined with pytest-django, pytest-xdist (parallel execution), and coverage, it forms the testing
+ <br/>
+ backbone of this project.
 </p>
 <h2>
  Tech Stack
@@ -402,6 +640,42 @@
  <a href="https://www.django-rest-framework.org/">
   <img alt="DRF" src="https://img.shields.io/badge/Django%20REST-ff1709?style=for-the-badge&logo=django&logoColor=white"/>
  </a>
+ <br/>
+ <a href="https://docs.allauth.org/">
+  <img alt="Allauth" src="https://img.shields.io/badge/django--allauth-092E20?style=for-the-badge&logo=django&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://github.com/django/daphne">
+  <img alt="Daphne" src="https://img.shields.io/badge/Daphne-092E20?style=for-the-badge&logo=django&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://gunicorn.org/">
+  <img alt="Gunicorn" src="https://img.shields.io/badge/Gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://swagger.io/">
+  <img alt="Swagger" src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black"/>
+ </a>
+ <br/>
+ <a href="https://developers.google.com/identity">
+  <img alt="Google OAuth" src="https://img.shields.io/badge/Google%20OAuth-4285F4?style=for-the-badge&logo=google&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://docs.github.com/en/apps/oauth-apps">
+  <img alt="GitHub OAuth" src="https://img.shields.io/badge/GitHub%20OAuth-181717?style=for-the-badge&logo=github&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://developers.facebook.com/">
+  <img alt="Facebook OAuth" src="https://img.shields.io/badge/Facebook%20OAuth-1877F2?style=for-the-badge&logo=facebook&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://developer.twitter.com/">
+  <img alt="Twitter OAuth" src="https://img.shields.io/badge/Twitter%20OAuth-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://learn.microsoft.com/en-us/linkedin/">
+  <img alt="LinkedIn OAuth" src="https://img.shields.io/badge/LinkedIn%20OAuth-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
+ </a>
 </p>
 <h2>
  Demo
@@ -409,6 +683,59 @@
 <p>
  Available at: https://django-starter.arpansahu.space
 </p>
+<h3>
+ Demo Features
+</h3>
+<ul>
+ <li>
+  <strong>
+   Homepage Dashboard:
+  </strong>
+  File manager, async tasks, messaging, event streaming, search, notifications, notes, API, and commands sections.
+ </li>
+ <li>
+  <strong>
+   Social Login:
+  </strong>
+  Sign in with Google, GitHub, Facebook, Twitter/X, or LinkedIn via circular OAuth buttons on login/register pages.
+ </li>
+ <li>
+  <strong>
+   Account Management:
+  </strong>
+  View profile, connect/disconnect social providers, change password, and delete account at
+  <code>
+   /account/
+  </code>
+  .
+ </li>
+ <li>
+  <strong>
+   Real-Time Notifications:
+  </strong>
+  WebSocket-powered toast notifications with bell icon and badge counter in the navbar.
+ </li>
+ <li>
+  <strong>
+   REST API Docs:
+  </strong>
+  Interactive Swagger UI at
+  <code>
+   /api/docs/
+  </code>
+  and ReDoc at
+  <code>
+   /api/redoc/
+  </code>
+  .
+ </li>
+ <li>
+  <strong>
+   Flower Dashboard:
+  </strong>
+  Celery task monitoring at port 8054.
+ </li>
+</ul>
 <p>
  admin login details:--
  <br/>
@@ -435,7 +762,73 @@
 <p>
  Create .env File and don't forget to add .env to gitignore
 </p>
-<pre><code class="language-bash">  add variables mentioned in .env.example
+<pre><code class="language-bash">  cp env.example .env
+  # Edit .env and add your values for all required variables
+</code></pre>
+<h3>
+ Required Environment Variables
+</h3>
+<pre><code class="language-bash"># Core
+SECRET_KEY=your-secret-key
+DEBUG=True
+ALLOWED_HOSTS=*
+DOMAIN=localhost:8016
+PROTOCOL=http
+
+# Database
+DATABASE_URL=postgres://user:pass@localhost:5432/django_starter
+
+# Redis (used for cache, Celery broker, and Channels layer)
+REDIS_CLOUD_URL=redis://localhost:6379
+
+# Email (Mailjet)
+MAIL_JET_API_KEY=your-mailjet-api-key
+MAIL_JET_API_SECRET=your-mailjet-api-secret
+
+# Storage (S3/MinIO)
+AWS_ACCESS_KEY_ID=your-key
+AWS_SECRET_ACCESS_KEY=your-secret
+AWS_STORAGE_BUCKET_NAME=your-bucket
+BUCKET_TYPE=MINIO
+USE_S3=True
+
+# Social Authentication (OAuth) — all optional, only configure providers you need
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+FACEBOOK_APP_ID=
+FACEBOOK_APP_SECRET=
+TWITTER_API_KEY=
+TWITTER_API_SECRET=
+LINKEDIN_CLIENT_ID=
+LINKEDIN_CLIENT_SECRET=
+
+# Elasticsearch (optional)
+ELASTICSEARCH_HOST=https://localhost:9200
+ELASTICSEARCH_USER=elastic
+ELASTICSEARCH_PASSWORD=
+
+# Kafka (optional)
+KAFKA_BOOTSTRAP_SERVERS=
+KAFKA_SECURITY_PROTOCOL=SASL_SSL
+KAFKA_SASL_MECHANISM=PLAIN
+KAFKA_SASL_USERNAME=
+KAFKA_SASL_PASSWORD=
+
+# RabbitMQ (optional)
+RABBITMQ_HOST=localhost
+RABBITMQ_PORT=5672
+RABBITMQ_USER=guest
+RABBITMQ_PASSWORD=guest
+
+# Sentry (optional)
+SENTRY_DSH_URL=
+SENTRY_ENVIRONMENT=development
+
+# Flower (Celery monitoring)
+FLOWER_ADMIN_USERNAME=admin
+FLOWER_ADMIN_PASS=admin
 </code></pre>
 <p>
  Making Migrations and Migrating them.
@@ -444,15 +837,98 @@
   python manage.py migrate
 </code></pre>
 <p>
- Run update_data Command
-</p>
-<pre><code>  python manage.py update_data
-</code></pre>
-<p>
  Creating Super User
 </p>
 <pre><code class="language-bash">  python manage.py createsuperuser
 </code></pre>
+<h3>
+ Setting up Social Authentication (OAuth)
+</h3>
+<p>
+ Configure OAuth callback URLs in each provider's developer console:
+</p>
+<table>
+ <thead>
+  <tr>
+   <th>
+    Provider
+   </th>
+   <th>
+    Callback URL
+   </th>
+  </tr>
+ </thead>
+ <tbody>
+  <tr>
+   <td>
+    Google
+   </td>
+   <td>
+    <code>
+     http://localhost:8016/accounts/google/login/callback/
+    </code>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    GitHub
+   </td>
+   <td>
+    <code>
+     http://localhost:8016/accounts/github/login/callback/
+    </code>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    Facebook
+   </td>
+   <td>
+    <code>
+     http://localhost:8016/accounts/facebook/login/callback/
+    </code>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    Twitter/X
+   </td>
+   <td>
+    <code>
+     http://localhost:8016/accounts/twitter/login/callback/
+    </code>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    LinkedIn
+   </td>
+   <td>
+    <code>
+     http://localhost:8016/accounts/linkedin_oauth2/login/callback/
+    </code>
+   </td>
+  </tr>
+ </tbody>
+</table>
+<p>
+ For production, replace
+ <code>
+  http://localhost:8016
+ </code>
+ with
+ <code>
+  https://yourdomain.com
+ </code>
+ .
+</p>
+<p>
+ See
+ <code>
+  docs/OAUTH_SETUP.md
+ </code>
+ for detailed setup instructions for each provider.
+</p>
 <p>
  Installing Redis On Local (For ubuntu) for other Os Please refer to their website https://redis.io/
 </p>
@@ -468,13 +944,31 @@
 <pre><code class="language-bash">  sudo systemctl status redis
 </code></pre>
 <p>
- Run Server
+ Run Server (choose one)
 </p>
-<pre><code class="language-bash">  python manage.py runserver
+<pre><code class="language-bash">  # Development server (no WebSocket support)
+  python manage.py runserver 8016
 
-  or 
+  # ASGI server with WebSocket support (recommended for real-time features)
+  daphne -b 127.0.0.1 -p 8016 django_starter.asgi:application
 
+  # Production WSGI server
   gunicorn --bind 0.0.0.0:8016 django_starter.wsgi
+</code></pre>
+<p>
+ Run Celery Worker (for background tasks)
+</p>
+<pre><code class="language-bash">  celery -A django_starter worker -l info
+</code></pre>
+<p>
+ Run Flower (Celery monitoring dashboard)
+</p>
+<pre><code class="language-bash">  celery -A django_starter flower --port=8054
+</code></pre>
+<p>
+ Verify All Services
+</p>
+<pre><code class="language-bash">  python manage.py test_all_services
 </code></pre>
 <p>
  Use these CACHE settings
@@ -548,7 +1042,7 @@
 
     elif BUCKET_TYPE == &#x27;MINIO&#x27;:
         AWS_S3_REGION_NAME = &#x27;us-east-1&#x27;  # MinIO doesn&#x27;t require this, but boto3 does
-        AWS_S3_ENDPOINT_URL = &#x27;https://minio.arpansahu.space&#x27;
+        AWS_S3_ENDPOINT_URL = &#x27;https://minio.arpansahu.me&#x27;
         AWS_DEFAULT_ACL = &#x27;public-read&#x27;
         AWS_S3_OBJECT_PARAMETERS = {
             &#x27;CacheControl&#x27;: &#x27;max-age=86400&#x27;,
@@ -595,23 +1089,201 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, &quot;static&quot;), ]
 <h2>
  Custom Django Management Commands
 </h2>
+<h3>
+ Service Health Check Commands
+</h3>
 <ol>
  <li>
-  Test DB
-  <br/>
-  Django management command designed to test the basic functionality of the database. It performs a series of CRUD (Create, Read, Update, Delete) operations to ensure the database is working correctly.
+  <strong>
+   test_all_services
+  </strong>
+  — Run all service health checks for the Django Starter application.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py test_all_services
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   test_db
+  </strong>
+  — Test if the database is working properly by performing CRUD operations.
  </li>
 </ol>
 <pre><code class="language-bash">python manage.py test_db
 </code></pre>
 <ol>
  <li>
-  Test Cache
-  <br/>
-  Django management command designed to test the basic functionality of the caching system. It performs a set and get operation to ensure the cache is working correctly and validates the expiration of cache entries.
+  <strong>
+   test_cache
+  </strong>
+  — Test if the caching system (Redis) is working correctly with set/get operations and expiration validation.
  </li>
 </ol>
 <pre><code class="language-bash">python manage.py test_cache
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   test_email
+  </strong>
+  — Test if the email service (MailJet) is configured and working properly.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py test_email
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   test_storage
+  </strong>
+  — Test if MinIO/S3 storage is working properly.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py test_storage
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   test_elasticsearch
+  </strong>
+  — Test if Elasticsearch is working properly.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py test_elasticsearch
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   test_kafka
+  </strong>
+  — Test if Kafka is working properly.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py test_kafka
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   test_rabbitmq
+  </strong>
+  — Test if RabbitMQ is working properly.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py test_rabbitmq
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   test_celery
+  </strong>
+  — Test if Celery is working properly.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py test_celery
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   test_flower
+  </strong>
+  — Test if Flower (Celery monitoring) is accessible.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py test_flower
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   test_harbor
+  </strong>
+  — Test if Harbor Docker Registry is working properly.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py test_harbor
+</code></pre>
+<h3>
+ Commands App — Management Commands Dashboard
+</h3>
+<ol>
+ <li>
+  <strong>
+   send_notifications
+  </strong>
+  — Send notifications via email, SMS, or webhook.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py send_notifications
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   health_check
+  </strong>
+  — Perform comprehensive system health checks.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py health_check
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   run_scheduled_tasks
+  </strong>
+  — Run scheduled tasks that are due for execution.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py run_scheduled_tasks
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   generate_report
+  </strong>
+  — Generate reports from command execution data.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py generate_report
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   collect_metrics
+  </strong>
+  — Collect system metrics and store them in the database.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py collect_metrics
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   cleanup_old_data
+  </strong>
+  — Clean up old data based on retention policies.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py cleanup_old_data
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   import_data
+  </strong>
+  — Import data from CSV, JSON, or API sources.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py import_data
+</code></pre>
+<ol>
+ <li>
+  <strong>
+   export_data
+  </strong>
+  — Export data to CSV, JSON, or Excel formats.
+ </li>
+</ol>
+<pre><code class="language-bash">python manage.py export_data
 </code></pre>
 <h2>
  Readme Manager
@@ -974,7 +1646,7 @@ include_files = {
   Phase 2: EC2 + Home Server Hybrid (2022-2023)
  </strong>
  <br/>
- - EC2 for portfolio (arpansahu.space) with Nginx
+ - EC2 for portfolio (arpansahu.me) with Nginx
  <br/>
  - Home Server for all other projects
  <br/>
@@ -1716,7 +2388,7 @@ include_files = {
  - Automated backups to cloud storage
 </p>
 <p>
- Live projects: https://arpansahu.space/projects
+ Live projects: https://arpansahu.me/projects
 </p>
 <h3>
  Next Steps
@@ -17789,6 +18461,159 @@ proxy_read_timeout 300;
 <p>
  For CI/CD integration, see Jenkins documentation.
 </p>
+<h2>
+ Third-Party Services
+</h2>
+<table>
+ <thead>
+  <tr>
+   <th>
+    Service
+   </th>
+   <th>
+    Purpose
+   </th>
+   <th>
+    Configuration
+   </th>
+  </tr>
+ </thead>
+ <tbody>
+  <tr>
+   <td>
+    <strong>
+     Mailjet
+    </strong>
+   </td>
+   <td>
+    Transactional email delivery (activation, welcome, password reset, social connected)
+   </td>
+   <td>
+    <code>
+     MAIL_JET_API_KEY
+    </code>
+    ,
+    <code>
+     MAIL_JET_API_SECRET
+    </code>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <strong>
+     Sentry
+    </strong>
+   </td>
+   <td>
+    Error tracking and performance monitoring
+   </td>
+   <td>
+    <code>
+     SENTRY_DSH_URL
+    </code>
+    ,
+    <code>
+     SENTRY_ENVIRONMENT
+    </code>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <strong>
+     Google OAuth
+    </strong>
+   </td>
+   <td>
+    Social authentication
+   </td>
+   <td>
+    <code>
+     GOOGLE_CLIENT_ID
+    </code>
+    ,
+    <code>
+     GOOGLE_CLIENT_SECRET
+    </code>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <strong>
+     GitHub OAuth
+    </strong>
+   </td>
+   <td>
+    Social authentication
+   </td>
+   <td>
+    <code>
+     GITHUB_CLIENT_ID
+    </code>
+    ,
+    <code>
+     GITHUB_CLIENT_SECRET
+    </code>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <strong>
+     Facebook OAuth
+    </strong>
+   </td>
+   <td>
+    Social authentication
+   </td>
+   <td>
+    <code>
+     FACEBOOK_APP_ID
+    </code>
+    ,
+    <code>
+     FACEBOOK_APP_SECRET
+    </code>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <strong>
+     Twitter/X OAuth 2.0
+    </strong>
+   </td>
+   <td>
+    Social authentication
+   </td>
+   <td>
+    <code>
+     TWITTER_API_KEY
+    </code>
+    ,
+    <code>
+     TWITTER_API_SECRET
+    </code>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <strong>
+     LinkedIn OpenID Connect
+    </strong>
+   </td>
+   <td>
+    Social authentication
+   </td>
+   <td>
+    <code>
+     LINKEDIN_CLIENT_ID
+    </code>
+    ,
+    <code>
+     LINKEDIN_CLIENT_SECRET
+    </code>
+   </td>
+  </tr>
+ </tbody>
+</table>
 <h1>
  Website Uptime Monitor
 </h1>
@@ -17970,7 +18795,7 @@ RECEIVER_EMAIL=your_receiver_email@example.com
 </p>
 <ul>
  <li>
-  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
+  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
  </li>
 </ul>
 <p>
@@ -18156,6 +18981,42 @@ Add all the env variables as required and mentioned in the Readme File.
  <br/>
  <a href="https://www.django-rest-framework.org/">
   <img alt="DRF" src="https://img.shields.io/badge/Django%20REST-ff1709?style=for-the-badge&logo=django&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://docs.allauth.org/">
+  <img alt="Allauth" src="https://img.shields.io/badge/django--allauth-092E20?style=for-the-badge&logo=django&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://github.com/django/daphne">
+  <img alt="Daphne" src="https://img.shields.io/badge/Daphne-092E20?style=for-the-badge&logo=django&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://gunicorn.org/">
+  <img alt="Gunicorn" src="https://img.shields.io/badge/Gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://swagger.io/">
+  <img alt="Swagger" src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black"/>
+ </a>
+ <br/>
+ <a href="https://developers.google.com/identity">
+  <img alt="Google OAuth" src="https://img.shields.io/badge/Google%20OAuth-4285F4?style=for-the-badge&logo=google&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://docs.github.com/en/apps/oauth-apps">
+  <img alt="GitHub OAuth" src="https://img.shields.io/badge/GitHub%20OAuth-181717?style=for-the-badge&logo=github&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://developers.facebook.com/">
+  <img alt="Facebook OAuth" src="https://img.shields.io/badge/Facebook%20OAuth-1877F2?style=for-the-badge&logo=facebook&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://developer.twitter.com/">
+  <img alt="Twitter OAuth" src="https://img.shields.io/badge/Twitter%20OAuth-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://learn.microsoft.com/en-us/linkedin/">
+  <img alt="LinkedIn OAuth" src="https://img.shields.io/badge/LinkedIn%20OAuth-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
  </a>
 </p>
 <h2>
