@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([file(credentialsId: 'arpansahu_dot_me_env_file', variable: 'ENV_FILE')]) {
-                        sh "cp \$ENV_FILE .env"
+                        sh "cat \$ENV_FILE > .env"
                         echo '.env file created successfully from credentials'
                     }
                 }
