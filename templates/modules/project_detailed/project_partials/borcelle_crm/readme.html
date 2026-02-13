@@ -509,9 +509,9 @@
   <img alt="Postgres" src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white"/>
  </a>
  <br/>
- [
- <img alt="RabbitMQ" src="https://img.shields.io/badge/rabbitmq-%23FF6600.svg?&style=for-the-badge&logo=rabbitmq&logoColor=white"/>
- (https://www.rabbitmq.com/)]
+ <a href="https://www.rabbitmq.com/">
+  <img alt="RabbitMQ" src="https://img.shields.io/badge/RabbitMQ-FF6600?style=for-the-badge&logo=rabbitmq&logoColor=white"/>
+ </a>
  <br/>
  <a href="https://www.github.com/">
   <img alt="Github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>
@@ -571,6 +571,18 @@
  <br/>
  <a href="https://flower.readthedocs.io/en/latest/">
   <img alt="Flower" src="https://img.shields.io/badge/Flower-FF8C00?style=for-the-badge&logo=flower&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://docs.pytest.org/">
+  <img alt="Pytest" src="https://img.shields.io/badge/Pytest-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://playwright.dev/">
+  <img alt="Playwright" src="https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://github.com/django/daphne">
+  <img alt="Daphne" src="https://img.shields.io/badge/Daphne-092E20?style=for-the-badge&logo=django&logoColor=white"/>
  </a>
 </p>
 <h2>
@@ -18388,9 +18400,9 @@ Add all the env variables as required and mentioned in the Readme File.
   <img alt="Postgres" src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white"/>
  </a>
  <br/>
- [
- <img alt="RabbitMQ" src="https://img.shields.io/badge/rabbitmq-%23FF6600.svg?&style=for-the-badge&logo=rabbitmq&logoColor=white"/>
- (https://www.rabbitmq.com/)]
+ <a href="https://www.rabbitmq.com/">
+  <img alt="RabbitMQ" src="https://img.shields.io/badge/RabbitMQ-FF6600?style=for-the-badge&logo=rabbitmq&logoColor=white"/>
+ </a>
  <br/>
  <a href="https://www.github.com/">
   <img alt="Github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>
@@ -18451,6 +18463,18 @@ Add all the env variables as required and mentioned in the Readme File.
  <a href="https://flower.readthedocs.io/en/latest/">
   <img alt="Flower" src="https://img.shields.io/badge/Flower-FF8C00?style=for-the-badge&logo=flower&logoColor=white"/>
  </a>
+ <br/>
+ <a href="https://docs.pytest.org/">
+  <img alt="Pytest" src="https://img.shields.io/badge/Pytest-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://playwright.dev/">
+  <img alt="Playwright" src="https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white"/>
+ </a>
+ <br/>
+ <a href="https://github.com/django/daphne">
+  <img alt="Daphne" src="https://img.shields.io/badge/Daphne-092E20?style=for-the-badge&logo=django&logoColor=white"/>
+ </a>
 </p>
 <h2>
  Environment Variables
@@ -18463,6 +18487,9 @@ Add all the env variables as required and mentioned in the Readme File.
 </p>
 <p>
  DEBUG=
+</p>
+<p>
+ USE_S3=
 </p>
 <p>
  ALLOWED_HOSTS=
@@ -18500,9 +18527,6 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  REDIS_CLOUD_URL=
 </p>
-<p>
- RABBIT_MQ_URL=
-</p>
 <h1>
  SENTRY
 </h1>
@@ -18520,4 +18544,107 @@ Add all the env variables as required and mentioned in the Readme File.
 </p>
 <p>
  HARBOR_PASSWORD=
+</p>
+<p>
+ HARBOR_URL=
+</p>
+<p>
+ MY_EMAIL_ADDRESS=
+</p>
+<h1>
+ Flower Basic Auth
+</h1>
+<p>
+ FLOWER_ADMIN_USERNAME=
+ <br/>
+ FLOWER_ADMIN_PASS=
+</p>
+<h1>
+ RabbitMQ Configuration
+</h1>
+<p>
+ RABBITMQ_HOST=
+ <br/>
+ RABBITMQ_PORT=
+ <br/>
+ RABBITMQ_USER=
+ <br/>
+ RABBITMQ_PASSWORD=
+ <br/>
+ RABBITMQ_VHOST=
+ <br/>
+ RABBITMQ_MANAGEMENT_PORT=
+</p>
+<h1>
+ Kafka Configuration
+</h1>
+<p>
+ KAFKA_BOOTSTRAP_SERVERS=
+ <br/>
+ KAFKA_SECURITY_PROTOCOL=
+ <br/>
+ KAFKA_SASL_MECHANISM=
+ <br/>
+ KAFKA_SASL_USERNAME=
+ <br/>
+ KAFKA_SASL_PASSWORD=
+ <br/>
+ KAFKA_SSL_TRUSTSTORE_PASSWORD=
+ <br/>
+ KAFKA_SSL_KEYSTORE_PASSWORD=
+</p>
+<h1>
+ Elasticsearch Configuration
+</h1>
+<p>
+ ELASTICSEARCH_HOST=
+ <br/>
+ ELASTICSEARCH_USER=
+ <br/>
+ ELASTICSEARCH_PASSWORD=
+ <br/>
+ ELASTICSEARCH_INDEX_PREFIX=
+</p>
+<h1>
+ ==================== Social Authentication (OAuth) ====================
+</h1>
+<h1>
+ Google OAuth - https://console.developers.google.com/
+</h1>
+<p>
+ GOOGLE_CLIENT_ID=
+ <br/>
+ GOOGLE_CLIENT_SECRET=
+</p>
+<h1>
+ GitHub OAuth - https://github.com/settings/developers
+</h1>
+<p>
+ GITHUB_CLIENT_ID=
+ <br/>
+ GITHUB_CLIENT_SECRET=
+</p>
+<h1>
+ Facebook OAuth - https://developers.facebook.com/apps/
+</h1>
+<p>
+ FACEBOOK_APP_ID=
+ <br/>
+ FACEBOOK_APP_SECRET=
+</p>
+<h1>
+ Twitter/X OAuth - https://developer.twitter.com/en/portal/dashboard
+</h1>
+<p>
+ TWITTER_OAUTH2_CLIENT_ID=
+ <br/>
+ TWITTER_OAUTH2_CLIENT_SECRET=
+</p>
+<h1>
+ LinkedIn OAuth - https://www.linkedin.com/developers/apps
+</h1>
+<p>
+ LINKEDIN_CLIENT_ID=
+ <br/>
+ LINKEDIN_CLIENT_SECRET=
 </p>
