@@ -4,10 +4,13 @@ pipeline {
         booleanParam(name: 'RUN_TESTS', defaultValue: false, description: 'Skip running tests')
     }
     environment {
-        REGISTRY = "harbor.arpansahu.space"
-        REPOSITORY = "library/arpansahu_dot_me"
+        // Docker Registry Configuration (REQUIRED - set in Jenkins environment)
+        DOCKER_REGISTRY = "${env.DOCKER_REGISTRY}"
+        DOCKER_REPOSITORY = "${env.DOCKER_REPOSITORY}"
+        DOCKER_IMAGE_NAME = "${env.DOCKER_IMAGE_NAME}"
+        REGISTRY = "${DOCKER_REGISTRY}"
+        REPOSITORY = "${DOCKER_REPOSITORY}/${DOCKER_IMAGE_NAME}"
         IMAGE_TAG = "${env.BUILD_ID}"
-        ENV_PROJECT_NAME = "arpansahu_dot_me"
     }
     stages {
         stage('Checkout') {
@@ -21,6 +24,25 @@ pipeline {
                     withCredentials([file(credentialsId: 'arpansahu_dot_me_env_file', variable: 'ENV_FILE')]) {
                         sh "cat \$ENV_FILE > .env"
                         echo '.env file created successfully from credentials'
+                        
+                        // Load environment variables from .env for use in pipeline
+                        def envVars = sh(script: 'cat .env | grep -v "^#" | grep -v "^\$" | xargs', returnStdout: true).trim()
+                        if (envVars) {
+                            envVars.split().each { envVar ->
+                                def (key, value) = envVar.split('=', 2)
+                                if (key && value) {
+                                    env."${key}" = value
+                                }
+                            }
+                        }
+                        echo "✅ Environment variables loaded from .env"
+                        
+                        // Derive computed variables from base variables
+                        env.BUILD_PROJECT_NAME = "${env.ENV_PROJECT_NAME}_build"
+                        env.PROJECT_NAME_WITH_DASH = env.ENV_PROJECT_NAME.replace('_', '-')
+                        
+                        echo "Computed BUILD_PROJECT_NAME: ${env.BUILD_PROJECT_NAME}"
+                        echo "Computed PROJECT_NAME_WITH_DASH: ${env.PROJECT_NAME_WITH_DASH}"
                     }
                 }
             }

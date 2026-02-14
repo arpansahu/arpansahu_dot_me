@@ -10,14 +10,19 @@ fi
 
 # Check if required environment variables are set
 if [ -z "$HARBOR_USERNAME" ] || [ -z "$HARBOR_PASSWORD" ]; then
-    echo "HARBOR_USERNAME or HARBOR_PASSWORD is not set in the .env file"
+    echo "ERROR: HARBOR_USERNAME or HARBOR_PASSWORD is not set in the .env file"
     exit 1
 fi
 
-# Default Variables
-HARBOR_URL="harbor.arpansahu.space/library"
-LOCAL_IMAGE="arpansahu_dot_me"
-TAG="latest"
+if [ -z "$DOCKER_REGISTRY" ] || [ -z "$DOCKER_REPOSITORY" ] || [ -z "$DOCKER_IMAGE_NAME" ] || [ -z "$DOCKER_IMAGE_TAG" ]; then
+    echo "ERROR: Docker registry variables not set. Required: DOCKER_REGISTRY, DOCKER_REPOSITORY, DOCKER_IMAGE_NAME, DOCKER_IMAGE_TAG"
+    exit 1
+fi
+
+# Variables from .env
+HARBOR_URL="${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}"
+LOCAL_IMAGE="${DOCKER_IMAGE_NAME}"
+TAG="${DOCKER_IMAGE_TAG}"
 NAMESPACE="default"
 SECRET_NAME="arpansahu-dot-me-secret"
 ENV_FILE=".env"
