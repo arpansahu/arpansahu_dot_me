@@ -4,12 +4,7 @@ pipeline {
         booleanParam(name: 'RUN_TESTS', defaultValue: false, description: 'Skip running tests')
     }
     environment {
-        // Docker Registry Configuration (REQUIRED - set in Jenkins environment)
-        DOCKER_REGISTRY = "${env.DOCKER_REGISTRY}"
-        DOCKER_REPOSITORY = "${env.DOCKER_REPOSITORY}"
-        DOCKER_IMAGE_NAME = "${env.DOCKER_IMAGE_NAME}"
-        REGISTRY = "${DOCKER_REGISTRY}"
-        REPOSITORY = "${DOCKER_REPOSITORY}/${DOCKER_IMAGE_NAME}"
+        // Only Jenkins-computed values here (before .env is loaded)
         IMAGE_TAG = "${env.BUILD_ID}"
     }
     stages {
@@ -45,8 +40,13 @@ pipeline {
                         env.BUILD_PROJECT_NAME = "${env.ENV_PROJECT_NAME}_build"
                         env.PROJECT_NAME_WITH_DASH = env.ENV_PROJECT_NAME.replace('_', '-')
                         
+                        // Set registry path for Docker operations
+                        env.REGISTRY = env.DOCKER_REGISTRY
+                        env.REPOSITORY = "${env.DOCKER_REPOSITORY}/${env.DOCKER_IMAGE_NAME}"
+                        
                         echo "Computed BUILD_PROJECT_NAME: ${env.BUILD_PROJECT_NAME}"
                         echo "Computed PROJECT_NAME_WITH_DASH: ${env.PROJECT_NAME_WITH_DASH}"
+                        echo "Docker Image: ${env.REGISTRY}/${env.REPOSITORY}:${IMAGE_TAG}"
                     }
                 }
             }
