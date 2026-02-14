@@ -300,7 +300,7 @@
  Demo
 </h2>
 <p>
- Available at: https://school-chale-hum.arpansahu.space
+ Available at: https://school-chale-hum.arpansahu.me
 </p>
 <p>
  admin login details:--
@@ -428,7 +428,7 @@
 
     elif BUCKET_TYPE == &#x27;MINIO&#x27;:
         AWS_S3_REGION_NAME = &#x27;us-east-1&#x27;  # MinIO doesn&#x27;t require this, but boto3 does
-        AWS_S3_ENDPOINT_URL = &#x27;https://minio.arpansahu.space&#x27;
+        AWS_S3_ENDPOINT_URL = &#x27;https://minio.arpansahu.spacee&#x27;
         AWS_DEFAULT_ACL = &#x27;public-read&#x27;
         AWS_S3_OBJECT_PARAMETERS = {
             &#x27;CacheControl&#x27;: &#x27;max-age=86400&#x27;,
@@ -949,7 +949,7 @@ include_files = {
   Phase 2: EC2 + Home Server Hybrid (2022-2023)
  </strong>
  <br/>
- - EC2 for portfolio (arpansahu.space) with Nginx
+ - EC2 for portfolio (arpansahu.spacee) with Nginx
  <br/>
  - Home Server for all other projects
  <br/>
@@ -1165,26 +1165,132 @@ include_files = {
  - Cost-sensitive deployments
 </p>
 <h3>
- Current Architecture (Home Server)
+ Current Architecture (Home Server - Hybrid Approach)
 </h3>
+<p>
+ <strong>
+  Current Setup (February 2026):
+ </strong>
+</p>
 <pre><code>Internet
    │
-   ├─ arpansahu.space (Home Server with Dynamic DNS)
+   ├─ arpansahu.space (Home Server with Static IP)
    │   │
-   │   └─ Nginx (Port 443) - TLS Termination
+   │   └─ Nginx 1.18.0 (systemd) - TLS Termination &amp; Reverse Proxy
    │        │
-   │        ├─ Jenkins (CI/CD)
-   │        ├─ Portainer (Docker Management)
-   │        ├─ PgAdmin (Database Admin)
-   │        ├─ RabbitMQ (Message Queue)
-   │        ├─ Redis Commander (Cache Admin)
-   │        ├─ MinIO (Object Storage)
+   │        ├─ System Services (systemd) - Core Infrastructure
+   │        │   ├─ PostgreSQL 14.20 - Primary database
+   │        │   ├─ Redis 6.0.16 - Cache and sessions
+   │        │   ├─ RabbitMQ - Message broker for Celery
+   │        │   ├─ Kafka 3.9.0 - Event streaming (KRaft mode)
+   │        │   ├─ MinIO - S3-compatible object storage
+   │        │   ├─ Jenkins 2.541.1 - CI/CD automation
+   │        │   ├─ ElasticSearch - Search and logging
+   │        │   └─ K3s - Kubernetes for app orchestration
    │        │
-   │        └─ Kubernetes (k3s)
-   │             ├─ Django Applications
-   │             ├─ PostgreSQL Databases
-   │             └─ Redis Instances
+   │        ├─ Docker Containers (Management UIs only)
+   │        │   ├─ Portainer - Docker &amp; K3s management
+   │        │   ├─ PgAdmin - PostgreSQL admin interface
+   │        │   ├─ Redis Commander - Redis admin interface
+   │        │   ├─ Harbor - Private Docker registry
+   │        │   ├─ AKHQ - Kafka management UI
+   │        │   ├─ Kibana - ElasticSearch UI
+   │        │   └─ PMM - PostgreSQL monitoring
+   │        │
+   │        └─ K3s Deployments (Django Applications)
+   │             ├─ arpansahu.space
+   │             ├─ borcelle.arpansahu.space
+   │             ├─ chew.arpansahu.space
+   │             └─ django-starter.arpansahu.space
 </code></pre>
+<p>
+ <strong>
+  Why Hybrid Architecture?
+ </strong>
+</p>
+<p>
+ This evolved architecture uses the best deployment method for each service type:
+</p>
+<ol>
+ <li>
+  <strong>
+   System Services for Core Infrastructure
+  </strong>
+ </li>
+ <li>
+  Better performance (no containerization overhead)
+ </li>
+ <li>
+  Production-grade reliability via systemd
+ </li>
+ <li>
+  Direct system access and monitoring (journalctl)
+ </li>
+ <li>
+  Native backup/restore tools
+ </li>
+ <li>
+  <p>
+   Lower resource usage
+  </p>
+ </li>
+ <li>
+  <p>
+   <strong>
+    Docker for Management UIs
+   </strong>
+  </p>
+ </li>
+ <li>
+  Easy updates (docker pull)
+ </li>
+ <li>
+  Isolated dependencies
+ </li>
+ <li>
+  Lower priority - can restart without affecting core services
+ </li>
+ <li>
+  <p>
+   Quick rollback if updates fail
+  </p>
+ </li>
+ <li>
+  <p>
+   <strong>
+    K3s for Applications
+   </strong>
+  </p>
+ </li>
+ <li>
+  Container orchestration benefits
+ </li>
+ <li>
+  Easy scaling and rolling updates
+ </li>
+ <li>
+  Service discovery
+ </li>
+ <li>
+  Resource limits and quotas
+ </li>
+ <li>
+  Health checks and auto-restart
+ </li>
+</ol>
+<p>
+ <strong>
+  Performance Impact:
+ </strong>
+ <br/>
+ - Core services run 10-15% faster vs Docker
+ <br/>
+ - Better memory utilization (no container overhead for heavy services)
+ <br/>
+ - Easier to tune PostgreSQL, Redis performance parameters
+ <br/>
+ - Direct disk I/O for databases and object storage
+</p>
 <h3>
  Home Server Improvements (2026)
 </h3>
@@ -1691,7 +1797,7 @@ include_files = {
  - Automated backups to cloud storage
 </p>
 <p>
- Live projects: https://arpansahu.space/projects
+ Live projects: https://arpansahu.spacee/projects
 </p>
 <h3>
  Next Steps
@@ -3934,7 +4040,7 @@ services:
     build:  # This section will be used when running locally
       context: .
       dockerfile: Dockerfile
-    image: harbor.arpansahu.space/library/school_chale_hum:latest
+    image: harbor.arpansahu.me/library/school_chale_hum:latest
     env_file: ./.env
     command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8013 school_chale_hum.wsgi&quot;
     container_name: school_chale_hum
@@ -5546,7 +5652,7 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    school-chale-hum.arpansahu.space;
+    server_name    school-chale-hum.arpansahu.me;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
@@ -5564,8 +5670,8 @@ server {
     }
 
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
@@ -17619,7 +17725,7 @@ RECEIVER_EMAIL=your_receiver_email@example.com
 </p>
 <ul>
  <li>
-  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
+  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
  </li>
 </ul>
 <p>
