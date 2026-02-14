@@ -40,9 +40,13 @@ pipeline {
                         def envVars = sh(script: 'cat .env | grep -v "^#" | grep -v "^\$" | xargs', returnStdout: true).trim()
                         if (envVars) {
                             envVars.split().each { envVar ->
-                                def (key, value) = envVar.split('=', 2)
-                                if (key && value) {
-                                    env."${key}" = value
+                                if (envVar.contains('=')) {
+                                    def parts = envVar.split('=', 2)
+                                    def key = parts[0]
+                                    def value = parts.length > 1 ? parts[1] : ''
+                                    if (key) {
+                                        env."${key}" = value
+                                    }
                                 }
                             }
                         }
