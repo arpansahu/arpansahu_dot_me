@@ -2132,7 +2132,7 @@ services:
       # This section will be used when running locally
       context: .
       dockerfile: Dockerfile
-    image: harbor.arpansahu.space/library/arpansahu_dot_me:latest
+    image: ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     env_file: ./.env
     command: bash -c "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi"
     container_name: arpansahu_dot_me
@@ -4910,11 +4910,28 @@ SENTRY_ENVIRONMENT=
 
 SENTRY_DSH_URL=
 
+SENTRY_AUTH_TOKEN=
+
+SENTRY_ORG=
+SENTRY_PROJECT=
+
 # Google AdSense Configuration
 # Get your client ID from https://www.google.com/adsense/
 # Format: ca-pub-XXXXXXXXXXXXXXXX
 GOOGLE_ADSENSE_CLIENT_ID=
 GOOGLE_ADSENSE_ENABLED=False
+
+# Docker Registry Configuration (REQUIRED)
+DOCKER_REGISTRY=
+DOCKER_REPOSITORY=
+DOCKER_IMAGE_NAME=
+DOCKER_IMAGE_TAG=
+
+# Jenkins/Deployment Configuration
+ENV_PROJECT_NAME=
+DOCKER_PORT=
+SERVER_NAME=
+JENKINS_DOMAIN=
 
 # deploy_kube.sh requirements
 HARBOR_USERNAME=
