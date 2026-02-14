@@ -3986,7 +3986,7 @@ services:
       # This section will be used when running locally
       context: .
       dockerfile: Dockerfile
-    image: harbor.arpansahu.space/library/arpansahu_dot_me:latest
+    image: ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     env_file: ./.env
     command: bash -c &quot;python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi&quot;
     container_name: arpansahu_dot_me
@@ -8505,6 +8505,14 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  SENTRY_DSH_URL=
 </p>
+<p>
+ SENTRY_AUTH_TOKEN=
+</p>
+<p>
+ SENTRY_ORG=
+ <br/>
+ SENTRY_PROJECT=
+</p>
 <h1>
  Google AdSense Configuration
 </h1>
@@ -8518,6 +8526,30 @@ Add all the env variables as required and mentioned in the Readme File.
  GOOGLE_ADSENSE_CLIENT_ID=
  <br/>
  GOOGLE_ADSENSE_ENABLED=False
+</p>
+<h1>
+ Docker Registry Configuration (REQUIRED)
+</h1>
+<p>
+ DOCKER_REGISTRY=
+ <br/>
+ DOCKER_REPOSITORY=
+ <br/>
+ DOCKER_IMAGE_NAME=
+ <br/>
+ DOCKER_IMAGE_TAG=
+</p>
+<h1>
+ Jenkins/Deployment Configuration
+</h1>
+<p>
+ ENV_PROJECT_NAME=
+ <br/>
+ DOCKER_PORT=
+ <br/>
+ SERVER_NAME=
+ <br/>
+ JENKINS_DOMAIN=
 </p>
 <h1>
  deploy_kube.sh requirements
