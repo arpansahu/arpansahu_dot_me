@@ -17,7 +17,9 @@ pipeline {
             steps {
                 script {
                     withCredentials([file(credentialsId: 'arpansahu_dot_me_env_file', variable: 'ENV_FILE')]) {
-                        sh "cat \$ENV_FILE > .env"
+                        // Read the credentials file and write to .env using Jenkins API
+                        def envContent = readFile(file: env.ENV_FILE)
+                        writeFile(file: '.env', text: envContent)
                         echo '.env file created successfully from credentials'
                         
                         // Load environment variables from .env for use in pipeline
