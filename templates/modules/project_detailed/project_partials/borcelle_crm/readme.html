@@ -18402,7 +18402,7 @@ RECEIVER_EMAIL=your_receiver_email@example.com
 </p>
 <ul>
  <li>
-  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
+  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
  </li>
 </ul>
 <p>
@@ -18622,9 +18622,9 @@ Add all the env variables as required and mentioned in the Readme File.
  <br/>
  FLOWER_SERVER_NAME=flower-borcelle.arpansahu.space
  <br/>
- DOCKER_PORT=8014
+ DOCKER_PORT=8016
  <br/>
- FLOWER_PORT=8052
+ FLOWER_PORT=8054
  <br/>
  JENKINS_DOMAIN=jenkins.arpansahu.space
 </p>
@@ -18646,6 +18646,21 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  USE_S3=
 </p>
+<h1>
+ ALLOWED_HOSTS supports:
+</h1>
+<h1>
+ - Domain names: borcelle.arpansahu.space
+</h1>
+<h1>
+ - Wildcards: .arpansahu.space (all subdomains)
+</h1>
+<h1>
+ - IP addresses: 127.0.0.1, 192.168.1.200
+</h1>
+<h1>
+ - CIDR subnets: 10.42.0.0/16 (Kubernetes pod network)
+</h1>
 <p>
  ALLOWED_HOSTS=
 </p>
@@ -18674,7 +18689,19 @@ Add all the env variables as required and mentioned in the Readme File.
  ============================================
 </h1>
 <h1>
- Object Storage (AWS S3/MinIO)
+ Object Storage (MinIO)
+</h1>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Using MinIO for object storage through nginx proxy
+</h1>
+<h1>
+ API Endpoint: minioapi.arpansahu.space (nginx proxy to MinIO API)
+</h1>
+<h1>
+ Console UI: minio.arpansahu.space (MinIO web console)
 </h1>
 <h1>
  ============================================
@@ -18688,9 +18715,39 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  AWS_STORAGE_BUCKET_NAME=
 </p>
+<h1>
+ MinIO API endpoint (used by boto3/django-storages)
+</h1>
+<p>
+ AWS_S3_ENDPOINT_URL=https://minioapi.arpansahu.space
+</p>
+<h1>
+ Custom domain for serving files (calculated: endpoint/bucket)
+</h1>
+<p>
+ AWS_S3_CUSTOM_DOMAIN=minioapi.arpansahu.space/arpansahu-one-bucket
+</p>
 <p>
  BUCKET_TYPE=
 </p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Django Configuration (continued)
+</h1>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Domain and Protocol Configuration
+</h1>
+<h1>
+ For LOCAL: DOMAIN=localhost:8016 and PROTOCOL=http
+</h1>
+<h1>
+ For PRODUCTION: DOMAIN=yourdomain.com and PROTOCOL=https
+</h1>
 <p>
  DOMAIN=
 </p>
@@ -18781,7 +18838,7 @@ Add all the env variables as required and mentioned in the Readme File.
  ============================================
 </h1>
 <h1>
- RabbitMQ Configuration
+ RabbitMQ Configuration (Used by Celery)
 </h1>
 <h1>
  ============================================
@@ -18789,57 +18846,17 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  RABBITMQ_HOST=
  <br/>
- RABBITMQ_PORT=
+ RABBITMQ_PORT=5672
  <br/>
  RABBITMQ_USER=
  <br/>
  RABBITMQ_PASSWORD=
  <br/>
- RABBITMQ_VHOST=
+ RABBITMQ_VHOST=/
  <br/>
- RABBITMQ_MANAGEMENT_PORT=
-</p>
-<h1>
- ============================================
-</h1>
-<h1>
- Kafka Configuration
-</h1>
-<h1>
- ============================================
-</h1>
-<p>
- KAFKA_BOOTSTRAP_SERVERS=
+ RABBITMQ_MANAGEMENT_PORT=15672
  <br/>
- KAFKA_SECURITY_PROTOCOL=
- <br/>
- KAFKA_SASL_MECHANISM=
- <br/>
- KAFKA_SASL_USERNAME=
- <br/>
- KAFKA_SASL_PASSWORD=
- <br/>
- KAFKA_SSL_TRUSTSTORE_PASSWORD=
- <br/>
- KAFKA_SSL_KEYSTORE_PASSWORD=
-</p>
-<h1>
- ============================================
-</h1>
-<h1>
- Elasticsearch Configuration
-</h1>
-<h1>
- ============================================
-</h1>
-<p>
- ELASTICSEARCH_HOST=
- <br/>
- ELASTICSEARCH_USER=
- <br/>
- ELASTICSEARCH_PASSWORD=
- <br/>
- ELASTICSEARCH_INDEX_PREFIX=
+ RABBIT_MQ_URL=
 </p>
 <h1>
  ==================== Social Authentication (OAuth) ====================
