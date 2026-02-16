@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.1] - 2026-02-17
+### Added
+- **Jenkins Environment Setup Guide** — Comprehensive `JENKINS_ENVIRONMENT_SETUP_GUIDE.md` for reusable Jenkins configuration across projects
+- **USE_S3 Configuration Flag** — Added `USE_S3` flag to control S3 storage backend usage
+- **HARBOR_URL Setting** — Added Harbor container registry URL to settings
+
+### Changed
+- **Settings Standardization** — Cleaned up unused service configurations, improved settings organization
+- **Environment Template** — Updated `env.example` with new required variables
+
+### Fixed
+- **Jenkins Permission Errors** — Replaced shell command file operations with Jenkins `readFile`/`writeFile` APIs
+- **Jenkins .env Creation** — Fixed permission issues by using `cat` instead of `cp` for `.env` file creation
+
+---
+
 ## [2.1.0] - 2026-02-13
 ### Added
 - **Blog Demo Content** — 10 posts across 5 categories (Technology, Web Development, DevOps & Cloud, Python Programming, Career & Productivity) with 20 tags for AdSense verification
@@ -15,7 +31,7 @@ All notable changes to this project will be documented in this file.
   - Resume download UI test: use `page.request.get()` instead of `page.goto()` (Playwright can't navigate to download URLs)
   - Deploy health check: removed `-L` flag from curl, accept 301/302 status codes (`SECURE_SSL_REDIRECT` causes redirects)
 - **Test suite** — 190 unit tests + 77 UI tests passing, 239 stubs deselected
-- **README.md** — Updated remaining `arpansahu.me` references to `arpansahu.space`
+- **README.md** — Updated remaining `arpansahu.space` references to `arpansahu.space`
 
 ---
 
@@ -34,7 +50,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Renamed account app label from `account` to `user_account` (allauth compatibility)
 - Blog detail page: removed sidebar, single-column 1100px layout
-- Domain updated from arpansahu.me to arpansahu.space
+- Domain updated from arpansahu.space to arpansahu.space
 - Contact form: fixed email overflow in sidebar
 
 ### Disabled

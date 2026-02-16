@@ -300,7 +300,7 @@
  Demo
 </h2>
 <p>
- Available at: https://school-chale-hum.arpansahu.me
+ Available at: https://school-chale-hum.arpansahu.space
 </p>
 <p>
  admin login details:--
@@ -4040,7 +4040,7 @@ services:
     build:  # This section will be used when running locally
       context: .
       dockerfile: Dockerfile
-    image: harbor.arpansahu.me/library/school_chale_hum:latest
+    image: harbor.arpansahu.space/library/school_chale_hum:latest
     env_file: ./.env
     command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8013 school_chale_hum.wsgi&quot;
     container_name: school_chale_hum
@@ -5652,7 +5652,7 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    school-chale-hum.arpansahu.me;
+    server_name    school-chale-hum.arpansahu.space;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
@@ -5670,8 +5670,8 @@ server {
     }
 
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
@@ -17725,7 +17725,7 @@ RECEIVER_EMAIL=your_receiver_email@example.com
 </p>
 <ul>
  <li>
-  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
+  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
  </li>
 </ul>
 <p>

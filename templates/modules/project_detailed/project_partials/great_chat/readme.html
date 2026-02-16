@@ -394,12 +394,12 @@
  Demo
 </h2>
 <p>
- Available at: https://great-chat.arpansahu.me
+ Available at: https://great-chat.arpansahu.space
 </p>
 <p>
  admin login details:--
  <br/>
- email: admin@arpansahu.me
+ email: admin@arpansahu.space
  <br/>
  password: showmecode
 </p>
@@ -4181,7 +4181,7 @@ CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; uvicorn gr
     build:  # This section will be used when running locally
       context: .
       dockerfile: Dockerfile
-    image: harbor.arpansahu.me/library/great_chat:latest  # This will be used when the image is not built locally
+    image: harbor.arpansahu.space/library/great_chat:latest  # This will be used when the image is not built locally
     env_file: ./.env
     command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; uvicorn great_chat.asgi:application --host 0.0.0.0 --port 8002&quot;
     container_name: great_chat
@@ -5793,7 +5793,7 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    great-chat.arpansahu.me;
+    server_name    great-chat.arpansahu.space;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
@@ -5811,8 +5811,8 @@ server {
     }
 
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
@@ -17866,7 +17866,7 @@ RECEIVER_EMAIL=your_receiver_email@example.com
 </p>
 <ul>
  <li>
-  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
+  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
  </li>
 </ul>
 <p>

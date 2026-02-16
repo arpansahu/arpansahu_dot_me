@@ -293,7 +293,7 @@
  Demo
 </h2>
 <p>
- Available at: https://arpansahu.me
+ Available at: https://arpansahu.space
 </p>
 <h2>
  License
@@ -4017,7 +4017,7 @@ services:
     build:  # This section will be used when running locally
       context: .
       dockerfile: Dockerfile
-    image: harbor.arpansahu.me/library/numerical:latest 
+    image: harbor.arpansahu.space/library/numerical:latest 
     env_file: ./.env
     command: bash -c &quot;python manage.py runserver 0.0.0.0:8003&quot;
     container_name: numerical
@@ -5629,7 +5629,7 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    arpansahu.me;
+    server_name    arpansahu.space;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
@@ -5647,8 +5647,8 @@ server {
     }
 
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
@@ -17702,7 +17702,7 @@ RECEIVER_EMAIL=your_receiver_email@example.com
 </p>
 <ul>
  <li>
-  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
+  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
  </li>
 </ul>
 <p>
