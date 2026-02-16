@@ -4385,7 +4385,11 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 EXPOSE 8012 8051
 
 # Start supervisord to manage the processes
-CMD python manage.py migrate --noinput &amp;&amp; echo &quot;Running collectstatic...&quot; &amp;&amp; python manage.py collectstatic --noinput --verbosity 2 &amp;&amp; supervisord -c /etc/supervisor/conf.d/supervisord.conf
+# Use sh -c with set -e to fail fast on any error, exec supervisord to replace shell process
+CMD sh -c &quot;set -e &amp;&amp; \
+    python manage.py migrate --noinput &amp;&amp; \
+    python manage.py collectstatic --noinput --verbosity 2 &amp;&amp; \
+    exec supervisord -c /etc/supervisor/conf.d/supervisord.conf&quot;
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
@@ -4395,14 +4399,14 @@ CMD python manage.py migrate --noinput &amp;&amp; echo &quot;Running collectstat
     build:  # This section will be used when running locally
       context: .
       dockerfile: Dockerfile
-    image: harbor.arpansahu.space/library/clock_work:latest
+    image: ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     env_file: ./.env
-    container_name: clock_work
+    container_name: ${ENV_PROJECT_NAME}
     # volumes:
     #   - .:/app  # Only for local development, commented out for production deployment
     ports:
-      - &quot;8012:8012&quot;
-      - &quot;8051:8051&quot;
+      - &quot;${DOCKER_PORT}:${DOCKER_PORT}&quot;
+      - &quot;${FLOWER_PORT}:${FLOWER_PORT}&quot;
     restart: unless-stopped
 </code></pre>
 <h3>
@@ -6025,8 +6029,8 @@ server {
     }
 
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
@@ -18250,21 +18254,175 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  To run this project, you will need to add the following environment variables to your .env file
 </p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Docker Registry Configuration
+</h1>
+<h1>
+ ============================================
+</h1>
+<p>
+ DOCKER_REGISTRY=harbor.arpansahu.space
+ <br/>
+ DOCKER_REPOSITORY=library
+ <br/>
+ DOCKER_IMAGE_NAME=clock_work
+ <br/>
+ DOCKER_IMAGE_TAG=latest
+</p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Deployment Configuration
+</h1>
+<h1>
+ ============================================
+</h1>
+<p>
+ ENV_PROJECT_NAME=clock_work
+ <br/>
+ SERVER_NAME=clock-work.arpansahu.space
+ <br/>
+ DOCKER_PORT=8012
+ <br/>
+ FLOWER_PORT=8051
+ <br/>
+ FLOWER_SERVER_NAME=flower-clock-work.arpansahu.space
+ <br/>
+ JENKINS_DOMAIN=jenkins.arpansahu.space
+</p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Django Configuration
+</h1>
+<h1>
+ ============================================
+</h1>
 <p>
  SECRET_KEY=
 </p>
 <p>
  DEBUG=
 </p>
+<h1>
+ Set to True to use S3/MinIO for static files, False for local storage
+</h1>
+<p>
+ USE_S3=
+</p>
+<h1>
+ ALLOWED_HOSTS supports:
+</h1>
+<h1>
+ - Domain names: your-domain.com
+</h1>
+<h1>
+ - Wildcards: .your-domain.com (all subdomains)
+</h1>
+<h1>
+ - IP addresses: 127.0.0.1, 192.168.1.x
+</h1>
+<h1>
+ - CIDR subnets: 10.42.0.0/16 (Kubernetes pod network)
+</h1>
 <p>
  ALLOWED_HOSTS=
 </p>
+<p>
+ DOMAIN=
+</p>
+<p>
+ PROTOCOL=
+</p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Database Configuration
+</h1>
+<h1>
+ ============================================
+</h1>
+<p>
+ DATABASE_URL=
+</p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Redis Configuration
+</h1>
+<h1>
+ ============================================
+</h1>
+<p>
+ REDIS_CLOUD_URL=
+</p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Email Configuration (Mailjet)
+</h1>
+<h1>
+ ============================================
+</h1>
+<h1>
+ For better email deliverability:
+</h1>
+<h1>
+ 1. Use verified domain in Mailjet sender settings
+</h1>
+<h1>
+ 2. Configure SPF, DKIM, and DMARC records in your DNS
+</h1>
+<h1>
+ 3. Use professional HTML templates (see templates/emails/)
+</h1>
+<h1>
+ ============================================
+</h1>
 <p>
  MAIL_JET_API_KEY=
 </p>
 <p>
  MAIL_JET_API_SECRET=
 </p>
+<h1>
+ Verified sender email (must be verified in Mailjet)
+</h1>
+<p>
+ MAIL_JET_EMAIL_ADDRESS=
+</p>
+<p>
+ MY_EMAIL_ADDRESS=
+</p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Object Storage (AWS S3/MinIO/Blackblaze)
+</h1>
+<h1>
+ Using MinIO for object storage through nginx proxy
+</h1>
+<h1>
+ API Endpoint: minioapi.arpansahu.space (nginx proxy to MinIO API)
+</h1>
+<h1>
+ Console UI: minio.arpansahu.space (MinIO web console)
+</h1>
+<h1>
+ For AWS S3: Set BUCKET_TYPE=AWS and use AWS endpoint
+</h1>
+<h1>
+ ============================================
+</h1>
 <p>
  AWS_ACCESS_KEY_ID=
 </p>
@@ -18274,23 +18432,20 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  AWS_STORAGE_BUCKET_NAME=
 </p>
+<h1>
+ Options: MINIO, AWS, BLACKBLAZE
+</h1>
 <p>
  BUCKET_TYPE=
 </p>
-<p>
- DATABASE_URL=
-</p>
-<p>
- REDIS_CLOUD_URL=
-</p>
-<p>
- DOMAIN=
-</p>
-<p>
- PROTOCOL=
-</p>
 <h1>
- SENTRY
+ ============================================
+</h1>
+<h1>
+ Error Tracking (Sentry)
+</h1>
+<h1>
+ ============================================
 </h1>
 <p>
  SENTRY_ENVIRONMENT=
@@ -18298,8 +18453,23 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  SENTRY_DSH_URL=
 </p>
+<p>
+ SENTRY_ORG=arpansahu
+</p>
+<p>
+ SENTRY_PROJECT=clock_work
+</p>
+<p>
+ SENTRY_AUTH_TOKEN=
+</p>
+<h1>
+ ============================================
+</h1>
 <h1>
  Flower (Celery monitoring)
+</h1>
+<h1>
+ ============================================
 </h1>
 <p>
  FLOWER_ADMIN_USERNAME=
@@ -18308,11 +18478,18 @@ Add all the env variables as required and mentioned in the Readme File.
  FLOWER_ADMIN_PASS=
 </p>
 <h1>
- deploy_kube.sh requirements
+ ============================================
+</h1>
+<h1>
+ Harbor Registry Credentials
+</h1>
+<h1>
+ ============================================
 </h1>
 <p>
+ HARBOR_URL=https://harbor.arpansahu.space
+ <br/>
  HARBOR_USERNAME=
-</p>
-<p>
+ <br/>
  HARBOR_PASSWORD=
 </p>
