@@ -4942,6 +4942,9 @@ AWS_STORAGE_BUCKET_NAME=
 
 BUCKET_TYPE=
 
+# Set to True to use S3/MinIO for static/media files, False to use local filesystem
+USE_S3=True
+
 DATABASE_URL=
 
 REDIS_CLOUD_URL=
@@ -4978,9 +4981,9 @@ DOCKER_PORT=
 SERVER_NAME=
 JENKINS_DOMAIN=
 
-# deploy_kube.sh requirements
+# Harbor Configuration
+HARBOR_URL=https://harbor.arpansahu.space
 HARBOR_USERNAME=
-
 HARBOR_PASSWORD=
 
 
