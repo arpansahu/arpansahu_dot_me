@@ -8590,6 +8590,12 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  BUCKET_TYPE=
 </p>
+<h1>
+ Set to True to use S3/MinIO for static/media files, False to use local filesystem
+</h1>
+<p>
+ USE_S3=True
+</p>
 <p>
  DATABASE_URL=
 </p>
@@ -8658,11 +8664,12 @@ Add all the env variables as required and mentioned in the Readme File.
  JENKINS_DOMAIN=
 </p>
 <h1>
- deploy_kube.sh requirements
+ Harbor Configuration
 </h1>
 <p>
+ HARBOR_URL=https://harbor.arpansahu.space
+ <br/>
  HARBOR_USERNAME=
-</p>
-<p>
+ <br/>
  HARBOR_PASSWORD=
 </p>
