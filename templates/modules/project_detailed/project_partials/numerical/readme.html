@@ -3995,36 +3995,39 @@ proxy_read_timeout 300;
 <p>
  For CI/CD integration, see Jenkins documentation.
 </p>
-<pre><code class="language-bash">FROM python:3.10.7-slim
+<pre><code class="language-bash">FROM python:3.10.7
 
 WORKDIR /app
 
-COPY . .
+# Copy requirements first for better layer caching
+COPY requirements.txt .
 
-RUN pip3 install -r requirements.txt
+# Install dependencies
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application
+COPY . .
 
 EXPOSE 8003
 
-CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; gunicorn --bind 0.0.0.0:8003 numerical.wsgi&quot;
+CMD bash -c &quot;python manage.py migrate --noinput &amp;&amp; python manage.py collectstatic --noinput &amp;&amp; gunicorn --bind 0.0.0.0:8003 numerical.wsgi&quot;
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
 </p>
-<pre><code class="language-bash">version: &#x27;3&#x27;
-
-services:
+<pre><code class="language-bash">services:
   web:
     build:  # This section will be used when running locally
       context: .
       dockerfile: Dockerfile
-    image: harbor.arpansahu.space/library/numerical:latest 
+    image: ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     env_file: ./.env
-    command: bash -c &quot;python manage.py runserver 0.0.0.0:8003&quot;
-    container_name: numerical
-    volumes:
-      - .:/app
+    command: bash -c &quot;python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:${DOCKER_PORT} numerical.wsgi&quot;
+    container_name: ${ENV_PROJECT_NAME}
+    # volumes:
+    #   - .:/app  # Only for local development, commented out for production deployment
     ports:
-      - &quot;8003:8003&quot;
+      - &quot;${DOCKER_PORT}:${DOCKER_PORT}&quot;
     restart: unless-stopped
 </code></pre>
 <h3>
@@ -17702,7 +17705,7 @@ RECEIVER_EMAIL=your_receiver_email@example.com
 </p>
 <ul>
  <li>
-  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
+  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
  </li>
 </ul>
 <p>
@@ -17862,14 +17865,50 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  DEBUG=
 </p>
+<h1>
+ ALLOWED_HOSTS supports:
+</h1>
+<h1>
+ - Domain names: numerical.arpansahu.space
+</h1>
+<h1>
+ - Wildcards: .arpansahu.space (all subdomains)
+</h1>
+<h1>
+ - IP addresses: 127.0.0.1, 192.168.1.200
+</h1>
+<h1>
+ - CIDR subnets: 10.42.0.0/16 (Kubernetes pod network)
+</h1>
 <p>
  ALLOWED_HOSTS=
+</p>
+<h1>
+ Set to False for local development (serves files from local static/ folder)
+</h1>
+<h1>
+ Set to True for production (serves files from MinIO/S3)
+</h1>
+<p>
+ USE_S3=True
 </p>
 <p>
  MAIL_JET_API_KEY=
 </p>
 <p>
  MAIL_JET_API_SECRET=
+</p>
+<h1>
+ Verified sender email (must be verified in Mailjet)
+</h1>
+<p>
+ MAIL_JET_EMAIL_ADDRESS=
+</p>
+<h1>
+ Reply-to email for user responses
+</h1>
+<p>
+ MY_EMAIL_ADDRESS=
 </p>
 <p>
  AWS_ACCESS_KEY_ID=
@@ -17880,6 +17919,18 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  AWS_STORAGE_BUCKET_NAME=
 </p>
+<h1>
+ MinIO API endpoint (used by boto3/django-storages)
+</h1>
+<p>
+ AWS_S3_ENDPOINT_URL=https://minioapi.arpansahu.space
+</p>
+<h1>
+ Custom domain for serving files (calculated: endpoint/bucket)
+</h1>
+<p>
+ AWS_S3_CUSTOM_DOMAIN=minioapi.arpansahu.space/arpansahu-one-bucket
+</p>
 <p>
  BUCKET_TYPE=
 </p>
@@ -17889,6 +17940,15 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  REDIS_CLOUD_URL=
 </p>
+<h1>
+ Domain and Protocol Configuration
+</h1>
+<h1>
+ For LOCAL: DOMAIN=localhost:8003 and PROTOCOL=http
+</h1>
+<h1>
+ For PRODUCTION: DOMAIN=yourdomain.com and PROTOCOL=https
+</h1>
 <p>
  DOMAIN=
 </p>
@@ -17904,12 +17964,48 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  SENTRY_DSH_URL=
 </p>
+<p>
+ SENTRY_ORG=
+ <br/>
+ SENTRY_PROJECT=
+</p>
 <h1>
- deploy_kube.sh requirements
+ Sentry Auth Token for CI/CD deployments (used in Jenkinsfile)
 </h1>
 <p>
- HARBOR_USERNAME=
+ SENTRY_AUTH_TOKEN=
 </p>
+<h1>
+ Harbor Configuration
+</h1>
 <p>
+ HARBOR_URL=https://harbor.arpansahu.space
+ <br/>
+ HARBOR_USERNAME=
+ <br/>
  HARBOR_PASSWORD=
+</p>
+<h1>
+ Docker Registry Configuration
+</h1>
+<p>
+ DOCKER_REGISTRY=harbor.arpansahu.space
+ <br/>
+ DOCKER_REPOSITORY=library
+ <br/>
+ DOCKER_IMAGE_NAME=numerical
+ <br/>
+ DOCKER_IMAGE_TAG=latest
+</p>
+<h1>
+ Jenkins/Deployment Configuration
+</h1>
+<p>
+ ENV_PROJECT_NAME=numerical
+ <br/>
+ DOCKER_PORT=8003
+ <br/>
+ SERVER_NAME=numerical.arpansahu.space
+ <br/>
+ JENKINS_DOMAIN=jenkins.arpansahu.space
 </p>
