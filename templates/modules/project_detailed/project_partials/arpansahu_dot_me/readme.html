@@ -4084,22 +4084,18 @@ CMD bash -c &quot;python manage.py migrate --noinput &amp;&amp; python manage.py
 <p>
  Create a file named docker-compose.yml and add following lines in it
 </p>
-<pre><code class="language-bash">version: &#x27;3&#x27;
-
-services:
+<pre><code class="language-bash">services:
   web:
-    build:
-      # This section will be used when running locally
+    build:  # This section will be used when running locally
       context: .
       dockerfile: Dockerfile
     image: ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     env_file: ./.env
-    command: bash -c &quot;python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi&quot;
-    container_name: arpansahu_dot_me
-    volumes:
-      - .:/app
+    container_name: ${ENV_PROJECT_NAME}
+    # volumes:
+    #   - .:/app  # Only for local development, commented out for production deployment
     ports:
-      - &quot;8000:8000&quot;
+      - &quot;${DOCKER_PORT}:${DOCKER_PORT}&quot;
     restart: unless-stopped
 
 </code></pre>
@@ -8403,7 +8399,7 @@ RECEIVER_EMAIL=your_receiver_email@example.com
 </p>
 <ul>
  <li>
-  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
+  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
  </li>
 </ul>
 <p>
