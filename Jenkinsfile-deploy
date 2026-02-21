@@ -28,6 +28,9 @@ pipeline {
                 script {
                     echo "Loading environment variables from Jenkins credentials..."
                     withCredentials([file(credentialsId: 'arpansahu_dot_me_env_file', variable: 'ENV_FILE')]) {
+                        // Remove existing .env file if it exists (handles read-only files)
+                        sh 'rm -f .env || true'
+                        
                         // Read the credentials file and write to .env using Jenkins API
                         def envContent = readFile(file: env.ENV_FILE)
                         writeFile(file: '.env', text: envContent)
