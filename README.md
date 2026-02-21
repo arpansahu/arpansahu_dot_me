@@ -2169,22 +2169,18 @@ CMD bash -c "python manage.py migrate --noinput && python manage.py collectstati
 Create a file named docker-compose.yml and add following lines in it
 
 ```bash
-version: '3'
-
 services:
   web:
-    build:
-      # This section will be used when running locally
+    build:  # This section will be used when running locally
       context: .
       dockerfile: Dockerfile
     image: ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     env_file: ./.env
-    command: bash -c "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 arpansahu_dot_me.wsgi"
-    container_name: arpansahu_dot_me
-    volumes:
-      - .:/app
+    container_name: ${ENV_PROJECT_NAME}
+    # volumes:
+    #   - .:/app  # Only for local development, commented out for production deployment
     ports:
-      - "8000:8000"
+      - "${DOCKER_PORT}:${DOCKER_PORT}"
     restart: unless-stopped
 
 ```
@@ -4856,7 +4852,7 @@ pipeline {
 
 Note: agent {label 'local'} is used to specify which node will execute the jenkins job deployment. So local linux server is labelled with 'local' are the project with this label will be executed in local machine node.
 
-* Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
+* Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
 
 Make sure to use Pipeline project and name it whatever you want I have named it as per great_chat
 
