@@ -4022,33 +4022,40 @@ proxy_read_timeout 300;
 
 WORKDIR /app
 
-COPY . .
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-RUN pip3 install -r requirements.txt
+COPY . .
 
 EXPOSE 8013
 
-CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; gunicorn --bind 0.0.0.0:8013 school_chale_hum.wsgi&quot;
+CMD bash -c &quot;python manage.py migrate --noinput &amp;&amp; python manage.py collectstatic --noinput &amp;&amp; gunicorn --bind 0.0.0.0:8013 school_chale_hum.wsgi&quot;
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
 </p>
-<pre><code class="language-bash">version: &#x27;3&#x27;
+<pre><code class="language-bash">version: &#x27;3.8&#x27;
 
 services:
   web:
     build:  # This section will be used when running locally
       context: .
       dockerfile: Dockerfile
-    image: harbor.arpansahu.space/library/school_chale_hum:latest
+    image: ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}/${DOCKER_IMAGE_NAME}:latest
     env_file: ./.env
-    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8013 school_chale_hum.wsgi&quot;
-    container_name: school_chale_hum
+    command: bash -c &quot;python manage.py migrate --noinput &amp;&amp; python manage.py collectstatic --noinput &amp;&amp; gunicorn --bind 0.0.0.0:${DOCKER_PORT} school_chale_hum.wsgi&quot;
+    container_name: ${ENV_PROJECT_NAME}
     volumes:
       - .:/app
     ports:
-      - &quot;8013:8013&quot;
+      - &quot;${DOCKER_PORT}:${DOCKER_PORT}&quot;
     restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 </code></pre>
 <h3>
  <strong>
@@ -17725,7 +17732,7 @@ RECEIVER_EMAIL=your_receiver_email@example.com
 </p>
 <ul>
  <li>
-  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
+  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
  </li>
 </ul>
 <p>
@@ -17880,60 +17887,246 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  To run this project, you will need to add the following environment variables to your .env file
 </p>
-<p>
- SECRET_KEY=
-</p>
-<p>
- DEBUG=
-</p>
-<p>
- ALLOWED_HOSTS=
-</p>
-<p>
- MAIL_JET_API_KEY=
-</p>
-<p>
- MAIL_JET_API_SECRET=
-</p>
-<p>
- AWS_ACCESS_KEY_ID=
-</p>
-<p>
- AWS_SECRET_ACCESS_KEY=
-</p>
-<p>
- AWS_STORAGE_BUCKET_NAME=
-</p>
-<p>
- BUCKET_TYPE=
-</p>
-<p>
- DATABASE_URL=
-</p>
-<p>
- REDIS_CLOUD_URL=
-</p>
-<p>
- DOMAIN=
-</p>
-<p>
- PROTOCOL=
-</p>
 <h1>
- SENTRY
+ ============================================
+</h1>
+<h1>
+ School Chale Hum Environment Configuration
+</h1>
+<h1>
+ ============================================
+</h1>
+<h1>
+ This file contains all environment variables for the application.
+</h1>
+<h1>
+ Copy this to .env and fill in your actual values.
+</h1>
+<h1>
+ ============================================
+</h1>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Docker Registry Configuration
+</h1>
+<h1>
+ ============================================
 </h1>
 <p>
- SENTRY_ENVIRONMENT=
+ DOCKER_REGISTRY=harbor.arpansahu.space
+ <br/>
+ DOCKER_REPOSITORY=library
+ <br/>
+ DOCKER_IMAGE_NAME=school_chale_hum
+ <br/>
+ DOCKER_IMAGE_TAG=latest
+</p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Deployment Configuration
+</h1>
+<h1>
+ ============================================
+</h1>
+<p>
+ ENV_PROJECT_NAME=school_chale_hum
+ <br/>
+ SERVER_NAME=school-chale-hum.arpansahu.space
+ <br/>
+ DOCKER_PORT=8013
+ <br/>
+ JENKINS_DOMAIN=jenkins.arpansahu.space
+</p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Django Configuration
+</h1>
+<h1>
+ ============================================
+</h1>
+<p>
+ SECRET_KEY=your-secret-key-here
+</p>
+<h1>
+ 1 for True, 0 for False
+</h1>
+<p>
+ DE============================================
+</p>
+<h1>
+ Email Configuration (Mailjet)
+</h1>
+<h1>
+ ============================================
+</h1>
+<p>
+ MAIL_JET_API_KEY=your-mailjet-api-key
 </p>
 <p>
- SENTRY_DSH_URL=
+ MAIL_JET_API_SECRET=your-mailjet-secret
+</p>
+<h1>
+ Verified sender email (must be verified in Mailjet)
+</h1>
+<p>
+ MAIL_JET_EMAIL_ADDRESS=noreply@arpansahu.space
+</p>
+<h1>
+ Reply-to email for user responses
+</h1>
+<p>
+ MY_EMAIL_ADDRESS=your-email@example.com
+</p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Object Storage (MinIO)
+</h1>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Using MinIO for object storage through nginx proxy
+</h1>
+<h1>
+ API Endpoint: minioapi.arpansahu.space (nginx proxy to MinIO API)
+</h1>
+<h1>
+ Console UI: minio.arpansahu.space (MinIO web console)
+</h1>
+<h1>
+ ============================================
+</h1>
+<p>
+ AWS_ACCESS_KEY_ID=your-minio-access-key
+</p>
+<p>
+ AWS_SECRET_ACCESS_KEY=your-minio-secret-key
+</p>
+<p>
+ AWS_STORAGE_BUCKET_NAME=arpansahu-one-bucket
+</p>
+<h1>
+ MinIO API endpoint (used by boto3/django-storages)
+</h1>
+<p>
+ AWS_S3_ENDPOINT_URL=https://minioapi.arpansahu.space
+</p>
+<h1>
+ Custom domain for serving files (calculated: endpoint/bucket)
+</h1>
+<p>
+ AWS_S3_CUSTOM_DOMAIN=minioapi.arpansahu.space/arpansahu-one-bucket
+</p>
+<p>
+ BUCKET_TYPE=MINIO
+</p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Django Configuration (continued)
+</h1>
+<h1>
+ ============================================
+</h1>
+<p>
+ DOMAIN=school-chale-hum.arpansahu.space
+</p>
+<p>
+ PROTOCOL=https
+</p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Database Configuration
+</h1>
+<h1>
+ ============================================
+</h1>
+<p>
+ DATABASE_URL=postgresql://postgres:your-password@arpansahu.space:9552/arpansahu_one_db?sslmode=require&options=-c%20search_path=school_chale_hum
+</p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Redis Configuration
+</h1>
+<h1>
+ ============================================
+</h1>
+<p>
+ REDIS_CLOUD_URL=rediss://:your-redis-password@redis.arpansahu.space:9551?ssl_cert_reqs=none
+</p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Error Tracking (Sentry)
+</h1>
+<h1>
+ ============================================
+</h1>
+<p>
+ SENTRY_ENVIRONMENT=production
+</p>
+<p>
+ SENTRY_DSH_URL=https://your-sentry-dsn@o4507787065163776.ingest.us.sentry.io/your-project-id
+</p>
+<p>
+ SENTRY_ORG=arpansahu
+</p>
+<p>
+ SENTRY_PROJECT=school_chale_hum
+</p>
+<h1>
+ Sentry Auth Token for CI/CD deployments (used in Jenkinsfile)
+</h1>
+<p>
+ SENTRY_AUTH_TOKEN=your-sentry-auth-token
+</p>
+<h1>
+ ============================================
+</h1>
+<h1>
+ Harbor Registry Credentials
+</h1>
+<h1>
+ ============================================
+</h1>
+<p>
+ HARBOR_USERNAME=admin
+</p>
+<p>
+ HARBOR_PASSWORD=your-harbor-password
+</p>
+<p>
+ HARBOR_URL=https://harbor.arpansahu.space
+ <br/>
+ SENTRY_PROJECT=school_chale_hum
+ <br/>
+ SENTRY_ENVIRONMENT=production
+</p>
+<h1>
+ Project Naming
+</h1>
+<p>
+ ENV_PROJECT_NAME=school_chale_hum
 </p>
 <h1>
  deploy_kube.sh requirements
 </h1>
 <p>
- HARBOR_USERNAME=
-</p>
-<p>
- HARBOR_PASSWORD=
+ HARBOR_USERNAME=your-harbor-username
+ <br/>
+ HARBOR_PASSWORD=your-harbor-password
 </p>
