@@ -371,7 +371,7 @@
  Demo
 </h2>
 <p>
- Available at: https://third-eye.arpansahu.space
+ Available at: https://third-eye.arpansahu.me
 </p>
 <h2>
  License
@@ -4087,33 +4087,47 @@ proxy_read_timeout 300;
 
 WORKDIR /app
 
+# Copy only requirements.txt first to leverage Docker cache
+COPY requirements.txt .
+
+# Install dependencies
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application
 COPY . .
 
-RUN pip3 install -r requirements.txt
-
+# Expose necessary ports
 EXPOSE 8008
 
-CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; gunicorn --bind 0.0.0.0:8008 third_eye.wsgi&quot;
+# Start the application
+# Note: For Kubernetes deployments, migrations are handled by Jenkins (see Jenkinsfile-deploy)
+#       For Docker Compose deployments, migrations run here on container startup
+CMD python manage.py migrate --noinput &amp;&amp; \
+    echo &quot;Running collectstatic...&quot; &amp;&amp; \
+    python manage.py collectstatic --noinput --verbosity 2 &amp;&amp; \
+    echo &quot;✅ Collectstatic completed successfully&quot; &amp;&amp; \
+    gunicorn --bind 0.0.0.0:8008 third_eye.wsgi
 </code></pre>
 <p>
  Create a file named docker-compose.yml and add following lines in it
 </p>
-<pre><code class="language-bash">version: &#x27;3&#x27;
+<pre><code class="language-bash">version: &#x27;3.8&#x27;
 
 services:
   web:
-    build:  # This section will be used when running locally
-      context: .
-      dockerfile: Dockerfile
-    image: harbor.arpansahu.space/library/third_eye:latest
-    env_file: ./.env
-    command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; gunicorn --bind 0.0.0.0:8008 third_eye.wsgi&quot;
-    container_name: third_eye
-    volumes:
-      - .:/app
-    ports:
-      - &quot;8008:8008&quot;
+    image: ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}/${DOCKER_IMAGE_NAME}:latest
+    container_name: ${ENV_PROJECT_NAME}
     restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - &quot;${DOCKER_PORT}:8008&quot;
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 </code></pre>
 <h3>
  <strong>
@@ -5717,7 +5731,7 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    third-eye.arpansahu.space;
+    server_name    third-eye.arpansahu.me;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
@@ -5735,8 +5749,8 @@ server {
     }
 
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
@@ -17790,7 +17804,7 @@ RECEIVER_EMAIL=your_receiver_email@example.com
 </p>
 <ul>
  <li>
-  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
+  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
  </li>
 </ul>
 <p>
@@ -17960,48 +17974,113 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  To run this project, you will need to add the following environment variables to your .env file
 </p>
-<p>
- SECRET_KEY=
-</p>
-<p>
- DEBUG=
-</p>
-<p>
- ALLOWED_HOSTS=
-</p>
-<p>
- AWS_ACCESS_KEY_ID=
-</p>
-<p>
- AWS_SECRET_ACCESS_KEY=
-</p>
-<p>
- AWS_STORAGE_BUCKET_NAME=
-</p>
-<p>
- BUCKET_TYPE=
-</p>
-<p>
- DATABASE_URL=
-</p>
-<p>
- REDIS_CLOUD_URL=
-</p>
 <h1>
- SENTRY
+ Core Django Settings
 </h1>
 <p>
- SENTRY_ENVIRONMENT=
-</p>
-<p>
- SENTRY_DSH_URL=
+ SECRET_KEY=
+ <br/>
+ DEBUG=False
+ <br/>
+ ALLOWED_HOSTS=yourdomain.com localhost 127.0.0.1
 </p>
 <h1>
- deploy_kube.sh requirements
+ Email Configuration (Mailjet)
+</h1>
+<p>
+ MAIL_JET_API_KEY=
+ <br/>
+ MAIL_JET_API_SECRET=
+ <br/>
+ MAIL_JET_EMAIL_ADDRESS=
+ <br/>
+ MY_EMAIL_ADDRESS=
+</p>
+<h1>
+ Cloud Storage (MinIO/S3/Blackblaze)
+</h1>
+<p>
+ USE_S3=True
+ <br/>
+ AWS_ACCESS_KEY_ID=
+ <br/>
+ AWS_SECRET_ACCESS_KEY=
+ <br/>
+ AWS_STORAGE_BUCKET_NAME=
+ <br/>
+ AWS_S3_ENDPOINT_URL=
+ <br/>
+ AWS_S3_CUSTOM_DOMAIN=
+ <br/>
+ BUCKET_TYPE=MINIO
+</p>
+<h1>
+ Database
+</h1>
+<p>
+ DATABASE_URL=postgres://user:pass@host:port/dbname
+</p>
+<h1>
+ Redis Cache
+</h1>
+<p>
+ REDIS_CLOUD_URL=rediss://default:pass@host:port
+</p>
+<h1>
+ Domain Configuration
+</h1>
+<p>
+ DOMAIN=third-eye.arpansahu.me
+ <br/>
+ PROTOCOL=https
+</p>
+<h1>
+ Docker Configuration
+</h1>
+<p>
+ DOCKER_PORT=8008
+ <br/>
+ SERVER_NAME=third-eye.arpansahu.me
+</p>
+<h1>
+ Docker Registry (Harbor)
+</h1>
+<p>
+ DOCKER_REGISTRY=harbor.arpansahu.me
+ <br/>
+ DOCKER_REPOSITORY=library
+ <br/>
+ DOCKER_IMAGE_NAME=third_eye
+</p>
+<h1>
+ Jenkins
+</h1>
+<p>
+ JENKINS_DOMAIN=jenkins.arpansahu.me
+</p>
+<h1>
+ Sentry Error Tracking
+</h1>
+<p>
+ SENTRY_DSH_URL=https://...@sentry.io/projectid
+ <br/>
+ SENTRY_ORG=arpansahu
+ <br/>
+ SENTRY_PROJECT=third_eye
+ <br/>
+ SENTRY_ENVIRONMENT=production
+</p>
+<h1>
+ Project Naming
+</h1>
+<p>
+ ENV_PROJECT_NAME=third_eye
+</p>
+<h1>
+ Deploy Kubernetes Requirements
 </h1>
 <p>
  HARBOR_USERNAME=
-</p>
-<p>
+ <br/>
  HARBOR_PASSWORD=
 </p>
