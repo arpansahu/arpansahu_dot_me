@@ -63,10 +63,10 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="{% static 'js/external/pdf.min.js' %}"></script>
 <script>
     // Set PDF.js worker
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "{% static 'js/external/pdf.worker.min.js' %}";
     
     const pdfUrl = "{{ resume_url }}";
     const container = document.getElementById('pdf-container');

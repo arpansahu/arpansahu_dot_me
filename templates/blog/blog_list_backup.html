@@ -5,7 +5,7 @@
 {% block title %}Blog - Arpan Sahu{% endblock %}
 
 {% block stylesheets %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="{% static 'css/external/prism-tomorrow.min.css' %}">
 <style>
     .blog-header {
         padding: 100px 0 60px;
@@ -217,8 +217,8 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="{% static 'js/external/prism.min.js' %}"></script>
+<script src="{% static 'js/external/prism-python.min.js' %}"></script>
+<script src="{% static 'js/external/prism-javascript.min.js' %}"></script>
+<script src="{% static 'js/external/prism-bash.min.js' %}"></script>
 {% endblock %}

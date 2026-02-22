@@ -8,7 +8,7 @@
 {% block meta_keywords %}{{ post.meta_keywords }}{% endblock %}
 
 {% block stylesheets %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="{% static 'css/external/prism-tomorrow.min.css' %}">
 <style>
     .post-header {
         padding: 120px 0 60px;
@@ -302,14 +302,14 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+<script src="{% static 'js/external/prism.min.js' %}"></script>
+<script src="{% static 'js/external/prism-python.min.js' %}"></script>
+<script src="{% static 'js/external/prism-javascript.min.js' %}"></script>
+<script src="{% static 'js/external/prism-java.min.js' %}"></script>
+<script src="{% static 'js/external/prism-bash.min.js' %}"></script>
+<script src="{% static 'js/external/prism-sql.min.js' %}"></script>
+<script src="{% static 'js/external/prism-json.min.js' %}"></script>
+<script src="{% static 'js/external/prism-yaml.min.js' %}"></script>
 <script>
     // Auto-highlight code blocks
     Prism.highlightAll();
