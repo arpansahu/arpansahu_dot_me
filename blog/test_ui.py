@@ -140,7 +140,7 @@ class TestBlogInteractions:
         blog_link = page.locator('a[href*="/blog"], a:has-text("Blog")')
         if blog_link.count() > 0:
             blog_link.first.click()
-            page.wait_for_load_state('networkidle')
+            page.wait_for_load_state('load')
             # Should navigate to blog
             assert '/blog' in page.url
     
@@ -151,7 +151,7 @@ class TestBlogInteractions:
         home_link = page.locator('a[href="/"], a:has-text("Home"), .logo a, .brand a')
         if home_link.count() > 0:
             home_link.first.click()
-            page.wait_for_load_state('networkidle')
+            page.wait_for_load_state('load')
             # Should be back at home or somewhere else
             assert page.url is not None
 

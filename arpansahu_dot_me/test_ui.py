@@ -38,7 +38,7 @@ class TestHomePage:
         about_link = page.locator('a[href*="about"], a:has-text("About")')
         if about_link.count() > 0:
             about_link.first.click()
-            page.wait_for_load_state('networkidle')
+            page.wait_for_load_state('load')
 
 
 class TestAboutPage:

@@ -65,7 +65,7 @@ class TestLoginPage:
         page.goto(f"{server_url}/account/login/")
         submit_btn = page.locator('button[type="submit"], input[type="submit"]')
         submit_btn.first.click()
-        page.wait_for_load_state('networkidle')
+        page.wait_for_load_state('load')
 
 
 class TestRegistrationPage:
@@ -163,7 +163,7 @@ class TestLoginFlow:
         submit_btn = page.locator('button[type="submit"], input[type="submit"]')
         submit_btn.first.click()
         
-        page.wait_for_load_state('networkidle')
+        page.wait_for_load_state('load')
 
 
 class TestNavigationAuthentication:
@@ -181,7 +181,7 @@ class TestNavigationAuthentication:
     def test_profile_page_requires_login(self, page: Page, server_url):
         """Test profile page redirects to login when not authenticated."""
         page.goto(f"{server_url}/account/profile/")
-        page.wait_for_load_state('networkidle')
+        page.wait_for_load_state('load')
 
 
 class TestAccountUIElements:
