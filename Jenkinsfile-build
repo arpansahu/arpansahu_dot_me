@@ -1,8 +1,11 @@
 pipeline {
     agent any
     parameters {
-        booleanParam(\n            name: 'RUN_TESTS',\n            defaultValue: true,
-            description: 'Run tests before building. Set to false for faster builds.'\n        )
+        booleanParam(
+            name: 'RUN_TESTS',
+            defaultValue: true,
+            description: 'Run tests before building. Set to false for faster builds.'
+        )
     }
     environment {
         // Only Jenkins-computed values here (before .env is loaded)
