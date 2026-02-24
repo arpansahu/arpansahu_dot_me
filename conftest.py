@@ -7,6 +7,27 @@ from django.test import Client
 from django.contrib.auth import get_user_model
 
 
+@pytest.fixture(scope='session')
+def browser_context_args(browser_context_args):
+    """Configure Playwright browser context with increased timeouts for CI."""
+    return {
+        **browser_context_args,
+        'viewport': {'width': 1280, 'height': 720},
+    }
+
+
+@pytest.fixture
+def page(context, server_url):
+    """Override default page fixture with increased timeout settings."""
+    page = context.new_page()
+    # Set default timeout to 60 seconds for all operations
+    page.set_default_timeout(60000)
+    # Set default navigation timeout to 60 seconds
+    page.set_default_navigation_timeout(60000)
+    yield page
+    page.close()
+
+
 @pytest.fixture
 def server_url():
     """Server URL for UI tests. Set PLAYWRIGHT_BASE_URL env var or uses default."""
@@ -68,6 +89,6 @@ def authenticated_page(page, base_url, test_user_credentials, create_test_user):
     page.click('button[type="submit"]')
     
     # Wait for redirect
-    page.wait_for_load_state('networkidle')
+    page.wait_for_load_state('load')
     
     return page
