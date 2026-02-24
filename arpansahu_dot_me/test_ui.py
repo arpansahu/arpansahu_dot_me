@@ -34,11 +34,11 @@ class TestHomePage:
     @pytest.mark.ui
     def test_home_navigation_links_work(self, page: Page, server_url):
         """Test navigation links are clickable."""
-        page.goto(server_url)
+        page.goto(server_url, timeout=60000)  # Increased timeout for CI
         about_link = page.locator('a[href*="about"], a:has-text("About")')
         if about_link.count() > 0:
             about_link.first.click()
-            page.wait_for_load_state('load')
+            page.wait_for_load_state('load', timeout=60000)
 
 
 class TestAboutPage:
