@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: arpansahu-dot-me-mac-app
+  name: PROJECT_NAME_WITH_DASH-mac-app
   labels:
-    app: arpansahu-dot-me-mac
+    app: PROJECT_NAME_WITH_DASH-mac
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: arpansahu-dot-me-mac
+      app: PROJECT_NAME_WITH_DASH-mac
   template:
     metadata:
       labels:
-        app: arpansahu-dot-me-mac
+        app: PROJECT_NAME_WITH_DASH-mac
     spec:
       imagePullSecrets:
         - name: harbor-registry-secret
       containers:
-        - image: harbor.arpansahu.space/library/arpansahu_dot_me_mac:latest
-          name: arpansahu-dot-me-mac
+        - image: DOCKER_REGISTRY/DOCKER_REPOSITORY/DOCKER_IMAGE_NAME_mac:latest
+          name: PROJECT_NAME_WITH_DASH-mac
           envFrom:
             - secretRef:
-                name: arpansahu-dot-me-secret
+                name: PROJECT_NAME_WITH_DASH-secret
           ports:
-            - containerPort: 8000
+            - containerPort: DOCKER_PORT
               name: gunicorn
   revisionHistoryLimit: 0

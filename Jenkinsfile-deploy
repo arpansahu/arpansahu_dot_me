@@ -84,6 +84,25 @@ pipeline {
                 }
             }
         }
+        stage('Update Deployment Configuration') {
+            when {
+                expression { return params.DEPLOY_TYPE == 'kubernetes' }
+            }
+            steps {
+                script {
+                    echo "Updating Kubernetes deployment configuration with environment variables..."
+                    
+                    // Replace placeholders in deployment.yaml
+                    sh "sed -i 's|PROJECT_NAME_WITH_DASH|${env.PROJECT_NAME_WITH_DASH}|g' ${env.WORKSPACE}/deployment.yaml"
+                    sh "sed -i 's|DOCKER_REGISTRY|${env.DOCKER_REGISTRY}|g' ${env.WORKSPACE}/deployment.yaml"
+                    sh "sed -i 's|DOCKER_REPOSITORY|${env.DOCKER_REPOSITORY}|g' ${env.WORKSPACE}/deployment.yaml"
+                    sh "sed -i 's|DOCKER_IMAGE_NAME|${env.DOCKER_IMAGE_NAME}|g' ${env.WORKSPACE}/deployment.yaml"
+                    sh "sed -i 's|DOCKER_PORT|${env.DOCKER_PORT}|g' ${env.WORKSPACE}/deployment.yaml"
+                    
+                    echo "✅ Kubernetes deployment configuration updated successfully"
+                }
+            }
+        }
         stage('Update Nginx Configuration') {
             steps {
                 script {
