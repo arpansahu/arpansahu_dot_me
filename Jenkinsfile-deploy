@@ -84,28 +84,6 @@ pipeline {
                 }
             }
         }
-        stage('Update Deployment Configuration') {
-            when {
-                expression { return params.DEPLOY_TYPE == 'kubernetes' }
-            }
-            steps {
-                script {
-                    echo "Updating Kubernetes deployment configuration with environment variables..."
-                    
-                    // Replace actual values with environment-specific ones in deployment.yaml
-                    // This modifies the workspace copy only, not the committed file
-                    sh """
-                        # Replace image registry/repository dynamically
-                        sed -i 's|image: harbor\\.arpansahu\\.space/library/[^:]*|image: ${env.DOCKER_REGISTRY}/${env.DOCKER_REPOSITORY}/${env.DOCKER_IMAGE_NAME}|g' ${env.WORKSPACE}/deployment.yaml
-                        
-                        # Note: Project names and secrets remain as-is since they're project-specific
-                        # Only the dynamic parts (registry, image, tag) get replaced
-                    """
-                    
-                    echo "✅ Kubernetes deployment configuration updated successfully"
-                }
-            }
-        }
         stage('Update Nginx Configuration') {
             steps {
                 script {
