@@ -394,12 +394,12 @@
  Demo
 </h2>
 <p>
- Available at: https://great-chat.arpansahu.space
+ Available at: https://great-chat.arpansahu.me
 </p>
 <p>
  admin login details:--
  <br/>
- email: admin@arpansahu.space
+ email: admin@arpansahu.me
  <br/>
  password: showmecode
 </p>
@@ -4181,7 +4181,7 @@ CMD bash -c &quot;python manage.py collectstatic --noinput &amp;&amp; uvicorn gr
     build:  # This section will be used when running locally
       context: .
       dockerfile: Dockerfile
-    image: harbor.arpansahu.space/library/great_chat:latest  # This will be used when the image is not built locally
+    image: harbor.arpansahu.me/library/great_chat:latest  # This will be used when the image is not built locally
     env_file: ./.env
     command: bash -c &quot;python manage.py makemigrations &amp;&amp; python manage.py migrate &amp;&amp; uvicorn great_chat.asgi:application --host 0.0.0.0 --port 8002&quot;
     container_name: great_chat
@@ -5793,7 +5793,7 @@ error_log                   /var/log/nginx/supersecure.error.log;
 
 server {
     listen         80;
-    server_name    great-chat.arpansahu.space;
+    server_name    great-chat.arpansahu.me;
     # force https-redirects
     if ($scheme = http) {
         return 301 https://$server_name$request_uri;
@@ -5811,8 +5811,8 @@ server {
     }
 
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/arpansahu.space/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/arpansahu.space/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/arpansahu.me/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/arpansahu.me/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
@@ -17866,7 +17866,7 @@ RECEIVER_EMAIL=your_receiver_email@example.com
 </p>
 <ul>
  <li>
-  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.space
+  Configure a Jenkins project from jenkins ui located at https://jenkins.arpansahu.me
  </li>
 </ul>
 <p>
@@ -18028,60 +18028,113 @@ Add all the env variables as required and mentioned in the Readme File.
 <p>
  To run this project, you will need to add the following environment variables to your .env file
 </p>
-<p>
- SECRET_KEY=
-</p>
-<p>
- DEBUG=
-</p>
-<p>
- ALLOWED_HOSTS=
-</p>
-<p>
- MAIL_JET_API_KEY=
-</p>
-<p>
- MAIL_JET_API_SECRET=
-</p>
-<p>
- AWS_ACCESS_KEY_ID=
-</p>
-<p>
- AWS_SECRET_ACCESS_KEY=
-</p>
-<p>
- AWS_STORAGE_BUCKET_NAME=
-</p>
-<p>
- BUCKET_TYPE=
-</p>
-<p>
- DOMAIN=
-</p>
-<p>
- PROTOCOL=
-</p>
-<p>
- DATABASE_URL=
-</p>
-<p>
- REDIS_CLOUD_URL=
-</p>
 <h1>
- SENTRY
+ Core Django Settings
 </h1>
 <p>
- SENTRY_ENVIRONMENT=
+ SECRET_KEY=your-secret-key-here
+ <br/>
+ DEBUG=False
+ <br/>
+ ALLOWED_HOSTS=yourdomain.com localhost 127.0.0.1
 </p>
+<h1>
+ Email Configuration (Mailjet)
+</h1>
 <p>
- SENTRY_DSH_URL=
+ MAIL_JET_API_KEY=your-mailjet-api-key
+ <br/>
+ MAIL_JET_API_SECRET=your-mailjet-api-secret
+ <br/>
+ MAIL_JET_EMAIL_ADDRESS=noreply@yourdomain.com
+ <br/>
+ MY_EMAIL_ADDRESS=your@email.com
+</p>
+<h1>
+ Cloud Storage (MinIO/S3/Blackblaze)
+</h1>
+<p>
+ AWS_ACCESS_KEY_ID=your-access-key
+ <br/>
+ AWS_SECRET_ACCESS_KEY=your-secret-key
+ <br/>
+ AWS_STORAGE_BUCKET_NAME=your-bucket-name
+ <br/>
+ BUCKET_TYPE=MINIO
+</p>
+<h1>
+ For MinIO
+</h1>
+<p>
+ AWS_S3_ENDPOINT_URL=https://minio.yourdomain.com
+</p>
+<h1>
+ Database
+</h1>
+<p>
+ DATABASE_URL=postgres://user:password@host:port/dbname
+</p>
+<h1>
+ Redis Cache
+</h1>
+<p>
+ REDIS_CLOUD_URL=rediss://default:password@host:port
+</p>
+<h1>
+ Domain Configuration
+</h1>
+<p>
+ DOMAIN=yourdomain.com
+ <br/>
+ PROTOCOL=https
+</p>
+<h1>
+ Docker Configuration
+</h1>
+<p>
+ DOCKER_PORT=8002
+ <br/>
+ SERVER_NAME=great-chat.yourdomain.com
+</p>
+<h1>
+ Docker Registry (Harbor)
+</h1>
+<p>
+ DOCKER_REGISTRY=harbor.arpansahu.space
+ <br/>
+ DOCKER_REPOSITORY=library
+ <br/>
+ DOCKER_IMAGE_NAME=great_chat
+</p>
+<h1>
+ Jenkins
+</h1>
+<p>
+ JENKINS_DOMAIN=jenkins.yourdomain.com
+</p>
+<h1>
+ Sentry Error Tracking
+</h1>
+<p>
+ SENTRY_DSH_URL=https://xxxxx@sentry.io/projectid
+ <br/>
+ SENTRY_ORG=your-org
+ <br/>
+ SENTRY_PROJECT=great_chat
+ <br/>
+ SENTRY_ENVIRONMENT=production
+</p>
+<h1>
+ Project Naming
+</h1>
+<p>
+ ENV_PROJECT_NAME=great_chat
 </p>
 <h1>
  deploy_kube.sh requirements
 </h1>
 <p>
- HARBOR_USERNAME=
-</p>
-<p>
- HARBOR_PASSWORD=
+ HARBOR_USERNAME=your-harbor-username
+ <br/>
+ HARBOR_PASSWORD=your-harbor-password
 </p>
