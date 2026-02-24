@@ -92,12 +92,15 @@ pipeline {
                 script {
                     echo "Updating Kubernetes deployment configuration with environment variables..."
                     
-                    // Replace placeholders in deployment.yaml
-                    sh "sed -i 's|PROJECT_NAME_WITH_DASH|${env.PROJECT_NAME_WITH_DASH}|g' ${env.WORKSPACE}/deployment.yaml"
-                    sh "sed -i 's|DOCKER_REGISTRY|${env.DOCKER_REGISTRY}|g' ${env.WORKSPACE}/deployment.yaml"
-                    sh "sed -i 's|DOCKER_REPOSITORY|${env.DOCKER_REPOSITORY}|g' ${env.WORKSPACE}/deployment.yaml"
-                    sh "sed -i 's|DOCKER_IMAGE_NAME|${env.DOCKER_IMAGE_NAME}|g' ${env.WORKSPACE}/deployment.yaml"
-                    sh "sed -i 's|DOCKER_PORT|${env.DOCKER_PORT}|g' ${env.WORKSPACE}/deployment.yaml"
+                    // Replace actual values with environment-specific ones in deployment.yaml
+                    // This modifies the workspace copy only, not the committed file
+                    sh """
+                        # Replace image registry/repository dynamically
+                        sed -i 's|image: harbor\\.arpansahu\\.space/library/[^:]*|image: ${env.DOCKER_REGISTRY}/${env.DOCKER_REPOSITORY}/${env.DOCKER_IMAGE_NAME}|g' ${env.WORKSPACE}/deployment.yaml
+                        
+                        # Note: Project names and secrets remain as-is since they're project-specific
+                        # Only the dynamic parts (registry, image, tag) get replaced
+                    """
                     
                     echo "✅ Kubernetes deployment configuration updated successfully"
                 }
